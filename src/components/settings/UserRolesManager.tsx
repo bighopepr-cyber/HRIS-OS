@@ -412,7 +412,7 @@ export function UserRolesManager() {
         </Badge>
       ))
     ) : (
-      <Badge variant="outline" className="whitespace-nowrap">No role</Badge>
+      <Badge variant="outline" className="whitespace-nowrap">Tidak ada peran</Badge>
     );
 
   const renderRowMenu = (user: UserWithRole) => {
@@ -486,9 +486,9 @@ export function UserRolesManager() {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="py-8 text-center text-muted-foreground">Loading users...</div>
+          <div className="py-8 text-center text-muted-foreground">Memuat pengguna...</div>
         ) : users.length === 0 ? (
-          <div className="py-8 text-center text-muted-foreground">No users found.</div>
+          <div className="py-8 text-center text-muted-foreground">Tidak ada pengguna ditemukan.</div>
         ) : (
           <>
             {/* Mobile: one card per user */}
@@ -637,7 +637,7 @@ export function UserRolesManager() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
+                <Button variant="outline" onClick={() => setDialogOpen(false)}>Batal</Button>
               <Button onClick={handleSaveRole} disabled={updateRoleMutation.isPending}>
                 {updateRoleMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Save
@@ -663,7 +663,7 @@ export function UserRolesManager() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>Batal</AlertDialogCancel>
               <AlertDialogAction 
                 onClick={handleToggleBlock}
                 className={selectedUser?.blocked ? "" : "bg-destructive text-destructive-foreground hover:bg-destructive/90"}
@@ -694,7 +694,7 @@ export function UserRolesManager() {
               <div className="space-y-2">
                 <Label htmlFor="link-employee-select">Employee</Label>
                 {sortedUnlinkedEmployees.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">No unlinked employees available</p>
+                  <p className="text-sm text-muted-foreground">Tidak ada karyawan yang belum terhubung</p>
                 ) : (
                   <Select value={selectedEmployeeId} onValueChange={setSelectedEmployeeId}>
                     <SelectTrigger id="link-employee-select">
@@ -737,7 +737,7 @@ export function UserRolesManager() {
               )}
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setLinkDialogOpen(false)}>Cancel</Button>
+              <Button variant="outline" onClick={() => setLinkDialogOpen(false)}>Batal</Button>
               <Button onClick={handleLinkEmployee} disabled={!selectedEmployeeId || linkEmployeeMutation.isPending}>
                 {linkEmployeeMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Link employee
@@ -774,7 +774,7 @@ export function UserRolesManager() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>Batal</AlertDialogCancel>
               <AlertDialogAction onClick={handleUnlinkEmployee}>
                 {unlinkEmployeeMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Unlink

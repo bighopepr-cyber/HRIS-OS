@@ -4,11 +4,11 @@
 
 # Peoplo
 
-**Open-source HR for growing teams.**
+**HR open-source untuk tim yang berkembang.**
 
-People, onboarding, attendance, leave, payroll, performance, reimbursements and assets, in one secure app you can host yourself. Built on React and Supabase, with payroll in ₹.
+People, onboarding, absensi, cuti, payroll, performa, reimbursement dan aset, dalam satu aplikasi aman yang bisa Anda host sendiri. Dibangun dengan React dan Supabase, dengan payroll dalam ₹.
 
-[Website](https://peoplo.redmonk.in) · [Self-hosting](docs/self-hosting.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md)
+[Website](https://peoplo.redmonk.in) · [Self-hosting](docs/self-hosting.md) · [Kontribusi](CONTRIBUTING.md) · [Keamanan](SECURITY.md) · [Changelog](CHANGELOG.md)
 
 [![CI](https://github.com/redmonkin/core-hr-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/redmonkin/core-hr-hub/actions/workflows/ci.yml)
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-0284C7.svg)](LICENSE)
@@ -17,103 +17,103 @@ People, onboarding, attendance, leave, payroll, performance, reimbursements and 
 
 </div>
 
-## Features
+## Fitur
 
-- **People & departments**: one record per person with job details, manager, documents, assets and history.
-- **Invite-only onboarding**: add a new hire once and they're emailed a link to set up their account; Pending shows who hasn't joined yet. Accounts can be limited to your company's email domains.
-- **Offboarding**: start it from the tool or let employees resign for HR approval; a checklist covers assets to return and final pay, and on the last day the person is offboarded and their sign-in blocked automatically.
-- **Attendance**: clock in and out with location and breaks, working schedules, and reminders.
-- **Leave & holidays**: leave types and balances, manager approvals, a team calendar and company holidays.
-- **Payroll & payslips**: salary structures, monthly payroll runs, PF and other deductions, and branded payslip PDFs.
-- **Performance**: KPIs, review cycles with self and manager ratings, and team analytics.
-- **Reimbursements**: claims with receipts, manager approval and payment tracking.
-- **Assets**: equipment, who has it, and assignment history.
-- **Reports**: headcount, attendance, leave balances, payroll and assets, exportable to CSV and PDF.
-- **Permissions per module**: roles set default view/manage access for each module, and you can give one person extra access (for example, Assets only).
-- **Notifications**: in-app, email and web push. Installable as a PWA on phones.
+- **People & departemen**: satu record per orang dengan detail pekerjaan, manager, dokumen, aset dan riwayat.
+- **Onboarding undangan-saja**: tambahkan karyawan baru sekali dan mereka akan dikirim email berisi tautan untuk menyiapkan akun; Pending menunjukkan siapa yang belum bergabung. Akun bisa dibatasi ke domain email perusahaan Anda.
+- **Offboarding**: mulai dari tool atau biarkan karyawan mengundurkan diri untuk persetujuan HR; checklist mencakup aset yang perlu dikembalikan dan pembayaran akhir, dan pada hari terakhir orang tersebut di-offboard dan akses loginnya otomatis diblokir.
+- **Absensi**: clock in dan clock out dengan lokasi dan istirahat, jadwal kerja, dan pengingat.
+- **Cuti & hari libur**: tipe cuti dan saldo, persetujuan manager, kalender tim dan hari libur perusahaan.
+- **Payroll & payslip**: struktur gaji, payroll bulanan, potongan PF dan lainnya, serta PDF payslip bermerek.
+- **Performa**: KPI, siklus review dengan rating diri sendiri dan manager, serta analitik tim.
+- **Reimbursement**: klaim dengan bukti, persetujuan manager dan pelacakan pembayaran.
+- **Aset**: peralatan, siapa yang memilikinya, dan riwayat penugasan.
+- **Laporan**: headcount, absensi, saldo cuti, payroll dan aset, dapat diekspor ke CSV dan PDF.
+- **Izin per modul**: role menetapkan akses lihat/kelola default untuk setiap modul, dan Anda bisa memberikan akses tambahan ke satu orang (misalnya, hanya Aset).
+- **Notifikasi**: in-app, email dan web push. Bisa dipasang sebagai PWA di ponsel.
 
-Each deployment is one company's workspace.
+Setiap deployment adalah workspace satu perusahaan.
 
 ## Tech stack
 
 | Layer | Tools |
 | --- | --- |
 | Frontend | React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, TanStack Query |
-| Backend | [Supabase](https://supabase.com): Postgres with row-level security, Auth, Storage, Edge Functions (Deno) |
+| Backend | [Supabase](https://supabase.com): Postgres dengan row-level security, Auth, Storage, Edge Functions (Deno) |
 | Email | [Resend](https://resend.com) |
-| Scheduling | `pg_cron` + `pg_net` for reminders and monthly payroll |
+| Penjadwalan | `pg_cron` + `pg_net` untuk pengingat dan payroll bulanan |
 
-The browser talks to Supabase directly. Row-level security decides what each person can read and write, based on their module permissions; database triggers guard sensitive changes (no self-approval, no backdated attendance). Edge functions handle anything that needs the service role: invitations, email, push notifications and scheduled jobs.
+Browser berkomunikasi langsung dengan Supabase. Row-level security menentukan apa yang bisa dibaca dan ditulis setiap orang, berdasarkan izin modul mereka; trigger database menjaga perubahan sensitif (tanpa self-approval, tanpa backdated attendance). Edge functions menangani apa pun yang membutuhkan service role: undangan, email, push notification dan job terjadwal.
 
-## Local development
+## Pengembangan lokal
 
-Requirements: Node.js 20+ and a Supabase project (the free tier is fine). The [self-hosting guide](docs/self-hosting.md) explains how to set the project up.
+Persyaratan: Node.js 20+ dan project Supabase (tier gratis pun cukup). [Panduan self-hosting](docs/self-hosting.md) menjelaskan cara menyiapkan project.
 
 ```sh
 git clone https://github.com/redmonkin/core-hr-hub.git peoplo
 cd peoplo
 npm install
-cp .env.example .env   # fill in your Supabase URL, anon key and project ref
+cp .env.example .env   # isi Supabase URL, anon key dan project ref Anda
 npm run dev            # http://localhost:9002
 ```
 
-Useful scripts:
+Script berguna:
 
-| Command | What it does |
+| Perintah | Fungsinya |
 | --- | --- |
-| `npm run dev` | Start the dev server |
-| `npm run build` | Production build into `dist/` |
+| `npm run dev` | Menjalankan dev server |
+| `npm run build` | Build produksi ke `dist/` |
 | `npm run lint` | ESLint |
-| `npm run typecheck` | TypeScript checks (Vite's build does not typecheck) |
-| `npm test` | Unit tests (Vitest) |
-| `supabase/tests/run.sh` | Database tests for the access rules, against a local Postgres |
+| `npm run typecheck` | Pemeriksaan TypeScript (build Vite tidak typecheck) |
+| `npm test` | Unit test (Vitest) |
+| `supabase/tests/run.sh` | Test database untuk aturan akses, terhadap Postgres lokal |
 
-CI runs lint, typecheck, unit tests, the database tests and a build on every pull request.
+CI menjalankan lint, typecheck, unit test, test database dan build pada setiap pull request.
 
-A `docker-compose.yml` is included for running a local Supabase-compatible stack; its default secrets are public demo values, so change them before exposing it anywhere.
+Sebuah `docker-compose.yml` disertakan untuk menjalankan stack lokal yang kompatibel dengan Supabase; secret default-nya adalah nilai demo publik, jadi ubah sebelum mengeksposnya ke mana pun.
 
 ## Self-hosting
 
-Peoplo runs on a single [Supabase](https://supabase.com) project, [Resend](https://resend.com) for email, and any static host for the website. **[The self-hosting guide](docs/self-hosting.md)** walks through every step:
+Peoplo berjalan pada satu project [Supabase](https://supabase.com), [Resend](https://resend.com) untuk email, dan host statis apa pun untuk website. **[Panduan self-hosting](docs/self-hosting.md)** memandu setiap langkah:
 
-1. Create a Supabase project, enable `pg_cron` and `pg_net`, and apply the migrations (`supabase db push`).
-2. Verify a sending domain in Resend and create an API key.
-3. Set the function secrets (`RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `APP_URL`, `CRON_SECRET`, optional VAPID keys) and deploy the edge functions.
-4. Configure Supabase Auth: site and redirect URLs, custom SMTP through Resend, and turn off public sign-up.
-5. Schedule the reminder and payroll jobs.
-6. Build the frontend with the variables from [`.env.example`](.env.example) and deploy it (Vercel works out of the box with `vercel.json`).
-7. Invite yourself as the first admin.
+1. Buat project Supabase, aktifkan `pg_cron` dan `pg_net`, dan terapkan migrasi (`supabase db push`).
+2. Verifikasi sending domain di Resend dan buat API key.
+3. Atur secret function (`RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `APP_URL`, `CRON_SECRET`, VAPID keys opsional) dan deploy edge functions.
+4. Konfigurasi Supabase Auth: site dan redirect URL, SMTP kustom melalui Resend, dan matikan public sign-up.
+5. Jadwalkan job pengingat dan payroll.
+6. Build frontend dengan variabel dari [`.env.example`](.env.example) dan deploy (Vercel bekerja langsung dengan `vercel.json`).
+7. Undang diri Anda sebagai admin pertama.
 
-It also covers checking that everything works, updating to a new version and troubleshooting.
+Juga mencakup pengecekan bahwa semuanya bekerja, pembaruan ke versi baru dan troubleshooting.
 
-## Project structure
+## Struktur project
 
 ```
 src/
-  pages/            Route components
-  components/       Feature components by module, shadcn/ui in ui/, marketing pages in landing/
+  pages/            Komponen route
+  components/       Komponen fitur per modul, shadcn/ui di ui/, halaman marketing di landing/
   hooks/            Data hooks (TanStack Query), usePermissions, ...
-  lib/              Permissions, payroll proration, payslip PDFs, status styles, ...
-  integrations/     Generated Supabase client and database types
+  lib/              Izin, prorata payroll, PDF payslip, style status, ...
+  integrations/     Klien Supabase dan tipe database yang dihasilkan
 supabase/
-  migrations/       SQL migrations, applied in timestamp order
-  functions/        Deno edge functions (_shared/ holds auth, CORS, HTML-escaping and secret helpers)
-  tests/            Database tests for row-level security and triggers
-docs/               Self-hosting guide and roadmap
+  migrations/       Migrasi SQL, diterapkan sesuai urutan timestamp
+  functions/        Edge functions Deno (_shared/ berisi helper auth, CORS, HTML-escaping dan secret)
+  tests/            Test database untuk row-level security dan trigger
+docs/               Panduan self-hosting dan roadmap
 ```
 
-[`CLAUDE.md`](CLAUDE.md) documents the architecture in more depth: the permission model, invite-only accounts and the security conventions every change must follow.
+[`CLAUDE.md`](CLAUDE.md) mendokumentasikan arsitektur lebih dalam: model izin, akun undangan-saja dan konvensi keamanan yang harus diikuti setiap perubahan.
 
-## Contributing
+## Kontribusi
 
-Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request, and see [docs/ROADMAP.md](docs/ROADMAP.md) for what's planned. Please follow the [code of conduct](CODE_OF_CONDUCT.md).
+Kontribusi diterima. Baca [CONTRIBUTING.md](CONTRIBUTING.md) sebelum membuka pull request, dan lihat [docs/ROADMAP.md](docs/ROADMAP.md) untuk apa yang direncanakan. Harap ikuti [code of conduct](CODE_OF_CONDUCT.md).
 
-## Security
+## Keamanan
 
-Please don't report vulnerabilities in public issues. See [SECURITY.md](SECURITY.md).
+Harap jangan laporkan kerentanan di isu publik. Lihat [SECURITY.md](SECURITY.md).
 
-## License
+## Lisensi
 
-Peoplo is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). You may use, modify and self-host it freely, including for your own company's staff. If you run a modified version as a service for others, you must make your modified source code available to its users; the app's **Source code** link (set `VITE_REPO_URL` to your fork) is the easiest way to do that.
+Peoplo dilisensikan di bawah [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). Anda boleh menggunakan, memodifikasi dan self-host secara bebas, termasuk untuk staff perusahaan sendiri. Jika Anda menjalankan versi yang dimodifikasi sebagai layanan untuk orang lain, Anda harus menyediakan source code yang dimodifikasi kepada penggunanya; tautan **Source code** aplikasi (atur `VITE_REPO_URL` ke fork Anda) adalah cara termudah melakukannya.
 
-Versions released before the license change remain available under the MIT license they were released with.
+Versi yang dirilis sebelum perubahan lisensi tetap tersedia di bawah lisensi MIT yang dirilis bersamanya.

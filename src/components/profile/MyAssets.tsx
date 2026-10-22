@@ -122,7 +122,7 @@ export function MyAssets({ employeeId }: MyAssetsProps) {
           ) : (
             <div className="text-center py-8 text-muted-foreground">
               <Package className="mx-auto h-8 w-8 mb-2 opacity-50" />
-              <p>No assets currently assigned</p>
+              <p>Tidak ada aset yang saat ini ditugaskan</p>
             </div>
           )}
         </CardContent>

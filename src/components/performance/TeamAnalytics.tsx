@@ -512,7 +512,7 @@ export function TeamAnalytics({ isManager, managerId }: TeamAnalyticsProps) {
               <span className="text-2xl font-bold">{teamStats.avgRating ?? "—"}</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              {teamStats.avgRating ? "Avg. rating" : "No ratings yet"}
+              {teamStats.avgRating ? "Avg. rating" : "Belum ada penilaian"}
             </p>
           </CardContent>
         </Card>
@@ -678,10 +678,10 @@ export function TeamAnalytics({ isManager, managerId }: TeamAnalyticsProps) {
                         <span className="font-medium">{emp.avgRating.toFixed(1)}</span>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1 text-muted-foreground" title="No ratings yet">
+                      <div className="flex items-center gap-1 text-muted-foreground" title="Belum ada penilaian">
                         <Star className="h-4 w-4" aria-hidden="true" />
                         <span className="font-medium" aria-hidden="true">—</span>
-                        <span className="sr-only">No ratings yet</span>
+                        <span className="sr-only">Belum ada penilaian</span>
                       </div>
                     )}
                   </div>

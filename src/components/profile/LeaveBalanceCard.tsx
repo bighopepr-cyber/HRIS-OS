@@ -64,7 +64,7 @@ export function LeaveBalanceCard({ employeeId }: LeaveBalanceCardProps) {
                         <span>{balance.used_days} used</span>
                         <span className="font-medium text-foreground">Unlimited</span>
                       </div>
-                      <p className="text-xs text-muted-foreground">No yearly limit</p>
+                      <p className="text-xs text-muted-foreground">Tidak ada batas tahunan</p>
                     </>
                   ) : (
                     <>
@@ -89,7 +89,7 @@ export function LeaveBalanceCard({ employeeId }: LeaveBalanceCardProps) {
         ) : (
           <div className="text-center py-6 text-muted-foreground">
             <CalendarDays className="mx-auto h-8 w-8 mb-2 opacity-50" />
-            <p>No leave balances set up yet</p>
+            <p>Belum ada saldo cuti yang diatur</p>
             <p className="text-sm">Contact HR to configure your leave entitlements</p>
           </div>
         )}

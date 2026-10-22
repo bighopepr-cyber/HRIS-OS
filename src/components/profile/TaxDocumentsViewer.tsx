@@ -127,7 +127,7 @@ export function TaxDocumentsViewer({ employeeId }: TaxDocumentsViewerProps) {
         ) : (
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <Files className="mb-4 h-12 w-12 text-muted-foreground" aria-hidden="true" />
-            <p className="text-lg font-medium">No tax documents yet</p>
+            <p className="text-lg font-medium">Belum ada dokumen pajak</p>
             <p className="text-sm text-muted-foreground">
               Your Form 16 and other tax documents will appear here once HR uploads them.
             </p>

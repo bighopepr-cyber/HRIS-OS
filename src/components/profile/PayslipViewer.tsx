@@ -308,7 +308,7 @@ export function PayslipViewer({ employeeId, employeeName, employeeCode }: Paysli
                         </div>
                       </>
                     ) : (
-                      <p className="text-muted-foreground text-sm">No deductions configured</p>
+                      <p className="text-muted-foreground text-sm">Belum ada potongan yang diatur</p>
                     )}
                   </div>
                 </div>
@@ -501,7 +501,7 @@ export function PayslipViewer({ employeeId, employeeName, employeeCode }: Paysli
         ) : (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-            <p className="text-lg font-medium">No payslips found</p>
+            <p className="text-lg font-medium">Tidak ada slip gaji ditemukan</p>
             <p className="text-sm text-muted-foreground">
               There are no payroll records for {selectedYear}
             </p>

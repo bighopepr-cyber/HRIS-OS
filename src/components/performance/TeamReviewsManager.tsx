@@ -371,7 +371,7 @@ toast.error("Harap pilih setidaknya satu anggota tim");
           <CardDescription>Create performance reviews for your team</CardDescription>
         </CardHeader>
         <CardContent className="text-center py-8 text-muted-foreground">
-          <Users className="mx-auto h-8 w-8 mb-2 opacity-50" /><p>No team members found</p>
+          <Users className="mx-auto h-8 w-8 mb-2 opacity-50" /><p>Tidak ada anggota tim ditemukan</p>
         </CardContent>
       </Card>
     );

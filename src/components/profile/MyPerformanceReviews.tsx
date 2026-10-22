@@ -192,7 +192,7 @@ export function MyPerformanceReviews({ employeeId }: MyPerformanceReviewsProps) 
         ) : (
           <div className="text-center py-8 text-muted-foreground">
             <Star className="mx-auto h-8 w-8 mb-2 opacity-50" />
-            <p>No performance reviews yet</p>
+            <p>Belum ada ulasan kinerja</p>
             <p className="text-sm">Reviews will appear here once submitted by your manager</p>
           </div>
         )}
