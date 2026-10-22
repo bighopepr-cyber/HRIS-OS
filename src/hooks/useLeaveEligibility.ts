@@ -8,8 +8,8 @@ export interface EligibilityRow {
 }
 
 /**
- * Eligible leave type IDs for a given employee.
- * Used both for the request form (filter) and the eligibility manager.
+ * ID jenis cuti yang memenuhi syarat untuk karyawan tertentu.
+ * Digunakan baik untuk formulir permintaan (filter) maupun pengelola kelayakan.
  */
 export function useLeaveEligibility(employeeId: string | undefined) {
   return useQuery({
@@ -38,7 +38,7 @@ export function useUpdateLeaveEligibility() {
       employeeId: string;
       leaveTypeIds: string[];
     }) => {
-      // Fetch current eligibility
+      // Ambil kelayakan saat ini
       const { data: existing, error: fetchErr } = await supabase
         .from("employee_leave_eligibility")
         .select("id, leave_type_id")

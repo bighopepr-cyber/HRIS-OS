@@ -109,7 +109,7 @@ const TermsOfService = () => {
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
               <p className="text-muted-foreground leading-relaxed">
-                Selamat datang di Peoplo. Dengan mengakses atau menggunakan platform manajemen SDM dan
+                Selamat datang di HRISINDO. Dengan mengakses atau menggunakan platform manajemen SDM dan
                 layanan kami, Anda menyetujui untuk terikat oleh Ketentuan Layanan ini ("Ketentuan"). Jika Anda
                 tidak setuju dengan bagian mana pun dari ketentuan ini, Anda tidak boleh mengakses layanan ini.
                 Ketentuan ini berlaku bagi seluruh pengunjung, pengguna, dan pihak lain yang mengakses atau

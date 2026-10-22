@@ -5,7 +5,7 @@ import { format, parseISO } from "date-fns";
 export const ASSET_TYPES = ["laptop", "desktop", "monitor", "phone", "tablet", "accessory", "other"] as const;
 export type AssetType = (typeof ASSET_TYPES)[number];
 
-/** assets.category is free text in the DB; map anything we don't know to "other". */
+/** assets.category adalah teks bebas di DB; petakan apa pun yang tidak dikenal ke "other". */
 export function normalizeAssetType(category: string | null | undefined): AssetType {
   const value = (category ?? "").trim().toLowerCase();
   return (ASSET_TYPES as readonly string[]).includes(value) ? (value as AssetType) : "other";
@@ -15,12 +15,12 @@ export interface Asset {
   id: string;
   name: string;
   type: AssetType;
-  /** Raw category as stored, so editing an unknown category doesn't silently rename it. */
+  /** Kategori mentah sebagaimana disimpan, agar pengeditan kategori yang tidak dikenal tidak diam-diam mengganti namanya. */
   category: string;
   serialNumber: string;
-  /** Display date ("MMM d, yyyy") or "Unknown". */
+  /** Tanggal tampilan ("MMM d, yyyy") atau "Unknown". */
   purchaseDate: string;
-  /** ISO date (yyyy-MM-dd) as stored, or "" when not set. */
+  /** Tanggal ISO (yyyy-MM-dd) sebagaimana disimpan, atau "" jika belum diatur. */
   purchaseDateRaw: string;
   vendor: string;
   cost: number;
@@ -53,7 +53,7 @@ export function useAssets() {
 
       if (error) throw error;
 
-      // Get current assignments
+      // Dapatkan penugasan saat ini
       const { data: assignments } = await supabase
         .from("asset_assignments")
         .select(`
@@ -116,7 +116,7 @@ export function useAssetStats() {
       for (const a of data || []) counts[normalizeAssetType(a.category)] += 1;
 
       const total = data?.length || 0;
-      // Buckets always add up to `total`.
+      // Bucket selalu berjumlah `total`.
       return {
         total,
         computers: counts.laptop + counts.desktop,
@@ -145,7 +145,7 @@ export function useCreateAsset() {
 
   return useMutation({
     mutationFn: async (data: CreateAssetData) => {
-      // Generate asset code
+      // Buat kode aset
       const prefix = data.category.substring(0, 3).toUpperCase();
       const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
       const asset_code = `${prefix}-${randomNum}`;
@@ -169,7 +169,7 @@ export interface UpdateAssetData {
   id: string;
   name?: string;
   category?: string;
-  // null clears the field; undefined leaves it untouched.
+  // null membersihkan field; undefined membiarkannya tidak tersentuh.
   serial_number?: string | null;
   purchase_date?: string | null;
   purchase_cost?: number | null;
@@ -227,7 +227,7 @@ export function useAssignAsset() {
 
   return useMutation({
     mutationFn: async ({ assetId, employeeId, notes }: AssignAssetData) => {
-      // Create assignment record
+      // Buat catatan penugasan
       const { error: assignError } = await supabase
         .from("asset_assignments")
         .insert({
@@ -238,7 +238,7 @@ export function useAssignAsset() {
 
       if (assignError) throw assignError;
 
-      // Update asset status to assigned
+      // Perbarui status aset menjadi ditugaskan
       const { error: updateError } = await supabase
         .from("assets")
         .update({ status: "assigned" })
@@ -258,7 +258,7 @@ export function useReturnAsset() {
 
   return useMutation({
     mutationFn: async (assetId: string) => {
-      // Update assignment record with returned date
+      // Perbarui catatan penugasan dengan tanggal pengembalian
       const { error: assignError } = await supabase
         .from("asset_assignments")
         .update({ returned_date: new Date().toISOString().split("T")[0] })
@@ -267,7 +267,7 @@ export function useReturnAsset() {
 
       if (assignError) throw assignError;
 
-      // Update asset status to available
+      // Perbarui status aset menjadi tersedia
       const { error: updateError } = await supabase
         .from("assets")
         .update({ status: "available" })

@@ -125,7 +125,7 @@ async function fetchGitHubReleases(): Promise<{ changelog: ChangelogEntry[]; cur
   const response = await fetch(GITHUB_API_URL, {
     headers: {
       'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'Peoplo-Version-Check',
+      'User-Agent': 'HRISINDO-Version-Check',
     },
   });
   
@@ -168,7 +168,7 @@ const FALLBACK_DATA = {
       date: "2025-01-19",
       type: "major" as const,
       title: "Initial Release",
-      description: "First stable release of Peoplo HR Management System",
+      description: "First stable release of HRISINDO HR Management System",
       changes: [
         { type: "feature", text: "Complete employee management with CRUD operations" },
         { type: "feature", text: "Leave management with approval workflows" },

@@ -129,7 +129,7 @@ export function LeaveRequestHistory({ employeeId }: LeaveRequestHistoryProps) {
           <div className="text-center py-6 text-muted-foreground">
             <ClipboardList className="mx-auto h-8 w-8 mb-2 opacity-50" />
             <p>Belum ada permintaan cuti</p>
-            <p className="text-sm">Submit a request using the form</p>
+            <p className="text-sm">Kirim permintaan menggunakan formulir</p>
           </div>
         )}
       </CardContent>

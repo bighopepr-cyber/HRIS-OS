@@ -107,7 +107,7 @@ async function emailRevision(supabase: SupabaseClient, revisionId: string): Prom
         ${row("Monthly take-home (revised)", inr(net(revision)), true)}
         ${row("Annual gross (revised)", inr(newGross * 12))}
       </table>
-      <p>Your salary revision letter, with the full breakdown, is in Peoplo under <strong>Profile → Payslips</strong>.</p>
+      <p>Your salary revision letter, with the full breakdown, is in HRISINDO under <strong>Profile → Payslips</strong>.</p>
       <p style="margin: 24px 0;"><a href="${escapeHtml(`${APP_URL}/profile?tab=payslips`)}" style="display: inline-block; padding: 11px 22px; background-color: #0369a1; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold;">View revision letter</a></p>
       <p>Congratulations, and thank you for your work.</p>
       <p>HR Team${company ? `<br>${escapeHtml(company)}` : ""}</p>

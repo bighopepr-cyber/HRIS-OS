@@ -34,12 +34,12 @@ export function useSorting<T>(
       const aValue = a[sortConfig.key!];
       const bValue = b[sortConfig.key!];
 
-      // Handle null/undefined values
+      // Tangani nilai null/undefined
       if (aValue == null && bValue == null) return 0;
       if (aValue == null) return sortConfig.direction === "asc" ? 1 : -1;
       if (bValue == null) return sortConfig.direction === "asc" ? -1 : 1;
 
-      // Handle different types
+      // Tangani tipe berbeda
       if (typeof aValue === "string" && typeof bValue === "string") {
         const comparison = aValue.localeCompare(bValue, undefined, { sensitivity: "base" });
         return sortConfig.direction === "asc" ? comparison : -comparison;
@@ -49,7 +49,7 @@ export function useSorting<T>(
         return sortConfig.direction === "asc" ? aValue - bValue : bValue - aValue;
       }
 
-      // Handle dates (string format)
+      // Tangani tanggal (format string)
       if (typeof aValue === "string" && typeof bValue === "string") {
         const dateA = new Date(aValue).getTime();
         const dateB = new Date(bValue).getTime();
@@ -58,7 +58,7 @@ export function useSorting<T>(
         }
       }
 
-      // Fallback to string comparison
+      // Cadangan ke perbandingan string
       const strA = String(aValue);
       const strB = String(bValue);
       const comparison = strA.localeCompare(strB);
@@ -69,7 +69,7 @@ export function useSorting<T>(
   const requestSort = (key: keyof T) => {
     setSortConfig((prev) => {
       if (prev.key === key) {
-        // Cycle through: asc -> desc -> null
+        // Siklus melalui: asc -> desc -> null
         if (prev.direction === "asc") {
           return { key, direction: "desc" };
         } else if (prev.direction === "desc") {

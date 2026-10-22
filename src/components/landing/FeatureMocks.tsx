@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 import { statusBadgeClass } from "@/lib/statusStyles";
 
 /*
- * Recreated pieces of the Peoplo UI for the Features page. They're decorative
+ * Recreated pieces of the HRISINDO UI for the Features page. They're decorative
  * (aria-hidden on the stage) and use made-up sample data, so the page never
  * shows real screenshots or real people's details.
  */
@@ -758,7 +758,7 @@ export function NotificationsMock() {
                     <span className="flex h-4 w-4 items-center justify-center rounded bg-primary text-white">
                       <item.icon className="h-2.5 w-2.5" />
                     </span>
-                    Peoplo
+                    HRISINDO
                   </span>
                   <span className="text-[9px] text-slate-600">{item.time}</span>
                 </div>

@@ -1,6 +1,6 @@
-# Berkontribusi pada Peoplo
+# Berkontribusi pada HRISINDO
 
-Terima kasih atas bantuan Anda dalam meningkatkan Peoplo. Panduan ini menjelaskan cara menyiapkan lingkungan pengembangan dan apa yang membuat sebuah pull request yang baik. Silakan ikuti [Kode Etik](CODE_OF_CONDUCT.md).
+Terima kasih atas bantuan Anda dalam meningkatkan HRISINDO. Panduan ini menjelaskan cara menyiapkan lingkungan pengembangan dan apa yang membuat sebuah pull request yang baik. Silakan ikuti [Kode Etik](CODE_OF_CONDUCT.md).
 
 ## Sebelum Memulai
 

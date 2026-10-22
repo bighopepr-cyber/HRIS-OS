@@ -111,9 +111,9 @@ if (!resetEmail.trim()) {
       <Backdrop />
 
       <header className="container relative z-10 mx-auto flex items-center justify-between px-4 py-5">
-        <Link to="/" className="inline-flex items-center gap-2.5" aria-label="Beranda Peoplo">
+        <Link to="/" className="inline-flex items-center gap-2.5" aria-label="Beranda HRISINDO">
           <img src={hrHubLogo} alt="" className="h-9 w-auto" />
-          <span className="text-xl font-bold tracking-tight text-foreground">Peoplo</span>
+          <span className="text-xl font-bold tracking-tight text-foreground">HRISINDO</span>
         </Link>
         <Button asChild variant="ghost" size="sm" className="gap-2 text-muted-foreground">
           <Link to="/">
@@ -127,7 +127,7 @@ if (!resetEmail.trim()) {
 
       <main className="container relative z-10 mx-auto grid flex-1 items-center gap-12 px-4 pb-10 pt-2 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pb-16">
         {/* Brand side (large screens) */}
-        <section className="hidden lg:block" aria-label="Tentang Peoplo">
+        <section className="hidden lg:block" aria-label="Tentang HRISINDO">
           <a
             href={REPO_URL}
             target="_blank"
@@ -169,7 +169,7 @@ if (!resetEmail.trim()) {
               <p className="text-sm text-muted-foreground">
                 {showForgotPassword
                   ? "Masukkan email kerja dan kami akan mengirimkan tautan untuk menyetel kata sandi baru."
-                  : "Masuk ke ruang kerja Peoplo Anda."}
+                  : "Masuk ke ruang kerja HRISINDO Anda."}
               </p>
             </div>
 
@@ -295,7 +295,7 @@ if (!resetEmail.trim()) {
           </div>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Mau gunakan Peoplo untuk perusahaan Anda?{" "}
+            Mau gunakan HRISINDO untuk perusahaan Anda?{" "}
             <a
               href={DEMO_URL}
               target="_blank"
@@ -318,7 +318,7 @@ if (!resetEmail.trim()) {
               </li>
             ))}
           </ul>
-          <p>© {new Date().getFullYear()} Peoplo</p>
+          <p>© {new Date().getFullYear()} HRISINDO</p>
         </div>
       </footer>
     </div>

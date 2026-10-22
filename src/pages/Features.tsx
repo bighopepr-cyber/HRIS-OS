@@ -62,7 +62,7 @@ const features: Feature[] = [
     icon: UserPlus,
     label: "Onboarding",
     title: "Tambahkan karyawan baru, dan mereka langsung diundang",
-    description: "Tambahkan seseorang sekali saja dan Peoplo mengirim email berisi tautan untuk mengatur akunnya. Anda melihat siapa yang belum bergabung, dan mereka aktif begitu akunnya selesai dibuat.",
+    description: "Tambahkan seseorang sekali saja dan HRISINDO mengirim email berisi tautan untuk mengatur akunnya. Anda melihat siapa yang belum bergabung, dan mereka aktif begitu akunnya selesai dibuat.",
     points: [
       "Satu formulir untuk detail pekerjaan, jadwal, gaji, dan dokumen",
       "Undangan dikirim langsung, lengkap dengan kirim ulang dan batalkan",
@@ -188,7 +188,7 @@ const features: Feature[] = [
     icon: Bell,
     label: "Notifikasi",
     title: "Peringatan yang tepat, di perangkat apa pun",
-    description: "Notifikasi dalam aplikasi, email, dan push untuk persetujuan, pengingat, dan slip gaji. Peoplo dapat diinstal di ponsel seperti aplikasi biasa.",
+    description: "Notifikasi dalam aplikasi, email, dan push untuk persetujuan, pengingat, dan slip gaji. HRISINDO dapat diinstal di ponsel seperti aplikasi biasa.",
     points: [
       "Notifikasi push di ponsel dan komputer",
       "Email untuk persetujuan, pengingat, dan pengumuman",
@@ -224,7 +224,7 @@ const Features = () => {
               className="mx-auto mb-10 max-w-2xl animate-fade-up text-lg text-muted-foreground md:text-xl"
               style={{ animationDelay: "160ms" }}
             >
-              Mulai dari undangan pertama hingga slip gaji bulanan. Inilah tampilan setiap bagian dari Peoplo.
+              Mulai dari undangan pertama hingga slip gaji bulanan. Inilah tampilan setiap bagian dari HRISINDO.
             </p>
             <nav aria-label="Fitur" className="mx-auto flex max-w-4xl animate-fade-up flex-wrap justify-center gap-2" style={{ animationDelay: "240ms" }}>
               {features.map((feature) => (

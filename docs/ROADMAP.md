@@ -1,11 +1,11 @@
-# Peta Jalan Peoplo
+# Peta Jalan HRISINDO
 
 Status: per 2026-10-06. Tidak ada yang di bawah ini komitmen permanen; pemelihara meninjau kembali saat prioritas berubah. Ide dan permintaan selamat datang sebagai [GitHub issues](https://github.com/redmonkin/core-hr-hub/issues).
 
 ## Berikutnya
 
 - **Rilis v1.2.0**: tag pekerjaan yang terdaftar di [Unreleased](../CHANGELOG.md#unreleased) dan terbitkan di GitHub Releases, agar self-hosters mendapat pemberitahuan pembaruan.
-- **Email autentikasi bermerek**: sesuaikan template undangan dan reset kata sandi Supabase (**Authentication → Emails → Templates**) agar sesuai dengan Peoplo.
+- **Email autentikasi bermerek**: sesuaikan template undangan dan reset kata sandi Supabase (**Authentication → Emails → Templates**) agar sesuai dengan HRISINDO.
 
 ## Dilakukan: instance ter hosted dan operasional
 

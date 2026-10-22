@@ -22,7 +22,7 @@ Dalam cakupan: frontend repositori ini, migrasi SQL (kebijakan keamanan baris-le
 
 Di luar cakupan: kerentanan di Supabase, Resend, atau layanan pihak ketiga lainnya (laporkan ke vendor), temuan yang memerlukan akun atau perangkat admin yang sudah dikompromisasi, dan header keamanan yang kurang tanpa dampak yang terbukti.
 
-## Bagaimana Peoplo Melindungi Data
+## Bagaimana HRISINDO Melindungi Data
 
 - Akses ditegakkan oleh Postgres row-level security menggunakan izin per modul, tidak hanya oleh UI.
 - Akun hanya dengan undangan, dapat dibatasi ke domain email yang disetujui, dan pengguna yang diblokir ditolak di semua tempat oleh kebijakan yang ketat.

@@ -75,7 +75,7 @@ export function useTodayAttendance(employeeId?: string) {
     queryFn: async () => {
       if (!employeeId) return null;
       
-      // First check today's record
+      // Pertama periksa catatan hari ini
       const { data: todayData, error: todayError } = await supabase
         .from("attendance_records")
         .select("*")
@@ -86,7 +86,7 @@ export function useTodayAttendance(employeeId?: string) {
       if (todayError) throw todayError;
       if (todayData) return todayData as AttendanceRecord | null;
 
-      // If no today record, check for yesterday's unclosed record (cross-midnight shifts)
+      // Jika tidak ada catatan hari ini, periksa catatan kemarin yang belum ditutup (shift melewati tengah malam)
       const { data: yesterdayData, error: yesterdayError } = await supabase
         .from("attendance_records")
         .select("*")
@@ -144,7 +144,7 @@ export function useClockOut() {
       const clockInTime = new Date(clockIn);
       const grossHours = (clockOutTime.getTime() - clockInTime.getTime()) / (1000 * 60 * 60);
 
-      // Auto-resume any open break before clocking out
+      // Lanjutkan otomatis istirahat yang terbuka sebelum clock out
       const { data: openBreak } = await supabase
         .from("attendance_breaks")
         .select("id")
@@ -159,7 +159,7 @@ export function useClockOut() {
           .eq("id", openBreak.id);
       }
 
-      // Calculate total break duration
+      // Hitung total durasi istirahat
       const { data: breaks } = await supabase
         .from("attendance_breaks")
         .select("pause_time, resume_time")
@@ -220,7 +220,7 @@ export function useAttendanceReport(month: Date) {
 
       if (error) throw error;
 
-      // Group by employee
+      // Kelompokkan berdasarkan karyawan
       const employeeMap = new Map<string, {
         employeeId: string;
         employeeName: string;

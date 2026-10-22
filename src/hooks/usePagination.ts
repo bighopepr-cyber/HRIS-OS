@@ -33,7 +33,7 @@ export function usePagination<T>(
   const totalItems = items.length;
   const totalPages = Math.ceil(totalItems / pageSize);
 
-  // Reset to first page if current page exceeds total pages
+  // Atur ulang ke halaman pertama jika halaman saat ini melebihi total halaman
   const safePage = useMemo(() => {
     if (currentPage > totalPages && totalPages > 0) {
       return totalPages;
@@ -54,7 +54,7 @@ export function usePagination<T>(
 
   const handleSetPageSize = (size: number) => {
     setPageSize(size);
-    setCurrentPage(1); // Reset to first page when page size changes
+    setCurrentPage(1); // Atur ulang ke halaman pertama ketika ukuran halaman berubah
   };
 
   const goToFirstPage = () => setPage(1);

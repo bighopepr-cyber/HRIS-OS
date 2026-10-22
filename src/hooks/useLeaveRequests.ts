@@ -45,7 +45,7 @@ export function useSubmitLeaveRequest() {
       endDate: Date;
       reason: string;
     }) => {
-      // Fetch company holidays for the date range
+      // Ambil hari libur perusahaan untuk rentang tanggal
       const year = startDate.getFullYear();
       const { data: holidays } = await supabase
         .from("company_events")

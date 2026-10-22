@@ -22,7 +22,7 @@ export function useTeamLeaves(month: Date) {
     queryFn: async () => {
       if (!user?.id) return [];
 
-      // Get current user's employee record
+      // Dapatkan catatan karyawan pengguna saat ini
       const { data: myEmployee } = await supabase
         .from("employees")
         .select("id")
@@ -31,7 +31,7 @@ export function useTeamLeaves(month: Date) {
 
       if (!myEmployee) return [];
 
-      // Get direct reports
+      // Dapatkan laporan langsung
       const { data: directReports } = await supabase
         .from("employees")
         .select("id")
@@ -41,11 +41,11 @@ export function useTeamLeaves(month: Date) {
 
       const reportIds = directReports.map((r) => r.id);
 
-      // Calculate month boundaries
+      // Hitung batas bulan
       const startOfMonth = new Date(month.getFullYear(), month.getMonth(), 1);
       const endOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0);
 
-      // Get approved leave requests for direct reports in this month
+      // Dapatkan permintaan cuti yang disetujui untuk laporan langsung bulan ini
       const { data: leaves, error } = await supabase
         .from("leave_requests")
         .select(`

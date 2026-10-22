@@ -52,7 +52,7 @@ export function useLeaveRequests() {
 
       if (error) throw error;
 
-      // Fetch employee details separately to avoid the multiple relationship issue
+      // Ambil detail karyawan secara terpisah untuk menghindari masalah relasi ganda
       const employeeIds = [...new Set((data || []).map((r) => r.employee_id))];
       const reviewerIds = [...new Set((data || []).filter(r => r.reviewed_by).map((r) => r.reviewed_by))];
       const allEmployeeIds = [...new Set([...employeeIds, ...reviewerIds])];

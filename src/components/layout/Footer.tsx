@@ -18,9 +18,9 @@ const Footer = () => {
     <footer className="border-t bg-card/60">
       <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-14 md:grid-cols-5">
         <div className="col-span-2">
-          <Link to="/" className="mb-3 inline-flex items-center gap-2.5" aria-label="Beranda Peoplo">
+          <Link to="/" className="mb-3 inline-flex items-center gap-2.5" aria-label="Beranda HRISINDO">
             <img src={logo} alt="" className="h-8 w-auto" />
-            <span className="text-lg font-semibold text-foreground">Peoplo</span>
+            <span className="text-lg font-semibold text-foreground">HRISINDO</span>
           </Link>
           <p className="max-w-sm text-sm text-muted-foreground">
             Sumber daya manusia (HR) open source untuk tim yang bertumbuh: karyawan, absensi, cuti, gaji, dan kinerja. T hosting sendiri atau biarkan kami yang menjalankannya.
@@ -65,7 +65,7 @@ const Footer = () => {
       <div className="border-t">
         <div className="container mx-auto flex flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-muted-foreground sm:flex-row">
           <p className="text-center sm:text-left">
-            © {new Date().getFullYear()} Peoplo oleh Redmonk. Sumber terbuka di bawah lisensi{" "}
+            © {new Date().getFullYear()} HRISINDO oleh Redmonk. Sumber terbuka di bawah lisensi{" "}
             <a href={LICENSE_URL} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground">
               AGPL-3.0
             </a>{" "}

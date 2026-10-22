@@ -12,7 +12,7 @@ interface PublicCtaSectionProps {
 /** Pita ajakan bertindak penutup yang dipakai bersama oleh halaman pemasaran publik. */
 const PublicCtaSection = ({
   title = "Siap untuk HR yang lebih tenang?",
-  description = "Hosting Peoplo sendiri secara gratis, atau pesan demo dan kami akan menyiapkannya untuk Anda. Peoplo bersifat open source di bawah lisensi AGPL-3.0.",
+  description = "Hosting HRISINDO sendiri secara gratis, atau pesan demo dan kami akan menyiapkannya untuk Anda. HRISINDO bersifat open source di bawah lisensi AGPL-3.0.",
 }: PublicCtaSectionProps) => (
   <section className="px-4 py-16 sm:py-20">
     <div className="container relative mx-auto overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-sky-700 to-sky-900 px-6 py-14 text-center text-primary-foreground shadow-2xl shadow-primary/30 sm:py-16">

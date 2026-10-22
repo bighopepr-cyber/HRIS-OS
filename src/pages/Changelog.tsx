@@ -135,7 +135,7 @@ export default function Changelog() {
           <div>
             <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">Catatan Perubahan</h1>
             <p className="text-muted-foreground">
-              Lihat pembaruan dan peningkatan terbaru pada Peoplo
+              Lihat pembaruan dan peningkatan terbaru pada HRISINDO
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">

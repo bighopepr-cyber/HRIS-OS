@@ -394,7 +394,7 @@ export function EmployeeReport() {
                   <Command>
                     <CommandInput placeholder="Search employee..." />
                     <CommandList>
-                      <CommandEmpty>No employee found.</CommandEmpty>
+                      <CommandEmpty>Tidak ada karyawan ditemukan.</CommandEmpty>
                       <CommandGroup>
                         {employees?.map((emp) => (
                           <CommandItem

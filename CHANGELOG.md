@@ -1,6 +1,6 @@
 # Changelog
 
-Semua perubahan penting pada Peoplo tercantum di sini. Formatnya mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), dan versi mengikuti [Semantic Versioning](https://semver.org/). Rilis hingga v1.1.1 dijelaskan di [GitHub Releases](https://github.com/redmonkin/core-hr-hub/releases).
+Semua perubahan penting pada HRISINDO tercantum di sini. Formatnya mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), dan versi mengikuti [Semantic Versioning](https://semver.org/). Rilis hingga v1.1.1 dijelaskan di [GitHub Releases](https://github.com/redmonkin/core-hr-hub/releases).
 
 Saat Anda memperbarui salinan self-hosting, baca **Catatan Upgrade** setiap versi sejak versi Anda: mereka mencantumkan migrasi baru, rahasia dan pengaturan. Langkah-langkahnya ada di [Memperbarui ke versi baru](docs/self-hosting.md#updating-to-a-new-version).
 
@@ -76,7 +76,7 @@ Saat Anda memperbarui salinan self-hosting, baca **Catatan Upgrade** setiap vers
 
 ### Lisensi
 
-- Peoplo kini dilisensikan di bawah **AGPL-3.0** (sebelumnya MIT). Versi yang dirilis sebelum perubahan ini tetap tersedia di bawah MIT. Aplikasi menampilkan tautan **Kode sumber**, yang dapat dikonfigurasi dengan `VITE_REPO_URL`.
+- HRISINDO kini dilisensikan di bawah **AGPL-3.0** (sebelumnya MIT). Versi yang dirilis sebelum perubahan ini tetap tersedia di bawah MIT. Aplikasi menampilkan tautan **Kode sumber**, yang dapat dikonfigurasi dengan `VITE_REPO_URL`.
 
 ### Fitur
 
@@ -84,7 +84,7 @@ Saat Anda memperbarui salinan self-hosting, baca **Catatan Upgrade** setiap vers
 - **Akun hanya undangan**: tidak ada yang dapat mendaftar tanpa undangan. Undangan dikelola dari **Onboarding**, dapat dicabut atau diperpanjang, dan dapat dibatasi pada domain email yang disetujui.
 - **Payroll**: pilih bulan saat membuat payroll; karyawan yang bergabung pertengahan bulan dihitung proporsional. PDF slip gaji mengikuti tata letak slip gaji standar. Halaman Payroll memiliki pemilih periode payroll yang membuka pada bulan terbaru dengan catatan.
 - **Direktori rekan kerja** untuk karyawan, menampilkan hanya bidang yang aman.
-- **Halaman landing dan fitur baru** yang menyajikan Peoplo sebagai open source, dengan pratinjau produk 3D yang dibuat ulang alih-alih tangkapan layar, dan panduan self-hosting.
+- **Halaman landing dan fitur baru** yang menyajikan HRISINDO sebagai open source, dengan pratinjau produk 3D yang dibuat ulang alih-alih tangkapan layar, dan panduan self-hosting.
 
 ### Perbaikan
 

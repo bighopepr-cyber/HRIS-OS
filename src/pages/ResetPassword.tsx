@@ -81,7 +81,7 @@ const ResetPassword = () => {
       <div className="flex min-h-screen items-center justify-center bg-background p-6">
         <Card className="w-full max-w-md border-border">
           <CardHeader className="text-center">
-            <Link to="/" className="mx-auto mb-4 block w-fit" aria-label="Beranda Peoplo">
+            <Link to="/" className="mx-auto mb-4 block w-fit" aria-label="Beranda HRISINDO">
               <img src={hrHubLogo} alt="" className="h-12 w-auto" />
             </Link>
             <h1 className="text-2xl font-semibold leading-none tracking-tight">{isWelcome ? "Undangan ini telah kedaluwarsa" : "Tautan tidak valid atau telah kedaluwarsa"}</h1>
@@ -103,7 +103,7 @@ const ResetPassword = () => {
     <div className="flex min-h-screen items-center justify-center bg-background p-6">
       <Card className="w-full max-w-md border-border">
         <CardHeader className="text-center">
-          <Link to="/" className="mx-auto mb-4 block w-fit" aria-label="Beranda Peoplo">
+          <Link to="/" className="mx-auto mb-4 block w-fit" aria-label="Beranda HRISINDO">
               <img src={hrHubLogo} alt="" className="h-12 w-auto" />
             </Link>
           <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -114,7 +114,7 @@ const ResetPassword = () => {
             )}
           </div>
           <h1 className="text-2xl font-semibold leading-none tracking-tight">
-            {isWelcome ? "Selamat datang di Peoplo" : "Tetapkan kata sandi baru"}
+            {isWelcome ? "Selamat datang di HRISINDO" : "Tetapkan kata sandi baru"}
           </h1>
           <CardDescription>
             {isWelcome

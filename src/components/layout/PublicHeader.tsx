@@ -15,9 +15,9 @@ const PublicHeader = () => {
   return (
     <header className="sticky top-0 z-50 border-b pt-[env(safe-area-inset-top)] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <nav aria-label="Utama" className="container mx-auto flex items-center justify-between gap-4 px-4 py-3 sm:py-4">
-        <Link to="/" className="flex items-center gap-2" aria-label="Beranda Peoplo">
+        <Link to="/" className="flex items-center gap-2" aria-label="Beranda HRISINDO">
           <img src={hrHubLogo} alt="" className="h-8 w-auto" />
-          <span className="text-xl font-bold">Peoplo</span>
+          <span className="text-xl font-bold">HRISINDO</span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
@@ -42,7 +42,7 @@ const PublicHeader = () => {
             href={REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Lihat Peoplo di GitHub"
+            aria-label="Lihat HRISINDO di GitHub"
             className="hidden items-center gap-2 rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
           >
             <Github className="h-4 w-4" aria-hidden="true" />

@@ -360,7 +360,7 @@ export function AttendanceReport() {
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Clock className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-lg font-medium">No attendance records found</p>
+                <p className="text-lg font-medium">Tidak ada catatan absensi ditemukan</p>
                 <p className="text-sm text-muted-foreground">
                   There are no attendance records for {summary.monthName}
                 </p>

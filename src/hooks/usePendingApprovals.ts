@@ -10,7 +10,7 @@ export function usePendingApprovals() {
     queryFn: async () => {
       if (!user?.id) return { count: 0, requests: [] };
 
-      // Get current user's employee record
+      // Dapatkan catatan karyawan pengguna saat ini
       const { data: myEmployee } = await supabase
         .from("employees")
         .select("id")
@@ -19,7 +19,7 @@ export function usePendingApprovals() {
 
       if (!myEmployee) return { count: 0, requests: [] };
 
-      // Get direct reports
+      // Dapatkan laporan langsung
       const { data: directReports } = await supabase
         .from("employees")
         .select("id")
@@ -31,7 +31,7 @@ export function usePendingApprovals() {
 
       const reportIds = directReports.map((r) => r.id);
 
-      // Get pending leave requests from direct reports
+      // Dapatkan permintaan cuti yang menunggu dari laporan langsung
       const { data: pendingRequests, error } = await supabase
         .from("leave_requests")
         .select(`

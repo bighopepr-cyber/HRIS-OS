@@ -4,7 +4,7 @@ Berkas ini menyediakan panduan bagi Claude Code (claude.ai/code) saat bekerja de
 
 ## Gambaran umum proyek
 
-Peoplo: perangkat lunak HR open-source untuk tim yang bertumbuh (orang dan departemen, orientasi khusus undangan, absensi, cuti dan hari libur, penggajian dan slip gaji, kinerja, penggantian biaya, aset, laporan). Berlisensi AGPL-3.0. Awalnya dibangun (scaffolded) melalui Lovable; sebuah SPA Vite + React + TypeScript dengan dukungan Supabase (Postgres + Auth + Storage + Edge Functions). Setiap deployment adalah **ruang kerja satu perusahaan**; tidak ada multi-tenancy.
+HRISINDO: perangkat lunak HR open-source untuk tim yang bertumbuh (orang dan departemen, orientasi khusus undangan, absensi, cuti dan hari libur, penggajian dan slip gaji, kinerja, penggantian biaya, aset, laporan). Berlisensi AGPL-3.0. Awalnya dibangun (scaffolded) melalui Lovable; sebuah SPA Vite + React + TypeScript dengan dukungan Supabase (Postgres + Auth + Storage + Edge Functions). Setiap deployment adalah **ruang kerja satu perusahaan**; tidak ada multi-tenancy.
 
 ## Perintah
 

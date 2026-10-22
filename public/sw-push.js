@@ -23,7 +23,7 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data.json();
   } catch {
-    data = { title: "Peoplo", body: event.data.text() };
+    data = { title: "HRISINDO", body: event.data.text() };
   }
 
   const options = {
@@ -37,7 +37,7 @@ self.addEventListener("push", (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification(data.title || "Peoplo", options).then(syncAppBadge)
+    self.registration.showNotification(data.title || "HRISINDO", options).then(syncAppBadge)
   );
 });
 

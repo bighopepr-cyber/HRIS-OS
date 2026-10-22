@@ -28,7 +28,7 @@ export function useLeaveBalances(employeeId: string | undefined) {
 
       if (eligibleLeaveTypeIds.length === 0) return [];
 
-      // Fetch assigned leave types with their days_per_year
+      // Ambil jenis cuti yang dialokasikan dengan days_per_year
       const { data: leaveTypes, error: typesError } = await supabase
         .from("leave_types")
         .select("id, name, days_per_year, is_paid")
@@ -37,7 +37,7 @@ export function useLeaveBalances(employeeId: string | undefined) {
 
       if (typesError) throw typesError;
 
-      // Fetch approved leave requests for this employee for the current year
+      // Ambil permintaan cuti yang disetujui untuk karyawan ini di tahun ini
       const yearStart = `${currentYear}-01-01`;
       const yearEnd = `${currentYear}-12-31`;
 

@@ -1,8 +1,8 @@
-# Self-hosting Peoplo
+# Self-hosting HRISINDO
 
-Panduan ini membawa Anda dari awal hingga memiliki salinan Peoplo Anda sendiri yang berjalan. Waktunya sekitar satu jam, sebagian besar menunggu DNS.
+Panduan ini membawa Anda dari awal hingga memiliki salinan HRISINDO Anda sendiri yang berjalan. Waktunya sekitar satu jam, sebagian besar menunggu DNS.
 
-Setiap deployment Peoplo adalah **satu workspace perusahaan**. Akun bersifat undangan saja dan dapat dibatasi ke domain email Anda, sehingga tidak ada halaman pendaftaran publik yang perlu dilindungi.
+Setiap deployment HRISINDO adalah **satu workspace perusahaan**. Akun bersifat undangan saja dan dapat dibatasi ke domain email Anda, sehingga tidak ada halaman pendaftaran publik yang perlu dilindungi.
 
 Anda akan menyiapkan tiga hal:
 
@@ -83,7 +83,7 @@ Ini membuat semua tabel, aturan akses (row-level security), izin modul, guard pe
 
 ## Bagian 2: Resend (email)
 
-Peoplo mengirim dua jenis email: **email aplikasi** (persetujuan cuti, pengingat, pemberitahuan slip gaji) melalui Resend API dari fungsi server, dan **email akun** (undangan, reset kata sandi) dari Supabase Auth, yang akan Anda arahkan ke server SMTP Resend di [5.2](#52-kirim-email-akun-melalui-resend).
+HRISINDO mengirim dua jenis email: **email aplikasi** (persetujuan cuti, pengingat, pemberitahuan slip gaji) melalui Resend API dari fungsi server, dan **email akun** (undangan, reset kata sandi) dari Supabase Auth, yang akan Anda arahkan ke server SMTP Resend di [5.2](#52-kirim-email-akun-melalui-resend).
 
 ### 2.1 Tambahkan dan verifikasi domain pengirim Anda
 
@@ -98,11 +98,11 @@ Peoplo mengirim dua jenis email: **email aplikasi** (persetujuan cuti, pengingat
 
 ### 2.3 Pilih alamat pengirim
 
-Pilih alamat pada domain yang sudah diverifikasi, misalnya `Peoplo <hr@mail.example.com>`. Ini menjadi `RESEND_FROM_EMAIL`.
+Pilih alamat pada domain yang sudah diverifikasi, misalnya `HRISINDO <hr@mail.example.com>`. Ini menjadi `RESEND_FROM_EMAIL`.
 
 ## Bagian 3: Notifikasi push (opsional)
 
-Peoplo adalah progressive web app dan dapat mengirim notifikasi push (persetujuan, pengingat) ke ponsel dan desktop. Lewati bagian ini jika Anda hanya menginginkan email.
+HRISINDO adalah progressive web app dan dapat mengirim notifikasi push (persetujuan, pengingat) ke ponsel dan desktop. Lewati bagian ini jika Anda hanya menginginkan email.
 
 Buat pasangan kunci VAPID:
 
@@ -119,7 +119,7 @@ Atur rahasia fungsi. `SUPABASE_URL`, `SUPABASE_ANON_KEY` dan `SUPABASE_SERVICE_R
 ```sh
 npx supabase secrets set \
   RESEND_API_KEY="re_..." \
-  RESEND_FROM_EMAIL="Peoplo <hr@mail.example.com>" \
+  RESEND_FROM_EMAIL="HRISINDO <hr@mail.example.com>" \
   APP_URL="https://hr.example.com" \
   CRON_SECRET="$(openssl rand -hex 32)"
 
@@ -160,15 +160,15 @@ Email bawaan Supabase dibatasi lajunya dan dimaksudkan untuk pengujian. Di bawah
 | Username | `resend` |
 | Password | API key Resend Anda |
 | Sender email | alamat pada domain yang sudah diverifikasi |
-| Sender name | `Peoplo` (atau nama perusahaan Anda) |
+| Sender name | `HRISINDO` (atau nama perusahaan Anda) |
 
 ### 5.3 Matikan pendaftaran publik
 
-Di bawah **Sign In / Providers**, matikan **Allow new users to sign up**. Peoplo bersifat undangan saja: trigger basis data sudah menolak akun tanpa undangan yang tertunda, tetapi mematikan ini menghindari error yang membingungkan di halaman masuk. Undangan tetap berfungsi, karena dikirim oleh fungsi `invite-employee` dengan service role.
+Di bawah **Sign In / Providers**, matikan **Allow new users to sign up**. HRISINDO bersifat undangan saja: trigger basis data sudah menolak akun tanpa undangan yang tertunda, tetapi mematikan ini menghindari error yang membingungkan di halaman masuk. Undangan tetap berfungsi, karena dikirim oleh fungsi `invite-employee` dengan service role.
 
 ### 5.4 Batasi akun ke domain email Anda (disarankan)
 
-Setelah Anda masuk sebagai admin ([Bagian 8](#bagian-8-buat-admin-pertama)), buka **Settings → Domain whitelist** di Peoplo dan tambahkan domain email perusahaan Anda. Undangan dan email akun di luar domain ini kemudian ditolak oleh basis data.
+Setelah Anda masuk sebagai admin ([Bagian 8](#bagian-8-buat-admin-pertama)), buka **Settings → Domain whitelist** di HRISINDO dan tambahkan domain email perusahaan Anda. Undangan dan email akun di luar domain ini kemudian ditolak oleh basis data.
 
 ## Bagian 6: Pekerjaan terjadwal
 
@@ -279,7 +279,7 @@ Tidak ada pendaftaran publik, sehingga admin pertama diundang dari basis data:
    ```
 
 2. Di **Authentication → Users**, klik **Add user → Create new user**, masukkan alamat yang sama dan kata sandi, lalu centang **Auto Confirm User**.
-3. Masuk ke Peoplo dengan email dan kata sandi tersebut.
+3. Masuk ke HRISINDO dengan email dan kata sandi tersebut.
 
 Jika Anda menambahkan diri sendiri sebagai karyawan nanti (**Onboarding → Add employee** dengan email Anda sendiri), catatan tersebut otomatis ditautkan ke akun Anda yang sudah ada.
 
@@ -336,8 +336,8 @@ Lalu deploy ulang situs web (Vercel melakukan ini saat Anda push). Baca [`CHANGE
 | Web Push (layanan push vendor browser) | Notifikasi push | Opsional, hanya dengan kunci VAPID |
 | [GitHub Releases API](https://docs.github.com/rest/releases) | Halaman "What's new" dalam aplikasi dan pemberitahuan pembaruan (fungsi `version-check`) | Dipanggil otomatis; fallback ke changelog bawaan |
 
-Peoplo tidak menggunakan layanan analitik, iklan atau pelacakan.
+HRISINDO tidak menggunakan layanan analitik, iklan atau pelacakan.
 
 ## Lisensi dan perubahan Anda
 
-Peoplo dilisensikan di bawah [AGPL-3.0](../LICENSE). Menjalankannya untuk staf perusahaan Anda sendiri tidak memerlukan penerbitan apa pun. Jika Anda memodifikasinya dan membiarkan orang menggunakan versi yang Anda modifikasi melalui jaringan, Anda harus menyediakan kode sumbernya. Sidebar aplikasi memiliki tautan **Source code** untuk ini; atur `VITE_REPO_URL` ke fork Anda agar menunjuk ke perubahan Anda.
+HRISINDO dilisensikan di bawah [AGPL-3.0](../LICENSE). Menjalankannya untuk staf perusahaan Anda sendiri tidak memerlukan penerbitan apa pun. Jika Anda memodifikasinya dan membiarkan orang menggunakan versi yang Anda modifikasi melalui jaringan, Anda harus menyediakan kode sumbernya. Sidebar aplikasi memiliki tautan **Source code** untuk ini; atur `VITE_REPO_URL` ke fork Anda agar menunjuk ke perubahan Anda.

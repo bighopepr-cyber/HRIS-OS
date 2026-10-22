@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Pre-commit hook for Peoplo
+# Pre-commit hook for HRISINDO
 # Validates version format and changelog updates
 
 set -e

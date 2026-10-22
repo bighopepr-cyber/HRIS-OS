@@ -77,8 +77,8 @@ const plans = [
 
 const faqs = [
   {
-    question: "Apakah Peoplo benar-benar gratis?",
-    answer: "Ya. Peoplo bersifat sumber terbuka di bawah lisensi AGPL-3.0, sehingga Anda dapat meng-hosting sendiri seluruh fiturnya di infrastruktur Anda sendiri tanpa biaya apa pun. Opsi hosting cloud merupakan layanan berbayar bagi tim yang memilih hosting terkelola."
+    question: "Apakah HRISINDO benar-benar gratis?",
+    answer: "Ya. HRISINDO bersifat sumber terbuka di bawah lisensi AGPL-3.0, sehingga Anda dapat meng-hosting sendiri seluruh fiturnya di infrastruktur Anda sendiri tanpa biaya apa pun. Opsi hosting cloud merupakan layanan berbayar bagi tim yang memilih hosting terkelola."
   },
   {
     question: "Bisakah saya bermigrasi dari hosting sendiri ke cloud?",
@@ -86,11 +86,11 @@ const faqs = [
   },
   {
     question: "Bagaimana cara mendapatkan ruang kerja terkelola?",
-    answer: "Pesan demo dan kami akan menyiapkan ruang kerja untuk perusahaan Anda. Akun hanya dapat dibuat melalui undangan, sehingga begitu siap Anda mengundang tim Anda dari dalam Peoplo."
+    answer: "Pesan demo dan kami akan menyiapkan ruang kerja untuk perusahaan Anda. Akun hanya dapat dibuat melalui undangan, sehingga begitu siap Anda mengundang tim Anda dari dalam HRISINDO."
   },
   {
     question: "Apa arti lisensi AGPL-3.0 bagi perusahaan saya?",
-    answer: "Anda dapat menggunakan, menjalankan, dan memodifikasi Peoplo secara bebas untuk organisasi Anda sendiri. Jika Anda mengubahnya dan menawarkannya kepada orang lain melalui jaringan, Anda harus membagikan perubahan tersebut di bawah lisensi yang sama. Penggunaannya secara internal untuk staf Anda sendiri tidak mengharuskan penerbitan apa pun."
+    answer: "Anda dapat menggunakan, menjalankan, dan memodifikasi HRISINDO secara bebas untuk organisasi Anda sendiri. Jika Anda mengubahnya dan menawarkannya kepada orang lain melalui jaringan, Anda harus membagikan perubahan tersebut di bawah lisensi yang sama. Penggunaannya secara internal untuk staf Anda sendiri tidak mengharuskan penerbitan apa pun."
   },
   {
     question: "Di mana data kami disimpan?",
@@ -105,12 +105,12 @@ const faqs = [
     answer: "Tidak. Akun hanya dapat dibuat melalui undangan. Tim SDM menambahkan setiap karyawan baru, yang kemudian menerima email berisi tautan untuk mengatur akunnya; mereka menjadi aktif begitu tautannya selesai digunakan."
   },
   {
-    question: "Bisakah beberapa perusahaan berbagi satu Peoplo?",
-    answer: "Tidak. Setiap deployment Peoplo merupakan ruang kerja satu perusahaan yang terikat pada domain email Anda, sehingga data Anda tidak pernah berada di samping organisasi lain. Hosting sendiri di lingkungan Anda, atau pesan demo dan kami akan menyiapkan ruang kerja khusus untuk Anda."
+    question: "Bisakah beberapa perusahaan berbagi satu HRISINDO?",
+    answer: "Tidak. Setiap deployment HRISINDO merupakan ruang kerja satu perusahaan yang terikat pada domain email Anda, sehingga data Anda tidak pernah berada di samping organisasi lain. Hosting sendiri di lingkungan Anda, atau pesan demo dan kami akan menyiapkan ruang kerja khusus untuk Anda."
   },
   {
     question: "Apakah dapat digunakan di ponsel?",
-    answer: "Bisa. Peoplo adalah progressive web app (aplikasi web progresif), sehingga orang dapat mencatat absensi, mengajukan cuti, dan memeriksa slip gaji dari ponselnya serta menerima notifikasi push."
+    answer: "Bisa. HRISINDO adalah progressive web app (aplikasi web progresif), sehingga orang dapat mencatat absensi, mengajukan cuti, dan memeriksa slip gaji dari ponselnya serta menerima notifikasi push."
   },
   {
     question: "Apakah Anda menawarkan diskon untuk LSM?",
@@ -208,7 +208,7 @@ const Pricing = () => {
               Pertanyaan yang Sering Diajukan
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Harga, lisensi, data, dan cara kerja Peoplo bagi tim Anda.
+              Harga, lisensi, data, dan cara kerja HRISINDO bagi tim Anda.
             </p>
           </div>
           <div className="mx-auto max-w-3xl divide-y divide-border rounded-2xl border border-border bg-card">

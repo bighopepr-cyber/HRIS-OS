@@ -113,7 +113,7 @@ export function AssetInventoryReport() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <p className="text-destructive">Error loading asset report</p>
+          <p className="text-destructive">Kesalahan memuat laporan aset</p>
         </CardContent>
       </Card>
     );
@@ -189,7 +189,7 @@ export function AssetInventoryReport() {
                   {report.records.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={6} className="text-center text-muted-foreground">
-                        No assets found
+                        Tidak ada aset ditemukan
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -209,7 +209,7 @@ export function AssetInventoryReport() {
             </div>
             <ul className="space-y-3 sm:hidden" aria-label="Assets">
               {report.records.length === 0 ? (
-                <li className="py-6 text-center text-sm text-muted-foreground">No assets found</li>
+                <li className="py-6 text-center text-sm text-muted-foreground">Tidak ada aset ditemukan</li>
               ) : (
                 report.records.map((asset) => (
                   <li key={asset.id} className="rounded-lg border p-3">

@@ -247,7 +247,7 @@ export function LeaveBalanceReport() {
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-lg font-medium">No leave balance records</p>
+                <p className="text-lg font-medium">Tidak ada catatan saldo cuti</p>
                 <p className="text-sm text-muted-foreground">
                   There are no leave balance records for {report.year}
                 </p>

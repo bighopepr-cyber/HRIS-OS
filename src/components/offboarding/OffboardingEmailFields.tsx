@@ -299,7 +299,7 @@ export function OffboardingEmailFields({
             />
           )}
           <DialogFooter>
-            <Button onClick={() => setPreview(null)}>Close preview</Button>
+            <Button onClick={() => setPreview(null)}>Tutup pratinjau</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

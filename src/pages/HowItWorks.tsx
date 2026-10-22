@@ -166,7 +166,7 @@ const HowItWorks = () => {
             <Badge variant="outline" className="mb-4">Deployment</Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Pilihan Deployment yang Fleksibel</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Tentukan cara Anda menjalankan Peoplo. Data Anda, aturan Anda, infrastruktur Anda.
+              Tentukan cara Anda menjalankan HRISINDO. Data Anda, aturan Anda, infrastruktur Anda.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">

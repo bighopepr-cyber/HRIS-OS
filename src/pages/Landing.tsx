@@ -129,7 +129,7 @@ const selfHostSteps = [
   { prompt: true, text: "supabase link --project-ref <your-project>" },
   { prompt: true, text: "supabase db push && supabase functions deploy" },
   { prompt: true, text: "npm run build" },
-  { prompt: false, text: "✓ Peoplo milik Anda sendiri, pada infrastruktur yang Anda kendalikan" },
+  { prompt: false, text: "✓ HRISINDO milik Anda sendiri, pada infrastruktur yang Anda kendalikan" },
 ];
 
 const openSourcePoints = [
@@ -228,7 +228,7 @@ const Landing = () => {
                 className="mx-auto mb-8 max-w-xl animate-fade-up text-lg text-muted-foreground md:text-xl lg:mx-0"
                 style={{ animationDelay: "160ms" }}
               >
-                Peoplo adalah perangkat lunak SDM gratis dan sumber terbuka untuk tim yang sedang bertumbuh:
+                HRISINDO adalah perangkat lunak SDM gratis dan sumber terbuka untuk tim yang sedang bertumbuh:
                 karyawan, absensi, cuti, penggajian, dan kinerja dalam satu tempat aman yang dapat Anda
                 hosting sendiri.
               </p>
@@ -347,7 +347,7 @@ const Landing = () => {
                 Sistem SDM Anda tidak seharusnya menjadi kotak hitam.
               </h2>
               <p className="mb-8 text-lg text-muted-foreground">
-                Data karyawan adalah data paling sensitif yang dimiliki sebuah perusahaan. Dengan Peoplo Anda
+                Data karyawan adalah data paling sensitif yang dimiliki sebuah perusahaan. Dengan HRISINDO Anda
                 dapat melihat dengan jelas bagaimana data itu disimpan dan siapa yang dapat mengaksesnya,
                 karena semuanya bersifat publik dan berlisensi AGPL-3.0.
               </p>
@@ -398,7 +398,7 @@ const Landing = () => {
                   Aman secara bawaan.
                 </h2>
                 <p className="mb-10 text-lg text-slate-300">
-                  Karyawan mempercayakan gaji, dokumen, dan data bank mereka kepada Anda. Peoplo dirancang
+                  Karyawan mempercayakan gaji, dokumen, dan data bank mereka kepada Anda. HRISINDO dirancang
                   agar Anda pun dapat mempercayakannya — dan karena kodenya bersifat publik, Anda tidak perlu
                   sekadar menerima kata-kata kami.
                 </p>
@@ -466,7 +466,7 @@ const Landing = () => {
         <section id="get-started" className="container mx-auto scroll-mt-20 px-4 py-24 md:py-32">
           <SectionHeading
             eyebrow="Mulai"
-            title="Dua cara menjalankan Peoplo"
+            title="Dua cara menjalankan HRISINDO"
             text="Aplikasi sumber terbuka yang sama, apa pun pilihan Anda. Hosting sendiri, atau biar kami yang menjalankannya untuk Anda."
           />
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
@@ -520,7 +520,7 @@ const Landing = () => {
               </div>
               <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Siap untuk SDM yang lebih tenang?</h2>
               <p className="mx-auto mb-8 max-w-2xl text-lg text-white/90">
-                Hosting sendiri mulai hari ini, atau pesan demo dan kami akan menyiapkannya untuk Anda. Peoplo
+                Hosting sendiri mulai hari ini, atau pesan demo dan kami akan menyiapkannya untuk Anda. HRISINDO
                 bersifat sumber terbuka, sehingga Anda dapat membaca kodenya, mengusulkan fitur, dan ikut
                 berkontribusi.
               </p>

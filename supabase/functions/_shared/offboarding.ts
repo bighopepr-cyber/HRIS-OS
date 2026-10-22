@@ -269,10 +269,10 @@ export function resignationToHrEmail(exit: ExitForEmail, appUrl: string) {
   const subject = `Resignation: ${name} – proposed last working day ${formatDate(exit.last_working_day)}`;
   const html = wrap(`
     <p>Hello,</p>
-    <p><strong>${escapeHtml(name)}</strong> has submitted their resignation in Peoplo. Their proposed last working day is <strong>${escapeHtml(formatDate(exit.last_working_day, true))}</strong>.</p>
+    <p><strong>${escapeHtml(name)}</strong> has submitted their resignation in HRISINDO. Their proposed last working day is <strong>${escapeHtml(formatDate(exit.last_working_day, true))}</strong>.</p>
     ${exit.notes ? `<p style="margin: 16px 0; padding: 10px 14px; background: #f9fafb; border-left: 3px solid #9ca3af;"><strong>Their message:</strong> ${escapeHtml(exit.notes).replace(/\n/g, "<br>")}</p>` : ""}
     ${detailsTable(exit)}
-    <p>HR can approve it (and confirm the last working day) or decline it in Peoplo.</p>
+    <p>HR can approve it (and confirm the last working day) or decline it in HRISINDO.</p>
     ${button(`${appUrl}/onboarding?tab=leaving`, "Review resignation")}
   `);
   return { subject, html };
@@ -283,7 +283,7 @@ export function resignationReceivedEmail(exit: ExitForEmail) {
   const html = wrap(`
     <p>Hi ${escapeHtml(exit.employee.first_name)},</p>
     <p>We've received your resignation with a proposed last working day of <strong>${escapeHtml(formatDate(exit.last_working_day, true))}</strong>.</p>
-    <p>HR will review it and confirm your last working day. You can withdraw it from your profile in Peoplo until it's approved.</p>
+    <p>HR will review it and confirm your last working day. You can withdraw it from your profile in HRISINDO until it's approved.</p>
     <p>Thank you,<br>HR Team</p>
   `);
   return { subject, html };
@@ -307,7 +307,7 @@ export function decisionEmail(exit: ExitForEmail) {
     html: wrap(`
       <p>Hi ${escapeHtml(exit.employee.first_name)},</p>
       <p>Your resignation has been accepted. Your last working day is <strong>${escapeHtml(formatDate(exit.last_working_day, true))}</strong>.</p>
-      <p>Please complete your handover and return company assets by then. You can use Peoplo until the end of that day, so download any payslips or documents you need before then.</p>
+      <p>Please complete your handover and return company assets by then. You can use HRISINDO until the end of that day, so download any payslips or documents you need before then.</p>
       <p>Thank you,<br>HR Team</p>
     `),
   };

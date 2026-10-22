@@ -2,7 +2,7 @@ blank_issues_enabled: false
 contact_links:
   - name: Self-hosting guide
     url: https://github.com/redmonkin/core-hr-hub/blob/main/docs/self-hosting.md
-    about: Setup, updates and troubleshooting for your own copy of Peoplo
+    about: Setup, updates and troubleshooting for your own copy of HRISINDO
   - name: Report a security vulnerability
     url: https://github.com/redmonkin/core-hr-hub/security/advisories/new
     about: Please report vulnerabilities privately, not as a public issue

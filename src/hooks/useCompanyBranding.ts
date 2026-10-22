@@ -97,7 +97,7 @@ export function useUploadBrandingAsset() {
       if (uploadError) throw uploadError;
 
       const { data } = supabase.storage.from("company-branding").getPublicUrl(fileName);
-      // Cache-bust agar browser/tag img mengambil berkas yang diunggah ulang pada path yang sama
+      // Cache-bust agar browser/img tag mengambil berkas yang diunggah ulang pada path yang sama
       return `${data.publicUrl}?t=${Date.now()}`;
     },
   });

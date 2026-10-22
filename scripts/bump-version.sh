@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Version Bump Script for Peoplo
+# Version Bump Script for HRISINDO
 # Usage: ./scripts/bump-version.sh <major|minor|patch>
 
 set -e

@@ -40,7 +40,7 @@ export function useNextEmployeeCode() {
   return useQuery({
     queryKey: ["next-employee-code", pattern],
     queryFn: async () => {
-      // Fetch all employee codes that start with the current prefix
+      // Ambil semua code karyawan yang dimulai dengan prefix saat ini
       const { data, error } = await supabase
         .from("employees")
         .select("employee_code")
@@ -48,7 +48,7 @@ export function useNextEmployeeCode() {
 
       if (error) throw error;
 
-      // Find the highest number
+      // Cari nomor tertinggi
       let maxNumber = 0;
       for (const emp of data || []) {
         const num = extractNumber(emp.employee_code, pattern);
@@ -69,6 +69,6 @@ export function useNextEmployeeCode() {
  * For dynamic validation, use isValidEmployeeCodeWithPattern from useEmployeeCodePattern
  */
 export const isValidEmployeeCode = (code: string): boolean => {
-  // Accept both the default ACQ pattern and any pattern with prefix + digits
+  // Terima pola ACQ default dan pola apa pun dengan prefix + angka
   return /^[A-Z]{2,10}[-_]?\d{1,}$/i.test(code);
 };

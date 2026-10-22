@@ -28,7 +28,7 @@ export function useAssetReport() {
   return useQuery({
     queryKey: ["asset-report"],
     queryFn: async (): Promise<AssetReport> => {
-      // Fetch all assets
+      // Ambil semua aset
       const { data: assets, error } = await supabase
         .from("assets")
         .select("*")
@@ -36,7 +36,7 @@ export function useAssetReport() {
 
       if (error) throw error;
 
-      // Fetch current assignments
+      // Ambil penugasan saat ini
       const { data: assignments } = await supabase
         .from("asset_assignments")
         .select(`
@@ -61,7 +61,7 @@ export function useAssetReport() {
       const totalAssets = assets?.length || 0;
       const totalValue = assets?.reduce((sum, a) => sum + (Number(a.purchase_cost) || 0), 0) || 0;
 
-      // Group by status
+      // Kelompokkan berdasarkan status
       const statusCounts = new Map<string, number>();
       assets?.forEach((a) => {
         const count = statusCounts.get(a.status) || 0;
@@ -72,7 +72,7 @@ export function useAssetReport() {
         count,
       }));
 
-      // Group by category
+      // Kelompokkan berdasarkan kategori
       const categoryCounts = new Map<string, number>();
       assets?.forEach((a) => {
         const count = categoryCounts.get(a.category) || 0;
@@ -83,7 +83,7 @@ export function useAssetReport() {
         count,
       }));
 
-      // Map records
+      // Peta catatan
       const records: AssetReportRecord[] = (assets || []).map((asset) => ({
         id: asset.id,
         assetCode: asset.asset_code,

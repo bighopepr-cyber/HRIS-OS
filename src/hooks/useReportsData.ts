@@ -121,14 +121,14 @@ export function useLeaveStatistics(year: number) {
   return useQuery({
     queryKey: ["leave-statistics", year],
     queryFn: async () => {
-      // Get leave types
+      // Dapatkan jenis cuti
       const { data: leaveTypes, error: ltError } = await supabase
         .from("leave_types")
         .select("id, name");
 
       if (ltError) throw ltError;
 
-      // Get approved leave requests for the year
+      // Dapatkan permintaan cuti yang disetujui untuk tahun ini
       const startDate = `${year}-01-01`;
       const endDate = `${year}-12-31`;
 

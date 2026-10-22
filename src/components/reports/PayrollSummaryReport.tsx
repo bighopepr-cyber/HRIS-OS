@@ -344,7 +344,7 @@ export function PayrollSummaryReport() {
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-lg font-medium">No payroll records found</p>
+                <p className="text-lg font-medium">Tidak ada catatan gaji ditemukan</p>
                 <p className="text-sm text-muted-foreground">
                   There are no payroll records for {summary.monthName}
                 </p>

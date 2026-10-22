@@ -47,7 +47,7 @@ export function PWAInstallBanner() {
       <div className="flex items-center gap-3 rounded-lg border bg-card p-4 shadow-lg">
         <Download className="h-5 w-5 shrink-0 text-primary" />
         <p className="flex-1 text-sm text-card-foreground">
-          Pasang Peoplo untuk pengalaman yang lebih cepat dan menyerupai aplikasi!
+          Pasang HRISINDO untuk pengalaman yang lebih cepat dan menyerupai aplikasi!
         </p>
         <Button size="sm" onClick={handleInstall}>
           Pasang

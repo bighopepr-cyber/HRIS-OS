@@ -104,7 +104,7 @@ const PrivacyPolicy = () => {
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
               <p className="text-muted-foreground leading-relaxed">
-                Kebijakan Privasi ini menjelaskan bagaimana Peoplo ("kami") mengumpulkan, menggunakan, dan
+                Kebijakan Privasi ini menjelaskan bagaimana HRISINDO ("kami") mengumpulkan, menggunakan, dan
                 membagikan informasi tentang Anda ketika Anda menggunakan platform manajemen SDM serta layanan
                 terkait kami. Dengan menggunakan layanan kami, Anda menyetujui pengumpulan dan penggunaan
                 informasi sesuai dengan kebijakan ini. Kami mengajak Anda membaca kebijakan ini

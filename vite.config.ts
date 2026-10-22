@@ -45,8 +45,8 @@ export default defineConfig(({ mode }) => ({
         importScripts: ["sw-push.js"],
       },
       manifest: {
-        name: "Peoplo - HR Management System",
-        short_name: "Peoplo",
+        name: "HRISINDO - HR Management System",
+        short_name: "HRISINDO",
         description: "Comprehensive HR management system for employee onboarding, leave tracking, asset management, and payroll processing.",
         theme_color: "#0369A1",
         background_color: "#edf3f7",

@@ -162,8 +162,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Logo */}
           <div className="flex h-20 items-center justify-between border-b border-border px-6">
             <Link to="/dashboard" className="flex items-center gap-3" onClick={() => setSidebarOpen(false)}>
-              <img src={branding?.iconUrl || hrHubLogo} alt="Peoplo" className="h-10 w-auto" />
-              <span className="text-xl font-bold text-foreground">Peoplo</span>
+              <img src={branding?.iconUrl || hrHubLogo} alt="HRISINDO" className="h-10 w-auto" />
+              <span className="text-xl font-bold text-foreground">HRISINDO</span>
             </Link>
             <Button
               variant="ghost"

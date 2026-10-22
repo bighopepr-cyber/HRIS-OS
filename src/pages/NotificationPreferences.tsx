@@ -72,7 +72,7 @@ const NotificationPreferences = () => {
         <div>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Preferensi notifikasi</h1>
           <p className="text-muted-foreground">
-            Pilih bagaimana dan kapan Peoplo memberitahu Anda — di perangkat ini dan melalui surel
+            Pilih bagaimana dan kapan HRISINDO memberitahu Anda — di perangkat ini dan melalui surel
           </p>
         </div>
 

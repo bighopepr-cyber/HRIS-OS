@@ -188,7 +188,7 @@ export function useGeneratePayroll() {
 
   return useMutation({
     mutationFn: async ({ month, year }: { month: number; year: number }) => {
-      // Check if payroll already exists for this month
+      // Periksa apakah payroll sudah ada untuk bulan ini
       const { data: existingRecords } = await supabase
         .from("payroll_records")
         .select("id")
@@ -203,7 +203,7 @@ export function useGeneratePayroll() {
       const monthEnd = new Date(year, month, 0);
       const monthEndStr = format(monthEnd, "yyyy-MM-dd");
 
-      // Get all salary structures with the employee's hire date and working days,
+      // Dapatkan semua struktur gaji dengan tanggal masuk dan hari kerja karyawan,
       // so we can skip employees who joined after this month and pro-rate mid-month joiners.
       const { data: salaryStructures, error: salaryError } = await supabase
         .from("salary_structures")
@@ -295,7 +295,7 @@ export function useUpdatePayrollStatus() {
     mutationFn: async ({ id, status }: { id: string; status: "draft" | "processed" | "paid" }) => {
       const updateData: { status: "draft" | "processed" | "paid"; paid_at?: string | null } = { status };
       
-      // Set paid_at when marking as paid, clear it otherwise
+      // Atur paid_at saat menandai sebagai dibayar, bersihkan jika tidak
       if (status === "paid") {
         updateData.paid_at = new Date().toISOString();
       } else {

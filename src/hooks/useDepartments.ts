@@ -26,7 +26,7 @@ export function useDepartments() {
 
       if (error) throw error;
 
-      // Get employee counts per department
+      // Dapatkan jumlah karyawan per departemen
       const { data: employees } = await supabase
         .from("employees")
         .select("department_id")

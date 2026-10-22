@@ -24,7 +24,7 @@ export function useLeaveBalanceReport(year: number) {
   return useQuery({
     queryKey: ["leave-balance-report", year],
     queryFn: async (): Promise<LeaveBalanceReport> => {
-      // Get all leave types with their annual allocation
+      // Dapatkan semua jenis cuti dengan alokasi tahunan mereka
       const { data: leaveTypes, error: typesError } = await supabase
         .from("leave_types")
         .select("id, name, days_per_year")
@@ -32,7 +32,7 @@ export function useLeaveBalanceReport(year: number) {
 
       if (typesError) throw typesError;
 
-      // Get all active employees
+      // Dapatkan semua karyawan aktif
       const { data: employees, error: empError } = await supabase
         .from("employees")
         .select(`
@@ -47,7 +47,7 @@ export function useLeaveBalanceReport(year: number) {
 
       if (empError) throw empError;
 
-      // Get approved leave requests for the year to calculate used days
+      // Dapatkan permintaan cuti yang disetujui untuk tahun ini guna menghitung hari yang digunakan
       const { data: leaveRequests, error: lrError } = await supabase
         .from("leave_requests")
         .select("employee_id, leave_type_id, days_count")
@@ -57,7 +57,7 @@ export function useLeaveBalanceReport(year: number) {
 
       if (lrError) throw lrError;
 
-      // Build records with dynamic calculation
+      // Bangun catatan dengan perhitungan dinamis
       const records: LeaveBalanceRecord[] = (employees || []).map((emp) => {
         const employeeBalances = (leaveTypes || []).map((lt) => {
           const used = (leaveRequests || [])

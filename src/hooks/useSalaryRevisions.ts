@@ -83,7 +83,7 @@ async function fetchRevision(id: string): Promise<SalaryRevision | null> {
   return data ? mapRevision(data as unknown as RevisionRow) : null;
 }
 
-/** Every revision for one person, newest first (RLS: payroll view, or the person's own agreed ones). */
+/** Setiap revisi untuk satu orang, terbaru di awal (RLS: tampilan penggajian, atau yang disetujui milik orang itu sendiri). */
 export function useEmployeeSalaryRevisions(employeeId: string | null | undefined) {
   return useQuery({
     queryKey: ["salary-revisions", employeeId],
@@ -101,7 +101,7 @@ export function useEmployeeSalaryRevisions(employeeId: string | null | undefined
   });
 }
 
-/** Revisions waiting for someone to approve them. */
+/** Revisi yang menunggu untuk disetujui seseorang. */
 export function usePendingSalaryRevisions(enabled = true) {
   return useQuery({
     queryKey: ["salary-revisions", "pending"],
@@ -118,7 +118,7 @@ export function usePendingSalaryRevisions(enabled = true) {
   });
 }
 
-/** Pay changes made before revisions existed (salary_history), newest first. */
+/** Perubahan gaji yang dibuat sebelum revisi ada (salary_history), terbaru di awal. */
 export function useLegacySalaryHistory(employeeId: string | null | undefined, enabled = true) {
   return useQuery({
     queryKey: ["salary-history", employeeId],
@@ -135,7 +135,7 @@ export function useLegacySalaryHistory(employeeId: string | null | undefined, en
   });
 }
 
-/** Performance reviews of one person, to link a revision to. */
+/** Tinjauan kinerja dari satu orang, untuk menautkan revisi. */
 export function useReviewsForRevision(employeeId: string | null | undefined, enabled = true) {
   return useQuery({
     queryKey: ["salary-revision-reviews", employeeId],
@@ -152,7 +152,7 @@ export function useReviewsForRevision(employeeId: string | null | undefined, ena
   });
 }
 
-/** Is this employee record the signed-in user's own? (Only admins may revise their own pay.) */
+/** Apakah catatan karyawan ini milik pengguna yang sedang masuk? (Hanya admin yang boleh merevisi gaji sendiri.) */
 export function useIsOwnEmployee(employeeId: string | null | undefined) {
   const { user } = useAuth();
   const { data } = useQuery({
@@ -203,7 +203,7 @@ export function useSetSalaryRevisionApproval() {
 }
 
 // ---------------------------------------------------------------------------
-// Create, decide, cancel
+// Buat, putuskan, batalkan
 // ---------------------------------------------------------------------------
 
 export interface SalaryRevisionInput {
@@ -222,7 +222,7 @@ export interface SalaryRevisionResult {
   emailError?: string;
 }
 
-/** Emails the employee once a revision has been applied (if they're to be told). */
+  /** Setelah revisi diterapkan, kirim email ke karyawan (jika perlu diberitahu). */
 async function emailIfApplied(revision: SalaryRevision | null): Promise<string | undefined> {
   if (!revision || revision.status !== "applied" || !revision.notifyEmployee || revision.emailedAt) return undefined;
   const { error } = await supabase.functions.invoke("salary-revisions", {
@@ -257,7 +257,7 @@ export function useCreateSalaryRevision() {
         .select("id")
         .single();
       if (error) throw error;
-      // Read it back: it may already have been applied by the database.
+      // Baca kembali: mungkin sudah diterapkan oleh basis data.
       const revision = await fetchRevision(data.id);
       return { revision, emailError: await emailIfApplied(revision) };
     },

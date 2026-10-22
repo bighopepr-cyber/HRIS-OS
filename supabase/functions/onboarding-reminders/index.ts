@@ -131,7 +131,7 @@ serve(async (req) => {
           `
             <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto;">
               <h2>New hires waiting to set up their account</h2>
-              <p>These people can't sign in to Peoplo yet. Resend their invitation from the Pending tab.</p>
+              <p>These people can't sign in to HRISINDO yet. Resend their invitation from the Pending tab.</p>
               <table style="border-collapse: collapse; width: 100%; font-size: 14px;">
                 <thead>
                   <tr style="background-color: #f4f4f4;">

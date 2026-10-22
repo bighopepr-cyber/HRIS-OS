@@ -162,7 +162,7 @@ export function useBulkDeleteEmployees() {
 
   return useMutation({
     mutationFn: async (employeeIds: string[]) => {
-      // Delete in sequence to handle any cascading properly
+      // Hapus secara berurutan untuk menangani cascading dengan benar
       const errors: string[] = [];
       
       for (const id of employeeIds) {

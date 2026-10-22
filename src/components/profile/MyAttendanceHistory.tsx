@@ -248,7 +248,7 @@ export function MyAttendanceHistory({ employeeId }: MyAttendanceHistoryProps) {
         ) : (
           <div className="text-center py-8 text-muted-foreground">
             <Clock className="mx-auto h-8 w-8 mb-2 opacity-50" />
-            <p>No attendance records yet</p>
+            <p>Belum ada catatan absensi</p>
           </div>
         )}
       </CardContent>

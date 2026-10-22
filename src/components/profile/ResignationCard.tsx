@@ -54,7 +54,7 @@ export function ResignationCard({ employeeId }: { employeeId: string }) {
             Your last working day is {fmt(exit.last_working_day)}
           </CardTitle>
           <CardDescription>
-            HR is handling your offboarding. You can use Peoplo until the end of that day; download any payslips or
+            HR is handling your offboarding. You can use HRISINDO until the end of that day; download any payslips or
             documents you need before then.
           </CardDescription>
         </CardHeader>

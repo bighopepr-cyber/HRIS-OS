@@ -216,7 +216,7 @@ export function LeaveRequestForm({ employeeId, variant = "card", onCancel, onSub
               </SelectTrigger>
               <SelectContent>
                 {isLoadingTypes ? (
-                  <SelectItem value="loading" disabled>Loading...</SelectItem>
+                  <SelectItem value="loading" disabled>Memuat...</SelectItem>
                 ) : leaveTypes.length === 0 ? (
                   <SelectItem value="none" disabled>
                     No leave types allocated. Contact HR.
@@ -406,7 +406,7 @@ export function LeaveRequestForm({ employeeId, variant = "card", onCancel, onSub
           <Send className="h-5 w-5" />
           Request Time Off
         </CardTitle>
-        <CardDescription>Submit a new leave request for approval</CardDescription>
+        <CardDescription>Kirim permintaan cuti baru untuk disetujui</CardDescription>
       </CardHeader>
       <CardContent>{form}</CardContent>
     </Card>

@@ -115,7 +115,7 @@ const sendWelcomeEmail = async (
     body: JSON.stringify({
       from: RESEND_FROM_EMAIL,
       to: [to],
-      subject: "Anda diundang ke Peoplo: siapkan akun Anda",
+      subject: "Anda diundang ke HRISINDO: siapkan akun Anda",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #0369a1;">Selamat bergabung, ${safeFirstName}!</h1>

@@ -1,10 +1,10 @@
 # Proses Rilis
 
-Dokumen ini menjelaskan cara membuat rilis baru Peoplo.
+Dokumen ini menjelaskan cara membuat rilis baru HRISINDO.
 
 ## Penomoran Versi
 
-Peoplo mengikuti [Semantic Versioning](https://semver.org/):
+HRISINDO mengikuti [Semantic Versioning](https://semver.org/):
 
 - **Major** (X.0.0): Perubahan yang memerlukan migrasi
 - **Minor** (0.X.0): Fitur baru, kompatibel mundur

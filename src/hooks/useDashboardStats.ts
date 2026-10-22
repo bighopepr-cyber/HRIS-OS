@@ -76,10 +76,10 @@ export function useDashboardStats() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const { can, isLoading: roleLoading } = usePermissions();
-  // Organisation-wide numbers are for people with access to employee records
+  // Angka tingkat organisasi untuk orang yang memiliki akses ke catatan karyawan
   const showOrgStats = can("employees", "view");
 
-  // Subscribe to real-time changes on leave_requests
+  // Berlangganan perubahan real-time pada leave_requests
   useEffect(() => {
     const channel = supabase
       .channel("dashboard-leave-requests")
@@ -105,9 +105,9 @@ export function useDashboardStats() {
   return useQuery({
     queryKey: ["dashboard-stats", user?.id, showOrgStats],
     queryFn: async () => {
-      // For regular employees, show personal stats only
+        // Untuk karyawan reguler, tampilkan statistik pribadi saja
       if (!showOrgStats) {
-        // Get current employee's data
+        // Dapatkan data karyawan saat ini
         const { data: myEmployee } = await supabase
           .from("employees")
           .select("id, working_days")
@@ -126,16 +126,16 @@ export function useDashboardStats() {
           };
         }
 
-        // Get my work status for today (leave / holiday / day off / working)
+        // Dapatkan status kerja saya hari ini (cuti / libur / hari libur / bekerja)
         const today = new Date().toISOString().split("T")[0];
         const todayStatus = await getTodayWorkStatus(myEmployee.id, myEmployee.working_days, today);
         const amOnLeave = todayStatus === "leave";
 
-        // Calculate leave balances dynamically from leave_types and approved requests
+        // Hitung saldo cuti secara dinamis dari leave_types dan permintaan yang disetujui
         const currentYear = new Date().getFullYear();
         const { totalLeaves, usedLeaves, availableLeaves } = await getEligibleLeaveTotals(myEmployee.id, currentYear);
 
-        // Get my assigned assets
+        // Dapatkan aset yang ditugaskan kepada saya
         const { data: myAssets } = await supabase
           .from("asset_assignments")
           .select("id")
@@ -144,7 +144,7 @@ export function useDashboardStats() {
 
         const myAssetsCount = myAssets?.length || 0;
 
-        // Check if I'm a manager and have pending approvals
+        // Periksa apakah saya manajer dan memiliki persetujuan yang menunggu
         let pendingApprovals = 0;
         const { data: directReports } = await supabase
           .from("employees")
@@ -176,7 +176,7 @@ export function useDashboardStats() {
         };
       }
 
-      // Admin/HR view - fetch personal stats same as employees
+      // Tampilan Admin/HR - ambil statistik pribadi sama seperti karyawan
       const { data: myEmployee } = await supabase
         .from("employees")
         .select("id, working_days")
@@ -195,16 +195,16 @@ export function useDashboardStats() {
         };
       }
 
-      // Get my work status for today (leave / holiday / day off / working)
+      // Dapatkan status kerja saya hari ini (cuti / libur / hari libur / bekerja)
       const today = new Date().toISOString().split("T")[0];
       const todayStatus = await getTodayWorkStatus(myEmployee.id, myEmployee.working_days, today);
       const amOnLeave = todayStatus === "leave";
 
-      // Calculate leave balances dynamically
+      // Hitung saldo cuti secara dinamis
       const currentYear = new Date().getFullYear();
       const { totalLeaves, usedLeaves, availableLeaves } = await getEligibleLeaveTotals(myEmployee.id, currentYear);
 
-      // Get my assigned assets
+      // Dapatkan aset yang ditugaskan kepada saya
       const { data: myAssets } = await supabase
         .from("asset_assignments")
         .select("id")
@@ -213,7 +213,7 @@ export function useDashboardStats() {
 
       const myAssetsCount = myAssets?.length || 0;
 
-      // Check pending approvals
+      // Periksa persetujuan yang menunggu
       let pendingApprovals = 0;
       const { data: directReports } = await supabase
         .from("employees")

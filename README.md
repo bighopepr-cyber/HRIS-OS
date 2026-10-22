@@ -2,7 +2,7 @@
 
 <img src="src/assets/hr-hub-logo.svg" alt="" width="72" height="72" />
 
-# Peoplo
+# HRISINDO
 
 **HR open-source untuk tim yang berkembang.**
 
@@ -74,7 +74,7 @@ Sebuah `docker-compose.yml` disertakan untuk menjalankan stack lokal yang kompat
 
 ## Self-hosting
 
-Peoplo berjalan pada satu project [Supabase](https://supabase.com), [Resend](https://resend.com) untuk email, dan host statis apa pun untuk website. **[Panduan self-hosting](docs/self-hosting.md)** memandu setiap langkah:
+HRISINDO berjalan pada satu project [Supabase](https://supabase.com), [Resend](https://resend.com) untuk email, dan host statis apa pun untuk website. **[Panduan self-hosting](docs/self-hosting.md)** memandu setiap langkah:
 
 1. Buat project Supabase, aktifkan `pg_cron` dan `pg_net`, dan terapkan migrasi (`supabase db push`).
 2. Verifikasi sending domain di Resend dan buat API key.
@@ -114,6 +114,6 @@ Harap jangan laporkan kerentanan di isu publik. Lihat [SECURITY.md](SECURITY.md)
 
 ## Lisensi
 
-Peoplo dilisensikan di bawah [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). Anda boleh menggunakan, memodifikasi dan self-host secara bebas, termasuk untuk staff perusahaan sendiri. Jika Anda menjalankan versi yang dimodifikasi sebagai layanan untuk orang lain, Anda harus menyediakan source code yang dimodifikasi kepada penggunanya; tautan **Source code** aplikasi (atur `VITE_REPO_URL` ke fork Anda) adalah cara termudah melakukannya.
+HRISINDO dilisensikan di bawah [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). Anda boleh menggunakan, memodifikasi dan self-host secara bebas, termasuk untuk staff perusahaan sendiri. Jika Anda menjalankan versi yang dimodifikasi sebagai layanan untuk orang lain, Anda harus menyediakan source code yang dimodifikasi kepada penggunanya; tautan **Source code** aplikasi (atur `VITE_REPO_URL` ke fork Anda) adalah cara termudah melakukannya.
 
 Versi yang dirilis sebelum perubahan lisensi tetap tersedia di bawah lisensi MIT yang dirilis bersamanya.
