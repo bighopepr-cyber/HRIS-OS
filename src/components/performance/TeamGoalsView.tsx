@@ -141,11 +141,11 @@ export function TeamGoalsView({ managerId }: TeamGoalsViewProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" />Team KPIs</CardTitle>
-          <CardDescription>Manage KPIs for your team. Ratings are added during reviews.</CardDescription>
+          <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" />KPI Tim</CardTitle>
+          <CardDescription>Kelola KPI untuk tim Anda. Penilaian ditambahkan saat ulasan.</CardDescription>
         </CardHeader>
         <CardContent className="text-center py-8 text-muted-foreground">
-          <Users className="mx-auto h-8 w-8 mb-2 opacity-50" /><p>No team members found</p>
+          <Users className="mx-auto h-8 w-8 mb-2 opacity-50" /><p>Tidak ada anggota tim ditemukan</p>
         </CardContent>
       </Card>
     );
@@ -159,18 +159,18 @@ export function TeamGoalsView({ managerId }: TeamGoalsViewProps) {
       <Card>
         <CardHeader className="flex flex-col gap-4 space-y-0 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <div className="space-y-1.5">
-            <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" />Team KPIs</CardTitle>
-            <CardDescription>{pluralize(totalKPIs, "KPI")} in total • Ratings are added during reviews</CardDescription>
+            <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" />KPI Tim</CardTitle>
+            <CardDescription>{pluralize(totalKPIs, "KPI")} total • Penilaian ditambahkan saat ulasan</CardDescription>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
-              <SelectTrigger className="w-full sm:w-[200px]" aria-label="Filter by team member"><SelectValue placeholder="Filter by employee" /></SelectTrigger>
+              <SelectTrigger className="w-full sm:w-[200px]" aria-label="Filter berdasarkan anggota tim"><SelectValue placeholder="Filter berdasarkan karyawan" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All team members</SelectItem>
+                <SelectItem value="all">Semua anggota tim</SelectItem>
                 {teamData.map(emp => <SelectItem key={emp.id} value={emp.id}>{emp.first_name} {emp.last_name}</SelectItem>)}
               </SelectContent>
             </Select>
-            <Button onClick={() => openAddGoalDialog()} className="w-full sm:w-auto"><Plus className="h-4 w-4 mr-2" />Add KPI</Button>
+            <Button onClick={() => openAddGoalDialog()} className="w-full sm:w-auto"><Plus className="h-4 w-4 mr-2" />Tambah KPI</Button>
           </div>
         </CardHeader>
         <CardContent>
@@ -199,12 +199,12 @@ export function TeamGoalsView({ managerId }: TeamGoalsViewProps) {
                             {goal.description && <p className="text-xs text-muted-foreground line-clamp-2">{goal.description}</p>}
                           </div>
                           <div className="flex shrink-0 items-center gap-1">
-                            <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Edit KPI ${goal.title}`} title="Edit KPI" onClick={() => openEditGoalDialog(goal, employee.id)}><Edit2 className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Sunting KPI ${goal.title}`} title="Sunting KPI" onClick={() => openEditGoalDialog(goal, employee.id)}><Edit2 className="h-4 w-4" /></Button>
                             <AlertDialog>
-                              <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Delete KPI ${goal.title}`} title="Delete KPI"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
+                              <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Hapus KPI ${goal.title}`} title="Hapus KPI"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
                               <AlertDialogContent>
-                                <AlertDialogHeader><AlertDialogTitle>Delete KPI</AlertDialogTitle><AlertDialogDescription>Are you sure you want to delete "{goal.title}"?</AlertDialogDescription></AlertDialogHeader>
-                                <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={() => handleDeleteGoal(goal.id, employee.id)}>Delete</AlertDialogAction></AlertDialogFooter>
+                                <AlertDialogHeader><AlertDialogTitle>Hapus KPI</AlertDialogTitle><AlertDialogDescription>Anda yakin ingin menghapus "{goal.title}"?</AlertDialogDescription></AlertDialogHeader>
+                                <AlertDialogFooter><AlertDialogCancel>Batal</AlertDialogCancel><AlertDialogAction onClick={() => handleDeleteGoal(goal.id, employee.id)}>Hapus</AlertDialogAction></AlertDialogFooter>
                               </AlertDialogContent>
                             </AlertDialog>
                           </div>
@@ -219,8 +219,8 @@ export function TeamGoalsView({ managerId }: TeamGoalsViewProps) {
                   </div>
                 ) : (
                   <div className="flex flex-wrap items-center gap-2 sm:pl-11">
-                    <p className="text-sm text-muted-foreground">No KPIs set</p>
-                    <Button variant="link" size="sm" className="h-auto px-0 text-xs" aria-label={`Add a KPI for ${employee.first_name} ${employee.last_name}`} onClick={() => openAddGoalDialog(employee.id)}><Plus className="h-3 w-3 mr-1" /> Add one</Button>
+                    <p className="text-sm text-muted-foreground">Belum ada KPI</p>
+                    <Button variant="link" size="sm" className="h-auto px-0 text-xs" aria-label={`Tambah KPI untuk ${employee.first_name} ${employee.last_name}`} onClick={() => openAddGoalDialog(employee.id)}><Plus className="h-3 w-3 mr-1" /> Tambahkan</Button>
                   </div>
                 )}
               </div>
@@ -231,47 +231,47 @@ export function TeamGoalsView({ managerId }: TeamGoalsViewProps) {
 
       <Dialog open={isGoalDialogOpen} onOpenChange={setIsGoalDialogOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>{editingGoalData ? "Edit KPI" : "Add KPI for team member"}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{editingGoalData ? "Sunting KPI" : "Tambah KPI untuk anggota tim"}</DialogTitle></DialogHeader>
           <div className="space-y-4">
             {!editingGoalData && (
               <div className="space-y-2">
-                <Label htmlFor="team-kpi-member">Team member</Label>
+                <Label htmlFor="team-kpi-member">Anggota tim</Label>
                 <Select value={goalForm.employee_id} onValueChange={(v) => setGoalForm(prev => ({ ...prev, employee_id: v }))}>
-                  <SelectTrigger id="team-kpi-member"><SelectValue placeholder="Select team member" /></SelectTrigger>
+                  <SelectTrigger id="team-kpi-member"><SelectValue placeholder="Pilih anggota tim" /></SelectTrigger>
                   <SelectContent>{teamData?.map(emp => <SelectItem key={emp.id} value={emp.id}>{emp.first_name} {emp.last_name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
             )}
-            <div className="space-y-2"><Label htmlFor="team-kpi-title">Title</Label><Input id="team-kpi-title" value={goalForm.title} onChange={(e) => setGoalForm(prev => ({ ...prev, title: e.target.value }))} placeholder="Enter KPI title" /></div>
-            <div className="space-y-2"><Label htmlFor="team-kpi-description">Description</Label><Textarea id="team-kpi-description" value={goalForm.description} onChange={(e) => setGoalForm(prev => ({ ...prev, description: e.target.value }))} placeholder="Describe the KPI..." rows={3} /></div>
+            <div className="space-y-2"><Label htmlFor="team-kpi-title">Judul</Label><Input id="team-kpi-title" value={goalForm.title} onChange={(e) => setGoalForm(prev => ({ ...prev, title: e.target.value }))} placeholder="Masukkan judul KPI" /></div>
+            <div className="space-y-2"><Label htmlFor="team-kpi-description">Deskripsi</Label><Textarea id="team-kpi-description" value={goalForm.description} onChange={(e) => setGoalForm(prev => ({ ...prev, description: e.target.value }))} placeholder="Deskripsikan KPI..." rows={3} /></div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="team-kpi-category">Category</Label>
+                <Label htmlFor="team-kpi-category">Kategori</Label>
                 <Select value={goalForm.category} onValueChange={(v) => setGoalForm(prev => ({ ...prev, category: v, customCategory: v === "other" ? prev.customCategory : "" }))}>
                   <SelectTrigger id="team-kpi-category"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="performance">Performance</SelectItem><SelectItem value="productivity">Productivity</SelectItem>
-                    <SelectItem value="quality">Quality</SelectItem><SelectItem value="leadership">Leadership</SelectItem>
-                    <SelectItem value="development">Development</SelectItem><SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="performance">Kinerja</SelectItem><SelectItem value="productivity">Produktivitas</SelectItem>
+                    <SelectItem value="quality">Kualitas</SelectItem><SelectItem value="leadership">Kepemimpinan</SelectItem>
+                    <SelectItem value="development">Pengembangan</SelectItem><SelectItem value="other">Lainnya</SelectItem>
                   </SelectContent>
                 </Select>
-                {goalForm.category === "other" && <Input value={goalForm.customCategory} onChange={(e) => setGoalForm(prev => ({ ...prev, customCategory: e.target.value }))} placeholder="Enter custom category" aria-label="Custom category" className="mt-2" />}
+                {goalForm.category === "other" && <Input value={goalForm.customCategory} onChange={(e) => setGoalForm(prev => ({ ...prev, customCategory: e.target.value }))} placeholder="Masukkan kategori kustom" aria-label="Kategori kustom" className="mt-2" />}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="team-kpi-priority">Priority</Label>
+                <Label htmlFor="team-kpi-priority">Prioritas</Label>
                 <Select value={goalForm.priority} onValueChange={(v) => setGoalForm(prev => ({ ...prev, priority: v }))}>
                   <SelectTrigger id="team-kpi-priority"><SelectValue /></SelectTrigger>
-                  <SelectContent><SelectItem value="low">Low</SelectItem><SelectItem value="medium">Medium</SelectItem><SelectItem value="high">High</SelectItem></SelectContent>
+                  <SelectContent><SelectItem value="low">Rendah</SelectItem><SelectItem value="medium">Sedang</SelectItem><SelectItem value="high">Tinggi</SelectItem></SelectContent>
                 </Select>
               </div>
             </div>
-            <div className="space-y-2"><Label htmlFor="team-kpi-due-date">Due date (optional)</Label><Input id="team-kpi-due-date" type="date" value={goalForm.due_date} onChange={(e) => setGoalForm(prev => ({ ...prev, due_date: e.target.value }))} /></div>
+            <div className="space-y-2"><Label htmlFor="team-kpi-due-date">Tanggal jatuh tempo (opsional)</Label><Input id="team-kpi-due-date" type="date" value={goalForm.due_date} onChange={(e) => setGoalForm(prev => ({ ...prev, due_date: e.target.value }))} /></div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsGoalDialogOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsGoalDialogOpen(false)}>Batal</Button>
             <Button onClick={handleGoalSubmit} disabled={!goalForm.title.trim() || !goalForm.employee_id || createGoalMutation.isPending || updateGoalMutation.isPending}>
               {(createGoalMutation.isPending || updateGoalMutation.isPending) && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              {editingGoalData ? "Save changes" : "Add KPI"}
+              {editingGoalData ? "Simpan perubahan" : "Tambah KPI"}
             </Button>
           </DialogFooter>
         </DialogContent>

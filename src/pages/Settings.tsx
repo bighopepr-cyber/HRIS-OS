@@ -41,7 +41,7 @@ import { BrandingSettings } from "@/components/settings/BrandingSettings";
 import { PayrollSettings } from "@/components/settings/PayrollSettings";
 import { toneClass } from "@/lib/statusStyles";
 
-// Fetch leave types
+// Ambil jenis cuti
 const useLeaveTypes = () => {
   return useQuery({
     queryKey: ['leave-types'],
@@ -94,10 +94,10 @@ const Settings = () => {
     "domain-whitelist": can('settings', 'manage'),
     "office-location": can('settings', 'manage'),
     branding: can('settings', 'manage'),
-    // Approval rules for pay changes: admins only (enforced in the database too)
+    // Aturan persetujuan perubahan gaji: hanya admin (juga ditegakkan di basis data)
     payroll: isAdmin,
   };
-  // Display order; the first tab the user can use is the default
+  // Urutan tampilan; tab pertama yang dapat digunakan pengguna menjadi bawaan
   const TAB_ORDER: SettingsTab[] = [
     "user-roles", "departments", "leave-types", "employee-id", "domain-whitelist", "office-location", "branding", "payroll",
   ];
@@ -105,12 +105,12 @@ const Settings = () => {
   const activeTab: SettingsTab | undefined =
     requestedTab && tabAllowed[requestedTab] ? requestedTab : allowedTabs[0];
   
-  // Department state
+  // Status departemen
   const [deptDialogOpen, setDeptDialogOpen] = useState(false);
   const [editingDept, setEditingDept] = useState<{ id: string } | null>(null);
   const [deptForm, setDeptForm] = useState<DepartmentForm>({ name: '', description: '' });
   
-  // Leave type state
+  // Status jenis cuti
   const [leaveDialogOpen, setLeaveDialogOpen] = useState(false);
   const [editingLeave, setEditingLeave] = useState<{ id: string } | null>(null);
   const [leaveForm, setLeaveForm] = useState<LeaveTypeForm>({ 
@@ -123,7 +123,7 @@ const Settings = () => {
   const { data: departments = [], isLoading: loadingDepts } = useDepartments();
   const { data: leaveTypes = [], isLoading: loadingLeaves } = useLeaveTypes();
 
-  // Department mutations - must be before any early returns
+  // Mutasi departemen - harus berada sebelum pengembalian awal
   const createDeptMutation = useMutation({
     mutationFn: async (data: DepartmentForm) => {
       const { error } = await supabase.from('departments').insert({
@@ -136,10 +136,10 @@ const Settings = () => {
       queryClient.invalidateQueries({ queryKey: ['departments'] });
       setDeptDialogOpen(false);
       setDeptForm({ name: '', description: '' });
-      toast({ title: "Department created", description: "New department has been added." });
+      toast({ title: "Departemen dibuat", description: "Departemen baru telah ditambahkan." });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
     },
   });
 
@@ -156,10 +156,10 @@ const Settings = () => {
       setDeptDialogOpen(false);
       setEditingDept(null);
       setDeptForm({ name: '', description: '' });
-      toast({ title: "Department updated", description: "Department has been updated." });
+      toast({ title: "Departemen diperbarui", description: "Departemen telah diperbarui." });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
     },
   });
 
@@ -170,14 +170,14 @@ const Settings = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['departments'] });
-      toast({ title: "Department deleted", description: "Department has been removed." });
+      toast({ title: "Departemen dihapus", description: "Departemen telah dihapus." });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
     },
   });
 
-  // Leave type mutations - must be before any early returns
+  // Mutasi jenis cuti - harus berada sebelum pengembalian awal
   const createLeaveMutation = useMutation({
     mutationFn: async (data: LeaveTypeForm) => {
       const { error } = await supabase.from('leave_types').insert({
@@ -192,10 +192,10 @@ const Settings = () => {
       queryClient.invalidateQueries({ queryKey: ['leave-types'] });
       setLeaveDialogOpen(false);
       setLeaveForm({ name: '', description: '', days_per_year: 0, is_paid: true });
-      toast({ title: "Leave type created", description: "New leave type has been added." });
+      toast({ title: "Jenis cuti dibuat", description: "Jenis cuti baru telah ditambahkan." });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
     },
   });
 
@@ -214,10 +214,10 @@ const Settings = () => {
       setLeaveDialogOpen(false);
       setEditingLeave(null);
       setLeaveForm({ name: '', description: '', days_per_year: 0, is_paid: true });
-      toast({ title: "Leave type updated", description: "Leave type has been updated." });
+      toast({ title: "Jenis cuti diperbarui", description: "Jenis cuti telah diperbarui." });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
     },
   });
 
@@ -228,14 +228,14 @@ const Settings = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leave-types'] });
-      toast({ title: "Leave type deleted", description: "Leave type has been removed." });
+      toast({ title: "Jenis cuti dihapus", description: "Jenis cuti telah dihapus." });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
     },
   });
 
-  // Show loading while checking role
+  // Tampilkan pemuatan saat memeriksa peran
   if (roleLoading) {
     return (
       <DashboardLayout>
@@ -246,15 +246,15 @@ const Settings = () => {
     );
   }
 
-  // Same rule as the sidebar: admin, or manage on employees/leaves/settings
+  // Aturan yang sama seperti bilah sisi: admin, atau hak kelola pada employees/leaves/settings
   if (!canAccessSettings(perms) || allowedTabs.length === 0) {
     return (
       <DashboardLayout>
         <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4">
           <ShieldAlert className="h-16 w-16 text-destructive" />
-          <h2 className="text-2xl font-bold text-foreground">Access Denied</h2>
-          <p className="text-muted-foreground">You don't have permission to access this page.</p>
-          <p className="text-sm text-muted-foreground">Ask an administrator if you need access to settings.</p>
+          <h2 className="text-2xl font-bold text-foreground">Akses Ditolak</h2>
+          <p className="text-muted-foreground">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+          <p className="text-sm text-muted-foreground">Hubungi administrator jika Anda memerlukan akses ke pengaturan.</p>
         </div>
       </DashboardLayout>
     );
@@ -280,7 +280,7 @@ const Settings = () => {
 
   const handleDeptSubmit = () => {
     if (!deptForm.name.trim()) {
-      toast({ title: "Error", description: "Department name is required", variant: "destructive" });
+      toast({ title: "Kesalahan", description: "Nama departemen wajib diisi", variant: "destructive" });
       return;
     }
     if (editingDept) {
@@ -292,7 +292,7 @@ const Settings = () => {
 
   const handleLeaveSubmit = () => {
     if (!leaveForm.name.trim()) {
-      toast({ title: "Error", description: "Leave type name is required", variant: "destructive" });
+      toast({ title: "Kesalahan", description: "Nama jenis cuti wajib diisi", variant: "destructive" });
       return;
     }
     if (editingLeave) {
@@ -309,73 +309,73 @@ const Settings = () => {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Settings</h1>
-          <p className="text-muted-foreground">Manage system configurations</p>
+          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Pengaturan</h1>
+          <p className="text-muted-foreground">Kelola konfigurasi sistem</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={(v) => setRequestedTab(v as SettingsTab)}>
-          <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:flex sm:w-auto sm:flex-wrap sm:justify-start" aria-label="Settings sections">
+          <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:flex sm:w-auto sm:flex-wrap sm:justify-start" aria-label="Bagian pengaturan">
             {tabAllowed["user-roles"] && (
               <TabsTrigger
                 value="user-roles"
                 className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center"
               >
                 <Users className="h-4 w-4" aria-hidden="true" />
-                <span>Users &amp; access</span>
+                <span>Pengguna &amp; akses</span>
               </TabsTrigger>
             )}
             {tabAllowed.departments && (
               <TabsTrigger value="departments" className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center">
                 <Building2 className="h-4 w-4" aria-hidden="true" />
-                <span>Departments</span>
+                <span>Departemen</span>
               </TabsTrigger>
             )}
             {tabAllowed["leave-types"] && (
               <TabsTrigger value="leave-types" className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center">
                 <CalendarDays className="h-4 w-4" aria-hidden="true" />
-                <span>Leave types</span>
+                <span>Jenis cuti</span>
               </TabsTrigger>
             )}
             {tabAllowed["employee-id"] && (
               <TabsTrigger value="employee-id" className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center">
                 <Hash className="h-4 w-4" aria-hidden="true" />
-                <span>Employee ID</span>
+                <span>ID Karyawan</span>
               </TabsTrigger>
             )}
             {tabAllowed["domain-whitelist"] && (
               <TabsTrigger value="domain-whitelist" className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center">
                 <Globe className="h-4 w-4" aria-hidden="true" />
-                <span>Domain whitelist</span>
+                <span>Daftar putih domain</span>
               </TabsTrigger>
             )}
             {tabAllowed["office-location"] && (
               <TabsTrigger value="office-location" className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center">
                 <MapPin className="h-4 w-4" aria-hidden="true" />
-                <span>Office location</span>
+                <span>Lokasi kantor</span>
               </TabsTrigger>
             )}
             {tabAllowed.branding && (
               <TabsTrigger value="branding" className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center">
                 <Palette className="h-4 w-4" aria-hidden="true" />
-                <span>Branding</span>
+                <span>Merek</span>
               </TabsTrigger>
             )}
             {tabAllowed.payroll && (
               <TabsTrigger value="payroll" className="min-h-10 w-full justify-start gap-2 sm:min-h-0 sm:w-auto sm:justify-center">
                 <IndianRupee className="h-4 w-4" aria-hidden="true" />
-                <span>Payroll</span>
+                <span>Penggajian</span>
               </TabsTrigger>
             )}
           </TabsList>
 
-          {/* Departments Tab */}
+          {/* Tab Departemen */}
           {tabAllowed.departments && (
           <TabsContent value="departments" className="mt-6">
             <Card>
               <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <CardTitle>Departments</CardTitle>
-                  <CardDescription>Manage company departments</CardDescription>
+                  <CardTitle>Departemen</CardTitle>
+                  <CardDescription>Kelola departemen perusahaan</CardDescription>
                 </div>
                 <Dialog open={deptDialogOpen} onOpenChange={(open) => {
                   setDeptDialogOpen(open);
@@ -387,42 +387,42 @@ const Settings = () => {
                   <DialogTrigger asChild>
                     <Button>
                       <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                      Add department
+                      Tambah departemen
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>{editingDept ? 'Edit department' : 'Add department'}</DialogTitle>
+                      <DialogTitle>{editingDept ? 'Sunting departemen' : 'Tambah departemen'}</DialogTitle>
                       <DialogDescription>
-                        {editingDept ? 'Update department details' : 'Create a new department'}
+                        {editingDept ? 'Perbarui detail departemen' : 'Buat departemen baru'}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <Label htmlFor="deptName">Name *</Label>
+                        <Label htmlFor="deptName">Nama *</Label>
                         <Input
                           id="deptName"
                           value={deptForm.name}
                           onChange={(e) => setDeptForm(prev => ({ ...prev, name: e.target.value }))}
-                          placeholder="e.g., Engineering"
+                          placeholder="mis., Teknik"
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="deptDescription">Description</Label>
+                        <Label htmlFor="deptDescription">Deskripsi</Label>
                         <Textarea
                           id="deptDescription"
                           value={deptForm.description}
                           onChange={(e) => setDeptForm(prev => ({ ...prev, description: e.target.value }))}
-                          placeholder="Brief description of the department"
+                          placeholder="Deskripsi singkat departemen"
                           rows={3}
                         />
                       </div>
                     </div>
                     <DialogFooter>
-                      <Button variant="outline" onClick={() => setDeptDialogOpen(false)}>Cancel</Button>
+                      <Button variant="outline" onClick={() => setDeptDialogOpen(false)}>Batal</Button>
                       <Button onClick={handleDeptSubmit} disabled={isDeptSaving}>
                         {isDeptSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        {editingDept ? 'Update' : 'Create'}
+                        {editingDept ? 'Perbarui' : 'Buat'}
                       </Button>
                     </DialogFooter>
                   </DialogContent>
@@ -430,16 +430,16 @@ const Settings = () => {
               </CardHeader>
               <CardContent>
                 {loadingDepts ? (
-                  <div className="py-8 text-center text-muted-foreground">Loading departments...</div>
+                  <div className="py-8 text-center text-muted-foreground">Memuat departemen...</div>
                 ) : departments.length === 0 ? (
-                  <div className="py-8 text-center text-muted-foreground">No departments found. Add your first department.</div>
+                  <div className="py-8 text-center text-muted-foreground">Tidak ada departemen ditemukan. Tambahkan departemen pertama Anda.</div>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead className="hidden sm:table-cell">Description</TableHead>
-                        <TableHead className="w-24 text-right">Actions</TableHead>
+                        <TableHead>Nama</TableHead>
+                        <TableHead className="hidden sm:table-cell">Deskripsi</TableHead>
+                        <TableHead className="w-24 text-right">Tindakan</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -461,8 +461,8 @@ const Settings = () => {
                                 className="h-10 w-10 text-destructive hover:text-destructive"
                                 onClick={() => deleteDeptMutation.mutate(dept.id)}
                                 disabled={deleteDeptMutation.isPending}
-                                aria-label={`Delete ${dept.name}`}
-                                title="Delete"
+                                aria-label={`Hapus ${dept.name}`}
+                                title="Hapus"
                               >
                                 <Trash2 className="h-4 w-4" aria-hidden="true" />
                               </Button>
@@ -478,14 +478,14 @@ const Settings = () => {
           </TabsContent>
           )}
 
-          {/* Leave Types Tab */}
+          {/* Tab Jenis Cuti */}
           {tabAllowed["leave-types"] && (
           <TabsContent value="leave-types" className="mt-6">
             <Card>
               <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <CardTitle>Leave types</CardTitle>
-                  <CardDescription>Configure available leave types and their policies</CardDescription>
+                  <CardTitle>Jenis cuti</CardTitle>
+                  <CardDescription>Konfigurasi jenis cuti yang tersedia beserta kebijakannya</CardDescription>
                 </div>
                 <Dialog open={leaveDialogOpen} onOpenChange={(open) => {
                   setLeaveDialogOpen(open);
@@ -497,38 +497,38 @@ const Settings = () => {
                   <DialogTrigger asChild>
                     <Button>
                       <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                      Add leave type
+                      Tambah jenis cuti
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>{editingLeave ? 'Edit leave type' : 'Add leave type'}</DialogTitle>
+                      <DialogTitle>{editingLeave ? 'Sunting jenis cuti' : 'Tambah jenis cuti'}</DialogTitle>
                       <DialogDescription>
-                        {editingLeave ? 'Update leave type details' : 'Create a new leave type'}
+                        {editingLeave ? 'Perbarui detail jenis cuti' : 'Buat jenis cuti baru'}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <Label htmlFor="leaveName">Name *</Label>
+                        <Label htmlFor="leaveName">Nama *</Label>
                         <Input
                           id="leaveName"
                           value={leaveForm.name}
                           onChange={(e) => setLeaveForm(prev => ({ ...prev, name: e.target.value }))}
-                          placeholder="e.g., Annual Leave"
+                          placeholder="mis., Cuti Tahunan"
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="leaveDescription">Description</Label>
+                        <Label htmlFor="leaveDescription">Deskripsi</Label>
                         <Textarea
                           id="leaveDescription"
                           value={leaveForm.description}
                           onChange={(e) => setLeaveForm(prev => ({ ...prev, description: e.target.value }))}
-                          placeholder="Brief description of this leave type"
+                          placeholder="Deskripsi singkat jenis cuti ini"
                           rows={2}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="daysPerYear">Days per year</Label>
+                        <Label htmlFor="daysPerYear">Hari per tahun</Label>
                         <Input
                           id="daysPerYear"
                           type="number"
@@ -539,8 +539,8 @@ const Settings = () => {
                       </div>
                       <div className="flex items-center justify-between rounded-lg border border-border p-3">
                         <div>
-                          <Label htmlFor="isPaid">Paid leave</Label>
-                          <p className="text-xs text-muted-foreground">Employee receives salary during this leave</p>
+                          <Label htmlFor="isPaid">Cuti dibayar</Label>
+                          <p className="text-xs text-muted-foreground">Karyawan menerima gaji selama cuti ini</p>
                         </div>
                         <Switch
                           id="isPaid"
@@ -550,10 +550,10 @@ const Settings = () => {
                       </div>
                     </div>
                     <DialogFooter>
-                      <Button variant="outline" onClick={() => setLeaveDialogOpen(false)}>Cancel</Button>
+                      <Button variant="outline" onClick={() => setLeaveDialogOpen(false)}>Batal</Button>
                       <Button onClick={handleLeaveSubmit} disabled={isLeaveSaving}>
                         {isLeaveSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        {editingLeave ? 'Update' : 'Create'}
+                        {editingLeave ? 'Perbarui' : 'Buat'}
                       </Button>
                     </DialogFooter>
                   </DialogContent>
@@ -561,18 +561,18 @@ const Settings = () => {
               </CardHeader>
               <CardContent>
                 {loadingLeaves ? (
-                  <div className="py-8 text-center text-muted-foreground">Loading leave types...</div>
+                  <div className="py-8 text-center text-muted-foreground">Memuat jenis cuti...</div>
                 ) : leaveTypes.length === 0 ? (
-                  <div className="py-8 text-center text-muted-foreground">No leave types found. Add your first leave type.</div>
+                  <div className="py-8 text-center text-muted-foreground">Tidak ada jenis cuti ditemukan. Tambahkan jenis cuti pertama Anda.</div>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead className="whitespace-nowrap">Days/year</TableHead>
-                        <TableHead className="hidden sm:table-cell">Type</TableHead>
-                        <TableHead className="hidden md:table-cell">Description</TableHead>
-                        <TableHead className="w-24 text-right">Actions</TableHead>
+                        <TableHead>Nama</TableHead>
+                        <TableHead className="whitespace-nowrap">Hari/tahun</TableHead>
+                        <TableHead className="hidden sm:table-cell">Jenis</TableHead>
+                        <TableHead className="hidden md:table-cell">Deskripsi</TableHead>
+                        <TableHead className="w-24 text-right">Tindakan</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -581,13 +581,13 @@ const Settings = () => {
                           <TableCell>
                             <p className="font-medium">{leave.name}</p>
                             <Badge variant="outline" className={`mt-1 sm:hidden ${toneClass(leave.is_paid ? "success" : "neutral")}`}>
-                              {leave.is_paid ? "Paid" : "Unpaid"}
+                              {leave.is_paid ? "Dibayar" : "Tidak dibayar"}
                             </Badge>
                           </TableCell>
                           <TableCell>{leave.days_per_year}</TableCell>
                           <TableCell className="hidden sm:table-cell">
                             <Badge variant="outline" className={toneClass(leave.is_paid ? "success" : "neutral")}>
-                              {leave.is_paid ? "Paid" : "Unpaid"}
+                              {leave.is_paid ? "Dibayar" : "Tidak dibayar"}
                             </Badge>
                           </TableCell>
                           <TableCell className="hidden text-muted-foreground md:table-cell">{leave.description || '—'}</TableCell>
@@ -602,8 +602,8 @@ const Settings = () => {
                                 className="h-10 w-10 text-destructive hover:text-destructive"
                                 onClick={() => deleteLeaveMutation.mutate(leave.id)}
                                 disabled={deleteLeaveMutation.isPending}
-                                aria-label={`Delete ${leave.name}`}
-                                title="Delete"
+                                aria-label={`Hapus ${leave.name}`}
+                                title="Hapus"
                               >
                                 <Trash2 className="h-4 w-4" aria-hidden="true" />
                               </Button>
@@ -619,7 +619,7 @@ const Settings = () => {
           </TabsContent>
           )}
 
-          {/* Users & access - admin only (RLS also restricts roles/permissions to admins) */}
+          {/* Pengguna & akses - hanya admin (RLS juga membatasi peran/izin untuk admin) */}
           {tabAllowed["user-roles"] && (
             <TabsContent value="user-roles" className="mt-6 space-y-6">
               <UserRolesManager />
@@ -627,28 +627,28 @@ const Settings = () => {
             </TabsContent>
           )}
 
-          {/* Employee ID Pattern Tab - settings:manage */}
+          {/* Tab Pola ID Karyawan - settings:manage */}
           {tabAllowed["employee-id"] && (
             <TabsContent value="employee-id" className="mt-6">
               <EmployeeCodeSettings />
             </TabsContent>
           )}
 
-          {/* Domain Whitelist Tab - settings:manage */}
+          {/* Tab Daftar Putih Domain - settings:manage */}
           {tabAllowed["domain-whitelist"] && (
             <TabsContent value="domain-whitelist" className="mt-6">
               <DomainWhitelistSettings />
             </TabsContent>
           )}
 
-          {/* Office Location Tab - settings:manage */}
+          {/* Tab Lokasi Kantor - settings:manage */}
           {tabAllowed["office-location"] && (
             <TabsContent value="office-location" className="mt-6">
               <OfficeLocationSettings />
             </TabsContent>
           )}
 
-          {/* Branding Tab - settings:manage */}
+          {/* Tab Merek - settings:manage */}
           {tabAllowed["branding"] && (
             <TabsContent value="branding" className="mt-6">
               <BrandingSettings />

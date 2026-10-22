@@ -71,7 +71,7 @@ interface ProfileForm {
 
 const ALLOWED_TABS = ["profile", "leaves", "attendance", "assets", "reviews", "payslips", "documents"] as const;
 
-// Read-only and not-yet-editable fields stay legible (no 50% fade).
+// Kolom hanya-baca dan yang belum dapat disunting tetap terbaca (tanpa redup 50%).
 const READ_ONLY_FIELD = "cursor-default bg-muted/50 text-foreground focus-visible:ring-1";
 const EDITABLE_FIELD = "disabled:cursor-default disabled:bg-muted/50 disabled:opacity-100";
 
@@ -113,7 +113,7 @@ const Profile = () => {
     });
   };
 
-  // Fetch employee profile linked to current user
+  // Ambil profil karyawan yang tertaut dengan pengguna saat ini
   const { data: employee, isLoading } = useQuery({
     queryKey: ['my-profile', user?.id],
     queryFn: async () => {
@@ -157,7 +157,7 @@ const Profile = () => {
     enabled: !!user?.id,
   });
 
-  // Fetch user profile data
+  // Ambil data profil pengguna
   const { data: userProfile } = useQuery({
     queryKey: ['user-profile', user?.id],
     queryFn: async () => {
@@ -177,7 +177,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (employee) {
-      // Format time from "HH:MM:SS" to "HH:MM" for input
+      // Format waktu dari "HH:MM:SS" menjadi "HH:MM" untuk input
       const formatTimeForInput = (time: string | null) => {
         if (!time) return '';
         return time.slice(0, 5);
@@ -199,7 +199,7 @@ const Profile = () => {
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: ProfileForm) => {
-      if (!employee?.id) throw new Error("No employee profile found");
+      if (!employee?.id) throw new Error("Profil karyawan tidak ditemukan");
 
       const { error } = await supabase
         .from('employees')
@@ -221,10 +221,10 @@ const Profile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['my-profile'] });
       setIsEditing(false);
-      toast({ title: "Profile updated", description: "Your information has been saved." });
+      toast({ title: "Profil diperbarui", description: "Informasi Anda telah disimpan." });
     },
     onError: (error: Error) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
     },
   });
 
@@ -241,7 +241,7 @@ const Profile = () => {
 
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "-";
-    return new Date(dateStr).toLocaleDateString("en-US", {
+    return new Date(dateStr).toLocaleDateString("id-ID", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -262,17 +262,17 @@ const Profile = () => {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">My profile</h1>
-          <p className="text-muted-foreground">View and manage your personal information</p>
+          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Profil saya</h1>
+          <p className="text-muted-foreground">Lihat dan kelola informasi pribadi Anda</p>
         </div>
 
         {!employee ? (
           <Card>
             <CardContent className="py-12 text-center">
               <User className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">No employee profile</h3>
+              <h3 className="mt-4 text-lg font-semibold">Tidak ada profil karyawan</h3>
               <p className="mt-2 text-muted-foreground">
-                Your account is not linked to an employee profile yet. Please contact HR.
+                Akun Anda belum tertaut dengan profil karyawan. Silakan hubungi HR.
               </p>
             </CardContent>
           </Card>
@@ -281,38 +281,38 @@ const Profile = () => {
             <TabsList className="flex w-full justify-start lg:inline-flex lg:w-auto">
               <TabsTrigger value="profile" className="shrink-0 gap-2">
                 <User className="h-4 w-4" aria-hidden="true" />
-                Profile
+                Profil
               </TabsTrigger>
               <TabsTrigger value="leaves" className="shrink-0 gap-2">
                 <Calendar className="h-4 w-4" aria-hidden="true" />
-                Leaves
+                Cuti
               </TabsTrigger>
               <TabsTrigger value="attendance" className="shrink-0 gap-2">
                 <Clock className="h-4 w-4" aria-hidden="true" />
-                Attendance
+                Kehadiran
               </TabsTrigger>
               <TabsTrigger value="assets" className="shrink-0 gap-2">
                 <Package className="h-4 w-4" aria-hidden="true" />
-                Assets
+                Aset
               </TabsTrigger>
               <TabsTrigger value="reviews" className="shrink-0 gap-2">
                 <Star className="h-4 w-4" aria-hidden="true" />
-                Reviews
+                Penilaian
               </TabsTrigger>
               <TabsTrigger value="payslips" className="shrink-0 gap-2">
                 <Wallet className="h-4 w-4" aria-hidden="true" />
-                Payslips
+                Slip gaji
               </TabsTrigger>
               <TabsTrigger value="documents" className="shrink-0 gap-2">
                 <Files className="h-4 w-4" aria-hidden="true" />
-                Documents
+                Dokumen
               </TabsTrigger>
             </TabsList>
 
-            {/* Profile Tab */}
+            {/* Tab Profil */}
             <TabsContent value="profile" className="space-y-6">
               <div className="grid gap-6 md:grid-cols-3">
-                {/* Profile Card */}
+                {/* Kartu Profil */}
                 <Card className="md:col-span-1">
                   <CardContent className="pt-6">
                     <div className="flex flex-col items-center text-center">
@@ -335,7 +335,7 @@ const Profile = () => {
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
                           <Building2 className="h-4 w-4 shrink-0" aria-hidden="true" />
-                          <span>{employee.department?.name || "No Department"}</span>
+                          <span>{employee.department?.name || "Tidak ada departemen"}</span>
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
                           <Briefcase className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -343,19 +343,19 @@ const Profile = () => {
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
                           <Calendar className="h-4 w-4 shrink-0" aria-hidden="true" />
-                          <span>Joined {formatDate(employee.hire_date)}</span>
+                          <span>Bergabung {formatDate(employee.hire_date)}</span>
                         </div>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Details Card */}
+                {/* Kartu Detail */}
                 <Card className="md:col-span-2">
                   <CardHeader className="flex flex-col gap-3 space-y-0 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <CardTitle>Personal information</CardTitle>
-                      <CardDescription>Update your contact details</CardDescription>
+                      <CardTitle>Informasi pribadi</CardTitle>
+                      <CardDescription>Perbarui detail kontak Anda</CardDescription>
                     </div>
                     {!isEditing ? (
                       <Button variant="outline" onClick={() => setIsEditing(true)} className="self-start sm:self-auto">
@@ -381,12 +381,12 @@ const Profile = () => {
                             working_days: employee.working_days || [1, 2, 3, 4, 5],
                           });
                         }}>
-                          Cancel
+                          Batal
                         </Button>
                         <Button onClick={handleSave} disabled={updateProfileMutation.isPending}>
                           {updateProfileMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                           <Save className="mr-2 h-4 w-4" />
-                          Save
+                          Simpan
                         </Button>
                       </div>
                     )}
@@ -394,11 +394,11 @@ const Profile = () => {
                   <CardContent className="space-y-6">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="profile-first-name">First name</Label>
+                        <Label htmlFor="profile-first-name">Nama depan</Label>
                         <Input id="profile-first-name" value={employee.first_name} readOnly className={READ_ONLY_FIELD} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="profile-last-name">Last name</Label>
+                        <Label htmlFor="profile-last-name">Nama belakang</Label>
                         <Input id="profile-last-name" value={employee.last_name} readOnly className={READ_ONLY_FIELD} />
                       </div>
                     </div>
@@ -413,7 +413,7 @@ const Profile = () => {
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="profile-phone">Phone</Label>
+                        <Label htmlFor="profile-phone">Telepon</Label>
                         <Input
                           id="profile-phone"
                           type="tel"
@@ -421,51 +421,51 @@ const Profile = () => {
                           onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                           disabled={!isEditing}
                           className={EDITABLE_FIELD}
-                          placeholder="Enter phone number"
+                          placeholder="Masukkan nomor telepon"
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="profile-department">Department</Label>
-                        <Input id="profile-department" value={employee.department?.name || "Not assigned"} readOnly className={READ_ONLY_FIELD} aria-describedby="profile-department-hint" />
-                        <p id="profile-department-hint" className="text-xs text-muted-foreground">Contact HR to change department assignment</p>
+                        <Label htmlFor="profile-department">Departemen</Label>
+                        <Input id="profile-department" value={employee.department?.name || "Belum ditetapkan"} readOnly className={READ_ONLY_FIELD} aria-describedby="profile-department-hint" />
+                        <p id="profile-department-hint" className="text-xs text-muted-foreground">Hubungi HR untuk mengubah penempatan departemen</p>
                       </div>
                     </div>
 
                     <Separator />
 
                     <div className="space-y-2">
-                      <Label htmlFor="profile-address">Address</Label>
+                      <Label htmlFor="profile-address">Alamat</Label>
                       <Input
                         id="profile-address"
                         value={formData.address}
                         onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
                         disabled={!isEditing}
                         className={EDITABLE_FIELD}
-                        placeholder="Enter your address"
+                        placeholder="Masukkan alamat Anda"
                       />
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="profile-city">City</Label>
+                        <Label htmlFor="profile-city">Kota</Label>
                         <Input
                           id="profile-city"
                           value={formData.city}
                           onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
                           disabled={!isEditing}
                           className={EDITABLE_FIELD}
-                          placeholder="Enter city"
+                          placeholder="Masukkan kota"
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="profile-country">Country</Label>
+                        <Label htmlFor="profile-country">Negara</Label>
                         <Input
                           id="profile-country"
                           value={formData.country}
                           onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
                           disabled={!isEditing}
                           className={EDITABLE_FIELD}
-                          placeholder="Enter country"
+                          placeholder="Masukkan negara"
                         />
                       </div>
                     </div>
@@ -474,7 +474,7 @@ const Profile = () => {
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="min-w-0 space-y-2">
-                        <Label htmlFor="profile-dob">Date of birth</Label>
+                        <Label htmlFor="profile-dob">Tanggal lahir</Label>
                         <Input
                           id="profile-dob"
                           type="date"
@@ -486,20 +486,20 @@ const Profile = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="profile-gender">Gender</Label>
+                        <Label htmlFor="profile-gender">Jenis kelamin</Label>
                         <Select
                           value={formData.gender}
                           onValueChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}
                           disabled={!isEditing}
                         >
                           <SelectTrigger id="profile-gender" className={EDITABLE_FIELD}>
-                            <SelectValue placeholder="Select gender" />
+                            <SelectValue placeholder="Pilih jenis kelamin" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="male">Male</SelectItem>
-                            <SelectItem value="female">Female</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                            <SelectItem value="prefer_not_to_say">Prefer not to say</SelectItem>
+                            <SelectItem value="male">Laki-laki</SelectItem>
+                            <SelectItem value="female">Perempuan</SelectItem>
+                            <SelectItem value="other">Lainnya</SelectItem>
+                            <SelectItem value="prefer_not_to_say">Lebih baik tidak menyebutkan</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -507,19 +507,19 @@ const Profile = () => {
 
                     <Separator />
 
-                    {/* Working Schedule Section */}
+                    {/* Bagian Jadwal Kerja */}
                     <div className="space-y-4">
                       <div>
                         <h4 className="flex items-center gap-2 text-base font-medium">
                           <Clock className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                          Working schedule
+                          Jadwal kerja
                         </h4>
-                        <p className="text-sm text-muted-foreground">Set your working hours and days for attendance reminders</p>
+                        <p className="text-sm text-muted-foreground">Atur jam dan hari kerja Anda untuk pengingat kehadiran</p>
                       </div>
 
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="min-w-0 space-y-2">
-                          <Label htmlFor="profile-start-time">Work start time</Label>
+                          <Label htmlFor="profile-start-time">Jam mulai kerja</Label>
                           <Input
                             id="profile-start-time"
                             type="time"
@@ -530,7 +530,7 @@ const Profile = () => {
                           />
                         </div>
                         <div className="min-w-0 space-y-2">
-                          <Label htmlFor="profile-end-time">Work end time</Label>
+                          <Label htmlFor="profile-end-time">Jam selesai kerja</Label>
                           <Input
                             id="profile-end-time"
                             type="time"
@@ -543,7 +543,7 @@ const Profile = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label id="profile-working-days-label">Working days</Label>
+                        <Label id="profile-working-days-label">Hari kerja</Label>
                         <WorkingDaysPicker
                           labelledBy="profile-working-days-label"
                           value={formData.working_days}
@@ -558,7 +558,7 @@ const Profile = () => {
               <ResignationCard employeeId={employee.id} />
             </TabsContent>
 
-            {/* Leaves Tab */}
+            {/* Tab Cuti */}
             <TabsContent value="leaves" className="space-y-6">
               <div className="grid gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2 space-y-6">
@@ -571,22 +571,22 @@ const Profile = () => {
               </div>
             </TabsContent>
 
-            {/* Attendance Tab */}
+            {/* Tab Kehadiran */}
             <TabsContent value="attendance" className="space-y-6">
               <MyAttendanceHistory employeeId={employee.id} />
             </TabsContent>
 
-            {/* Assets Tab */}
+            {/* Tab Aset */}
             <TabsContent value="assets" className="space-y-6">
               <MyAssets employeeId={employee.id} />
             </TabsContent>
 
-            {/* Reviews Tab */}
+            {/* Tab Penilaian */}
             <TabsContent value="reviews" className="space-y-6">
               <MyPerformanceReviews employeeId={employee.id} />
             </TabsContent>
 
-            {/* Payslips Tab */}
+            {/* Tab Slip Gaji */}
             <TabsContent value="payslips" className="space-y-6">
               <MyCompensation employeeId={employee.id} />
               <PayslipViewer 
@@ -596,7 +596,7 @@ const Profile = () => {
               />
             </TabsContent>
 
-            {/* Documents Tab */}
+            {/* Tab Dokumen */}
             <TabsContent value="documents" className="space-y-6">
               <TaxDocumentsViewer employeeId={employee.id} />
               <EmployeeDocuments employeeId={employee.id} />

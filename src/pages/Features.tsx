@@ -46,14 +46,14 @@ const features: Feature[] = [
   {
     id: "people",
     icon: Users,
-    label: "People",
-    title: "Everyone in one place",
-    description: "A single record per person with their job details, manager, documents, leave, assets and payslips, organised by department.",
+    label: "Karyawan",
+    title: "Semua orang dalam satu tempat",
+    description: "Satu catatan per orang dengan detail pekerjaan, atasan, dokumen, cuti, aset, dan slip gaji, yang tersusun berdasarkan departemen.",
     points: [
-      "Profiles with job, contact and personal details",
-      "Departments, managers and reporting lines",
-      "Documents stored securely per employee",
-      "A colleague directory that shows only safe fields",
+      "Profil berisi detail pekerjaan, kontak, dan data pribadi",
+      "Departemen, atasan, dan struktur pelaporan",
+      "Dokumen tersimpan aman untuk setiap karyawan",
+      "Direktori rekan kerja yang hanya menampilkan kolom yang aman",
     ],
     mock: <PeopleMock />,
   },
@@ -61,139 +61,139 @@ const features: Feature[] = [
     id: "onboarding",
     icon: UserPlus,
     label: "Onboarding",
-    title: "Add a new hire, and they're invited",
-    description: "Add someone once and Peoplo emails them a link to set up their account. You see who hasn't joined yet, and they become active the moment they do.",
+    title: "Tambahkan karyawan baru, dan mereka langsung diundang",
+    description: "Tambahkan seseorang sekali saja dan Peoplo mengirim email berisi tautan untuk mengatur akunnya. Anda melihat siapa yang belum bergabung, dan mereka aktif begitu akunnya selesai dibuat.",
     points: [
-      "One form for job details, schedule, salary and documents",
-      "Invitation emailed straight away, with resend and cancel",
-      "Pending shows who hasn't set up their account yet",
-      "Active with leave balances as soon as they choose a password",
+      "Satu formulir untuk detail pekerjaan, jadwal, gaji, dan dokumen",
+      "Undangan dikirim langsung, lengkap dengan kirim ulang dan batalkan",
+      "Status Menunggu menunjukkan siapa yang belum mengatur akunnya",
+      "Berstatus Aktif beserta saldo cuti begitu memilih kata sandi",
     ],
     mock: <OnboardingMock />,
   },
   {
     id: "attendance",
     icon: Clock,
-    label: "Attendance",
-    title: "Attendance that runs itself",
-    description: "People clock in and out from any device, with their location and breaks recorded, and get reminded before their day starts and ends.",
+    label: "Absensi",
+    title: "Absensi yang berjalan sendiri",
+    description: "Karyawan mencatat masuk dan keluar dari perangkat mana pun, beserta lokasi dan jeda kerja, serta mendapat pengingat sebelum hari kerja dimulai dan berakhir.",
     points: [
-      "Clock in and out with location",
-      "Breaks tracked and taken out of working hours",
-      "Working schedules per person, with office or remote mode",
-      "Reminders to clock in and out",
+      "Catat masuk dan keluar beserta lokasi",
+      "Jeda kerja dilacak dan dipotong dari jam kerja",
+      "Jadwal kerja per orang, dengan mode kantor atau kerja jarak jauh",
+      "Pengingat untuk mencatat masuk dan keluar",
     ],
     mock: <AttendanceMock />,
   },
   {
     id: "leave",
     icon: CalendarDays,
-    label: "Leave",
-    title: "Leave without the back-and-forth",
-    description: "Employees see their balances and apply in seconds. Managers get notified and approve in a tap, and everyone sees who's out.",
+    label: "Cuti",
+    title: "Cuti tanpa banyak tanya",
+    description: "Karyawan melihat saldo cutinya dan mengajukan dalam hitungan detik. Atasan menerima notifikasi dan menyetujui cukup sekali sentuh, dan semua orang melihat siapa yang sedang cuti.",
     points: [
-      "Your own leave types, allowances and eligibility",
-      "Manager approvals with notes, with email and push alerts",
-      "Team calendar and company holiday list",
-      "Requests always start as pending; nobody approves their own",
+      "Jenis cuti, jatah, dan kelayakan sesuai kebijakan Anda",
+      "Persetujuan atasan disertai catatan, dengan peringatan email dan push",
+      "Kalender tim dan daftar hari libur perusahaan",
+      "Setiap permintaan selalu berstatus Menunggu; tidak ada yang menyetujui permintaannya sendiri",
     ],
     mock: <LeaveMock />,
   },
   {
     id: "payroll",
     icon: CreditCard,
-    label: "Payroll",
-    title: "Payroll in rupees, done monthly",
-    description: "Salary structures with allowances and deductions, a monthly payroll run, and branded payslips your team can download.",
+    label: "Penggajian",
+    title: "Penggajian dalam rupee, selesai bulanan",
+    description: "Struktur gaji dengan tunjangan dan potongan, proses penggajian bulanan, serta slip gaji berlogo yang dapat diunduh tim Anda.",
     points: [
-      "Salary structures with HRA, allowances, PF and tax",
-      "Monthly payroll runs, with mid-month joiners prorated",
-      "Payslip PDFs with your logo and colours",
-      "Bank details kept in their own locked-down table",
+      "Struktur gaji dengan HRA, tunjangan, PF, dan pajak",
+      "Proses penggajian bulanan, dengan prorate untuk karyawan yang bergabung di tengah bulan",
+      "Slip gaji PDF dengan logo dan warna perusahaan Anda",
+      "Data bank disimpan pada tabel tersendiri yang dikunci",
     ],
     mock: <PayrollMock />,
   },
   {
     id: "performance",
     icon: Target,
-    label: "Performance",
-    title: "Reviews people actually finish",
-    description: "Set KPIs, track progress through the cycle, and run reviews with self and manager ratings that employees acknowledge.",
+    label: "Kinerja",
+    title: "Penilaian yang benar-benar diselesaikan",
+    description: "Tetapkan KPI, pantau kemajuan selama siklus, dan jalankan penilaian dengan nilai dari diri sendiri serta atasan yang kemudian dikonfirmasi karyawan.",
     points: [
-      "KPIs with priorities, due dates and progress",
-      "Review cycles with self and manager ratings",
-      "Employees acknowledge their completed review",
-      "Team analytics and rankings for managers",
+      "KPI dengan prioritas, tenggat, dan kemajuan",
+      "Siklus penilaian dengan nilai dari diri sendiri dan atasan",
+      "Karyawan mengonfirmasi penilaian yang telah diselesaikan",
+      "Analitik tim dan peringkat untuk para atasan",
     ],
     mock: <PerformanceMock />,
   },
   {
     id: "reimbursements",
     icon: Receipt,
-    label: "Reimbursements",
-    title: "Expense claims with receipts",
-    description: "Employees submit claims with a photo of the receipt. Managers approve them and finance marks them paid, with every step on record.",
+    label: "Reimbursement",
+    title: "Klaim biaya dengan nota",
+    description: "Karyawan mengajukan klaim beserta foto nota. Atasan menyetujuinya dan bagian keuangan menandainya telah dibayar, dengan setiap langkah tercatat.",
     points: [
-      "Claims by category, with receipt uploads",
-      "Manager approval or rejection with notes",
-      "Mark claims as paid when they're settled",
-      "Notifications at every step",
+      "Klaim dikelompokkan per kategori, dengan unggah nota",
+      "Persetujuan atau penolakan atasan disertai catatan",
+      "Tandai klaim sebagai telah dibayar setelah diselesaikan",
+      "Notifikasi pada setiap langkah",
     ],
     mock: <ReimbursementMock />,
   },
   {
     id: "assets",
     icon: Package,
-    label: "Assets",
-    title: "Know who has what",
-    description: "Track laptops, phones and other equipment, who they're assigned to, and their full history, so nothing walks out the door.",
+    label: "Aset",
+    title: "Tahukan siapa memegang apa",
+    description: "Lacak laptop, ponsel, dan peralatan lain, siapa yang ditugaskan kepadanya, serta riwayat lengkapnya, sehingga tidak ada barang yang keluar tanpa jejak.",
     points: [
-      "Assets by type with serial number, vendor and purchase date",
-      "Assign and return with a complete history",
-      "Available, assigned, in-repair and retired states",
-      "Employees see the assets they hold",
+      "Aset per tipe dengan nomor seri, pemasok, dan tanggal pembelian",
+      "Penugasan dan pengembalian dengan riwayat lengkap",
+      "Status tersedia, ditugaskan, dalam perbaikan, dan tidak aktif",
+      "Karyawan melihat aset yang dipegangnya",
     ],
     mock: <AssetsMock />,
   },
   {
     id: "reports",
     icon: BarChart3,
-    label: "Reports",
-    title: "Reports you can hand to finance",
-    description: "Headcount, attendance, leave balances, payroll and asset reports, ready to export whenever someone asks.",
+    label: "Laporan",
+    title: "Laporan yang bisa diserahkan ke bagian keuangan",
+    description: "Laporan jumlah karyawan, absensi, saldo cuti, penggajian, dan aset, yang siap diekspor kapan pun ada yang meminta.",
     points: [
-      "Headcount and growth by department",
-      "Attendance and leave balance reports",
-      "Monthly payroll summaries",
-      "Export to CSV and PDF",
+      "Jumlah karyawan dan pertumbuhan per departemen",
+      "Laporan absensi dan saldo cuti",
+      "Ringkasan penggajian bulanan",
+      "Ekspor ke CSV dan PDF",
     ],
     mock: <ReportsMock />,
   },
   {
     id: "permissions",
     icon: ShieldCheck,
-    label: "Permissions",
-    title: "Access module by module",
-    description: "Roles set the defaults for every module. Give one person more when they need it, and the database enforces it, not just the screens.",
+    label: "Izin",
+    title: "Akses per modul",
+    description: "Peran menetapkan pengaturan bawaan untuk setiap modul. Berikan akses lebih kepada satu orang saat dibutuhkan, dan database yang menegakkannya, bukan hanya tampilan layarnya.",
     points: [
-      "View or manage access per module, per role",
-      "Extra access for one person, such as Assets only",
-      "Blocked users are locked out everywhere",
-      "Row-level security on every table",
+      "Akses lihat atau kelola per modul, per peran",
+      "Akses tambahan untuk satu orang, misalnya hanya Assets",
+      "Pengguna yang diblokir terkunci di seluruh sistem",
+      "Keamanan baris (row-level security) pada setiap tabel",
     ],
     mock: <PermissionsMock />,
   },
   {
     id: "notifications",
     icon: Bell,
-    label: "Notifications",
-    title: "The right nudge, on any device",
-    description: "In-app, email and push notifications for approvals, reminders and payslips. Peoplo installs on phones like an app.",
+    label: "Notifikasi",
+    title: "Peringatan yang tepat, di perangkat apa pun",
+    description: "Notifikasi dalam aplikasi, email, dan push untuk persetujuan, pengingat, dan slip gaji. Peoplo dapat diinstal di ponsel seperti aplikasi biasa.",
     points: [
-      "Push notifications on phones and desktops",
-      "Email for approvals, reminders and announcements",
-      "Each person chooses what they receive",
-      "Installable on Android and iOS home screens",
+      "Notifikasi push di ponsel dan komputer",
+      "Email untuk persetujuan, pengingat, dan pengumuman",
+      "Setiap orang memilih apa yang ingin diterimanya",
+      "Dapat diinstal di layar utama Android dan iOS",
     ],
     mock: <NotificationsMock />,
   },
@@ -205,28 +205,28 @@ const Features = () => {
       <PublicHeader />
 
       <main>
-        {/* Hero */}
+        {/* Bagian Hero */}
         <section className="relative">
           <Backdrop />
           <div className="container relative mx-auto px-4 pb-16 pt-16 text-center md:pt-24">
             <p className="mx-auto mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full border border-primary/20 bg-background/70 px-3 py-1 text-sm font-medium text-foreground shadow-sm backdrop-blur">
               <Sparkles className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-              Every module, open source
+              Setiap modul, sumber terbuka
             </p>
             <h1
               className="mx-auto mb-6 max-w-4xl animate-fade-up text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl"
               style={{ animationDelay: "80ms" }}
             >
-              Everything your people team needs,{" "}
-              <span className="text-shimmer animate-shimmer motion-reduce:animate-none">in one place.</span>
+              Semua yang dibutuhkan tim SDM Anda,{" "}
+              <span className="text-shimmer animate-shimmer motion-reduce:animate-none">dalam satu tempat.</span>
             </h1>
             <p
               className="mx-auto mb-10 max-w-2xl animate-fade-up text-lg text-muted-foreground md:text-xl"
               style={{ animationDelay: "160ms" }}
             >
-              From the first invitation to the monthly payslip. Here's what each part of Peoplo looks like.
+              Mulai dari undangan pertama hingga slip gaji bulanan. Inilah tampilan setiap bagian dari Peoplo.
             </p>
-            <nav aria-label="Features" className="mx-auto flex max-w-4xl animate-fade-up flex-wrap justify-center gap-2" style={{ animationDelay: "240ms" }}>
+            <nav aria-label="Fitur" className="mx-auto flex max-w-4xl animate-fade-up flex-wrap justify-center gap-2" style={{ animationDelay: "240ms" }}>
               {features.map((feature) => (
                 <a
                   key={feature.id}
@@ -241,7 +241,7 @@ const Features = () => {
           </div>
         </section>
 
-        {/* Features */}
+        {/* Fitur */}
         {features.map((feature, index) => {
           const flipped = index % 2 === 1;
           return (

@@ -119,7 +119,7 @@ async function emailRevision(supabase: SupabaseClient, revisionId: string): Prom
     body: JSON.stringify({
       from,
       to: [revision.employee.email],
-      subject: "Your salary has been revised",
+      subject: "Gaji Anda telah direvisi",
       html,
     }),
   });

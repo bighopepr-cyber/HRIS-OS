@@ -26,14 +26,14 @@ export function OfflineFallback() {
           <WifiOff className="h-10 w-10 text-muted-foreground" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-foreground">You're Offline</h2>
+          <h2 className="text-2xl font-bold text-foreground">Anda Sedang Tanpa Koneksi</h2>
           <p className="text-muted-foreground">
-            It looks like you've lost your internet connection. Please check your network and try again.
+            Sepertinya koneksi internet Anda terputus. Silakan periksa jaringan Anda lalu coba lagi.
           </p>
         </div>
         <Button onClick={() => window.location.reload()} className="gap-2">
           <RefreshCw className="h-4 w-4" />
-          Try Again
+          Coba Lagi
         </Button>
       </div>
     </div>

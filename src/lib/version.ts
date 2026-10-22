@@ -1,9 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
 
-// Current application version - update this when releasing new versions
+// Versi aplikasi saat ini - perbarui saat merilis versi baru
 export const APP_VERSION = "1.1.1";
 
-// Production API URL for version checking (used by self-hosted instances)
+// URL API produksi untuk pemeriksaan versi (digunakan oleh instance self-hosted)
 export const VERSION_API_URL = "https://peoplo.redmonk.in/functions/v1/version-check";
 
 export interface ChangelogEntry {
@@ -27,7 +27,7 @@ export interface VersionResponse {
   documentationUrl: string;
 }
 
-// Local changelog data as fallback
+// Data changelog lokal sebagai cadangan
 const LOCAL_CHANGELOG: ChangelogEntry[] = [
   {
     version: "1.1.0",

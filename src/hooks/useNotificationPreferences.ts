@@ -29,7 +29,7 @@ export function useNotificationPreferences() {
 
       if (error) throw error;
       
-      // If no preferences exist, create default ones
+      // Jika preferensi belum ada, buat preferensi bawaan
       if (!data) {
         const { data: newData, error: insertError } = await supabase
           .from("notification_preferences")

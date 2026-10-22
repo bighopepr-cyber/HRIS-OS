@@ -1,11 +1,11 @@
-// Shared PDF styling so every generated document (payslips, reports, exports)
-// reads as one consistent, formal system instead of each file reinventing its
-// own header/footer/colors.
+// Gaya PDF bersama sehingga setiap dokumen yang dihasilkan (slip gaji, laporan, ekspor)
+// dibaca sebagai satu sistem yang konsisten dan formal, bukan setiap file mencari
+// gaya header/footer/warna sendiri.
 
-// jsPDF's built-in Helvetica font has no Rupee glyph — Intl's "₹" renders as
-// a broken superscript in the PDF, so format the number ourselves and prefix
-// "Rs." as plain ASCII text instead of using style: "currency". Use this
-// (not the on-screen ₹ formatter) for any amount drawn into a PDF.
+// Font Helvetica bawaan jsPDF tidak memiliki glip Rupiah — "₹" dari Intl render
+// sebagai superscript yang rusak di PDF, jadi format angka sendiri dan awali
+// "Rs." sebagai teks ASCII alih-alih menggunakan style: "currency". Gunakan ini
+// (bukan pemformat ₹ di layar) untuk setiap jumlah yang dicetak ke PDF.
 export const formatCurrencyForPdf = (amount: number) => {
   const formatted = new Intl.NumberFormat("en-IN", {
     minimumFractionDigits: 2,
@@ -22,7 +22,7 @@ export const PDF_COLORS = {
   dark: [15, 23, 42] as [number, number, number],
 };
 
-// autoTable headStyles/alternateRowStyles shared across every report table.
+// style head/baris selang selang autoTable yang dibagikan di setiap tabel laporan.
 export const PDF_TABLE_HEAD_STYLE = {
   fillColor: PDF_COLORS.accent,
   textColor: [255, 255, 255] as [number, number, number],
@@ -48,23 +48,23 @@ interface DrawPdfHeaderOptions extends PdfBrandingInfo {
 }
 
 /**
- * Draws the standard document header (company branding on the left, document
- * title/subtitle on the right, thin accent rule beneath) and returns the Y
- * position content should continue from.
+ * Menggambar header dokumen standar (branding perusahaan di kiri, judul/subtitle
+ * dokumen di kanan, garis aksen tipis di bawah) dan mengembalikan posisi Y di
+ * mana konten harus dilanjutkan.
  */
 export function drawPdfHeader(
   doc: import("jspdf").jsPDF,
   { title, subtitle, companyName, companyAddress, logoDataUrl, pageWidth, margin }: DrawPdfHeaderOptions
 ): number {
-  // Logo is a small mark alongside the name, not a replacement for it — the
-  // name/address still need to render even when a logo is present.
+// Logo adalah tanda kecil di samping nama, bukan penggantinya — nama/alamat
+// masih perlu dirender meskipun logo ada.
   let textX = margin;
   if (logoDataUrl) {
     try {
       doc.addImage(logoDataUrl, margin, 6, 14, 14, undefined, "FAST");
       textX = margin + 18;
     } catch {
-      // Malformed/unsupported image data shouldn't block report generation.
+      // Data gambar yang rusak/tidak didukung tidak boleh memblokir pembuatan laporan.
     }
   }
 
@@ -107,7 +107,7 @@ interface DrawPdfFooterOptions {
   totalPages?: number;
 }
 
-/** Draws the standard "Generated on <date>" + page-number footer. */
+/** Menggambar footer standar "Dibuat pada <tanggal>" + nomor halaman. */
 export function drawPdfFooter(
   doc: import("jspdf").jsPDF,
   { pageWidth, pageHeight, margin, pageNumber, totalPages }: DrawPdfFooterOptions
@@ -120,22 +120,22 @@ export function drawPdfFooter(
   doc.setFontSize(8);
   doc.setFont("helvetica", "italic");
   doc.text(
-    `Generated on ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}`,
+    `Dibuat pada ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}`,
     margin,
     pageHeight - 10
   );
 
   if (pageNumber && totalPages) {
     doc.setFont("helvetica", "normal");
-    doc.text(`Page ${pageNumber} of ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: "right" });
+    doc.text(`Halaman ${pageNumber} dari ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: "right" });
   }
 }
 
 /**
- * Fetches an image URL and converts it to a base64 data URL, since jsPDF's
- * addImage() needs actual image data rather than a remote URL. Returns
- * undefined on any failure so a missing/broken logo never blocks PDF
- * generation.
+ * Mengambil URL gambar dan mengonversinya ke data URL base64, karena
+ * addImage() jsPDF membutuhkan data gambar sebenarnya bukan URL remote.
+ * Mengembalikan undefined pada kegagalan apa pun sehingga logo yang hilang/rusak
+ * tidak pernah memblokir pembuatan PDF.
  */
 export async function fetchImageAsDataUrl(url?: string | null): Promise<string | undefined> {
   if (!url) return undefined;
@@ -146,7 +146,7 @@ export async function fetchImageAsDataUrl(url?: string | null): Promise<string |
     return await new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = () => reject(new Error("Failed to read image"));
+      reader.onerror = () => reject(new Error("Gagal membaca gambar"));
       reader.readAsDataURL(blob);
     });
   } catch {

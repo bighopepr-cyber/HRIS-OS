@@ -1,37 +1,37 @@
-# Release Process
+# Proses Rilis
 
-This document describes how to create a new release of Peoplo.
+Dokumen ini menjelaskan cara membuat rilis baru Peoplo.
 
-## Version Numbering
+## Penomoran Versi
 
-Peoplo follows [Semantic Versioning](https://semver.org/):
+Peoplo mengikuti [Semantic Versioning](https://semver.org/):
 
-- **Major** (X.0.0): Breaking changes that require migration
-- **Minor** (0.X.0): New features, backward compatible
-- **Patch** (0.0.X): Bug fixes, backward compatible
+- **Major** (X.0.0): Perubahan yang memerlukan migrasi
+- **Minor** (0.X.0): Fitur baru, kompatibel mundur
+- **Patch** (0.0.X): Perbaikan bug, kompatibel mundur
 
-## Quick Release Steps
+## Langkah Rilis Cepat
 
-### 1. Bump Version
+### 1. Tingkatkan Versi
 
-Run the version bump script:
+Jalankan skrip peningkatan versi:
 
 ```bash
-# For bug fixes
+# Untuk perbaikan bug
 ./scripts/bump-version.sh patch
 
-# For new features
+# Untuk fitur baru
 ./scripts/bump-version.sh minor
 
-# For breaking changes
+# Untuk perubahan yang memecah
 ./scripts/bump-version.sh major
 ```
 
-### 2. Update Changelog
+### 2. Perbarui Changelog
 
-Move the entries under **[Unreleased]** in [`CHANGELOG.md`](CHANGELOG.md) into a new version section, including **Upgrade notes** for self-hosters (new migrations, secrets or manual steps).
+Pindahkan entri di bawah **[Unreleased]** di [`CHANGELOG.md`](CHANGELOG.md) ke bagian versi baru, termasuk **Catatan Upgrade** untuk self-hosters (migrasi baru, rahasia atau langkah manual).
 
-Then update the `LOCAL_CHANGELOG` array in `src/lib/version.ts`, which the in-app "What's New" page shows when GitHub can't be reached:
+Lalu perbarui array `LOCAL_CHANGELOG` di `src/lib/version.ts`, yang ditampilkan oleh halaman "What's New" dalam aplikasi saat GitHub tidak dapat dihubungi:
 
 ```typescript
 const LOCAL_CHANGELOG: ChangelogEntry[] = [
@@ -51,7 +51,7 @@ const LOCAL_CHANGELOG: ChangelogEntry[] = [
 ];
 ```
 
-### 3. Commit and Tag
+### 3. Commit dan Tag
 
 ```bash
 git add .
@@ -60,12 +60,12 @@ git tag v1.1.0
 git push origin main --tags
 ```
 
-### 4. Create GitHub Release
+### 4. Buat Rilis GitHub
 
-1. Go to [GitHub Releases](https://github.com/redmonkin/core-hr-hub/releases/new)
-2. Select your new tag (e.g., `v1.1.0`)
-3. Set the release title (e.g., "v1.1.0 - New Feature Release")
-4. Add release notes using this format:
+1. Buka [GitHub Releases](https://github.com/redmonkin/core-hr-hub/releases/new)
+2. Pilih tag baru Anda (misalnya, `v1.1.0`)
+3. Tetapkan judul rilis (misalnya, "v1.1.0 - New Feature Release")
+4. Tambahkan catatan rilis menggunakan format ini:
 
 ```markdown
 ## New Features
@@ -80,25 +80,25 @@ git push origin main --tags
 - Updated dependencies to patch vulnerabilities
 ```
 
-5. Click **Publish Release**
+5. Klik **Publish Release**
 
-## How Version Checking Works
+## Cara Kerja Pemeriksaan Versi
 
-### For Self-Hosted Users
+### Untuk Pengguna Self-Hosted
 
-1. The app includes a hardcoded `APP_VERSION` constant
-2. On startup, the app calls the `version-check` edge function
-3. The edge function fetches the latest release from GitHub API
-4. If a newer version exists, users see an update notification
-5. Users can then pull the latest changes from GitHub
+1. Aplikasi menyertakan konstanta `APP_VERSION` yang di-hardcode
+2. Saat startup, aplikasi memanggil fungsi edge `version-check`
+3. Fungsi edge mengambil rilis terbaru dari GitHub API
+4. Jika versi yang lebih baru ada, pengguna melihat notifikasi pembaruan
+5. Pengguna kemudian dapat menarik perubahan terbaru dari GitHub
 
-### For Lovable Cloud Users
+### Untuk Pengguna Lovable Cloud
 
-Updates are applied automatically when the code is deployed.
+Pembaruan diterapkan secara otomatis saat kode di-deploy.
 
-## Change Types
+## Jenis Perubahan
 
-Use these types in your changelog entries:
+Gunakan jenis ini dalam entri changelog Anda:
 
 | Type | Description |
 |------|-------------|
@@ -108,39 +108,39 @@ Use these types in your changelog entries:
 | `docs` | Documentation updates |
 | `breaking` | Breaking changes |
 
-## Development Setup
+## Pengaturan Pengembangan
 
-Run the setup script to install git hooks:
+Jalankan skrip pengaturan untuk menginstal git hooks:
 
 ```bash
 ./scripts/setup.sh
 ```
 
-This installs:
-- **Pre-commit hook**: Validates version format (semver) and ensures `LOCAL_CHANGELOG` contains an entry for the current `APP_VERSION`
+Ini menginstal:
+- **Pre-commit hook**: Memvalidasi format versi (semver) dan memastikan `LOCAL_CHANGELOG` berisi entri untuk `APP_VERSION` saat ini
 
 ## Git Hooks
 
 ### Pre-commit Hook
 
-The pre-commit hook runs automatically when you commit changes to `src/lib/version.ts` and validates:
+Pre-commit hook berjalan otomatis saat Anda melakukan commit pada perubahan di `src/lib/version.ts` dan memvalidasi:
 
-1. **Version format**: Must be valid semver (X.Y.Z)
-2. **Changelog entry**: `LOCAL_CHANGELOG` must contain an entry matching `APP_VERSION`
-3. **Fallback sync**: Warns if `FALLBACK_VERSION_RESPONSE.currentVersion` doesn't match
+1. **Format versi**: Harus semver yang valid (X.Y.Z)
+2. **Entri changelog**: `LOCAL_CHANGELOG` harus berisi entri yang cocok dengan `APP_VERSION`
+3. **Sinkronisasi cadangan**: Memberi peringatan jika `FALLBACK_VERSION_RESPONSE.currentVersion` tidak cocok
 
-To bypass the hook in emergencies:
+Untuk melewati hook dalam keadaan darurat:
 ```bash
 git commit --no-verify -m "your message"
 ```
 
-## Manual Version Bump
+## Peningkatan Versi Manual
 
-If you prefer not to use the script, manually edit `src/lib/version.ts`:
+Jika Anda lebih suka tidak menggunakan skrip, edit `src/lib/version.ts` secara manual:
 
 ```typescript
 // Update this line
 export const APP_VERSION = "1.1.0";
 ```
 
-And update `FALLBACK_VERSION_RESPONSE.releaseDate` to today's date.
+Dan perbarui `FALLBACK_VERSION_RESPONSE.releaseDate` ke tanggal hari ini.

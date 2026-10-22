@@ -51,8 +51,8 @@ interface AttendanceRecord {
   clock_out: string | null;
 }
 
-const CLOCK_IN_TITLE = "Time to Clock In!";
-const CLOCK_OUT_TITLE = "Time to Clock Out!";
+const CLOCK_IN_TITLE = "Saatnya Clock In!";
+const CLOCK_OUT_TITLE = "Saatnya Clock Out!";
 
 // Format time for display (e.g., "09:00:00" -> "9:00 AM")
 const formatTime = (time: string): string => {

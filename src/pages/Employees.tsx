@@ -69,8 +69,8 @@ const Employees = () => {
 
   const { can, isLoading: isLoadingRole } = usePermissions();
   const queryClient = useQueryClient();
-  // Full records for people with access to the Employees module; everyone
-  // else gets the directory (name, contact, designation, department).
+  // Rekap lengkap untuk orang yang punya akses ke modul Karyawan; siapa pun
+  // selainnya hanya mendapat direktori (nama, kontak, jabatan, departemen).
   const canViewEmployees = can("employees", "view");
   const canManageEmployees = can("employees", "manage");
   const canAddEmployees = can("onboarding", "manage");
@@ -96,7 +96,7 @@ const Employees = () => {
     return matchesSearch && matchesDepartment;
   });
 
-  // Apply sorting
+  // Terapkan pengurutan
   const {
     sortedItems: sortedEmployees,
     sortConfig,
@@ -123,10 +123,10 @@ const Employees = () => {
     if (!startDate && !endDate) return items;
     
     return items.filter((emp) => {
-      // Parse the formatted date string "MMM d, yyyy" back to a Date object
+      // Ubah string tanggal berformat "MMM d, yyyy" kembali menjadi objek Date
       const joinDate = parse(emp.joinDate, "MMM d, yyyy", new Date());
       
-      if (isNaN(joinDate.getTime())) return true; // Skip invalid dates
+      if (isNaN(joinDate.getTime())) return true; // Lewati tanggal yang tidak valid
       
       if (startDate && endDate) {
         const endOfDay = new Date(endDate);
@@ -147,7 +147,7 @@ const Employees = () => {
 
   const exportToCSV = (startDate?: Date, endDate?: Date) => {
     const dataToExport = filterByDateRange(sortedEmployees, startDate, endDate);
-    const headers = ["Employee No.", "Name", "Email", "Department", "Designation", "Status", "Join Date"];
+    const headers = ["No. Karyawan", "Nama", "Email", "Departemen", "Jabatan", "Status", "Tanggal Bergabung"];
     const csvContent = [
       headers.join(","),
       ...dataToExport.map((emp) =>
@@ -169,7 +169,7 @@ const Employees = () => {
     const dateRange = startDate || endDate ? `-${startDate ? format(startDate, "yyyy-MM-dd") : "start"}-to-${endDate ? format(endDate, "yyyy-MM-dd") : "end"}` : "";
     link.download = `employee-directory${dateRange}-${new Date().toISOString().split("T")[0]}.csv`;
     link.click();
-    toast.success(`${dataToExport.length} employees exported to CSV`);
+    toast.success(`${dataToExport.length} karyawan diekspor ke CSV`);
   };
 
   const exportToPDF = async (startDate?: Date, endDate?: Date) => {
@@ -181,11 +181,11 @@ const Employees = () => {
     const logoDataUrl = await fetchImageAsDataUrl(branding?.logoUrl);
 
     const subtitle = startDate || endDate
-      ? `Date Range: ${startDate ? format(startDate, "PP") : "Start"} - ${endDate ? format(endDate, "PP") : "End"}`
+      ? `Rentang Tanggal: ${startDate ? format(startDate, "PP") : "Awal"} - ${endDate ? format(endDate, "PP") : "Akhir"}`
       : undefined;
 
     let currentY = drawPdfHeader(doc, {
-      title: "Employee Directory",
+      title: "Direktori Karyawan",
       subtitle,
       companyName: branding?.companyName,
       companyAddress: branding?.companyAddress,
@@ -197,12 +197,12 @@ const Employees = () => {
     doc.setTextColor(...PDF_COLORS.dark);
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.text(`Total Employees: ${dataToExport.length}`, margin, currentY);
+    doc.text(`Total Karyawan: ${dataToExport.length}`, margin, currentY);
     currentY += 10;
 
     autoTable(doc, {
       startY: currentY,
-      head: [["Emp. No.", "Name", "Email", "Department", "Designation", "Status", "Join Date"]],
+      head: [["No. Karyawan", "Nama", "Email", "Departemen", "Jabatan", "Status", "Tanggal Bergabung"]],
       body: dataToExport.map((emp) => [
         emp.employeeCode,
         emp.name,
@@ -224,23 +224,23 @@ const Employees = () => {
 
     const dateRange = startDate || endDate ? `-${startDate ? format(startDate, "yyyy-MM-dd") : "start"}-to-${endDate ? format(endDate, "yyyy-MM-dd") : "end"}` : "";
     doc.save(`employee-directory${dateRange}-${new Date().toISOString().split("T")[0]}.pdf`);
-    toast.success(`${dataToExport.length} employees exported to PDF`);
+    toast.success(`${dataToExport.length} karyawan diekspor ke PDF`);
   };
 
   const handleInvite = async (employee: Employee) => {
-    const pending = toast.loading(`Sending an invitation to ${employee.email}…`);
+    const pending = toast.loading(`Mengirim undangan ke ${employee.email}…`);
     try {
       const result = await sendInvitation(employee.id);
       toast.success(
         result.status === "linked"
-          ? `${employee.email} already had an account, so it's now linked to ${employee.name}.`
-          : `Invitation sent. ${employee.name} will get an email to set up their account.`,
+          ? `${employee.email} sudah memiliki akun, sehingga sekarang terhubung dengan ${employee.name}.`
+          : `Undangan terkirim. ${employee.name} akan menerima email untuk mengatur akunnya.`,
         { id: pending },
       );
       queryClient.invalidateQueries({ queryKey: ["employees"] });
       queryClient.invalidateQueries({ queryKey: ["user-invitations"] });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "The invitation couldn't be sent", { id: pending });
+      toast.error(error instanceof Error ? error.message : "Undangan tidak dapat dikirim", { id: pending });
     }
   };
 
@@ -249,8 +249,8 @@ const Employees = () => {
     
     switch (action) {
       case 'export': {
-        // Export selected employees to CSV
-        const headers = ["Employee No.", "Name", "Email", "Department", "Designation", "Status", "Join Date"];
+        // Ekspor karyawan yang dipilih ke CSV
+        const headers = ["No. Karyawan", "Nama", "Email", "Departemen", "Jabatan", "Status", "Tanggal Bergabung"];
         const csvContent = [
           headers.join(","),
           ...selectedEmployees.map((emp) =>
@@ -271,16 +271,16 @@ const Employees = () => {
         link.href = URL.createObjectURL(blob);
         link.download = `selected-employees-${new Date().toISOString().split("T")[0]}.csv`;
         link.click();
-        toast.success(`${selectedEmployees.length} employees exported`);
+        toast.success(`${selectedEmployees.length} karyawan diekspor`);
         setSelectedEmployeeIds([]);
         break;
       }
 
       case 'email': {
-        // Copy emails to clipboard
+        // Salin email ke papan klip
         const emails = selectedEmployees.map(e => e.email).join(', ');
         navigator.clipboard.writeText(emails);
-        toast.success(`${selectedEmployees.length} email addresses copied to clipboard`);
+        toast.success(`${selectedEmployees.length} alamat email disalin ke papan klip`);
         break;
       }
         
@@ -306,17 +306,17 @@ const Employees = () => {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
-              {canViewEmployees ? "Employee directory" : "Team directory"}
+              {canViewEmployees ? "Direktori karyawan" : "Direktori tim"}
             </h1>
             <p className="text-muted-foreground">
-              {canManageEmployees ? "Manage and view all employees" : canViewEmployees ? "View all employees" : "View your colleagues"}
+              {canManageEmployees ? "Kelola dan lihat semua karyawan" : canViewEmployees ? "Lihat semua karyawan" : "Lihat rekan kerja Anda"}
             </p>
           </div>
           {canViewEmployees && (
             <div className="flex flex-wrap gap-3">
               <DateRangeExportDialog
-                title="Export Employee Directory"
-                description="Export employee directory with optional date range filter based on join date."
+                title="Ekspor Direktori Karyawan"
+                description="Ekspor direktori karyawan dengan filter rentang tanggal opsional berdasarkan tanggal bergabung."
                 onExportCSV={exportToCSV}
                 onExportPDF={exportToPDF}
               />
@@ -324,7 +324,7 @@ const Employees = () => {
               <Link to="/onboarding">
                 <Button>
                   <UserPlus className="mr-2 h-4 w-4" />
-                  Add employee
+                  Tambah karyawan
                 </Button>
               </Link>
               )}
@@ -332,24 +332,24 @@ const Employees = () => {
           )}
         </div>
 
-        {/* Filters */}
+        {/* Filter */}
         <div className="flex flex-col gap-4 sm:flex-row">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             <Input
-              placeholder="Search employees..."
-              aria-label="Search employees by name or email"
+              placeholder="Cari karyawan..."
+              aria-label="Cari karyawan berdasarkan nama atau email"
               className="pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
-            <SelectTrigger className="w-full sm:w-[180px]" aria-label="Filter by department">
-              <SelectValue placeholder="Department" />
+            <SelectTrigger className="w-full sm:w-[180px]" aria-label="Filter berdasarkan departemen">
+              <SelectValue placeholder="Departemen" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All departments</SelectItem>
+              <SelectItem value="all">Semua departemen</SelectItem>
               {departments.map((dept) => (
                 <SelectItem key={dept.id} value={dept.name}>
                   {dept.name}
@@ -359,7 +359,7 @@ const Employees = () => {
           </Select>
         </div>
 
-        {/* Table */}
+        {/* Tabel */}
         {isLoading ? (
           <div className="space-y-4">
             {[1, 2, 3, 4, 5].map((i) => (
@@ -370,19 +370,19 @@ const Employees = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
               <Users className="mb-4 h-12 w-12 text-muted-foreground" />
-              <h3 className="text-lg font-semibold text-foreground">No employees found</h3>
+              <h3 className="text-lg font-semibold text-foreground">Tidak ada karyawan ditemukan</h3>
               <p className="text-muted-foreground">
                 {employees.length === 0
                   ? canAddEmployees
-                    ? "Start by adding your first employee"
-                    : "No team members available to display"
-                  : "No employees match your search criteria"}
+                    ? "Mulai dengan menambahkan karyawan pertama Anda"
+                    : "Tidak ada anggota tim yang dapat ditampilkan"
+                  : "Tidak ada karyawan yang cocok dengan kriteria pencarian Anda"}
               </p>
               {employees.length === 0 && canAddEmployees && (
                 <Link to="/onboarding" className="mt-4">
                   <Button>
                     <UserPlus className="mr-2 h-4 w-4" />
-                    Add employee
+                    Tambah karyawan
                   </Button>
                 </Link>
               )}
@@ -406,15 +406,15 @@ const Employees = () => {
               onBulkAction={handleBulkAction}
             />
             
-            {/* Pagination Controls */}
+            {/* Kontrol paginasi */}
             {totalPages > 1 && (
               <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center justify-between gap-3 text-sm text-muted-foreground sm:justify-start">
                   <span className="whitespace-nowrap">
-                    {((currentPage - 1) * pageSize) + 1}–{Math.min(currentPage * pageSize, totalItems)} of {totalItems} employees
+                    {((currentPage - 1) * pageSize) + 1}–{Math.min(currentPage * pageSize, totalItems)} dari {totalItems} karyawan
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="whitespace-nowrap" id="employees-page-size-label">Rows per page</span>
+                    <span className="whitespace-nowrap" id="employees-page-size-label">Baris per halaman</span>
                     <Select
                       value={pageSize.toString()}
                       onValueChange={(value) => setPageSize(Number(value))}
@@ -480,26 +480,26 @@ const Employees = () => {
           </div>
         )}
 
-        {/* View Profile Dialog */}
+        {/* Dialog Profil */}
         <EmployeeViewDialog 
           employee={viewEmployee}
           open={!!viewEmployee}
           onOpenChange={(open) => !open && setViewEmployee(null)}
         />
 
-        {/* Edit Employee Dialog */}
+        {/* Dialog Sunting Karyawan */}
         <EmployeeEditDialog 
           employee={editEmployee}
           open={!!editEmployee}
           onOpenChange={(open) => !open && setEditEmployee(null)}
         />
 
-        {/* Documents Dialog */}
+        {/* Dialog Dokumen */}
         <Dialog open={!!documentsEmployee} onOpenChange={(open) => !open && setDocumentsEmployee(null)}>
           <DialogContent className="max-w-3xl">
             <DialogHeader>
-              <DialogTitle className="break-words">Documents · {documentsEmployee?.name}</DialogTitle>
-              <DialogDescription>Upload, view and manage this employee's documents.</DialogDescription>
+              <DialogTitle className="break-words">Dokumen · {documentsEmployee?.name}</DialogTitle>
+              <DialogDescription>Unggah, lihat, dan kelola dokumen karyawan ini.</DialogDescription>
             </DialogHeader>
             {documentsEmployee && (
               <EmployeeDocuments employeeId={documentsEmployee.id} embedded />
@@ -507,7 +507,7 @@ const Employees = () => {
           </DialogContent>
         </Dialog>
 
-        {/* Bulk Delete Confirmation Dialog */}
+        {/* Dialog Konfirmasi Hapus Massal */}
         <BulkDeleteDialog
           open={bulkDeleteOpen}
           onOpenChange={(open) => {
@@ -521,19 +521,19 @@ const Employees = () => {
             const idsToDelete = employeesToDelete.map(e => e.id);
             bulkDeleteMutation.mutate(idsToDelete, {
               onSuccess: ({ deletedCount }) => {
-                toast.success(`${deletedCount} employee${deletedCount > 1 ? 's' : ''} deleted successfully`);
+                toast.success(`${deletedCount} karyawan berhasil dihapus`);
                 setSelectedEmployeeIds([]);
                 setEmployeesToDelete([]);
                 setBulkDeleteOpen(false);
               },
               onError: (error) => {
-                toast.error(`Failed to delete employees: ${error.message}`);
+                toast.error(`Gagal menghapus karyawan: ${error.message}`);
               },
             });
           }}
         />
 
-        {/* Bulk Assign Manager Dialog */}
+        {/* Dialog Tetapkan Manajer Massal */}
         <BulkAssignManagerDialog
           open={bulkAssignManagerOpen}
           onOpenChange={setBulkAssignManagerOpen}

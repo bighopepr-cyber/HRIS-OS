@@ -254,7 +254,7 @@ serve(async (req) => {
         .select("user_id, first_name, email")
         .in("user_id", adminUserIds);
 
-      const title = `Payslips for ${monthName} ${year} are ready to process`;
+      const title = `Slip gaji untuk ${monthName} ${year} siap diproses`;
       const message = `Payroll for ${payrollRecords.length} employee${payrollRecords.length === 1 ? "" : "s"} has been generated for ${monthName} ${year} and is waiting for review.`;
 
       const notifications = (admins || []).map((admin: { user_id: string }) => ({

@@ -34,7 +34,7 @@ const Departments = () => {
   const [deletingDepartment, setDeletingDepartment] = useState<Department | null>(null);
   const [formData, setFormData] = useState({ name: "", description: "", manager_id: "" });
 
-  // Fetch employees for manager selection
+  // Ambil karyawan untuk pemilihan kepala departemen
   const { data: employees = [] } = useQuery({
     queryKey: ["employees-for-manager"],
     queryFn: async () => {
@@ -55,7 +55,7 @@ const Departments = () => {
 
   const handleCreate = async () => {
     if (!formData.name.trim()) {
-      toast.error("Department name is required");
+      toast.error("Nama departemen wajib diisi");
       return;
     }
 
@@ -65,17 +65,17 @@ const Departments = () => {
         description: formData.description.trim() || undefined,
         manager_id: formData.manager_id || null,
       });
-      toast.success("Department created successfully");
+      toast.success("Departemen berhasil dibuat");
       setIsCreateOpen(false);
       resetForm();
     } catch (error) {
-      toast.error("Failed to create department");
+      toast.error("Gagal membuat departemen");
     }
   };
 
   const handleUpdate = async () => {
     if (!editingDepartment || !formData.name.trim()) {
-      toast.error("Department name is required");
+      toast.error("Nama departemen wajib diisi");
       return;
     }
 
@@ -86,20 +86,20 @@ const Departments = () => {
         description: formData.description.trim() || undefined,
         manager_id: formData.manager_id || null,
       });
-      toast.success("Department updated successfully");
+      toast.success("Departemen berhasil diperbarui");
       setEditingDepartment(null);
       resetForm();
     } catch (error) {
-      toast.error("Failed to update department");
+      toast.error("Gagal memperbarui departemen");
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
       await deleteDepartment.mutateAsync(id);
-      toast.success("Department deleted successfully");
+      toast.success("Departemen berhasil dihapus");
     } catch (error) {
-      toast.error("Failed to delete department. It may have employees assigned.");
+      toast.error("Gagal menghapus departemen. Mungkin masih ada karyawan yang ditugaskan di departemen ini.");
     }
   };
 
@@ -112,7 +112,7 @@ const Departments = () => {
     });
   };
 
-  // Show loading while checking role
+  // Tampilkan pemuatan saat memeriksa peran
   if (roleLoading) {
     return (
       <DashboardLayout>
@@ -123,15 +123,15 @@ const Departments = () => {
     );
   }
 
-  // Redirect non-admin/HR users
+  // Alihkan pengguna non-admin/HR
   if (!canView) {
     return (
       <DashboardLayout>
         <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4">
           <ShieldAlert className="h-16 w-16 text-destructive" />
-          <h1 className="text-2xl font-bold text-foreground">Access denied</h1>
-          <p className="text-muted-foreground">You don't have permission to access this page.</p>
-          <p className="text-sm text-muted-foreground">Only administrators and HR personnel can manage departments.</p>
+          <h1 className="text-2xl font-bold text-foreground">Akses ditolak</h1>
+          <p className="text-muted-foreground">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+          <p className="text-sm text-muted-foreground">Hanya administrator dan staf HR yang dapat mengelola departemen.</p>
         </div>
       </DashboardLayout>
     );
@@ -143,10 +143,10 @@ const Departments = () => {
       onValueChange={(value) => setFormData({ ...formData, manager_id: value === "none" ? "" : value })}
     >
       <SelectTrigger id={id}>
-        <SelectValue placeholder="Select department head" />
+        <SelectValue placeholder="Pilih kepala departemen" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="none">No department head</SelectItem>
+        <SelectItem value="none">Tanpa kepala departemen</SelectItem>
         {employees.map((emp) => (
           <SelectItem key={emp.id} value={emp.id}>
             {emp.first_name} {emp.last_name}
@@ -161,7 +161,7 @@ const Departments = () => {
 
   const deleteBlockedReason = (department: Department) =>
     department.employee_count > 0
-      ? `Move its ${department.employee_count} employee${department.employee_count === 1 ? "" : "s"} to another department before deleting.`
+      ? `Pindahkan ${department.employee_count} karyawannya ke departemen lain sebelum menghapus.`
       : null;
 
   const renderActions = (department: Department) => {
@@ -171,7 +171,7 @@ const Departments = () => {
         variant="ghost"
         size="icon"
         className="h-10 w-10 sm:h-9 sm:w-9"
-        aria-label={blocked ? `Delete ${department.name} (unavailable: ${blocked})` : `Delete ${department.name}`}
+        aria-label={blocked ? `Hapus ${department.name} (tidak tersedia: ${blocked})` : `Hapus ${department.name}`}
         disabled={!!blocked}
         onClick={() => setDeletingDepartment(department)}
       >
@@ -184,8 +184,8 @@ const Departments = () => {
           variant="ghost"
           size="icon"
           className="h-10 w-10 sm:h-9 sm:w-9"
-          aria-label={`Edit ${department.name}`}
-          title="Edit"
+          aria-label={`Sunting ${department.name}`}
+          title="Sunting"
           onClick={() => openEdit(department)}
         >
           <Pencil className="h-4 w-4" />
@@ -212,52 +212,52 @@ const Departments = () => {
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Departments</h1>
-            <p className="text-muted-foreground">Manage company departments and teams</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Departemen</h1>
+            <p className="text-muted-foreground">Kelola departemen dan tim perusahaan</p>
           </div>
           {canManage && (
           <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
             <DialogTrigger asChild>
               <Button onClick={() => resetForm()} className="self-start sm:self-auto">
                 <Plus className="mr-2 h-4 w-4" />
-                Add department
+                Tambah departemen
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create department</DialogTitle>
-                <DialogDescription>Add a new department to your organization</DialogDescription>
+                <DialogTitle>Buat departemen</DialogTitle>
+                <DialogDescription>Tambahkan departemen baru ke organisasi Anda</DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name *</Label>
+                  <Label htmlFor="name">Nama *</Label>
                   <Input
                     id="name"
-                    placeholder="e.g., Engineering"
+                    placeholder="mis., Teknik"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description">Deskripsi</Label>
                   <Textarea
                     id="description"
-                    placeholder="Brief description of the department"
+                    placeholder="Deskripsi singkat departemen"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="manager">Department head</Label>
+                  <Label htmlFor="manager">Kepala departemen</Label>
                   {managerSelect("manager")}
                 </div>
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsCreateOpen(false)}>
-                  Cancel
+                  Batal
                 </Button>
                 <Button onClick={handleCreate} disabled={createDepartment.isPending}>
-                  Create
+                  Buat
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -265,7 +265,7 @@ const Departments = () => {
           )}
         </div>
 
-        {/* Stats */}
+        {/* Statistik */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
           <Card>
             <CardContent className="p-4 sm:p-6">
@@ -274,7 +274,7 @@ const Departments = () => {
                   <Building2 className="h-5 w-5 text-primary sm:h-6 sm:w-6" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total departments</p>
+                  <p className="text-sm text-muted-foreground">Total departemen</p>
                   <p className="text-2xl font-bold">{departments?.length || 0}</p>
                 </div>
               </div>
@@ -287,7 +287,7 @@ const Departments = () => {
                   <Users className="h-5 w-5 text-primary sm:h-6 sm:w-6" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total employees</p>
+                  <p className="text-sm text-muted-foreground">Total karyawan</p>
                   <p className="text-2xl font-bold">
                     {departments?.reduce((sum, d) => sum + d.employee_count, 0) || 0}
                   </p>
@@ -297,11 +297,11 @@ const Departments = () => {
           </Card>
         </div>
 
-        {/* Departments */}
+        {/* Departemen */}
         <Card>
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle>All departments</CardTitle>
-            <CardDescription>View and manage all departments in your organization</CardDescription>
+            <CardTitle>Semua departemen</CardTitle>
+            <CardDescription>Lihat dan kelola semua departemen di organisasi Anda</CardDescription>
           </CardHeader>
           <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
             {isLoading ? (
@@ -316,12 +316,12 @@ const Departments = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Description</TableHead>
-                      <TableHead>Department head</TableHead>
-                      <TableHead>Employees</TableHead>
-                      <TableHead>Created</TableHead>
-                      {canManage && <TableHead className="text-right">Actions</TableHead>}
+                      <TableHead>Nama</TableHead>
+                      <TableHead>Deskripsi</TableHead>
+                      <TableHead>Kepala departemen</TableHead>
+                      <TableHead>Karyawan</TableHead>
+                      <TableHead>Dibuat</TableHead>
+                      {canManage && <TableHead className="text-right">Aksi</TableHead>}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -347,7 +347,7 @@ const Departments = () => {
                 </Table>
               </div>
 
-              {/* Mobile cards */}
+              {/* Kartu untuk tampilan mobile */}
               <ul className="space-y-3 sm:hidden">
                 {departments.map((department) => (
                   <li key={department.id} data-department-row className="rounded-lg border p-3">
@@ -361,11 +361,11 @@ const Departments = () => {
                       {canManage && renderActions(department)}
                     </div>
                     <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-sm">
-                      <dt className="text-muted-foreground">Head</dt>
+                      <dt className="text-muted-foreground">Kepala</dt>
                       <dd className="text-right">{department.manager_name || "—"}</dd>
-                      <dt className="text-muted-foreground">Employees</dt>
+                      <dt className="text-muted-foreground">Karyawan</dt>
                       <dd className="text-right tabular-nums">{department.employee_count}</dd>
-                      <dt className="text-muted-foreground">Created</dt>
+                      <dt className="text-muted-foreground">Dibuat</dt>
                       <dd className="text-right">{formatCreated(department.created_at)}</dd>
                     </dl>
                     {canManage && deleteBlockedReason(department) && (
@@ -377,22 +377,22 @@ const Departments = () => {
               </>
             ) : (
               <div className="flex h-32 items-center justify-center text-center text-muted-foreground">
-                No departments found. Create your first department to get started.
+                Tidak ada departemen ditemukan. Buat departemen pertama Anda untuk memulai.
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* Edit dialog */}
+        {/* Dialog sunting */}
         <Dialog open={!!editingDepartment} onOpenChange={(open) => !open && setEditingDepartment(null)}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Edit department</DialogTitle>
-              <DialogDescription>Update department details</DialogDescription>
+              <DialogTitle>Sunting departemen</DialogTitle>
+              <DialogDescription>Perbarui detail departemen</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="edit-name">Name *</Label>
+                <Label htmlFor="edit-name">Nama *</Label>
                 <Input
                   id="edit-name"
                   value={formData.name}
@@ -400,7 +400,7 @@ const Departments = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-description">Description</Label>
+                <Label htmlFor="edit-description">Deskripsi</Label>
                 <Textarea
                   id="edit-description"
                   value={formData.description}
@@ -408,37 +408,37 @@ const Departments = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="edit-manager">Department head</Label>
+                <Label htmlFor="edit-manager">Kepala departemen</Label>
                 {managerSelect("edit-manager")}
               </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setEditingDepartment(null)}>
-                Cancel
+                Batal
               </Button>
               <Button onClick={handleUpdate} disabled={updateDepartment.isPending}>
-                Save changes
+                Simpan perubahan
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
-        {/* Delete confirmation */}
+        {/* Konfirmasi penghapusan */}
         <AlertDialog open={!!deletingDepartment} onOpenChange={(open) => !open && setDeletingDepartment(null)}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete department?</AlertDialogTitle>
+              <AlertDialogTitle>Hapus departemen?</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to delete "{deletingDepartment?.name}"? This action cannot be undone.
+                Anda yakin ingin menghapus "{deletingDepartment?.name}"? Tindakan ini tidak dapat dibatalkan.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel>Batal</AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => deletingDepartment && handleDelete(deletingDepartment.id)}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
-                Delete
+                Hapus
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

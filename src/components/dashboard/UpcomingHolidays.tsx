@@ -48,7 +48,7 @@ export function UpcomingHolidays() {
       <CardHeader className="pb-3">
         <CardTitle className="text-base flex items-center gap-2">
           <CalendarDays className="h-5 w-5 text-primary" />
-          Upcoming Holidays
+          Liburan yang Akan Datang
           {holidays.length > 0 && (
             <Badge variant="secondary" className="ml-auto">
               {holidays.length}
@@ -80,14 +80,14 @@ export function UpcomingHolidays() {
                   </p>
                 </div>
                 <Badge variant="outline" className="text-xs shrink-0 border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                  Holiday
+Liburan
                 </Badge>
               </div>
             ))}
           </div>
         ) : (
           <p className="text-sm text-muted-foreground text-center py-4">
-            No upcoming holidays
+            Tidak ada liburan yang akan datang
           </p>
         )}
       </CardContent>

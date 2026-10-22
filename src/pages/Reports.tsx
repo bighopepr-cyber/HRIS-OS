@@ -53,7 +53,7 @@ const LEAVE_COLORS = [
   "hsl(var(--chart-5))",
 ];
 
-// Each report is shown to people who can view the module whose data it reads.
+// Setiap laporan ditampilkan kepada orang yang dapat melihat modul yang datanya dipakai laporan tersebut.
 const inrCompact = new Intl.NumberFormat("en-IN", { notation: "compact", maximumFractionDigits: 1 });
 /** 1800000 -> "₹18L", 25000 -> "₹25K" */
 const formatInrCompact = (value: number) => `₹${inrCompact.format(value)}`;
@@ -67,10 +67,10 @@ const tooltipStyle = {
 const legendLabel = (value: string) => <span className="text-sm text-foreground">{value}</span>;
 
 const reportCards: { title: string; description: string; icon: JSX.Element; sectionId: string; module: AppModule }[] = [
-  { title: "Attendance report", description: "Monthly attendance tracking", icon: <Users className="h-5 w-5" />, sectionId: "report-attendance", module: "attendance" },
-  { title: "Leave summary", description: "Leave balance and usage report", icon: <Calendar className="h-5 w-5" />, sectionId: "report-leave", module: "leaves" },
-  { title: "Payroll report", description: "Monthly payroll breakdown", icon: <CreditCard className="h-5 w-5" />, sectionId: "report-payroll", module: "payroll" },
-  { title: "Asset report", description: "Asset inventory and assignments", icon: <FileText className="h-5 w-5" />, sectionId: "report-asset", module: "assets" },
+  { title: "Laporan kehadiran", description: "Pelacakan kehadiran bulanan", icon: <Users className="h-5 w-5" />, sectionId: "report-attendance", module: "attendance" },
+  { title: "Ringkasan cuti", description: "Laporan saldo dan penggunaan cuti", icon: <Calendar className="h-5 w-5" />, sectionId: "report-leave", module: "leaves" },
+  { title: "Laporan penggajian", description: "Rincian penggajian bulanan", icon: <CreditCard className="h-5 w-5" />, sectionId: "report-payroll", module: "payroll" },
+  { title: "Laporan aset", description: "Inventaris aset dan penetapannya", icon: <FileText className="h-5 w-5" />, sectionId: "report-asset", module: "assets" },
 ];
 
 const Reports = () => {
@@ -85,7 +85,7 @@ const Reports = () => {
   const { data: payrollTrendData, isLoading: isLoadingPayroll } = usePayrollTrend(year);
   const { data: headcountData, isLoading: isLoadingHeadcount } = useHeadcountSummary(year);
 
-  // Show loading while checking role
+  // Tampilkan pemuatan saat memeriksa peran
   if (roleLoading) {
     return (
       <DashboardLayout>
@@ -96,15 +96,15 @@ const Reports = () => {
     );
   }
 
-  // Only for people who can view at least one module that has a report
+  // Hanya untuk orang yang dapat melihat setidaknya satu modul yang memiliki laporan
   if (!canAccessReports(permissions)) {
     return (
       <DashboardLayout>
         <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4">
           <ShieldAlert className="h-16 w-16 text-destructive" />
-          <h1 className="text-2xl font-bold text-foreground">Access denied</h1>
-          <p className="text-muted-foreground">You don't have permission to access this page.</p>
-          <p className="text-sm text-muted-foreground">Ask an administrator for access to the modules you need reports for.</p>
+          <h1 className="text-2xl font-bold text-foreground">Akses ditolak</h1>
+          <p className="text-muted-foreground">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+          <p className="text-sm text-muted-foreground">Mintalah akses administrator untuk modul yang Anda perlukan laporannya.</p>
         </div>
       </DashboardLayout>
     );
@@ -115,20 +115,20 @@ const Reports = () => {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Reports & analytics</h1>
-          <p className="text-muted-foreground">Insights and data visualization</p>
+          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Laporan &amp; analitik</h1>
+          <p className="text-muted-foreground">Wawasan dan visualisasi data</p>
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList>
             <TabsTrigger value="overview">
               <FileText className="mr-2 h-4 w-4" />
-              Overview
+              Ikhtisar
             </TabsTrigger>
             {can("employees") && (
               <TabsTrigger value="employee">
                 <User className="mr-2 h-4 w-4" />
-                Employee Report
+                Laporan Karyawan
               </TabsTrigger>
             )}
           </TabsList>
@@ -136,8 +136,8 @@ const Reports = () => {
           <TabsContent value="overview" className="space-y-6">
             <div className="flex justify-end">
               <Select value={selectedYear} onValueChange={setSelectedYear}>
-                <SelectTrigger className="w-[140px]" aria-label="Year">
-                  <SelectValue placeholder="Year" />
+                <SelectTrigger className="w-[140px]" aria-label="Tahun">
+                  <SelectValue placeholder="Tahun" />
                 </SelectTrigger>
                 <SelectContent>
                   {YEARS.map((y) => (
@@ -149,7 +149,7 @@ const Reports = () => {
               </Select>
             </div>
 
-        {/* Quick Reports */}
+        {/* Laporan Cepat */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {reportCards.filter((report) => can(report.module)).map((report) => (
             <button
@@ -173,15 +173,15 @@ const Reports = () => {
           ))}
         </div>
 
-        {/* Headcount Summary Widget */}
+        {/* Widget Ringkasan Jumlah Karyawan */}
         {can("employees") && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              Headcount summary
+              Ringkasan jumlah karyawan
             </CardTitle>
-            <CardDescription>New hires, terminations, and net change for {selectedYear}</CardDescription>
+            <CardDescription>Karyawan baru, penghentian, dan perubahan bersih untuk {selectedYear}</CardDescription>
           </CardHeader>
           <CardContent>
             {isLoadingHeadcount ? (
@@ -192,26 +192,26 @@ const Reports = () => {
               </div>
             ) : headcountData ? (
               <div className="space-y-6">
-                {/* Summary Stats */}
+                {/* Statistik Ringkasan */}
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
                   <div className="min-w-0 rounded-lg border bg-muted/50 p-3 sm:p-4">
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-                      <p className="text-sm text-muted-foreground">Current headcount</p>
+                      <p className="text-sm text-muted-foreground">Jumlah karyawan saat ini</p>
                     </div>
                     <p className="mt-2 text-2xl font-bold sm:text-3xl">{headcountData.currentHeadcount}</p>
                   </div>
                   <div className="min-w-0 rounded-lg border bg-muted/50 p-3 sm:p-4">
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-                      <p className="text-sm text-muted-foreground">Start of year</p>
+                      <p className="text-sm text-muted-foreground">Awal tahun</p>
                     </div>
                     <p className="mt-2 text-2xl font-bold sm:text-3xl">{headcountData.startOfYearHeadcount}</p>
                   </div>
                   <div className="min-w-0 rounded-lg border border-emerald-200 bg-emerald-50 p-3 dark:border-emerald-900 dark:bg-emerald-950 sm:p-4">
                     <div className="flex items-center gap-2">
                       <UserPlus className="h-4 w-4 shrink-0 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
-                      <p className="text-sm text-emerald-800 dark:text-emerald-300">New hires</p>
+                      <p className="text-sm text-emerald-800 dark:text-emerald-300">Karyawan baru</p>
                     </div>
                     <p className="mt-2 text-2xl font-bold text-emerald-800 dark:text-emerald-300 sm:text-3xl">
                       {headcountData.newHires > 0 ? `+${headcountData.newHires}` : 0}
@@ -220,7 +220,7 @@ const Reports = () => {
                   <div className="min-w-0 rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-900 dark:bg-red-950 sm:p-4">
                     <div className="flex items-center gap-2">
                       <UserMinus className="h-4 w-4 shrink-0 text-red-700 dark:text-red-400" aria-hidden="true" />
-                      <p className="text-sm text-red-800 dark:text-red-300">Terminations</p>
+                      <p className="text-sm text-red-800 dark:text-red-300">Penghentian</p>
                     </div>
                     <p className="mt-2 text-2xl font-bold text-red-800 dark:text-red-300 sm:text-3xl">
                       {headcountData.terminations > 0 ? `−${headcountData.terminations}` : 0}
@@ -234,7 +234,7 @@ const Reports = () => {
                         <TrendingDown className="h-4 w-4 shrink-0 text-orange-700 dark:text-orange-400" aria-hidden="true" />
                       )}
                       <p className={`text-sm ${headcountData.netChange >= 0 ? 'text-primary' : 'text-orange-800 dark:text-orange-300'}`}>
-                        Net change
+                        Perubahan bersih
                       </p>
                     </div>
                     <p className={`mt-2 text-2xl font-bold sm:text-3xl ${headcountData.netChange >= 0 ? 'text-primary' : 'text-orange-800 dark:text-orange-300'}`}>
@@ -243,11 +243,11 @@ const Reports = () => {
                   </div>
                 </div>
 
-                {/* Monthly Breakdown Chart */}
+                {/* Grafik Rincian Bulanan */}
                 <div
                   className="h-[250px]"
                   role="img"
-                  aria-label={`New hires and terminations by month in ${selectedYear}: ${headcountData.newHires} hires, ${headcountData.terminations} terminations`}
+                  aria-label={`Karyawan baru dan penghentian per bulan pada ${selectedYear}: ${headcountData.newHires} karyawan baru, ${headcountData.terminations} penghentian`}
                 >
                   {headcountData.monthlyBreakdown.some((m) => m.hires > 0 || m.terminations > 0) ? (
                     <ResponsiveContainer width="100%" height="100%">
@@ -257,13 +257,13 @@ const Reports = () => {
                         <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} allowDecimals={false} />
                         <Tooltip contentStyle={tooltipStyle} />
                         <Legend formatter={legendLabel} />
-                        <Bar dataKey="hires" name="New hires" fill="hsl(142, 76%, 36%)" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="terminations" name="Terminations" fill="hsl(0, 84%, 60%)" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="hires" name="Karyawan baru" fill="hsl(142, 76%, 36%)" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="terminations" name="Penghentian" fill="hsl(0, 84%, 60%)" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
                     <div className="flex h-full items-center justify-center">
-                      <p className="text-muted-foreground">No headcount changes recorded for {selectedYear}</p>
+                      <p className="text-muted-foreground">Tidak ada perubahan jumlah karyawan yang tercatat untuk {selectedYear}</p>
                     </div>
                   )}
                 </div>
@@ -273,17 +273,17 @@ const Reports = () => {
         </Card>
         )}
 
-        {/* Charts Grid */}
+        {/* Grid Grafik */}
         <div className="grid gap-6 lg:grid-cols-2">
-          {/* Employee Growth */}
+          {/* Pertumbuhan Karyawan */}
           {can("employees") && (
           <Card>
             <CardHeader>
-              <CardTitle>Employee growth</CardTitle>
-              <CardDescription>Active employees at the end of each month in {selectedYear}</CardDescription>
+              <CardTitle>Pertumbuhan karyawan</CardTitle>
+              <CardDescription>Karyawan aktif pada akhir setiap bulan di {selectedYear}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px]" role="img" aria-label={`Active headcount by month in ${selectedYear}`}>
+              <div className="h-[300px]" role="img" aria-label={`Jumlah karyawan aktif per bulan di ${selectedYear}`}>
                 {isLoadingGrowth ? (
                   <Skeleton className="h-full w-full" />
                 ) : employeeGrowthData && employeeGrowthData.some((d) => (d.employees ?? 0) > 0) ? (
@@ -296,7 +296,7 @@ const Reports = () => {
                       <Line
                         type="monotone"
                         dataKey="employees"
-                        name="Active employees"
+                        name="Karyawan aktif"
                         stroke="hsl(var(--primary))"
                         strokeWidth={3}
                         dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
@@ -305,7 +305,7 @@ const Reports = () => {
                   </ResponsiveContainer>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <p className="text-muted-foreground">No employee data available</p>
+                    <p className="text-muted-foreground">Tidak ada data karyawan yang tersedia</p>
                   </div>
                 )}
               </div>
@@ -313,18 +313,18 @@ const Reports = () => {
           </Card>
           )}
 
-          {/* Department Distribution */}
+          {/* Distribusi Departemen */}
           {can("employees") && (
           <Card>
             <CardHeader>
-              <CardTitle>Department distribution</CardTitle>
-              <CardDescription>Active employees by department</CardDescription>
+              <CardTitle>Distribusi departemen</CardTitle>
+              <CardDescription>Karyawan aktif per departemen</CardDescription>
             </CardHeader>
             <CardContent>
               <div
                 className="h-[300px]"
                 role="img"
-                aria-label={`Active employees by department: ${(departmentData || []).map((d) => `${d.name} ${d.value}`).join(", ")}`}
+                aria-label={`Karyawan aktif per departemen: ${(departmentData || []).map((d) => `${d.name} ${d.value}`).join(", ")}`}
               >
                 {isLoadingDept ? (
                   <Skeleton className="h-full w-full" />
@@ -350,7 +350,7 @@ const Reports = () => {
                   </ResponsiveContainer>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <p className="text-muted-foreground">No department data available</p>
+                      <p className="text-muted-foreground">Tidak ada data departemen yang tersedia</p>
                   </div>
                 )}
               </div>
@@ -373,15 +373,15 @@ const Reports = () => {
           </Card>
           )}
 
-          {/* Leave Statistics */}
+          {/* Statistik Cuti */}
           {can("leaves") && (
           <Card>
             <CardHeader>
-              <CardTitle>Leave statistics</CardTitle>
-              <CardDescription>Approved leave days by month and type for {selectedYear}</CardDescription>
+              <CardTitle>Statistik cuti</CardTitle>
+              <CardDescription>Hari cuti yang disetujui per bulan dan jenis untuk {selectedYear}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px]" role="img" aria-label={`Approved leave days by month and leave type in ${selectedYear}`}>
+              <div className="h-[300px]" role="img" aria-label={`Hari cuti yang disetujui per bulan dan jenis cuti di ${selectedYear}`}>
                 {isLoadingLeave ? (
                   <Skeleton className="h-full w-full" />
                 ) : leaveStats && leaveStats.monthlyData.some((d) => 
@@ -408,7 +408,7 @@ const Reports = () => {
                   </ResponsiveContainer>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <p className="text-muted-foreground">No leave data available for {selectedYear}</p>
+                      <p className="text-muted-foreground">Tidak ada data cuti yang tersedia untuk {selectedYear}</p>
                   </div>
                 )}
               </div>
@@ -416,18 +416,18 @@ const Reports = () => {
           </Card>
           )}
 
-          {/* Payroll Trend */}
+          {/* Tren Penggajian */}
           {can("payroll") && (
           <Card>
             <CardHeader>
-              <CardTitle>Payroll trend</CardTitle>
-              <CardDescription>Monthly net payroll for {selectedYear}</CardDescription>
+              <CardTitle>Tren penggajian</CardTitle>
+              <CardDescription>Gaji bersih bulanan untuk {selectedYear}</CardDescription>
             </CardHeader>
             <CardContent>
               <div
                 className="h-[300px]"
                 role="img"
-                aria-label={`Monthly net payroll in ${selectedYear}: ${(payrollTrendData || []).map((d) => `${d.month} ${formatInrCompact(d.amount)}`).join(", ")}`}
+                aria-label={`Gaji bersih bulanan di ${selectedYear}: ${(payrollTrendData || []).map((d) => `${d.month} ${formatInrCompact(d.amount)}`).join(", ")}`}
               >
                 {isLoadingPayroll ? (
                   <Skeleton className="h-full w-full" />
@@ -448,14 +448,14 @@ const Reports = () => {
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
                         }}
-                        formatter={(value: number) => [`₹${value.toLocaleString("en-IN")}`, "Net payroll"]}
+                        formatter={(value: number) => [`₹${value.toLocaleString("en-IN")}`, "Gaji bersih"]}
                       />
                       <Bar dataKey="amount" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} maxBarSize={48} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <p className="text-muted-foreground">No payroll data available for {selectedYear}</p>
+                      <p className="text-muted-foreground">Tidak ada data penggajian yang tersedia untuk {selectedYear}</p>
                   </div>
                 )}
               </div>
@@ -464,28 +464,28 @@ const Reports = () => {
           )}
         </div>
 
-        {/* Payroll Summary Report */}
+        {/* Laporan Ringkasan Penggajian */}
         {can("payroll") && (
         <div id="report-payroll">
           <PayrollSummaryReport />
         </div>
         )}
 
-        {/* Leave Balance Report */}
+        {/* Laporan Saldo Cuti */}
         {can("leaves") && (
         <div id="report-leave">
           <LeaveBalanceReport />
         </div>
         )}
 
-        {/* Asset Inventory Report */}
+        {/* Laporan Inventaris Aset */}
         {can("assets") && (
         <div id="report-asset">
           <AssetInventoryReport />
         </div>
         )}
 
-        {/* Attendance Report */}
+        {/* Laporan Kehadiran */}
         {can("attendance") && (
         <div id="report-attendance">
           <AttendanceReport />

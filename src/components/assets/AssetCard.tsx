@@ -50,7 +50,7 @@ export function AssetCard({ asset, onAssign, onReturn, onEdit, onDelete, onViewH
             <div className="min-w-0">
               <h3 className="break-words font-semibold text-foreground">{asset.name}</h3>
               <p className="truncate text-sm text-muted-foreground">
-                {asset.serialNumber ? `SN: ${asset.serialNumber}` : "No serial number"}
+                {asset.serialNumber ? `SN: ${asset.serialNumber}` : "Tidak ada nomor seri"}
               </p>
             </div>
           </div>
@@ -62,7 +62,7 @@ export function AssetCard({ asset, onAssign, onReturn, onEdit, onDelete, onViewH
                   size="icon"
                   className="-mr-2 -mt-2 h-10 w-10 shrink-0 sm:h-8 sm:w-8"
                   aria-label={`Actions for ${asset.name}`}
-                  title="Asset actions"
+                  title="Aksi aset"
                 >
                   <MoreVertical className="h-4 w-4" aria-hidden="true" />
                 </Button>
@@ -70,22 +70,22 @@ export function AssetCard({ asset, onAssign, onReturn, onEdit, onDelete, onViewH
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => onEdit?.(asset)}>
                   <Edit className="mr-2 h-4 w-4" />
-                  Edit asset
+                  Sunting aset
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onViewHistory?.(asset)}>
                   <History className="mr-2 h-4 w-4" />
-                  View history
+                  Lihat riwayat
                 </DropdownMenuItem>
                 {asset.status === "available" && (
                   <DropdownMenuItem onClick={() => onAssign?.(asset)}>
                     <UserPlus className="mr-2 h-4 w-4" />
-                    Assign to employee
+                    Tetapkan ke karyawan
                   </DropdownMenuItem>
                 )}
                 {asset.status === "assigned" && (
                   <DropdownMenuItem onClick={() => onReturn?.(asset)}>
                     <RotateCcw className="mr-2 h-4 w-4" />
-                    Mark as returned
+                    Tandai sebagai dikembalikan
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
@@ -94,7 +94,7 @@ export function AssetCard({ asset, onAssign, onReturn, onEdit, onDelete, onViewH
                   className="text-destructive focus:text-destructive"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete asset
+                  Hapus aset
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -107,11 +107,11 @@ export function AssetCard({ asset, onAssign, onReturn, onEdit, onDelete, onViewH
 
         <div className="mt-4 flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-xs text-muted-foreground">Purchase date</p>
+            <p className="text-xs text-muted-foreground">Tanggal pembelian</p>
             <p className="text-sm font-medium text-foreground">{asset.purchaseDate}</p>
           </div>
           <div className="space-y-1 text-right">
-            <p className="text-xs text-muted-foreground">Cost</p>
+            <p className="text-xs text-muted-foreground">Biaya</p>
             <p className="text-sm font-medium text-foreground">₹{asset.cost.toLocaleString('en-IN')}</p>
           </div>
         </div>

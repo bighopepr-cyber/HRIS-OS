@@ -117,7 +117,7 @@ serve(async (req) => {
           .from("notifications")
           .insert({
             user_id: hrUser.user_id,
-            title: "New Employee Onboarding",
+            title: "Karyawan Baru Onboarding",
             message: `${employee_name} has been added for onboarding as ${designation}${department_name ? ` in ${department_name}` : ""}.`,
             type: "onboarding",
             link: "/onboarding",
@@ -197,7 +197,7 @@ serve(async (req) => {
           .from("notifications")
           .insert({
             user_id: manager.user_id,
-            title: "New Team Member",
+            title: "Anggota Tim Baru",
             message: `${employee_name} will be joining your team as ${designation} on ${join_date}.`,
             type: "onboarding",
             link: "/onboarding",

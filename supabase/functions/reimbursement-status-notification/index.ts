@@ -83,13 +83,13 @@ serve(async (req) => {
 
     if (!canManage && !isManagerOfEmployee) {
       console.error("User not authorized to send this notification");
-      return jsonResponse({ error: 'Forbidden - You are not authorized to send this notification' }, 403);
+      return jsonResponse({ error: 'Dilarang - Anda tidak berwenang mengirim notifikasi ini' }, 403);
     }
 
     const status = reimbursementRequest.status as string;
     if (status !== "approved" && status !== "rejected" && status !== "paid") {
       console.error(`Reimbursement ${reimbursementRequest.id} has status ${status}; nothing to notify`);
-      return jsonResponse({ error: "Reimbursement request has not been reviewed" }, 409);
+      return jsonResponse({ error: "Klaim penggantian belum ditinjau" }, 409);
     }
 
     // Reviewer name from the acting employee's record
@@ -147,7 +147,7 @@ serve(async (req) => {
     const safeAmount = escapeHtml(amount);
     const safeExpenseDate = escapeHtml(reimbursementRequest.expense_date);
 
-    const plainMessage = `Your ${category} expense claim for ₹${amount} has been ${status} by ${reviewerName}.`;
+    const plainMessage = `Klaim pengeluaran ${category} Anda sebesar ₹${amount} telah ${status} oleh ${reviewerName}.`;
 
     // Create in-app notification (always send in-app notifications)
     if (employee.user_id) {
@@ -177,7 +177,7 @@ serve(async (req) => {
           },
           body: JSON.stringify({
             user_ids: [employee.user_id],
-            title: `Reimbursement Request ${statusText}`,
+title: `Klaim Penggantian ${statusText}`,
             body: plainMessage,
             url: "/reimbursements",
           }),
@@ -192,7 +192,7 @@ serve(async (req) => {
     if (wantsReimbursementNotifications) {
       const emailResult = await sendEmail(
         [employee.email],
-        `Reimbursement Request ${statusText} - ${safeCategory}`,
+        `Klaim Penggantian ${statusText} - ${safeCategory}`,
         `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #333;">Reimbursement Request ${statusText}</h2>

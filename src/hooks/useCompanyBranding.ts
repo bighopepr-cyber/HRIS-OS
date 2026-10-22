@@ -81,10 +81,10 @@ export function useUploadBrandingAsset() {
   return useMutation({
     mutationFn: async ({ file, kind }: { file: File; kind: "logo" | "icon" }) => {
       if (file.size > MAX_BRANDING_ASSET_BYTES) {
-        throw new Error("File is too large. Maximum size is 2MB.");
+        throw new Error("Ukuran file terlalu besar. Ukuran maksimum adalah 2MB.");
       }
       if (!ALLOWED_BRANDING_ASSET_TYPES.includes(file.type)) {
-        throw new Error("Unsupported file type. Allowed: PNG, JPG, SVG, WEBP.");
+        throw new Error("Tipe file tidak didukung. Diizinkan: PNG, JPG, SVG, WEBP.");
       }
 
       const fileExt = file.name.split(".").pop();
@@ -97,7 +97,7 @@ export function useUploadBrandingAsset() {
       if (uploadError) throw uploadError;
 
       const { data } = supabase.storage.from("company-branding").getPublicUrl(fileName);
-      // Cache-bust so the browser/img tag picks up a re-uploaded file at the same path
+      // Cache-bust agar browser/tag img mengambil berkas yang diunggah ulang pada path yang sama
       return `${data.publicUrl}?t=${Date.now()}`;
     },
   });

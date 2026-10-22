@@ -88,8 +88,8 @@ export function UpcomingCelebrations() {
   });
 
   const formatCelebrationDate = (date: Date) => {
-    if (isSameDay(date, today)) return "Today";
-    if (isSameDay(date, addDays(today, 1))) return "Tomorrow";
+    if (isSameDay(date, today)) return "Hari ini";
+    if (isSameDay(date, addDays(today, 1))) return "Besok";
     return format(date, "EEE, MMM d");
   };
 
@@ -98,7 +98,7 @@ export function UpcomingCelebrations() {
       <CardHeader className="pb-3">
         <CardTitle className="text-base flex items-center gap-2">
           <PartyPopper className="h-5 w-5 text-primary" />
-          Upcoming Celebrations
+          Rayakan yang Akan Datang
           {celebrations.length > 0 && (
             <Badge variant="secondary" className="ml-auto">
               {celebrations.length}
@@ -146,12 +146,12 @@ export function UpcomingCelebrations() {
                   {celebration.type === "birthday" ? (
                     <>
                       <Cake className="h-3 w-3" />
-                      Birthday
+                      Ulang Tahun
                     </>
                   ) : (
                     <>
                       <Award className="h-3 w-3" />
-                      {celebration.years}yr
+                      {celebration.years}thn
                     </>
                   )}
                 </Badge>
@@ -159,13 +159,13 @@ export function UpcomingCelebrations() {
             ))}
             {celebrations.length > 5 && (
               <p className="text-xs text-muted-foreground text-center">
-                +{celebrations.length - 5} more this month
+                +{celebrations.length - 5} lainnya bulan ini
               </p>
             )}
           </div>
         ) : (
           <p className="text-sm text-muted-foreground text-center py-4">
-            No upcoming celebrations
+            Tidak ada perayaan yang akan datang
           </p>
         )}
       </CardContent>

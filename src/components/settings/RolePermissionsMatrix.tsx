@@ -118,13 +118,13 @@ export function RolePermissionsMatrix() {
       }
     },
     onSuccess: () => {
-      toast({ title: "Role defaults saved", description: "Changes apply to everyone with these roles." });
+      toast({ title: "Default peran disimpan", description: "Perubahan berlaku untuk semua yang memiliki peran ini." });
     },
     onError: (err: Error) => {
-      toast({ title: "Error", description: err.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: err.message, variant: "destructive" });
     },
     onSettled: () => {
-      // Refetch even on partial failure so the matrix shows what's really stored
+      // Muat ulang meskipun gagal sebagian agar matriks menampilkan data yang benar-benar tersimpan
       queryClient.invalidateQueries({ queryKey: ROLE_PERMISSIONS_KEY });
       queryClient.invalidateQueries({ queryKey: ["permissions"] });
     },
@@ -144,43 +144,43 @@ export function RolePermissionsMatrix() {
     <Card>
       <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1.5">
-          <CardTitle>Defaults for each role</CardTitle>
+          <CardTitle>Default untuk setiap peran</CardTitle>
           <CardDescription>
-            Changes here apply to everyone with that role. To give just one person more access, use{" "}
-            <span className="font-medium text-foreground">Extra access</span> on their row in the list above.
-            Administrators always have full access.
+Perubahan di sini berlaku untuk semua yang memiliki peran tersebut. Untuk memberikan akses tambahan kepada satu orang, gunakan{" "}
+<span className="font-medium text-foreground">Akses tambahan</span> pada baris mereka di daftar di atas.
+Administrator selalu memiliki akses penuh.
           </CardDescription>
           <p className="text-xs text-muted-foreground">
-            Managers and employees always keep self-service and team access without any grant; anything set here gives
-            organisation-wide access to everyone with that role.
+Manajer dan karyawan selalu mempertahankan akses layanan mandiri dan tim tanpa pemberian tambahan; apa pun yang diatur di sini memberikan
+akses organisasi secara menyeluruh kepada semua yang memiliki peran tersebut.
           </p>
         </div>
         <div className="flex shrink-0 gap-2">
           <Button variant="outline" onClick={() => setDraft(saved)} disabled={busy || changes.length === 0}>
             <Undo2 className="mr-2 h-4 w-4" />
-            Reset
+            Atur ulang
           </Button>
           <Button onClick={handleSave} disabled={busy || changes.length === 0}>
             {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-            Save{changes.length > 0 ? ` (${changes.length})` : ""}
+            Simpan{changes.length > 0 ? ` (${changes.length})` : ""}
           </Button>
         </div>
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="py-8 text-center text-muted-foreground">Loading role access...</div>
+          <div className="py-8 text-center text-muted-foreground">Memuat akses peran...</div>
         ) : error ? (
           <div className="py-8 text-center text-destructive">
-            Couldn't load role access: {(error as Error).message}
+            Tidak dapat memuat akses peran: {(error as Error).message}
           </div>
         ) : (
           <>
-            {/* Desktop / tablet: matrix */}
+            {/* Desktop / tablet: matriks */}
             <div className="hidden md:block">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Module</TableHead>
+                    <TableHead>Modul</TableHead>
                     {CONFIGURABLE_ROLES.map((r) => (
                       <TableHead key={r.key} className="w-36">
                         {r.label}
@@ -201,7 +201,7 @@ export function RolePermissionsMatrix() {
                             value={get(draft, r.key, m.key)}
                             onChange={(v) => setCell(r.key, m.key, v)}
                             disabled={busy}
-                            label={`${r.label} access to ${m.label}`}
+                            label={`${r.label} akses ke ${m.label}`}
                           />
                         </TableCell>
                       ))}
@@ -211,7 +211,7 @@ export function RolePermissionsMatrix() {
               </Table>
             </div>
 
-            {/* Phone: one block per module */}
+            {/* Telepon: satu blok per modul */}
             <div className="space-y-3 md:hidden">
               {MODULES.map((m) => (
                 <div key={m.key} className="rounded-lg border p-3">
@@ -225,7 +225,7 @@ export function RolePermissionsMatrix() {
                           value={get(draft, r.key, m.key)}
                           onChange={(v) => setCell(r.key, m.key, v)}
                           disabled={busy}
-                          label={`${r.label} access to ${m.label}`}
+                          label={`${r.label} akses ke ${m.label}`}
                         />
                       </div>
                     ))}
@@ -240,10 +240,10 @@ export function RolePermissionsMatrix() {
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Reduce HR access?</AlertDialogTitle>
+            <AlertDialogTitle>Kurangi akses HR?</AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>This changes access for everyone with the HR role:</p>
+                <p>Ini mengubah akses untuk semua yang memiliki peran HR:</p>
                 <ul className="list-disc space-y-0.5 pl-5">
                   {hrReductions.map((c) => (
                     <li key={c.module}>
@@ -251,17 +251,17 @@ export function RolePermissionsMatrix() {
                     </li>
                   ))}
                 </ul>
-                <p>HR users who need this access will have to be given it individually.</p>
+                <p>Pengguna HR yang membutuhkan akses ini harus diberikan secara individu.</p>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Batal</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => saveMutation.mutate()}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Reduce HR access
+              Kurangi akses HR
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

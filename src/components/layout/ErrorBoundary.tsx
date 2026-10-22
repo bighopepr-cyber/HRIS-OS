@@ -27,11 +27,11 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-background p-6">
           <div className="max-w-sm text-center space-y-4">
             <AlertTriangle className="mx-auto h-10 w-10 text-destructive" />
-            <h2 className="text-lg font-semibold">Something went wrong</h2>
+            <h2 className="text-lg font-semibold">Terjadi kesalahan</h2>
             <p className="text-sm text-muted-foreground">
-              An unexpected error occurred. Reloading the page usually fixes this.
+              Terjadi kesalahan yang tidak terduga. Memuat ulang halaman biasanya dapat memperbaikinya.
             </p>
-            <Button onClick={() => window.location.reload()}>Reload page</Button>
+            <Button onClick={() => window.location.reload()}>Muat ulang halaman</Button>
           </div>
         </div>
       );

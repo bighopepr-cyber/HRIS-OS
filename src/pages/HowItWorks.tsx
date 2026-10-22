@@ -20,45 +20,45 @@ const steps = [
   {
     number: "01",
     icon: <Download className="h-8 w-8" />,
-    title: "Deploy or Sign Up",
-    description: "Choose to self-host on your infrastructure or use our hosted solution. Either way, you're up and running in minutes.",
+    title: "Deploy atau Daftar",
+    description: "Pilih untuk hosting sendiri di infrastruktur Anda atau gunakan solusi hosting kami. Apa pun pilihannya, Anda dapat langsung menjalankan dalam hitungan menit.",
     details: [
-      "One-click deployment to Vercel, Railway, or Docker",
-      "Or sign up for our managed cloud option",
-      "Full control over your data and infrastructure"
+      "Deploy sekali klik ke Vercel, Railway, atau Docker",
+      "Atau daftar untuk opsi cloud terkelola kami",
+      "Kontrol penuh atas data dan infrastruktur Anda"
     ]
   },
   {
     number: "02",
     icon: <Settings className="h-8 w-8" />,
-    title: "Configure Your Organization",
-    description: "Set up your company structure, departments, leave policies, and customize settings to match your workflow.",
+    title: "Konfigurasi Organisasi Anda",
+    description: "Siapkan struktur perusahaan, departemen, kebijakan cuti, dan sesuaikan pengaturan agar sesuai dengan alur kerja Anda.",
     details: [
-      "Define departments and reporting structure",
-      "Configure leave types and policies",
-      "Set up payroll components and deductions"
+      "Tentukan departemen dan struktur pelaporan",
+      "Konfigurasi jenis cuti dan kebijakannya",
+      "Siapkan komponen penggajian dan potongan"
     ]
   },
   {
     number: "03",
     icon: <Users className="h-8 w-8" />,
-    title: "Add Your Team",
-    description: "Import or add employees, assign roles and managers, and set up their profiles with all necessary information.",
+    title: "Tambahkan Tim Anda",
+    description: "Impor atau tambahkan karyawan, tetapkan peran dan atasan, serta lengkapi profil mereka dengan semua informasi yang diperlukan.",
     details: [
-      "Bulk import employees via CSV",
-      "Assign roles: Admin, HR, Manager, or Employee",
-      "Set up employee profiles and documents"
+      "Impor massal karyawan melalui CSV",
+      "Tetapkan peran: Admin, HR, Manager, atau Employee",
+      "Siapkan profil karyawan dan dokumen"
     ]
   },
   {
     number: "04",
     icon: <Rocket className="h-8 w-8" />,
-    title: "Start Managing",
-    description: "Your team can now clock attendance, request leaves, track goals, and more. HR has full visibility and control.",
+    title: "Mulai Mengelola",
+    description: "Sekarang tim Anda dapat mencatat absensi, mengajukan cuti, memantau sasaran, dan banyak lagi. Tim SDM memiliki visibilitas serta kendali penuh.",
     details: [
-      "Employees self-serve for common requests",
-      "Managers approve and oversee their teams",
-      "HR gets comprehensive dashboards and reports"
+      "Karyawan dapat melayani permintaan umum secara mandiri",
+      "Atasan menyetujui dan mengawasi timnya",
+      "Tim SDM memperoleh dasbor dan laporan yang komprehensif"
     ]
   }
 ];
@@ -66,18 +66,18 @@ const steps = [
 const deployOptions = [
   {
     icon: <Server className="h-6 w-6" />,
-    title: "Self-Hosted",
-    description: "Deploy on your own servers with Docker or directly on any Node.js hosting."
+    title: "Hosting Sendiri",
+    description: "Deploy di server Anda sendiri dengan Docker atau langsung pada hosting Node.js mana pun."
   },
   {
     icon: <Cloud className="h-6 w-6" />,
-    title: "Cloud Platforms",
-    description: "One-click deploy to Vercel, Railway, Render, or any cloud platform."
+    title: "Platform Cloud",
+    description: "Deploy sekali klik ke Vercel, Railway, Render, atau platform cloud mana pun."
   },
   {
     icon: <Database className="h-6 w-6" />,
-    title: "Supabase Backend",
-    description: "Uses Supabase for authentication, database, and storage — free tier available."
+    title: "Backend Supabase",
+    description: "Menggunakan Supabase untuk autentikasi, basis data, dan penyimpanan — tersedia paket gratis."
   }
 ];
 
@@ -86,32 +86,32 @@ const HowItWorks = () => {
     <div className="min-h-screen bg-background">
       <PublicHeader />
 
-      {/* Hero */}
+      {/* Bagian Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
         <div className="container mx-auto px-4 py-20 lg:py-28 relative">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <PublicPageBadge icon={<Sparkles />}>Simple setup</PublicPageBadge>
+            <PublicPageBadge icon={<Sparkles />}>Penyiapan sederhana</PublicPageBadge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-              Get Started in{" "}
-              <span className="text-primary">Four Simple Steps</span>
+              Mulai dalam{" "}
+              <span className="text-primary">Empat Langkah Sederhana</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              No complex setup required. Get your HR system up and running quickly 
-              with our streamlined onboarding process.
+              Tidak diperlukan penyiapan yang rumit. Aktifkan sistem SDM Anda dengan cepat melalui
+              proses onboarding yang kami ringkas.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Steps Timeline */}
+      {/* Garis Waktu Langkah */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <ol className="space-y-10 md:space-y-12">
               {steps.map((step, index) => (
                 <li key={step.number} className="relative flex flex-col gap-4 md:flex-row md:gap-8">
-                  {/* Timeline connector: runs between the step chips, never through the cards */}
+                  {/* Penghubung garis waktu: berjalan di antara penanda langkah, tidak pernah menembus kartu */}
                   {index < steps.length - 1 && (
                     <div
                       aria-hidden="true"
@@ -119,13 +119,13 @@ const HowItWorks = () => {
                     />
                   )}
 
-                  {/* Step number */}
+                  {/* Nomor langkah */}
                   <div className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-primary text-lg font-bold text-primary-foreground shadow-lg md:h-16 md:w-16 md:rounded-2xl md:text-2xl">
-                    <span className="sr-only">Step </span>
+                    <span className="sr-only">Langkah </span>
                     {step.number}
                   </div>
 
-                  {/* Content Card */}
+                  {/* Kartu konten */}
                   <Card className="flex-1 transition-all duration-300 hover:border-primary/30 hover:shadow-lg">
                     <CardContent className="p-6 md:p-8">
                       <div className="mb-3 flex items-center gap-3">
@@ -159,14 +159,14 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      {/* Deployment Options */}
+      {/* Pilihan Deployment */}
       <section className="bg-muted/30 py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4">Deployment</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Flexible Deployment Options</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Pilihan Deployment yang Fleksibel</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose how you want to run Peoplo. Your data, your rules, your infrastructure.
+              Tentukan cara Anda menjalankan Peoplo. Data Anda, aturan Anda, infrastruktur Anda.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -189,8 +189,8 @@ const HowItWorks = () => {
       </section>
 
       <PublicCtaSection
-        title="Ready to simplify your HR?"
-        description="Host it yourself for free under AGPL-3.0, or book a demo and we'll set it up for you."
+        title="Siap menyederhanakan SDM Anda?"
+        description="Hosting sendiri secara gratis di bawah AGPL-3.0, atau pesan demo dan kami akan menyiapkannya untuk Anda."
       />
 
       <Footer />

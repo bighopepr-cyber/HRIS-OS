@@ -17,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { checkEmailDomainAllowed } from "@/lib/domainWhitelist";
 
-const emailSchema = z.string().trim().email("Please enter a valid email address");
+const emailSchema = z.string().trim().email("Silakan masukkan alamat email yang valid");
 
 interface ChangeEmailDialogProps {
   currentEmail: string;
@@ -43,12 +43,12 @@ export function ChangeEmailDialog({ currentEmail }: ChangeEmailDialogProps) {
   const handleSendCode = async () => {
     const result = emailSchema.safeParse(newEmail);
     if (!result.success) {
-      toast({ title: "Error", description: result.error.errors[0].message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: result.error.errors[0].message, variant: "destructive" });
       return;
     }
 
     if (result.data.toLowerCase() === currentEmail.toLowerCase()) {
-      toast({ title: "Error", description: "That's already your current email.", variant: "destructive" });
+      toast({ title: "Kesalahan", description: "Itu sudah email Anda saat ini.", variant: "destructive" });
       return;
     }
 
@@ -57,7 +57,7 @@ export function ChangeEmailDialog({ currentEmail }: ChangeEmailDialogProps) {
     const domainCheck = await checkEmailDomainAllowed(result.data);
     if (!domainCheck.allowed) {
       setIsSubmitting(false);
-      toast({ title: "Domain Not Allowed", description: domainCheck.message, variant: "destructive" });
+      toast({ title: "Domain Tidak Diizinkan", description: domainCheck.message, variant: "destructive" });
       return;
     }
 
@@ -65,13 +65,13 @@ export function ChangeEmailDialog({ currentEmail }: ChangeEmailDialogProps) {
     setIsSubmitting(false);
 
     if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
       return;
     }
 
     toast({
-      title: "Codes Sent",
-      description: `Check both ${currentEmail} and ${result.data} — each got a different code, and both are needed to confirm the change.`,
+      title: "Kode Terkirim",
+      description: `Cek Both ${currentEmail} dan ${result.data} — masing-masing dapat kode berbeda, dan keduanya diperlukan untuk mengonfirmasi perubahan.`,
     });
     setStep("code");
   };
@@ -79,8 +79,8 @@ export function ChangeEmailDialog({ currentEmail }: ChangeEmailDialogProps) {
   const handleVerifyCode = async () => {
     if (!currentEmailCode.trim() || !newEmailCode.trim()) {
       toast({
-        title: "Error",
-        description: "Enter both codes — one from your current email, one from your new email.",
+        title: "Kesalahan",
+        description: "Masukkan kedua kode — satu dari email saat ini, satu dari email baru.",
         variant: "destructive",
       });
       return;
@@ -97,7 +97,7 @@ export function ChangeEmailDialog({ currentEmail }: ChangeEmailDialogProps) {
     if (currentError) {
       setIsSubmitting(false);
       toast({
-        title: "Error confirming current email",
+        title: "Kesalahan mengonfirmasi email saat ini",
         description: currentError.message,
         variant: "destructive",
       });
@@ -112,11 +112,11 @@ export function ChangeEmailDialog({ currentEmail }: ChangeEmailDialogProps) {
     setIsSubmitting(false);
 
     if (newError) {
-      toast({ title: "Error confirming new email", description: newError.message, variant: "destructive" });
+      toast({ title: "Kesalahan mengonfirmasi email baru", description: newError.message, variant: "destructive" });
       return;
     }
 
-    toast({ title: "Email updated", description: "Your email address has been changed." });
+    toast({ title: "Email diperbarui", description: "Surel Anda telah diubah." });
     resetAndClose();
   };
 
@@ -125,88 +125,88 @@ export function ChangeEmailDialog({ currentEmail }: ChangeEmailDialogProps) {
       <DialogTrigger asChild>
         <Button variant="outline" className="h-10 shrink-0 self-start sm:self-auto">
           <Mail className="mr-2 h-4 w-4" aria-hidden="true" />
-          Change email
+          Ubah surel
         </Button>
       </DialogTrigger>
       <DialogContent>
         {step === "email" ? (
           <>
             <DialogHeader>
-              <DialogTitle>Change email address</DialogTitle>
+              <DialogTitle>Ubah alamat surel</DialogTitle>
               <DialogDescription>
-                We'll send confirmation codes to your current and new address. Your login email won't change until
-                you confirm both.
+                Kami akan mengirimkan kode konfirmasi ke surel saat ini dan surel baru Anda. Surel masuk Anda tidak akan berubah
+                sampai Anda mengonfirmasi keduanya.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-2">
               <div className="space-y-2">
-                <Label htmlFor="current-email">Current email</Label>
+                <Label htmlFor="current-email">Surel saat ini</Label>
                 <Input id="current-email" value={currentEmail} readOnly className="cursor-default bg-muted/50" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="new-email">New email</Label>
+                <Label htmlFor="new-email">Surel baru</Label>
                 <Input
                   id="new-email"
                   type="email"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
-                  placeholder="you@company.com"
+                  placeholder="anda@perusahaan.com"
                 />
               </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={resetAndClose}>
-                Cancel
+                Batal
               </Button>
               <Button onClick={handleSendCode} disabled={isSubmitting || !newEmail}>
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Send code
+                Kirim kode
               </Button>
             </DialogFooter>
           </>
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Enter confirmation codes</DialogTitle>
+              <DialogTitle>Masukkan kode konfirmasi</DialogTitle>
               <DialogDescription>
-                Two different codes were sent — one to your current email, one to your new email. Enter both to
-                confirm the change.
+                Dua kode berbeda dikirim — satu ke surel saat ini, satu ke surel baru Anda. Masukkan keduanya untuk
+                mengonfirmasi perubahan.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-2">
               <div className="space-y-2">
-                <Label htmlFor="current-email-code" className="break-words">Code from {currentEmail}</Label>
+                <Label htmlFor="current-email-code" className="break-words">Kode dari {currentEmail}</Label>
                 <Input
                   id="current-email-code"
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={currentEmailCode}
                   onChange={(e) => setCurrentEmailCode(e.target.value)}
-                  placeholder="Enter code"
+                  placeholder="Masukkan kode"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="new-email-code" className="break-words">Code from {newEmail}</Label>
+                <Label htmlFor="new-email-code" className="break-words">Kode dari {newEmail}</Label>
                 <Input
                   id="new-email-code"
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   value={newEmailCode}
                   onChange={(e) => setNewEmailCode(e.target.value)}
-                  placeholder="Enter code"
+                  placeholder="Masukkan kode"
                 />
               </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setStep("email")}>
-                Back
+                Kembali
               </Button>
               <Button
                 onClick={handleVerifyCode}
                 disabled={isSubmitting || !currentEmailCode.trim() || !newEmailCode.trim()}
               >
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Confirm
+                Konfirmasi
               </Button>
             </DialogFooter>
           </>

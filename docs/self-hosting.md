@@ -1,40 +1,40 @@
 # Self-hosting Peoplo
 
-This guide takes you from nothing to your own running copy of Peoplo. It takes about an hour, most of it waiting for DNS.
+Panduan ini membawa Anda dari awal hingga memiliki salinan Peoplo Anda sendiri yang berjalan. Waktunya sekitar satu jam, sebagian besar menunggu DNS.
 
-Each Peoplo deployment is **one company's workspace**. Accounts are invite-only and can be restricted to your email domain, so there is no public sign-up page to protect.
+Setiap deployment Peoplo adalah **satu workspace perusahaan**. Akun bersifat undangan saja dan dapat dibatasi ke domain email Anda, sehingga tidak ada halaman pendaftaran publik yang perlu dilindungi.
 
-You'll set up three things:
+Anda akan menyiapkan tiga hal:
 
-1. **Supabase**: the database, sign-in, file storage, server functions and scheduled jobs.
-2. **Resend**: sends email (invitations, approvals, reminders, password resets).
-3. **A static host** for the website. This guide uses Vercel; any static host works.
+1. **Supabase**: basis data, masuk, penyimpanan file, fungsi server dan pekerjaan terjadwal.
+2. **Resend**: mengirim email (undangan, persetujuan, pengingat, reset kata sandi).
+3. **Host statis** untuk situs web. Panduan ini menggunakan Vercel; host statis apa pun bisa digunakan.
 
-## Contents
+## Daftar isi
 
-- [What you need](#what-you-need)
-- [Part 1: Supabase](#part-1-supabase)
-- [Part 2: Resend (email)](#part-2-resend-email)
-- [Part 3: Push notifications (optional)](#part-3-push-notifications-optional)
-- [Part 4: Deploy the server functions](#part-4-deploy-the-server-functions)
-- [Part 5: Supabase Auth settings](#part-5-supabase-auth-settings)
-- [Part 6: Scheduled jobs](#part-6-scheduled-jobs)
-- [Part 7: Deploy the website](#part-7-deploy-the-website)
-- [Part 8: Create the first admin](#part-8-create-the-first-admin)
-- [Part 9: Check everything works](#part-9-check-everything-works)
-- [Updating to a new version](#updating-to-a-new-version)
-- [Troubleshooting](#troubleshooting)
-- [Third-party services](#third-party-services)
+- [Yang Anda perlukan](#yang-anda-perlukan)
+- [Bagian 1: Supabase](#bagian-1-supabase)
+- [Bagian 2: Resend (email)](#bagian-2-resend-email)
+- [Bagian 3: Notifikasi push (opsional)](#bagian-3-notifikasi-push-opsional)
+- [Bagian 4: Deploy fungsi server](#bagian-4-deploy-fungsi-server)
+- [Bagian 5: Pengaturan Supabase Auth](#bagian-5-pengaturan-supabase-auth)
+- [Bagian 6: Pekerjaan terjadwal](#bagian-6-pekerjaan-terjadwal)
+- [Bagian 7: Deploy situs web](#bagian-7-deploy-situs-web)
+- [Bagian 8: Buat admin pertama](#bagian-8-buat-admin-pertama)
+- [Bagian 9: Periksa semuanya berfungsi](#bagian-9-periksa-semuanya-berfungsi)
+- [Memperbarui ke versi baru](#memperbarui-ke-versi-baru)
+- [Pemecahan masalah](#pemecahan-masalah)
+- [Layanan pihak ketiga](#layanan-pihak-ketiga)
 
-## What you need
+## Yang Anda perlukan
 
-- A computer with [Git](https://git-scm.com/downloads) and [Node.js](https://nodejs.org) 20 or newer.
-- A [Supabase](https://supabase.com) account (the free plan is enough to start).
-- A [Resend](https://resend.com) account (the free plan is enough to start).
-- A domain whose DNS records you can edit, for sending email (for example `example.com`).
-- A [Vercel](https://vercel.com) account, or another static host.
+- Komputer dengan [Git](https://git-scm.com/downloads) dan [Node.js](https://nodejs.org) 20 atau lebih baru.
+- Akun [Supabase](https://supabase.com) (paket gratis cukup untuk memulai).
+- Akun [Resend](https://resend.com) (paket gratis cukup untuk memulai).
+- Domain yang catatan DNS-nya dapat Anda edit, untuk mengirim email (misalnya `example.com`).
+- Akun [Vercel](https://vercel.com), atau host statis lain.
 
-Get the code and install its dependencies:
+Dapatkan kode dan pasang dependensinya:
 
 ```sh
 git clone https://github.com/redmonkin/core-hr-hub.git peoplo
@@ -42,79 +42,79 @@ cd peoplo
 npm install
 ```
 
-All Supabase commands below use `npx supabase ...`, which runs the [Supabase CLI](https://supabase.com/docs/guides/cli) without installing it. If you prefer, [install it](https://supabase.com/docs/guides/cli/getting-started) and drop the `npx`.
+Semua perintah Supabase di bawah ini menggunakan `npx supabase ...`, yang menjalankan [Supabase CLI](https://supabase.com/docs/guides/cli) tanpa memasangnya. Jika Anda lebih suka, [pasang CLI-nya](https://supabase.com/docs/guides/cli/getting-started) dan hilangkan `npx`.
 
-## Part 1: Supabase
+## Bagian 1: Supabase
 
-### 1.1 Create a project
+### 1.1 Buat proyek
 
-1. Sign in to the [Supabase dashboard](https://supabase.com/dashboard) and click **New project**.
-2. Give the project a name (for example `peoplo`) and set a **database password**. Save it in your password manager; you'll need it in step 1.4.
-3. Pick the **region** closest to your team, and click **Create new project**.
+1. Masuk ke [dasbor Supabase](https://supabase.com/dashboard) dan klik **New project**.
+2. Beri proyek nama (misalnya `peoplo`) dan atur **database password**. Simpan di pengelola kata sandi Anda; Anda akan membutuhkannya di langkah 1.4.
+3. Pilih **region** yang paling dekat dengan tim Anda, lalu klik **Create new project**.
 
-### 1.2 Note your project's details
+### 1.2 Catat detail proyek Anda
 
-| Value | Where to find it | Looks like |
+| Nilai | Tempat menemukannya | Contoh |
 | --- | --- | --- |
 | Project ref | **Project Settings → General → Project ID** | `abcdefghijklmnopqrst` |
 | Project URL | **Project Settings → Data API** | `https://abcdefghijklmnopqrst.supabase.co` |
-| Anon key | **Project Settings → API Keys** (the `anon` `public` key) | `eyJhbGciOi...` |
-| Service role key | Same page, the `service_role` `secret` key | `eyJhbGciOi...` |
+| Anon key | **Project Settings → API Keys** (kunci `anon` `public`) | `eyJhbGciOi...` |
+| Service role key | Halaman yang sama, kunci `service_role` `secret` | `eyJhbGciOi...` |
 
-The anon key is public by design and goes into the website. The **service role key bypasses every access rule**: never put it in the website or commit it anywhere.
+Anon key bersifat publik by design dan dimasukkan ke situs web. **Service role key melewati setiap aturan akses**: jangan pernah memasukkannya ke situs web atau melakukan commit ke mana pun.
 
-### 1.3 Turn on the scheduling extensions
+### 1.3 Aktifkan ekstensi penjadwalan
 
-In **Database → Extensions**, enable `pg_cron` and `pg_net`. They run the reminders and the monthly payroll job in [Part 6](#part-6-scheduled-jobs).
+Di **Database → Extensions**, aktifkan `pg_cron` dan `pg_net`. Keduanya menjalankan pengingat dan pekerjaan penggajian bulanan di [Bagian 6](#bagian-6-pekerjaan-terjadwal).
 
-### 1.4 Create the database
+### 1.4 Buat basis data
 
-Link the CLI to your project and apply every migration in `supabase/migrations/`:
+Tautkan CLI ke proyek Anda dan terapkan setiap migrasi di `supabase/migrations/`:
 
 ```sh
 npx supabase login
-npx supabase link --project-ref <your-project-ref>   # asks for the database password
+npx supabase link --project-ref <your-project-ref>   # meminta database password
 npx supabase db push
 ```
 
-This creates all tables, the access rules (row-level security), the module permissions, the invite-only sign-up guard, storage buckets and the data-integrity triggers. It creates no sample data.
+Ini membuat semua tabel, aturan akses (row-level security), izin modul, guard pendaftaran undangan saja, bucket penyimpanan dan trigger integritas data. Ini tidak membuat data contoh.
 
-> Applying migrations by pasting them into the SQL Editor is not recommended: long files can be cut short when pasted, which applies only part of a migration. Use `db push`.
+> Menerapkan migrasi dengan menempelkannya ke SQL Editor tidak disarankan: file yang panjang dapat terpotong saat ditempel, sehingga hanya sebagian migrasi yang diterapkan. Gunakan `db push`.
 
-## Part 2: Resend (email)
+## Bagian 2: Resend (email)
 
-Peoplo sends two kinds of email: **app email** (leave approvals, reminders, payslip notices) through the Resend API from the server functions, and **account email** (invitations, password resets) from Supabase Auth, which you'll point at Resend's SMTP server in [5.2](#52-send-account-email-through-resend).
+Peoplo mengirim dua jenis email: **email aplikasi** (persetujuan cuti, pengingat, pemberitahuan slip gaji) melalui Resend API dari fungsi server, dan **email akun** (undangan, reset kata sandi) dari Supabase Auth, yang akan Anda arahkan ke server SMTP Resend di [5.2](#52-kirim-email-akun-melalui-resend).
 
-### 2.1 Add and verify your sending domain
+### 2.1 Tambahkan dan verifikasi domain pengirim Anda
 
-1. In Resend, open **Domains → Add domain**. Use a subdomain such as `mail.example.com` so your main domain's reputation is unaffected.
-2. Add the DNS records Resend shows (SPF, DKIM, and the MX record for bounces) at your DNS provider.
-3. Optionally add a DMARC record, for example `_dmarc.mail.example.com TXT "v=DMARC1; p=none;"`.
-4. Wait until Resend shows the domain as **Verified**.
+1. Di Resend, buka **Domains → Add domain**. Gunakan subdomain seperti `mail.example.com` agar reputasi domain utama Anda tidak terpengaruh.
+2. Tambahkan catatan DNS yang ditunjukkan Resend (SPF, DKIM, dan catatan MX untuk bounce) di penyedia DNS Anda.
+3. Secara opsional tambahkan catatan DMARC, misalnya `_dmarc.mail.example.com TXT "v=DMARC1; p=none;"`.
+4. Tunggu hingga Resend menampilkan domain sebagai **Verified**.
 
-### 2.2 Create an API key
+### 2.2 Buat API key
 
-**API Keys → Create API key**, with **Sending access**. Copy it; it's shown once.
+**API Keys → Create API key**, dengan akses **Sending**. Salin; hanya ditampilkan sekali.
 
-### 2.3 Choose a sender address
+### 2.3 Pilih alamat pengirim
 
-Pick an address on the verified domain, for example `Peoplo <hr@mail.example.com>`. This becomes `RESEND_FROM_EMAIL`.
+Pilih alamat pada domain yang sudah diverifikasi, misalnya `Peoplo <hr@mail.example.com>`. Ini menjadi `RESEND_FROM_EMAIL`.
 
-## Part 3: Push notifications (optional)
+## Bagian 3: Notifikasi push (opsional)
 
-Peoplo is a progressive web app and can send push notifications (approvals, reminders) to phones and desktops. Skip this part if you only want email.
+Peoplo adalah progressive web app dan dapat mengirim notifikasi push (persetujuan, pengingat) ke ponsel dan desktop. Lewati bagian ini jika Anda hanya menginginkan email.
 
-Generate a VAPID key pair:
+Buat pasangan kunci VAPID:
 
 ```sh
 npx web-push generate-vapid-keys
 ```
 
-Keep both keys. The **public** key goes into the website (`VITE_VAPID_PUBLIC_KEY`) and the server functions (`VAPID_PUBLIC_KEY`); the **private** key only into the server functions (`VAPID_PRIVATE_KEY`).
+Simpan kedua kunci. Kunci **publik** dimasukkan ke situs web (`VITE_VAPID_PUBLIC_KEY`) dan fungsi server (`VAPID_PUBLIC_KEY`); kunci **privat** hanya ke fungsi server (`VAPID_PRIVATE_KEY`).
 
-## Part 4: Deploy the server functions
+## Bagian 4: Deploy fungsi server
 
-Set the function secrets. `SUPABASE_URL`, `SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` are provided to functions automatically; don't set them yourself. The full list is in [`supabase/functions/.env.example`](../supabase/functions/.env.example).
+Atur rahasia fungsi. `SUPABASE_URL`, `SUPABASE_ANON_KEY` dan `SUPABASE_SERVICE_ROLE_KEY` diberikan ke fungsi secara otomatis; jangan atur sendiri. Daftar lengkapnya ada di [`supabase/functions/.env.example`](../supabase/functions/.env.example).
 
 ```sh
 npx supabase secrets set \
@@ -123,59 +123,59 @@ npx supabase secrets set \
   APP_URL="https://hr.example.com" \
   CRON_SECRET="$(openssl rand -hex 32)"
 
-# Optional, for push notifications (Part 3)
+# Opsional, untuk notifikasi push (Bagian 3)
 npx supabase secrets set VAPID_PUBLIC_KEY="..." VAPID_PRIVATE_KEY="..." VAPID_CONTACT_EMAIL="hr@example.com"
 ```
 
-- `APP_URL` is your website's address, with `https://` and no trailing slash. Links in emails use it, and invitations only redirect to this host (plus `localhost` for development). Add other hosts, such as a preview domain, with `EXTRA_REDIRECT_HOSTS` (comma-separated; prefix with `*.` for subdomains).
-- `CRON_SECRET` protects the scheduled functions. **Write the value down**: the scheduled jobs in [Part 6](#part-6-scheduled-jobs) send it. Without it, scheduled functions refuse every request.
+- `APP_URL` adalah alamat situs web Anda, dengan `https://` dan tanpa garis miring di akhir. Tautan dalam email menggunakannya, dan undangan hanya mengalihkan ke host ini (ditambah `localhost` untuk pengembangan). Tambahkan host lain, seperti domain pratinjau, dengan `EXTRA_REDIRECT_HOSTS` (dipisahkan koma; awali dengan `*.` untuk subdomain).
+- `CRON_SECRET` melindungi fungsi terjadwal. **Catat nilainya**: pekerjaan terjadwal di [Bagian 6](#bagian-6-pekerjaan-terjadwal) mengirimkannya. Tanpanya, fungsi terjadwal menolak setiap permintaan.
 
-Then deploy every function:
+Lalu deploy setiap fungsi:
 
 ```sh
 npx supabase functions deploy
 ```
 
-`supabase/config.toml` marks the functions that authenticate callers themselves (`verify_jwt = false`); the CLI applies those settings for you.
+`supabase/config.toml` menandai fungsi yang mengautentikasi pemanggil sendiri (`verify_jwt = false`); CLI menerapkan pengaturan tersebut untuk Anda.
 
-## Part 5: Supabase Auth settings
+## Bagian 5: Pengaturan Supabase Auth
 
-All in the Supabase dashboard under **Authentication**.
+Semuanya di dasbor Supabase di bawah **Authentication**.
 
-### 5.1 Website address and redirects
+### 5.1 Alamat situs web dan redirect
 
 **URL Configuration**:
 
-- **Site URL**: your website's address, e.g. `https://hr.example.com`.
-- **Redirect URLs**: add `https://hr.example.com/**` (and `http://localhost:9002/**` if you develop locally).
+- **Site URL**: alamat situs web Anda, misalnya `https://hr.example.com`.
+- **Redirect URLs**: tambahkan `https://hr.example.com/**` (dan `http://localhost:9002/**` jika Anda mengembangkan secara lokal).
 
-### 5.2 Send account email through Resend
+### 5.2 Kirim email akun melalui Resend
 
-Supabase's built-in email is rate-limited and meant for testing. Under **Emails → SMTP Settings**, enable custom SMTP:
+Email bawaan Supabase dibatasi lajunya dan dimaksudkan untuk pengujian. Di bawah **Emails → SMTP Settings**, aktifkan SMTP kustom:
 
-| Field | Value |
+| Field | Nilai |
 | --- | --- |
 | Host | `smtp.resend.com` |
 | Port | `465` |
 | Username | `resend` |
-| Password | your Resend API key |
-| Sender email | an address on your verified domain |
-| Sender name | `Peoplo` (or your company name) |
+| Password | API key Resend Anda |
+| Sender email | alamat pada domain yang sudah diverifikasi |
+| Sender name | `Peoplo` (atau nama perusahaan Anda) |
 
-### 5.3 Turn off public sign-up
+### 5.3 Matikan pendaftaran publik
 
-Under **Sign In / Providers**, turn **Allow new users to sign up** off. Peoplo is invite-only: a database trigger already rejects any account without a pending invitation, but turning this off avoids confusing errors on the sign-in page. Invitations still work, because they're sent by the `invite-employee` function with the service role.
+Di bawah **Sign In / Providers**, matikan **Allow new users to sign up**. Peoplo bersifat undangan saja: trigger basis data sudah menolak akun tanpa undangan yang tertunda, tetapi mematikan ini menghindari error yang membingungkan di halaman masuk. Undangan tetap berfungsi, karena dikirim oleh fungsi `invite-employee` dengan service role.
 
-### 5.4 Restrict accounts to your email domain (recommended)
+### 5.4 Batasi akun ke domain email Anda (disarankan)
 
-After you sign in as admin ([Part 8](#part-8-create-the-first-admin)), open **Settings → Domain whitelist** in Peoplo and add your company's email domain(s). Invitations and account emails outside these domains are then rejected by the database.
+Setelah Anda masuk sebagai admin ([Bagian 8](#bagian-8-buat-admin-pertama)), buka **Settings → Domain whitelist** di Peoplo dan tambahkan domain email perusahaan Anda. Undangan dan email akun di luar domain ini kemudian ditolak oleh basis data.
 
-## Part 6: Scheduled jobs
+## Bagian 6: Pekerjaan terjadwal
 
-These jobs call the scheduled functions. They aren't in the migrations because they contain your project URL and secret. In the **SQL Editor**, replace `<project-ref>` and `<CRON_SECRET>` and run:
+Pekerjaan ini memanggil fungsi terjadwal. Tidak ada di migrasi karena berisi URL proyek dan rahasia Anda. Di **SQL Editor**, ganti `<project-ref>` dan `<CRON_SECRET>` lalu jalankan:
 
 ```sql
--- Attendance reminders: every 10 minutes during working hours, Monday to Saturday (UTC)
+-- Pengingat kehadiran: setiap 10 menit selama jam kerja, Senin sampai Sabtu (UTC)
 select cron.schedule('attendance-reminders-job', '*/10 8-19 * * 1-6', $$
   select net.http_post(
     url := 'https://<project-ref>.supabase.co/functions/v1/attendance-reminders',
@@ -183,7 +183,7 @@ select cron.schedule('attendance-reminders-job', '*/10 8-19 * * 1-6', $$
     body := '{}'::jsonb);
 $$);
 
--- KPI and goal reminders: daily at 09:00 UTC
+-- Pengingat KPI dan tujuan: harian pukul 09:00 UTC
 select cron.schedule('daily-goal-reminders', '0 9 * * *', $$
   select net.http_post(
     url := 'https://<project-ref>.supabase.co/functions/v1/goal-reminders',
@@ -191,7 +191,7 @@ select cron.schedule('daily-goal-reminders', '0 9 * * *', $$
     body := '{}'::jsonb);
 $$);
 
--- Onboarding reminders: daily at 09:00 UTC
+-- Pengingat onboarding: harian pukul 09:00 UTC
 select cron.schedule('onboarding-reminders-daily', '0 9 * * *', $$
   select net.http_post(
     url := 'https://<project-ref>.supabase.co/functions/v1/onboarding-reminders',
@@ -199,7 +199,7 @@ select cron.schedule('onboarding-reminders-daily', '0 9 * * *', $$
     body := '{}'::jsonb);
 $$);
 
--- This week's company events: Mondays at 08:00 UTC
+-- Acara perusahaan minggu ini: Senin pukul 08:00 UTC
 select cron.schedule('weekly-event-notifications', '0 8 * * 1', $$
   select net.http_post(
     url := 'https://<project-ref>.supabase.co/functions/v1/event-notification',
@@ -207,15 +207,15 @@ select cron.schedule('weekly-event-notifications', '0 8 * * 1', $$
     body := '{}'::jsonb);
 $$);
 
--- Complete offboarding for people whose last working day has passed (status
--- offboarded, sign-in blocked, pending leave cancelled): daily at 00:30 UTC.
--- Runs inside the database, so no URL or secret is needed.
+-- Selesaikan offboarding untuk orang yang hari kerja terakhirnya telah berlalu (status
+-- offboarded, masuk diblokir, cuti tertunda dibatalkan): harian pukul 00:30 UTC.
+-- Berjalan di dalam basis data, jadi URL atau rahasia tidak diperlukan.
 select cron.schedule('process-employee-exits', '30 0 * * *', $$
   select public.process_employee_exits();
 $$);
 
--- Apply salary revisions whose effective date has come and email those
--- employees: daily at 00:45 UTC (06:15 IST)
+-- Terapkan revisi gaji yang tanggal efektifnya telah tiba dan kirim email ke
+-- karyawan tersebut: harian pukul 00:45 UTC (06:15 IST)
 select cron.schedule('salary-revisions-daily', '45 0 * * *', $$
   select net.http_post(
     url := 'https://<project-ref>.supabase.co/functions/v1/salary-revisions',
@@ -223,8 +223,8 @@ select cron.schedule('salary-revisions-daily', '45 0 * * *', $$
     body := '{}'::jsonb);
 $$);
 
--- Remind the teams on someone's last working day (the offboarding checklist
--- email): daily at 03:30 UTC (09:00 IST)
+-- Ingatkan tim pada hari kerja terakhir seseorang (email checklist offboarding):
+-- harian pukul 03:30 UTC (09:00 IST)
 select cron.schedule('offboarding-reminders-daily', '30 3 * * *', $$
   select net.http_post(
     url := 'https://<project-ref>.supabase.co/functions/v1/offboarding-reminders',
@@ -232,8 +232,8 @@ select cron.schedule('offboarding-reminders-daily', '30 3 * * *', $$
     body := '{}'::jsonb);
 $$);
 
--- Generate this month's payroll records: the last day of the month at 09:00 UTC
--- ('$' means the last day of the month; needs pg_cron 1.5 or later)
+-- Hasilkan catatan penggajian bulan ini: hari terakhir bulan pukul 09:00 UTC
+-- ('$' berarti hari terakhir bulan; memerlukan pg_cron 1.5 atau lebih baru)
 select cron.schedule('monthly-payroll-generation', '0 9 $ * *', $$
   select net.http_post(
     url := 'https://<project-ref>.supabase.co/functions/v1/generate-monthly-payroll',
@@ -242,102 +242,102 @@ select cron.schedule('monthly-payroll-generation', '0 9 $ * *', $$
 $$);
 ```
 
-Times are in UTC; shift the hours for your time zone. To list or remove jobs: `select * from cron.job;` and `select cron.unschedule('job-name');`.
+Waktu dalam UTC; sesuaikan jam untuk zona waktu Anda. Untuk melihat atau menghapus pekerjaan: `select * from cron.job;` dan `select cron.unschedule('job-name');`.
 
-## Part 7: Deploy the website
+## Bagian 7: Deploy situs web
 
-The website is a static build configured with environment variables at build time (see [`.env.example`](../.env.example)):
+Situs web adalah build statis yang dikonfigurasi dengan variabel lingkungan saat build (lihat [`.env.example`](../.env.example)):
 
-| Variable | Value | Required |
+| Variabel | Nilai | Wajib |
 | --- | --- | --- |
-| `VITE_SUPABASE_URL` | Project URL from [1.2](#12-note-your-projects-details) | Yes |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Anon key | Yes |
-| `VITE_SUPABASE_PROJECT_ID` | Project ref | Yes |
-| `VITE_VAPID_PUBLIC_KEY` | VAPID public key from [Part 3](#part-3-push-notifications-optional) | For push notifications |
-| `VITE_REPO_URL` | Your fork's URL, if you changed the code (see [License](#license-and-your-changes)) | No |
+| `VITE_SUPABASE_URL` | Project URL dari [1.2](#12-catat-detail-proyek-anda) | Ya |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Anon key | Ya |
+| `VITE_SUPABASE_PROJECT_ID` | Project ref | Ya |
+| `VITE_VAPID_PUBLIC_KEY` | Kunci publik VAPID dari [Bagian 3](#bagian-3-notifikasi-push-opsional) | Untuk notifikasi push |
+| `VITE_REPO_URL` | URL fork Anda, jika Anda mengubah kode (lihat [Lisensi](#lisensi-dan-perubahan-anda)) | Tidak |
 
-### On Vercel
+### Di Vercel
 
-1. **Add New → Project**, import your fork of the repository.
-2. Vercel detects Vite. Add the variables above under **Environment Variables**.
-3. Deploy. `vercel.json` already rewrites app routes to `index.html` and sets security headers. Its Content Security Policy allows `*.supabase.co`; if you use a custom Supabase domain, add it to `connect-src`.
-4. Add your domain under **Settings → Domains**, and make sure it matches `APP_URL` and the Auth Site URL.
+1. **Add New → Project**, impor fork repositori Anda.
+2. Vercel mendeteksi Vite. Tambahkan variabel di atas di bawah **Environment Variables**.
+3. Deploy. `vercel.json` sudah menulis ulang rute aplikasi ke `index.html` dan mengatur header keamanan. Content Security Policy-nya mengizinkan `*.supabase.co`; jika Anda menggunakan domain Supabase kustom, tambahkan ke `connect-src`.
+4. Tambahkan domain Anda di bawah **Settings → Domains**, dan pastikan cocok dengan `APP_URL` dan URL Situs Auth.
 
-### On another host
+### Di host lain
 
-Run `npm run build` with the variables set, and serve the `dist/` folder. Configure the host to serve `index.html` for any path that isn't a file (Netlify: `public/_redirects` is included; nginx: `try_files $uri /index.html;`).
+Jalankan `npm run build` dengan variabel diatur, lalu sajikan folder `dist/`. Konfigurasi host untuk menyajikan `index.html` untuk path apa pun yang bukan file (Netlify: `public/_redirects` disertakan; nginx: `try_files $uri /index.html;`).
 
-## Part 8: Create the first admin
+## Bagian 8: Buat admin pertama
 
-There's no public sign-up, so the first admin is invited from the database:
+Tidak ada pendaftaran publik, sehingga admin pertama diundang dari basis data:
 
-1. In the **SQL Editor**:
+1. Di **SQL Editor**:
 
    ```sql
    insert into public.user_invitations (email, roles)
    values ('you@example.com', '{admin}');
    ```
 
-2. In **Authentication → Users**, click **Add user → Create new user**, enter the same address and a password, and tick **Auto Confirm User**.
-3. Sign in to Peoplo with that email and password.
+2. Di **Authentication → Users**, klik **Add user → Create new user**, masukkan alamat yang sama dan kata sandi, lalu centang **Auto Confirm User**.
+3. Masuk ke Peoplo dengan email dan kata sandi tersebut.
 
-If you add yourself as an employee later (**Onboarding → Add employee** with your own email), the record is linked to your existing account automatically.
+Jika Anda menambahkan diri sendiri sebagai karyawan nanti (**Onboarding → Add employee** dengan email Anda sendiri), catatan tersebut otomatis ditautkan ke akun Anda yang sudah ada.
 
-Then set up your company in **Settings** (departments, leave types, employee IDs, domain whitelist, office locations and branding) and add everyone else from **Onboarding → Add employee**. Adding someone creates their employee record and emails them a link to choose a password; they wait in **Pending** until they do, then become active with their leave balances set up. Roles set default access per module; **Settings → Users & access → Extra access** grants one person more. The last admin can't be removed, so you can't lock yourself out.
+Lalu atur perusahaan Anda di **Settings** (departemen, jenis cuti, ID karyawan, domain whitelist, lokasi kantor dan branding) dan tambahkan semua orang lain dari **Onboarding → Add employee**. Menambahkan seseorang membuat catatan karyawan mereka dan mengirim email berisi tautan untuk memilih kata sandi; mereka menunggu di **Pending** hingga melakukannya, lalu menjadi aktif dengan saldo cuti yang diatur. Peran menentukan akses default per modul; **Settings → Users & access → Extra access** memberikan satu orang akses lebih. Admin terakhir tidak dapat dihapus, sehingga Anda tidak dapat mengunci diri sendiri.
 
-## Part 9: Check everything works
+## Bagian 9: Periksa semuanya berfungsi
 
-1. Use **Forgot password?** on the sign-in page; the reset email should arrive from your sender address.
-2. Add a test employee with a second email address you own from **Onboarding → Add employee**. Open the invitation email, choose a password, and check the person moved from **Pending** to active.
-3. As that employee, clock in and apply for a day's leave. The manager (or admin) should get an email and an in-app notification.
-4. Approve the leave; the employee should be notified.
-5. The next day, check the scheduled jobs ran: `select * from cron.job_run_details order by start_time desc limit 20;`.
+1. Gunakan **Forgot password?** di halaman masuk; email reset harus tiba dari alamat pengirim Anda.
+2. Tambahkan karyawan uji dengan alamat email kedua yang Anda miliki dari **Onboarding → Add employee**. Buka email undangan, pilih kata sandi, dan periksa orang tersebut berpindah dari **Pending** menjadi aktif.
+3. Sebagai karyawan tersebut, clock in dan ajukan cuti satu hari. Manajer (atau admin) harus mendapat email dan notifikasi dalam aplikasi.
+4. Setujui cuti; karyawan harus diberi tahu.
+5. Hari berikutnya, periksa pekerjaan terjadwal berjalan: `select * from cron.job_run_details order by start_time desc limit 20;`.
 
-## Updating to a new version
+## Memperbarui ke versi baru
 
 ```sh
-git pull                          # or sync your fork
+git pull                          # atau sinkronkan fork Anda
 npm install
-npx supabase db push              # applies any new migrations
-npx supabase functions deploy     # redeploys the server functions
+npx supabase db push              # menerapkan migrasi baru apa pun
+npx supabase functions deploy     # menerapkan ulang fungsi server
 ```
 
-Then redeploy the website (Vercel does this when you push). Read [`CHANGELOG.md`](../CHANGELOG.md) first: each version's **Upgrade notes** list new secrets, settings or manual steps.
+Lalu deploy ulang situs web (Vercel melakukan ini saat Anda push). Baca [`CHANGELOG.md`](../CHANGELOG.md) terlebih dahulu: **Upgrade notes** setiap versi mencantumkan rahasia baru, pengaturan atau langkah manual.
 
-## Troubleshooting
+## Pemecahan masalah
 
-**Invitations or password-reset emails don't arrive.** These come from Supabase Auth. Check the SMTP settings in [5.2](#52-send-account-email-through-resend) (username `resend`, password the API key), that the sender is on your verified domain, and **Authentication → Logs**.
+**Undangan atau email reset kata sandi tidak tiba.** Ini berasal dari Supabase Auth. Periksa pengaturan SMTP di [5.2](#52-kirim-email-akun-melalui-resend) (username `resend`, password API key), bahwa pengirim berada di domain yang sudah diverifikasi, dan **Authentication → Logs**.
 
-**"Only email addresses from approved domains..."** The address isn't covered by **Settings → Domain whitelist**. Add its domain there.
+**"Only email addresses from approved domains..."** Alamat tersebut tidak tercakup oleh **Settings → Domain whitelist**. Tambahkan domainnya di sana.
 
-**"Sign-ups are invite-only".** There's no pending invitation for that address. Add the person from **Onboarding** (or, for the first admin, [Part 8](#part-8-create-the-first-admin)).
+**"Sign-ups are invite-only".** Tidak ada undangan tertunda untuk alamat tersebut. Tambahkan orang tersebut dari **Onboarding** (atau, untuk admin pertama, [Bagian 8](#bagian-8-buat-admin-pertama)).
 
-**A new hire says their invitation link doesn't work.** Links are valid for 24 hours. Use **Resend** on their row in **Onboarding → Pending**; each resend makes the earlier links stop working.
+**Karyawan baru bilang tautan undangan mereka tidak berfungsi.** Tautan berlaku 24 jam. Gunakan **Resend** pada baris mereka di **Onboarding → Pending**; setiap pengiriman ulang membuat tautan sebelumnya berhenti berfungsi.
 
-**No approval or reminder emails.** Open **Edge Functions → (function) → Logs**. Usually `RESEND_API_KEY` or `RESEND_FROM_EMAIL` isn't set, or the domain isn't verified yet. Resend's **Emails** page shows what it accepted.
+**Tidak ada email persetujuan atau pengingat.** Buka **Edge Functions → (function) → Logs**. Biasanya `RESEND_API_KEY` atau `RESEND_FROM_EMAIL` tidak diatur, atau domain belum diverifikasi. Halaman **Emails** Resend menunjukkan apa yang diterimanya.
 
-**Emails arrive but links point to the wrong site.** `APP_URL` doesn't match your website exactly (`https`, no trailing slash).
+**Email tiba tetapi tautan mengarah ke situs yang salah.** `APP_URL` tidak sama persis dengan situs web Anda (`https`, tanpa garis miring di akhir).
 
-**Scheduled reminders never go out.** Check the jobs exist (`select * from cron.job;`) and their runs (`select * from cron.job_run_details order by start_time desc;`). A 401 in `net._http_response` means the `x-cron-secret` in the job doesn't match the `CRON_SECRET` function secret.
+**Pengingat terjadwal tidak pernah keluar.** Periksa pekerjaan ada (`select * from cron.job;`) dan eksekusinya (`select * from cron.job_run_details order by start_time desc;`). 401 di `net._http_response` berarti `x-cron-secret` dalam pekerjaan tidak cocok dengan rahasia fungsi `CRON_SECRET`.
 
-**Pages other than the home page show 404.** The host isn't rewriting unknown paths to `index.html` ([Part 7](#on-another-host)).
+**Halaman selain beranda menampilkan 404.** Host tidak menulis ulang path yang tidak dikenal ke `index.html` ([Bagian 7](#di-host-lain)).
 
-**Push notifications never arrive.** `VITE_VAPID_PUBLIC_KEY` (website) and `VAPID_PUBLIC_KEY` (functions) must be the same key, and the site must be served over HTTPS.
+**Notifikasi push tidak pernah tiba.** `VITE_VAPID_PUBLIC_KEY` (situs web) dan `VAPID_PUBLIC_KEY` (fungsi) harus kunci yang sama, dan situs harus disajikan melalui HTTPS.
 
-**The project stopped responding after a quiet week.** Supabase pauses free-plan projects after inactivity. Restore it from the dashboard, or use a paid plan for anything your company relies on. The free plan also has no automatic backups.
+**Proyek berhenti merespons setelah seminggu tenang.** Supabase menjeda proyek paket gratis setelah tidak aktif. Pulihkan dari dasbor, atau gunakan paket berbayar untuk apa pun yang diandalkan perusahaan. Paket gratis juga tidak memiliki backup otomatis.
 
-## Third-party services
+## Layanan pihak ketiga
 
-| Service | Used for | Needed? |
+| Layanan | Digunakan untuk | Diperlukan? |
 | --- | --- | --- |
-| [Supabase](https://supabase.com) | Database, sign-in, file storage, server functions and scheduled jobs | Yes |
-| [Resend](https://resend.com) | App email through its API, account email through its SMTP server | For any email. Without it the app works but nothing is emailed |
-| Static hosting (Vercel, Netlify, Cloudflare Pages, nginx...) | Serving the website | Yes, any of them |
-| Web Push (the browser vendors' push services) | Push notifications | Optional, only with VAPID keys |
-| [GitHub Releases API](https://docs.github.com/rest/releases) | The in-app "What's new" page and update notice (`version-check` function) | Called automatically; falls back to the bundled changelog |
+| [Supabase](https://supabase.com) | Basis data, masuk, penyimpanan file, fungsi server dan pekerjaan terjadwal | Ya |
+| [Resend](https://resend.com) | Email aplikasi melalui API-nya, email akun melalui server SMTP-nya | Untuk email apa pun. Tanpanya aplikasi berfungsi tetapi tidak ada yang dikirim via email |
+| Static hosting (Vercel, Netlify, Cloudflare Pages, nginx...) | Menyajikan situs web | Ya, salah satu dari mereka |
+| Web Push (layanan push vendor browser) | Notifikasi push | Opsional, hanya dengan kunci VAPID |
+| [GitHub Releases API](https://docs.github.com/rest/releases) | Halaman "What's new" dalam aplikasi dan pemberitahuan pembaruan (fungsi `version-check`) | Dipanggil otomatis; fallback ke changelog bawaan |
 
-Peoplo uses no analytics, advertising or tracking services.
+Peoplo tidak menggunakan layanan analitik, iklan atau pelacakan.
 
-## License and your changes
+## Lisensi dan perubahan Anda
 
-Peoplo is licensed under the [AGPL-3.0](../LICENSE). Running it for your own company's staff doesn't require publishing anything. If you modify it and let people use your modified version over a network, you must offer them its source code. The app's sidebar has a **Source code** link for this; set `VITE_REPO_URL` to your fork so it points at your changes.
+Peoplo dilisensikan di bawah [AGPL-3.0](../LICENSE). Menjalankannya untuk staf perusahaan Anda sendiri tidak memerlukan penerbitan apa pun. Jika Anda memodifikasinya dan membiarkan orang menggunakan versi yang Anda modifikasi melalui jaringan, Anda harus menyediakan kode sumbernya. Sidebar aplikasi memiliki tautan **Source code** untuk ini; atur `VITE_REPO_URL` ke fork Anda agar menunjuk ke perubahan Anda.

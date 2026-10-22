@@ -115,7 +115,7 @@ serve(async (req) => {
     for (const userId of recipients) {
       await supabase.from("notifications").insert({
         user_id: userId,
-        title: "New hires need an invitation",
+        title: "Karyawan baru memerlukan undangan",
         message: summary,
         type: "reminder",
         link: "/onboarding?tab=pending",

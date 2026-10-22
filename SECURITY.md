@@ -1,37 +1,37 @@
-# Security Policy
+# Kebijakan Keamanan
 
-## Reporting a vulnerability
+## Melaporkan Kerentanan
 
-Please **do not** report security vulnerabilities through public GitHub issues, discussions or pull requests.
+Silakan **jangan** melaporkan kerentanan keamanan melalui issue GitHub publik, diskusi, atau pull request.
 
-Report them privately through GitHub: go to the repository's **Security** tab and choose **Report a vulnerability**. Include:
+Laporkan secara pribadi melalui GitHub: buka tab **Security** dari repositori dan pilih **Report a vulnerability**. Sertakan:
 
-- what the issue is and where it lives (file, edge function, table or page),
-- steps to reproduce, or a proof of concept,
-- the impact you believe it has (for example, which data another user could read or change).
+- apa masalahnya dan di mana ia berada (file, edge function, tabel, atau halaman),
+- langkah-langkah untuk mereproduksi, atau bukti konsep,
+- dampak yang Anda perkirakan (misalnya, data apa yang dapat dibaca atau diubah oleh pengguna lain).
 
-We aim to acknowledge reports within 3 business days and will keep you updated as we investigate. Once a fix ships, we're happy to credit you in the release notes unless you'd rather stay anonymous.
+Kami berkomitmen untuk mengakui laporan dalam 3 hari kerja dan akan memperbarui Anda saat penyelidikan berlangsung. Setelah perbaikan dirilis, kami senang memberi kredit di catatan rilis kecuali Anda lebih suka tetap anonim.
 
-## Supported versions
+## Versi yang Didukung
 
-Security fixes land on `main` and in the next release. Self-hosted deployments should update to the latest release and apply any new migrations and edge functions (see [Updating to a new version](docs/self-hosting.md#updating-to-a-new-version)).
+Perbaikan keamanan mendarat di `main` dan dalam rilis berikutnya. Deploi self-hosting harus memperbarui ke rilis terbaru dan menerapkan migrasi serta edge function baru (lihat [Memperbarui ke versi baru](docs/self-hosting.md#updating-to-a-new-version)).
 
-## Scope
+## Cakupan
 
-In scope: this repository's frontend, SQL migrations (row-level security policies, database functions and triggers) and Supabase edge functions. Examples: one employee reading another's salary or documents, a user acting on a module they have no permission for, a blocked or uninvited account getting access, or an email template that renders unescaped input.
+Dalam cakupan: frontend repositori ini, migrasi SQL (kebijakan keamanan baris-level, fungsi dan trigger database), dan Supabase edge function. Contoh: satu karyawan membaca gaji atau dokumen karya lain, pengguna yang bertindak pada modul yang tidak memiliki izin, akun yang diblokir atau tidak diundang mendapatkan akses, atau template email yang merender input yang tidak diescape.
 
-Out of scope: vulnerabilities in Supabase, Resend or other third-party services themselves (report those to the vendor), findings that require an already-compromised admin account or device, and missing hardening headers without a demonstrated impact.
+Di luar cakupan: kerentanan di Supabase, Resend, atau layanan pihak ketiga lainnya (laporkan ke vendor), temuan yang memerlukan akun atau perangkat admin yang sudah dikompromisasi, dan header keamanan yang kurang tanpa dampak yang terbukti.
 
-## How Peoplo protects data
+## Bagaimana Peoplo Melindungi Data
 
-- Access is enforced by Postgres row-level security using per-module permissions, not just by the UI.
-- Accounts are invite-only, can be restricted to approved email domains, and blocked users are denied everywhere by a restrictive policy.
-- Triggers guard sensitive changes: no self-approval of leave or reimbursements, no backdated attendance, ratings only by their owner, bank details in a separate table.
-- Edge functions verify the caller, check module permissions, and escape all values in email HTML. Scheduled functions require a secret header.
+- Akses ditegakkan oleh Postgres row-level security menggunakan izin per modul, tidak hanya oleh UI.
+- Akun hanya dengan undangan, dapat dibatasi ke domain email yang disetujui, dan pengguna yang diblokir ditolak di semua tempat oleh kebijakan yang ketat.
+- Trigger mengawasi perubahan sensitif: tidak ada persetujuan sendiri untuk cuti atau reimbursement, tidak ada attendance yang di-backdate, rating hanya oleh pemiliknya, detail bank di tabel terpisah.
+- Edge function memverifikasi pemanggil, memeriksa izin modul, dan mengescape semua nilai di HTML email. Function terjadwal memerlukan header rahasia.
 
-## Notes for self-hosters
+## Catatan untuk Self-Hosters
 
-- The Supabase **anon/publishable key** is public by design and is embedded in the website. Never expose the **service role key** to the browser; it belongs only in edge function secrets.
-- Keep `CRON_SECRET` long and random, and rotate it (function secret and scheduled jobs together) if it may have leaked.
-- Turn off public sign-up in Supabase Auth and set **Settings → Domain whitelist** to your company's domains.
-- Keep `RESEND_FROM_EMAIL` on a domain you control and have verified in Resend.
+- Kunci **anon/publishable** Supabasenya publik dan disisipkan di website. Jangan pernah expose **service role key** ke browser; ia milik edge function rahasia saja.
+- Jaga agar `CRON_SECRET` panjang dan acak, dan rotasikan (rahasia function dan pekerjaan terjadwal bersamaan) jika mungkin bocor.
+- Matikan pendaftaran publik di Supabase Auth dan atur **Settings → Domain whitelist** ke domain perusahaan Anda.
+- Jaga agar `RESEND_FROM_EMAIL` pada domain yang Anda miliki dan telah diverifikasi di Resend.

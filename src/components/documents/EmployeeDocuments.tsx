@@ -179,21 +179,21 @@ export function EmployeeDocuments({ employeeId, canUpload = true, canDelete = tr
                           variant="ghost"
                           size="icon"
                           className="h-10 w-10 sm:h-9 sm:w-9"
-                          title="Delete document"
-                          aria-label={`Delete ${doc.document_name}`}
+                          title="Hapus dokumen"
+                          aria-label={`Hapus ${doc.document_name}`}
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Delete document?</AlertDialogTitle>
+                          <AlertDialogTitle>Hapus dokumen?</AlertDialogTitle>
                           <AlertDialogDescription className="break-words">
-                            Are you sure you want to delete "{doc.document_name}"? This action cannot be undone.
+                            Anda yakin ingin menghapus "{doc.document_name}"? Tindakan ini tidak dapat dibatalkan.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>Batal</AlertDialogCancel>
                           <AlertDialogAction
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             onClick={() =>
@@ -204,7 +204,7 @@ export function EmployeeDocuments({ employeeId, canUpload = true, canDelete = tr
                               })
                             }
                           >
-                            Delete
+                            Hapus
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>

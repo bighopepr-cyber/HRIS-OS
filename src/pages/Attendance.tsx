@@ -45,18 +45,18 @@ import { toast } from "sonner";
 import { statusBadgeClass, formatStatus, toneClass } from "@/lib/statusStyles";
 
 const MONTHS = [
-  { value: "0", label: "January" },
-  { value: "1", label: "February" },
-  { value: "2", label: "March" },
+  { value: "0", label: "Januari" },
+  { value: "1", label: "Februari" },
+  { value: "2", label: "Maret" },
   { value: "3", label: "April" },
-  { value: "4", label: "May" },
-  { value: "5", label: "June" },
-  { value: "6", label: "July" },
-  { value: "7", label: "August" },
+  { value: "4", label: "Mei" },
+  { value: "5", label: "Juni" },
+  { value: "6", label: "Juli" },
+  { value: "7", label: "Agustus" },
   { value: "8", label: "September" },
-  { value: "9", label: "October" },
+  { value: "9", label: "Oktober" },
   { value: "10", label: "November" },
-  { value: "11", label: "December" },
+  { value: "11", label: "Desember" },
 ];
 
 function getStatusBadge(status: string) {
@@ -68,9 +68,9 @@ function WorkModeBadge({ mode }: { mode: WorkMode | null }) {
   return (
     <Badge variant="outline" className={`text-xs ${mode === "wfo" ? toneClass("info") : toneClass("neutral")}`}>
       {mode === "wfo" ? (
-        <><Building2 className="mr-1 h-3 w-3" aria-hidden="true" /> Office</>
+        <><Building2 className="mr-1 h-3 w-3" aria-hidden="true" /> Kantor</>
       ) : (
-        <><Home className="mr-1 h-3 w-3" aria-hidden="true" /> Home</>
+        <><Home className="mr-1 h-3 w-3" aria-hidden="true" /> Rumah</>
       )}
     </Badge>
   );
@@ -79,7 +79,7 @@ function WorkModeBadge({ mode }: { mode: WorkMode | null }) {
 const Attendance = () => {
   const { user } = useAuth();
   const { can } = usePermissions();
-  // Late-arrival and overtime insights are for people who oversee attendance
+  // Insight keterlambatan dan lembur ditujukan bagi orang yang mengawasi kehadiran
   const canViewAttendanceInsights = can("attendance", "view");
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth().toString());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
@@ -93,7 +93,7 @@ const Attendance = () => {
 
   const targetDate = new Date(parseInt(selectedYear), parseInt(selectedMonth), 1);
 
-  // Get current employee with working schedule - fetch first
+  // Ambil karyawan saat ini beserta jadwal kerjanya - ambil terlebih dahulu
   const { data: currentEmployee } = useQuery({
     queryKey: ["current-employee-schedule"],
     queryFn: async () => {
@@ -109,7 +109,7 @@ const Attendance = () => {
     enabled: !!user,
   });
 
-  // Now fetch today's attendance for the current employee specifically
+  // Sekarang ambil kehadiran hari ini secara khusus untuk karyawan saat ini
   const { data: todayRecord, isLoading: todayLoading } = useTodayAttendance(currentEmployee?.id);
   const { data: attendanceRecords, isLoading: recordsLoading } = useAttendance(targetDate, currentEmployee?.id);
   const { data: reportData, isLoading: reportLoading } = useAttendanceReport(targetDate);
@@ -120,7 +120,7 @@ const Attendance = () => {
   const clockOut = useClockOut();
   const pauseMutation = usePause();
   const resumeMutation = useResume();
-  // Format time for display (e.g., "09:00:00" -> "9:00 AM")
+  // Format waktu untuk tampilan (mis., "09:00:00" -> "9:00 AM")
   const formatTimeDisplay = (time: string | null): string => {
     if (!time) return "--:--";
     const [hours, minutes] = time.split(':').map(Number);
@@ -129,41 +129,41 @@ const Attendance = () => {
     return `${hour12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
   };
 
-  // Get day names for working days
+  // Ambil nama hari untuk hari kerja
   const getDayNames = (days: number[] | null): string => {
-    if (!days || days.length === 0) return "Not set";
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    if (!days || days.length === 0) return "Belum diatur";
+    const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
     return days.sort((a, b) => a - b).map(d => dayNames[d]).join(', ');
   };
 
-  // Check if today is a working day
+  // Periksa apakah hari ini adalah hari kerja
   const isWorkingDay = (days: number[] | null): boolean => {
     const today = new Date().getDay();
     return (days || [1, 2, 3, 4, 5]).includes(today);
   };
 
-  // Calculate overtime for a record based on the record's employee schedule
+  // Hitung lembur untuk sebuah catatan berdasarkan jadwal kerja karyawan pada catatan tersebut
   const calculateOvertime = (record: { clock_in: string | null; clock_out: string | null; total_hours: number | null; employee?: { working_hours_start: string | null; working_hours_end: string | null } }): number => {
     if (!record.clock_out || !record.total_hours) return 0;
     
     const workStart = record.employee?.working_hours_start || currentEmployee?.working_hours_start || "09:00:00";
     const workEnd = record.employee?.working_hours_end || currentEmployee?.working_hours_end || "18:00:00";
     
-    // Calculate expected hours accounting for cross-midnight shifts
+    // Hitung jam kerja yang diharapkan dengan mempertimbangkan shift yang melewati tengah malam
     const expectedHours = getExpectedHours(workStart, workEnd);
     
-    // Overtime is hours worked beyond expected hours
+    // Lembur adalah jam kerja yang melebihi jam yang diharapkan
     const overtime = record.total_hours - expectedHours;
     return overtime > 0 ? overtime : 0;
   };
 
-  // Calculate total overtime for the month
+  // Hitung total lembur untuk bulan ini
   const calculateMonthlyOvertime = (): number => {
     if (!attendanceRecords) return 0;
     return attendanceRecords.reduce((total, record) => total + calculateOvertime(record), 0);
   };
 
-  // Calculate late arrival in minutes using the record's employee schedule
+  // Hitung keterlambatan dalam menit menggunakan jadwal kerja karyawan pada catatan tersebut
   const calculateLateArrival = (clockIn: string | null, employeeSchedule?: { working_hours_start: string | null; working_hours_end: string | null }): number => {
     if (!clockIn) return 0;
     
@@ -174,7 +174,7 @@ const Attendance = () => {
     const clockInHour = clockInDate.getHours();
     const clockInMinute = clockInDate.getMinutes();
     
-    // Calculate minutes late (1-minute grace period to account for seconds)
+    // Hitung menit keterlambatan (toleransi 1 menit untuk memperhitungkan detik)
     const scheduledMinutes = startHour * 60 + startMin;
     const actualMinutes = clockInHour * 60 + clockInMinute;
     const lateMinutes = actualMinutes - scheduledMinutes;
@@ -182,31 +182,31 @@ const Attendance = () => {
     return lateMinutes > 1 ? lateMinutes : 0;
   };
 
-  // Format late duration for display
+  // Format durasi keterlambatan untuk tampilan
   const formatLateDuration = (minutes: number): string => {
-    if (minutes < 60) return `${minutes} min`;
+    if (minutes < 60) return `${minutes} mnt`;
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
+    return mins > 0 ? `${hours} jam ${mins} mnt` : `${hours} jam`;
   };
 
-  // Count late arrivals for the month
+  // Hitung jumlah keterlambatan untuk bulan ini
   const countLateArrivals = (): number => {
     if (!attendanceRecords) return 0;
     return attendanceRecords.filter(record => calculateLateArrival(record.clock_in, record.employee) > 0).length;
   };
 
-  // Sorting for attendance history
+  // Pengurutan untuk riwayat kehadiran
   const historySorting = useSorting(attendanceRecords || []);
   
-  // Pagination for attendance history (uses sorted items)
+  // Paginasi untuk riwayat kehadiran (menggunakan item yang sudah diurutkan)
   const historyPagination = usePagination(historySorting.sortedItems, { initialPageSize: 10 });
 
-  // Get current location
+  // Ambil lokasi saat ini
   const getCurrentLocation = (): Promise<LocationData | undefined> => {
     return new Promise((resolve) => {
       if (!navigator.geolocation) {
-        toast.error("Geolocation is not supported by your browser");
+        toast.error("Geolokasi tidak didukung oleh peramban Anda");
         resolve(undefined);
         return;
       }
@@ -215,7 +215,7 @@ const Attendance = () => {
         async (position) => {
           const { latitude, longitude } = position.coords;
           
-          // Try to get location name via reverse geocoding
+          // Coba ambil nama lokasi melalui geocoding terbalik
           let locationName: string | undefined;
           try {
             const response = await fetch(
@@ -223,52 +223,52 @@ const Attendance = () => {
             );
             const data = await response.json();
             if (data.address) {
-              // Build a readable address with city
+              // Susun alamat yang mudah dibaca beserta kota
               const addr = data.address;
               const parts: string[] = [];
               
-              // Add street-level detail
+              // Tambahkan detail tingkat jalan
               if (addr.road) parts.push(addr.road);
               else if (addr.neighbourhood) parts.push(addr.neighbourhood);
               else if (addr.suburb) parts.push(addr.suburb);
               
-              // Add area/locality
+              // Tambahkan area/wilayah
               if (addr.suburb && !parts.includes(addr.suburb)) parts.push(addr.suburb);
               else if (addr.neighbourhood && !parts.includes(addr.neighbourhood)) parts.push(addr.neighbourhood);
               
-              // Add city
+              // Tambahkan kota
               const city = addr.city || addr.town || addr.village || addr.municipality || addr.county;
               if (city) parts.push(city);
               
-              // Add state if different from city
+              // Tambahkan provinsi jika berbeda dengan kota
               if (addr.state && addr.state !== city) parts.push(addr.state);
               
               locationName = parts.slice(0, 4).join(", ");
             } else if (data.display_name) {
-              // Fallback to display_name
+              // Cadangan gunakan display_name
               const parts = data.display_name.split(", ");
               locationName = parts.slice(0, 4).join(", ");
             }
           } catch (error) {
-            console.error("Failed to get location name:", error);
+            console.error("Gagal mendapatkan nama lokasi:", error);
           }
 
           resolve({ latitude, longitude, locationName });
         },
         (error) => {
-          console.error("Geolocation error:", error);
+          console.error("Kesalahan geolokasi:", error);
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              toast.error("Location access is required to clock in. Please enable location permissions in your browser settings and try again.");
+              toast.error("Akses lokasi diperlukan untuk presensi masuk. Aktifkan izin lokasi di pengaturan peramban Anda lalu coba lagi.");
               break;
             case error.POSITION_UNAVAILABLE:
-              toast.error("Location information is unavailable. Clock-in requires location access.");
+              toast.error("Informasi lokasi tidak tersedia. Presensi masuk memerlukan akses lokasi.");
               break;
             case error.TIMEOUT:
-              toast.error("Location request timed out. Please try again.");
+              toast.error("Permintaan lokasi habis waktu. Silakan coba lagi.");
               break;
             default:
-              toast.error("Failed to get location. Clock-in requires location access.");
+              toast.error("Gagal mendapatkan lokasi. Presensi masuk memerlukan akses lokasi.");
           }
           resolve(undefined);
         },
@@ -283,21 +283,21 @@ const Attendance = () => {
 
   const handleClockIn = async (mode: WorkMode) => {
     if (!currentEmployee) {
-      toast.error("Employee profile not found");
+      toast.error("Profil karyawan tidak ditemukan");
       return;
     }
 
     try {
-      toast.info("Getting your location...");
+      toast.info("Mengambil lokasi Anda...");
       const location = await getCurrentLocation();
 
-      // For WFO, location is mandatory; for WFH it's optional
+      // Untuk WFO, lokasi wajib diisi; untuk WFH bersifat opsional
       if (mode === 'wfo' && !location) {
-        toast.error("Location is required to clock in from office");
+        toast.error("Lokasi diperlukan untuk presensi masuk dari kantor");
         return;
       }
 
-      // Auto-detect work mode only when location is available and office is configured
+      // Deteksi mode kerja otomatis hanya jika lokasi tersedia dan kantor sudah dikonfigurasi
       let detectedMode = mode;
       if (location && officeLocation?.latitude && officeLocation?.longitude) {
         const distance = getDistanceMeters(
@@ -307,22 +307,22 @@ const Attendance = () => {
         const radius = officeLocation.radius_meters || 500;
         detectedMode = distance <= radius ? 'wfo' : 'wfh';
 
-        // If user chose WFO but is outside office radius, block it
+        // Jika pengguna memilih WFO tetapi berada di luar radius kantor, blokir
         if (mode === 'wfo' && detectedMode === 'wfh') {
-          toast.error(`You are not at the office location (${Math.round(distance)}m away). Please choose Work From Home instead.`);
+          toast.error(`Anda tidak berada di lokasi kantor (${Math.round(distance)} m). Silakan pilih Kerja dari Rumah.`);
           return;
         }
       }
 
       await clockIn.mutateAsync({ employeeId: currentEmployee.id, location, workMode: detectedMode });
-      const modeLabel = detectedMode === 'wfh' ? 'Work From Home' : 'Work From Office';
-      toast.success(location ? `Clocked in (${modeLabel}) with location` : `Clocked in (${modeLabel})`);
+      const modeLabel = detectedMode === 'wfh' ? 'Kerja dari Rumah' : 'Kerja dari Kantor';
+      toast.success(location ? `Presensi masuk (${modeLabel}) dengan lokasi` : `Presensi masuk (${modeLabel})`);
     } catch (error) {
-      toast.error("Failed to clock in");
+      toast.error("Gagal melakukan presensi masuk");
     }
   };
 
-  // Calculate current hours worked for early clock-out warning
+  // Hitung jam kerja saat ini untuk peringatan keluar lebih awal
   const calculateCurrentHoursWorked = (): number => {
     if (!todayRecord?.clock_in) return 0;
     const clockInTime = new Date(todayRecord.clock_in);
@@ -330,7 +330,7 @@ const Attendance = () => {
     return (now.getTime() - clockInTime.getTime()) / (1000 * 60 * 60);
   };
 
-  // Check if current time is before scheduled end time (handles cross-midnight shifts)
+  // Periksa apakah waktu saat ini sebelum waktu selesai yang dijadwalkan (menangani shift yang melewati tengah malam)
   const isBeforeEndTime = (): boolean => {
     if (!currentEmployee?.working_hours_end || !currentEmployee?.working_hours_start || !todayRecord?.clock_in) return false;
     const clockInTime = new Date(todayRecord.clock_in);
@@ -340,7 +340,7 @@ const Attendance = () => {
 
   const handleClockOutAttempt = () => {
     if (!todayRecord || !todayRecord.clock_in) {
-      toast.error("No active clock-in found");
+      toast.error("Tidak ditemukan presensi masuk yang aktif");
       return;
     }
 
@@ -355,7 +355,7 @@ const Attendance = () => {
       setEarlyClockOutReasons({ beforeEndTime, insufficientHours });
       setShowEarlyClockOutWarning(true);
     } else {
-      // Past end time — check if overtime or missed clock-out
+      // Sudah melewati waktu selesai - periksa apakah lembur atau lupa melakukan presensi keluar
       const isAfterEndTime = !isBeforeEndTime();
       if (isAfterEndTime && hoursWorked > requiredHours) {
         setLateClockOutMode(null);
@@ -375,75 +375,75 @@ const Attendance = () => {
       handleClockOut();
     } else if (lateClockOutMode === "missed" && missedClockOutTime) {
       try {
-        toast.info("Getting your location...");
+        toast.info("Mengambil lokasi Anda...");
         const location = await getCurrentLocation();
         
-        // Build clock-out date from today's date + entered time
+        // Susun tanggal keluar dari tanggal hari ini + waktu yang dimasukkan
         const [hours, minutes] = missedClockOutTime.split(":").map(Number);
         const customTime = new Date(todayRecord.clock_in);
         customTime.setHours(hours, minutes, 0, 0);
         
-        // If custom time is before clock-in, it might be next day (cross-midnight)
+        // Jika waktu kustom lebih awal dari waktu masuk, kemungkinan hari berikutnya (melewati tengah malam)
         if (customTime <= new Date(todayRecord.clock_in)) {
           customTime.setDate(customTime.getDate() + 1);
         }
         
         await clockOut.mutateAsync({ recordId: todayRecord.id, clockIn: todayRecord.clock_in, location, customClockOut: customTime });
-        toast.success("Clocked out with corrected time");
+        toast.success("Presensi keluar dilakukan dengan waktu yang dikoreksi");
       } catch (error) {
-        toast.error("Failed to clock out");
+        toast.error("Gagal melakukan presensi keluar");
       }
     }
   };
 
   const handleClockOut = async () => {
     if (!todayRecord || !todayRecord.clock_in) {
-      toast.error("No active clock-in found");
+      toast.error("Tidak ditemukan presensi masuk yang aktif");
       return;
     }
 
     setShowEarlyClockOutWarning(false);
 
     try {
-      toast.info("Getting your location...");
+      toast.info("Mengambil lokasi Anda...");
       const location = await getCurrentLocation();
       await clockOut.mutateAsync({ recordId: todayRecord.id, clockIn: todayRecord.clock_in, location });
-      toast.success(location ? "Clocked out with location" : "Clocked out successfully");
+      toast.success(location ? "Presensi keluar dengan lokasi" : "Presensi keluar berhasil");
     } catch (error) {
-      toast.error("Failed to clock out");
+      toast.error("Gagal melakukan presensi keluar");
     }
   };
 
-  // Format hours for display in warning
+  // Format jam kerja untuk ditampilkan dalam peringatan
   const formatHoursWorked = (hours: number): string => {
     const h = Math.floor(hours);
     const m = Math.round((hours - h) * 60);
-    return m > 0 ? `${h}h ${m}m` : `${h}h`;
+    return m > 0 ? `${h} jam ${m} mnt` : `${h} jam`;
   };
 
   const handlePause = async () => {
     if (!todayRecord) return;
     try {
-      toast.info("Getting your location...");
+      toast.info("Mengambil lokasi Anda...");
       const location = await getCurrentLocation();
       if (!location) return;
       await pauseMutation.mutateAsync({ attendanceRecordId: todayRecord.id, location });
-      toast.success("Work paused — break started");
+      toast.success("Kerja dijeda — istirahat dimulai");
     } catch (error) {
-      toast.error("Failed to pause");
+      toast.error("Gagal menjeda kerja");
     }
   };
 
   const handleResume = async () => {
     if (!activeBreak) return;
     try {
-      toast.info("Getting your location...");
+      toast.info("Mengambil lokasi Anda...");
       const location = await getCurrentLocation();
       if (!location) return;
       await resumeMutation.mutateAsync({ breakId: activeBreak.id, location });
-      toast.success("Work resumed");
+      toast.success("Kerja dilanjutkan");
     } catch (error) {
-      toast.error("Failed to resume");
+      toast.error("Gagal melanjutkan kerja");
     }
   };
 
@@ -459,13 +459,13 @@ const Attendance = () => {
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Attendance</h1>
-            <p className="text-muted-foreground">Track your daily attendance and view history</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Kehadiran</h1>
+            <p className="text-muted-foreground">Placak kehadiran harian Anda dan lihat riwayat</p>
           </div>
           <div className="flex items-center gap-2">
             <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-              <SelectTrigger className="w-[140px]" aria-label="Month">
-                <SelectValue placeholder="Month" />
+              <SelectTrigger className="w-[140px]" aria-label="Bulan">
+                <SelectValue placeholder="Bulan" />
               </SelectTrigger>
               <SelectContent>
                 {MONTHS.map((month) => (
@@ -476,8 +476,8 @@ const Attendance = () => {
               </SelectContent>
             </Select>
             <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger className="w-[100px]" aria-label="Year">
-                <SelectValue placeholder="Year" />
+              <SelectTrigger className="w-[100px]" aria-label="Tahun">
+                <SelectValue placeholder="Tahun" />
               </SelectTrigger>
               <SelectContent>
                 {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map((year) => (
@@ -490,12 +490,12 @@ const Attendance = () => {
           </div>
         </div>
 
-        {/* Clock In/Out Card */}
+        {/* Kartu Presensi Masuk/Keluar */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-primary" />
-              Today's Attendance
+              Kehadiran Hari Ini
             </CardTitle>
             <CardDescription>{format(currentTime, "EEEE, MMMM d, yyyy")}</CardDescription>
           </CardHeader>
@@ -508,7 +508,7 @@ const Attendance = () => {
                   <div className="flex flex-col gap-2 text-center sm:text-left">
                     <div className="flex items-center gap-4 flex-wrap">
                       <div>
-                        <p className="text-sm text-muted-foreground">Clock In</p>
+                        <p className="text-sm text-muted-foreground">Presensi Masuk</p>
                         <div className="flex items-center gap-2">
                           <p className="text-lg font-semibold">
                             {todayRecord?.clock_in
@@ -518,13 +518,13 @@ const Attendance = () => {
                           {canViewAttendanceInsights && todayRecord?.clock_in && calculateLateArrival(todayRecord.clock_in) > 0 && (
                             <Badge variant="outline" className={`text-xs ${toneClass("danger")}`}>
                               <AlertTriangle className="h-3 w-3 mr-1" />
-                              {formatLateDuration(calculateLateArrival(todayRecord.clock_in))} late
+                              {formatLateDuration(calculateLateArrival(todayRecord.clock_in))} terlambat
                             </Badge>
                           )}
                         </div>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Clock Out</p>
+                        <p className="text-sm text-muted-foreground">Presensi Keluar</p>
                         <p className="text-lg font-semibold">
                           {todayRecord?.clock_out
                             ? format(new Date(todayRecord.clock_out), "hh:mm a")
@@ -532,10 +532,10 @@ const Attendance = () => {
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Total Hours</p>
+                        <p className="text-sm text-muted-foreground">Total Jam</p>
                         <p className="text-lg font-semibold">
                           {todayRecord?.total_hours
-                            ? `${todayRecord.total_hours.toFixed(2)} hrs`
+                            ? `${todayRecord.total_hours.toFixed(2)} jam`
                             : "--"}
                         </p>
                       </div>
@@ -544,7 +544,7 @@ const Attendance = () => {
                   <div className="flex flex-col gap-3 items-center sm:items-end">
                     {!isClockedIn && !todayRecord?.clock_out && (
                       <div className="flex flex-col gap-2">
-                        <p className="text-xs text-muted-foreground text-center sm:text-right">Select work mode:</p>
+                        <p className="text-xs text-muted-foreground text-center sm:text-right">Pilih mode kerja:</p>
                         <div className="flex gap-2">
                           <Button 
                             onClick={() => handleClockIn('wfo')} 
@@ -556,7 +556,7 @@ const Attendance = () => {
                             ) : (
                               <Building2 className="mr-2 h-4 w-4" />
                             )}
-                            Office
+                            Kantor
                           </Button>
                           <Button 
                             onClick={() => handleClockIn('wfh')} 
@@ -568,7 +568,7 @@ const Attendance = () => {
                             ) : (
                               <Home className="mr-2 h-4 w-4" />
                             )}
-                            Home
+                            Rumah
                           </Button>
                         </div>
                       </div>
@@ -579,15 +579,15 @@ const Attendance = () => {
                           {todayRecord?.work_mode && (
                             <Badge variant={todayRecord.work_mode === 'wfo' ? 'default' : 'secondary'}>
                               {todayRecord.work_mode === 'wfo' ? (
-                                <><Building2 className="h-3 w-3 mr-1" /> Office</>
+                                <><Building2 className="h-3 w-3 mr-1" /> Kantor</>
                               ) : (
-                                <><Home className="h-3 w-3 mr-1" /> Home</>
+                                <><Home className="h-3 w-3 mr-1" /> Rumah</>
                               )}
                             </Badge>
                           )}
                           {isPaused ? (
                             <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
-                              <Coffee className="h-3 w-3 mr-1" /> On Break
+                              <Coffee className="h-3 w-3 mr-1" /> Istirahat
                             </Badge>
                           ) : null}
                         </div>
@@ -599,7 +599,7 @@ const Attendance = () => {
                               ) : (
                                 <Play className="mr-2 h-4 w-4" />
                               )}
-                              Resume
+                              Lanjutkan
                             </Button>
                           ) : (
                             <>
@@ -609,7 +609,7 @@ const Attendance = () => {
                                 ) : (
                                   <Pause className="mr-2 h-4 w-4" />
                                 )}
-                                Pause
+                                Jeda
                               </Button>
                               <Button onClick={handleClockOutAttempt} variant="outline" disabled={clockOut.isPending}>
                                 {clockOut.isPending ? (
@@ -617,14 +617,14 @@ const Attendance = () => {
                                 ) : (
                                   <LogOut className="mr-2 h-4 w-4" />
                                 )}
-                                Clock Out
+                                Presensi Keluar
                               </Button>
                             </>
                           )}
                         </div>
                         {todayBreaks && todayBreaks.length > 0 && (
                           <p className="text-xs text-muted-foreground">
-                            {todayBreaks.length} break{todayBreaks.length > 1 ? 's' : ''} · {totalBreakHours.toFixed(1)}h total
+                            {todayBreaks.length} istirahat · total {totalBreakHours.toFixed(1)} jam
                           </p>
                         )}
                       </div>
@@ -634,34 +634,34 @@ const Attendance = () => {
                         {todayRecord?.work_mode && (
                           <Badge variant={todayRecord.work_mode === 'wfo' ? 'default' : 'secondary'}>
                             {todayRecord.work_mode === 'wfo' ? (
-                              <><Building2 className="h-3 w-3 mr-1" /> Office</>
+                              <><Building2 className="h-3 w-3 mr-1" /> Kantor</>
                             ) : (
-                              <><Home className="h-3 w-3 mr-1" /> Home</>
+                              <><Home className="h-3 w-3 mr-1" /> Rumah</>
                             )}
                           </Badge>
                         )}
                         <Badge variant="outline" className="text-sm">
-                          Completed for today
+                          Selesai untuk hari ini
                         </Badge>
                       </div>
                     )}
                   </div>
                 </div>
                 
-                {/* Location Display */}
+                {/* Tampilan Lokasi */}
                 {(todayRecord?.clock_in_location_name || todayRecord?.clock_out_location_name) && (
                   <div className="flex flex-col gap-2 pt-2 border-t border-border">
                     {todayRecord?.clock_in_location_name && (
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <MapPin className="h-3.5 w-3.5 text-primary" />
-                        <span>Clock In:</span>
+                        <span>Presensi Masuk:</span>
                         <span className="text-foreground">{todayRecord.clock_in_location_name}</span>
                       </div>
                     )}
                     {todayRecord?.clock_out_location_name && (
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <MapPin className="h-3.5 w-3.5 text-primary" />
-                        <span>Clock Out:</span>
+                        <span>Presensi Keluar:</span>
                         <span className="text-foreground">{todayRecord.clock_out_location_name}</span>
                       </div>
                     )}
@@ -672,35 +672,35 @@ const Attendance = () => {
           </CardContent>
         </Card>
 
-        {/* Working Schedule Card */}
+        {/* Kartu Jadwal Kerja */}
         {currentEmployee && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Briefcase className="h-5 w-5 text-primary" />
-                My Working Schedule
+                Jadwal Kerja Saya
               </CardTitle>
-              <CardDescription>Your configured work hours and days for attendance reminders</CardDescription>
+              <CardDescription>Jam dan hari kerja Anda yang dikonfigurasi untuk pengingat kehadiran</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="grid grid-cols-2 gap-6 sm:flex sm:gap-8">
                   <div>
-                    <p className="text-sm text-muted-foreground">Start Time</p>
+                    <p className="text-sm text-muted-foreground">Waktu Mulai</p>
                     <p className="text-lg font-semibold">
                       {formatTimeDisplay(currentEmployee.working_hours_start)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">End Time</p>
+                    <p className="text-sm text-muted-foreground">Waktu Selesai</p>
                     <p className="text-lg font-semibold">
                       {formatTimeDisplay(currentEmployee.working_hours_end)}
                     </p>
                   </div>
                   <div className="col-span-2">
-                    <p className="text-sm text-muted-foreground">Working Days</p>
+                    <p className="text-sm text-muted-foreground">Hari Kerja</p>
                     <div className="flex flex-wrap gap-1.5 mt-1">
-                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, index) => {
+                      {['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'].map((day, index) => {
                         const workingDays = currentEmployee.working_days || [1, 2, 3, 4, 5];
                         const isActive = workingDays.includes(index);
                         const isToday = new Date().getDay() === index;
@@ -719,12 +719,12 @@ const Attendance = () => {
                 </div>
                 <div className="flex flex-col items-start gap-2 sm:items-end">
                   {isWorkingDay(currentEmployee.working_days) ? (
-                    <Badge variant="outline" className={toneClass("success")}>Working day</Badge>
+                    <Badge variant="outline" className={toneClass("success")}>Hari kerja</Badge>
                   ) : (
-                    <Badge variant="outline" className={toneClass("neutral")}>Day off</Badge>
+                    <Badge variant="outline" className={toneClass("neutral")}>Hari libur</Badge>
                   )}
                   <a href="/profile" className="text-sm text-primary hover:underline">
-                    Edit Schedule →
+                    Sunting Jadwal →
                   </a>
                 </div>
               </div>
@@ -732,13 +732,13 @@ const Attendance = () => {
           </Card>
         )}
 
-        {/* My Monthly Summary */}
+        {/* Ringkasan Bulanan Saya */}
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
               <div>
-                <CardTitle>My Monthly Summary</CardTitle>
+                <CardTitle>Ringkasan Bulanan Saya</CardTitle>
                 <CardDescription>
                   {MONTHS[parseInt(selectedMonth)].label} {selectedYear}
                 </CardDescription>
@@ -753,33 +753,33 @@ const Attendance = () => {
               if (!myData) {
                 return (
                   <div className="flex h-24 items-center justify-center text-muted-foreground">
-                    No attendance records for this month
+                    Tidak ada catatan kehadiran untuk bulan ini
                   </div>
                 );
               }
               return (
                 <div className={`grid grid-cols-2 gap-3 sm:gap-4 ${canViewAttendanceInsights ? "sm:grid-cols-3 lg:grid-cols-5" : "sm:grid-cols-4"}`}>
                   <div className="rounded-lg border bg-muted/50 p-3 sm:p-4">
-                    <p className="text-sm text-muted-foreground">Present days</p>
+                    <p className="text-sm text-muted-foreground">Hari hadir</p>
                     <p className="text-xl font-bold sm:text-2xl">{myData.presentDays}</p>
                   </div>
                   <div className="rounded-lg border bg-primary/10 p-3 sm:p-4">
-                    <p className="text-sm text-muted-foreground">From office</p>
+                    <p className="text-sm text-muted-foreground">Dari kantor</p>
                     <p className="text-xl font-bold text-primary sm:text-2xl">{myData.wfoDays}</p>
                   </div>
                   <div className="rounded-lg border bg-muted/50 p-3 sm:p-4">
-                    <p className="text-sm text-muted-foreground">Total hours</p>
-                    <p className="text-xl font-bold sm:text-2xl">{myData.totalHours.toFixed(1)}h</p>
+                    <p className="text-sm text-muted-foreground">Total jam</p>
+                    <p className="text-xl font-bold sm:text-2xl">{myData.totalHours.toFixed(1)} jam</p>
                   </div>
                   <div className="rounded-lg border bg-muted/50 p-3 sm:p-4">
-                    <p className="text-sm text-muted-foreground">Avg hours/day</p>
+                    <p className="text-sm text-muted-foreground">Rata-rata jam/hari</p>
                     <p className="text-xl font-bold sm:text-2xl">
-                      {myData.totalDays > 0 ? (myData.totalHours / myData.totalDays).toFixed(1) : "0"}h
+                      {myData.totalDays > 0 ? (myData.totalHours / myData.totalDays).toFixed(1) : "0"} jam
                     </p>
                   </div>
                   {canViewAttendanceInsights && (
                     <div className="col-span-2 rounded-lg border bg-muted/50 p-3 sm:col-span-1 sm:p-4">
-                      <p className="text-sm text-muted-foreground">Late arrivals</p>
+                      <p className="text-sm text-muted-foreground">Keterlambatan</p>
                       <p className="text-xl font-bold sm:text-2xl">{myData.lateDays}</p>
                     </div>
                   )}
@@ -789,25 +789,25 @@ const Attendance = () => {
           </CardContent>
         </Card>
 
-        {/* My Attendance History */}
+        {/* Riwayat Kehadiran Saya */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between flex-wrap gap-4">
             <div>
-              <CardTitle>My Attendance History</CardTitle>
-              <CardDescription>Your attendance records for {MONTHS[parseInt(selectedMonth)].label}</CardDescription>
+              <CardTitle>Riwayat Kehadiran Saya</CardTitle>
+              <CardDescription>Catatan kehadiran Anda untuk {MONTHS[parseInt(selectedMonth)].label}</CardDescription>
             </div>
             {attendanceRecords && attendanceRecords.length > 0 && (
               <div className="flex flex-wrap items-center gap-3">
                 {canViewAttendanceInsights && countLateArrivals() > 0 && (
                   <div className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${toneClass("danger")}`}>
                     <AlertTriangle className="h-4 w-4" aria-hidden="true" />
-                    <span>Late arrivals: <span className="font-semibold">{countLateArrivals()}</span></span>
+                    <span>Keterlambatan: <span className="font-semibold">{countLateArrivals()}</span></span>
                   </div>
                 )}
                 {canViewAttendanceInsights && (
                   <div className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${toneClass("warning")}`}>
                     <Timer className="h-4 w-4" aria-hidden="true" />
-                    <span>Overtime: <span className="font-semibold">{calculateMonthlyOvertime().toFixed(2)} hrs</span></span>
+                    <span>Lembur: <span className="font-semibold">{calculateMonthlyOvertime().toFixed(2)} jam</span></span>
                   </div>
                 )}
               </div>
@@ -818,7 +818,7 @@ const Attendance = () => {
               <Skeleton className="h-64 w-full" />
             ) : attendanceRecords && attendanceRecords.length > 0 ? (
             <>
-              {/* Mobile: stacked cards */}
+              {/* Mobile: kartu bertumpuk */}
               <ul className="space-y-3 sm:hidden">
                 {historyPagination.paginatedItems.map((record) => {
                   const overtime = calculateOvertime(record);
@@ -831,16 +831,16 @@ const Attendance = () => {
                       </div>
                       <dl className="mt-2 grid grid-cols-3 gap-2 text-sm">
                         <div>
-                          <dt className="text-xs text-muted-foreground">Clock in</dt>
+                          <dt className="text-xs text-muted-foreground">Masuk</dt>
                           <dd className="font-medium">{record.clock_in ? format(new Date(record.clock_in), "hh:mm a") : "-"}</dd>
                         </div>
                         <div>
-                          <dt className="text-xs text-muted-foreground">Clock out</dt>
+                          <dt className="text-xs text-muted-foreground">Keluar</dt>
                           <dd className="font-medium">{record.clock_out ? format(new Date(record.clock_out), "hh:mm a") : "-"}</dd>
                         </div>
                         <div>
                           <dt className="text-xs text-muted-foreground">Total</dt>
-                          <dd className="font-medium">{record.total_hours ? `${record.total_hours.toFixed(2)} hrs` : "-"}</dd>
+                          <dd className="font-medium">{record.total_hours ? `${record.total_hours.toFixed(2)} jam` : "-"}</dd>
                         </div>
                       </dl>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -848,12 +848,12 @@ const Attendance = () => {
                         {canViewAttendanceInsights && lateMinutes > 0 && (
                           <Badge variant="outline" className={`text-xs ${toneClass("danger")}`}>
                             <AlertTriangle className="mr-1 h-3 w-3" aria-hidden="true" />
-                            {formatLateDuration(lateMinutes)} late
+                            {formatLateDuration(lateMinutes)} terlambat
                           </Badge>
                         )}
                         {canViewAttendanceInsights && overtime > 0 && (
                           <Badge variant="outline" className={`text-xs ${toneClass("warning")}`}>
-                            +{overtime.toFixed(2)} hrs overtime
+                            +{overtime.toFixed(2)} jam lembur
                           </Badge>
                         )}
                       </div>
@@ -862,13 +862,13 @@ const Attendance = () => {
                           {record.clock_in_location_name && (
                             <p className="flex items-start gap-1.5">
                               <MapPin className="mt-0.5 h-3 w-3 shrink-0 text-primary" aria-hidden="true" />
-                              <span className="min-w-0 break-words">In: {record.clock_in_location_name}</span>
+                              <span className="min-w-0 break-words">Masuk: {record.clock_in_location_name}</span>
                             </p>
                           )}
                           {record.clock_out_location_name && (
                             <p className="flex items-start gap-1.5">
                               <MapPin className="mt-0.5 h-3 w-3 shrink-0 text-primary" aria-hidden="true" />
-                              <span className="min-w-0 break-words">Out: {record.clock_out_location_name}</span>
+                              <span className="min-w-0 break-words">Keluar: {record.clock_out_location_name}</span>
                             </p>
                           )}
                         </div>
@@ -881,7 +881,7 @@ const Attendance = () => {
                 className="hidden overflow-x-auto rounded-md border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:block"
                 tabIndex={0}
                 role="region"
-                aria-label="Attendance history table"
+                aria-label="Tabel riwayat kehadiran"
               >
                 <Table>
                   <TableHeader>
@@ -892,21 +892,21 @@ const Attendance = () => {
                         direction={historySorting.sortConfig.key === "date" ? historySorting.sortConfig.direction : null}
                         onSort={(key) => historySorting.requestSort(key as keyof typeof historySorting.sortedItems[0])}
                       >
-                        Date
+                        Tanggal
                       </SortableTableHead>
-                      <TableHead>Clock In</TableHead>
-                      <TableHead>Clock Out</TableHead>
+                      <TableHead>Presensi Masuk</TableHead>
+                      <TableHead>Presensi Keluar</TableHead>
                       <SortableTableHead
                         sortKey="total_hours"
                         currentSortKey={historySorting.sortConfig.key as string | null}
                         direction={historySorting.sortConfig.key === "total_hours" ? historySorting.sortConfig.direction : null}
                         onSort={(key) => historySorting.requestSort(key as keyof typeof historySorting.sortedItems[0])}
                       >
-                        Total Hours
+                        Total Jam
                       </SortableTableHead>
-                      {canViewAttendanceInsights && <TableHead>Overtime</TableHead>}
+                      {canViewAttendanceInsights && <TableHead>Lembur</TableHead>}
                       <TableHead>Mode</TableHead>
-                      <TableHead>Location</TableHead>
+                      <TableHead>Lokasi</TableHead>
                       <SortableTableHead
                         sortKey="status"
                         currentSortKey={historySorting.sortConfig.key as string | null}
@@ -930,7 +930,7 @@ const Attendance = () => {
                               {canViewAttendanceInsights && lateMinutes > 0 && (
                                 <Badge variant="outline" className={`text-xs ${toneClass("danger")}`}>
                                   <AlertTriangle className="h-3 w-3 mr-1" />
-                                  {formatLateDuration(lateMinutes)} late
+                                  {formatLateDuration(lateMinutes)} terlambat
                                 </Badge>
                               )}
                             </div>
@@ -939,13 +939,13 @@ const Attendance = () => {
                             {record.clock_out ? format(new Date(record.clock_out), "hh:mm a") : "-"}
                           </TableCell>
                           <TableCell>
-                            {record.total_hours ? `${record.total_hours.toFixed(2)} hrs` : "-"}
+                            {record.total_hours ? `${record.total_hours.toFixed(2)} jam` : "-"}
                           </TableCell>
                           {canViewAttendanceInsights && (
                             <TableCell>
                               {overtime > 0 ? (
                                 <Badge variant="outline" className={`whitespace-nowrap text-xs ${toneClass("warning")}`}>
-                                  +{overtime.toFixed(2)} hrs
+                                  +{overtime.toFixed(2)} jam
                                 </Badge>
                               ) : (
                                 <span className="text-muted-foreground">-</span>
@@ -965,12 +965,12 @@ const Attendance = () => {
                                         <div className="flex items-start gap-1.5 text-xs cursor-help">
                                           <MapPin className="h-3 w-3 text-primary shrink-0 mt-0.5" />
                                           <span className="text-muted-foreground truncate">
-                                            In: {record.clock_in_location_name}
+                                            Masuk: {record.clock_in_location_name}
                                           </span>
                                         </div>
                                       </TooltipTrigger>
                                       <TooltipContent side="top" className="max-w-[300px]">
-                                        <p className="text-sm font-medium">Clock In Location</p>
+                                        <p className="text-sm font-medium">Lokasi Presensi Masuk</p>
                                         <p className="text-xs text-muted-foreground">{record.clock_in_location_name}</p>
                                       </TooltipContent>
                                     </Tooltip>
@@ -981,12 +981,12 @@ const Attendance = () => {
                                         <div className="flex items-start gap-1.5 text-xs cursor-help">
                                           <MapPin className="h-3 w-3 text-primary shrink-0 mt-0.5" />
                                           <span className="text-muted-foreground truncate">
-                                            Out: {record.clock_out_location_name}
+                                            Keluar: {record.clock_out_location_name}
                                           </span>
                                         </div>
                                       </TooltipTrigger>
                                       <TooltipContent side="top" className="max-w-[300px]">
-                                        <p className="text-sm font-medium">Clock Out Location</p>
+                                        <p className="text-sm font-medium">Lokasi Presensi Keluar</p>
                                         <p className="text-xs text-muted-foreground">{record.clock_out_location_name}</p>
                                       </TooltipContent>
                                     </Tooltip>
@@ -1004,13 +1004,13 @@ const Attendance = () => {
                   </TableBody>
                 </Table>
               </div>
-              {/* Pagination for history */}
+              {/* Paginasi untuk riwayat */}
               {historyPagination.totalPages > 1 && (
                 <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>Show</span>
+                    <span>Tampilkan</span>
                     <Select value={historyPagination.pageSize.toString()} onValueChange={(v) => historyPagination.setPageSize(Number(v))}>
-                      <SelectTrigger className="h-8 w-[70px]" aria-label="Rows per page">
+                      <SelectTrigger className="h-8 w-[70px]" aria-label="Baris per halaman">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1019,7 +1019,7 @@ const Attendance = () => {
                         ))}
                       </SelectContent>
                     </Select>
-                    <span>of {historyPagination.totalItems} records</span>
+                    <span>dari {historyPagination.totalItems} catatan</span>
                   </div>
                   <Pagination>
                     <PaginationContent>
@@ -1074,61 +1074,61 @@ const Attendance = () => {
               </>
             ) : (
               <div className="flex h-32 items-center justify-center text-muted-foreground">
-                No attendance records found
+                Tidak ada catatan kehadiran ditemukan
               </div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Early Clock-Out Warning Dialog */}
+      {/* Dialog Peringatan Presensi Keluar Lebih Awal */}
       <AlertDialog open={showEarlyClockOutWarning} onOpenChange={setShowEarlyClockOutWarning}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-amber-500" />
-              Early Clock-Out Warning
+              Peringatan Presensi Keluar Lebih Awal
             </AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-2">
                 {earlyClockOutReasons.insufficientHours && (
                   <p>
-                    You have only worked <span className="font-semibold">{formatHoursWorked(calculateCurrentHoursWorked())}</span> today. 
-                    The required minimum is <span className="font-semibold">9 hours</span>.
+                    Anda hanya bekerja <span className="font-semibold">{formatHoursWorked(calculateCurrentHoursWorked())}</span> hari ini. 
+                    Minimum yang diperlukan adalah <span className="font-semibold">9 jam</span>.
                   </p>
                 )}
                 {earlyClockOutReasons.beforeEndTime && currentEmployee?.working_hours_end && (
                   <p>
-                    Your scheduled end time is <span className="font-semibold">{formatTimeDisplay(currentEmployee.working_hours_end)}</span>.
+                    Waktu selesai yang dijadwalkan adalah <span className="font-semibold">{formatTimeDisplay(currentEmployee.working_hours_end)}</span>.
                   </p>
                 )}
-                <p className="pt-2">Are you sure you want to clock out early?</p>
+                <p className="pt-2">Anda yakin ingin melakukan presensi keluar lebih awal?</p>
               </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Continue Working</AlertDialogCancel>
+            <AlertDialogCancel>Lanjutkan Bekerja</AlertDialogCancel>
             <AlertDialogAction onClick={handleClockOut}>
-              Clock Out Anyway
+              Tetap Keluar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Late Clock-Out Dialog */}
+      {/* Dialog Presensi Keluar Setelah Waktu Selesai */}
       <AlertDialog open={showLateClockOutDialog} onOpenChange={setShowLateClockOutDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               <Timer className="h-5 w-5 text-orange-500" />
-              Clock Out After End Time
+              Presensi Keluar Setelah Waktu Selesai
             </AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-4">
                 <p>
-                  Your scheduled end time was <span className="font-semibold">{formatTimeDisplay(currentEmployee?.working_hours_end || "18:00:00")}</span> and you've worked <span className="font-semibold">{formatHoursWorked(calculateCurrentHoursWorked())}</span>.
+                  Waktu selesai yang dijadwalkan adalah <span className="font-semibold">{formatTimeDisplay(currentEmployee?.working_hours_end || "18:00:00")}</span> dan Anda telah bekerja <span className="font-semibold">{formatHoursWorked(calculateCurrentHoursWorked())}</span>.
                 </p>
-                <p>Was this overtime or did you forget to clock out?</p>
+                <p>Apakah ini lembur atau Anda lupa melakukan presensi keluar?</p>
                 <div className="flex flex-col gap-2 pt-2">
                   <Button
                     variant={lateClockOutMode === "overtime" ? "default" : "outline"}
@@ -1136,7 +1136,7 @@ const Attendance = () => {
                     onClick={() => setLateClockOutMode("overtime")}
                   >
                     <Timer className="mr-2 h-4 w-4" />
-                    It was overtime — use current time
+                    Itu lembur — gunakan waktu saat ini
                   </Button>
                   <Button
                     variant={lateClockOutMode === "missed" ? "default" : "outline"}
@@ -1144,12 +1144,12 @@ const Attendance = () => {
                     onClick={() => setLateClockOutMode("missed")}
                   >
                     <Clock className="mr-2 h-4 w-4" />
-                    I forgot to clock out — enter actual time
+                    Saya lupa melakukan presensi keluar — masukkan waktu sebenarnya
                   </Button>
                 </div>
                 {lateClockOutMode === "missed" && (
                   <div className="space-y-2 pt-2">
-                    <Label htmlFor="missed-time">Actual clock-out time</Label>
+                    <Label htmlFor="missed-time">Waktu presensi keluar sebenarnya</Label>
                     <Input
                       id="missed-time"
                       type="time"
@@ -1162,12 +1162,12 @@ const Attendance = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setLateClockOutMode(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setLateClockOutMode(null)}>Batal</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleLateClockOutConfirm}
               disabled={!lateClockOutMode || (lateClockOutMode === "missed" && !missedClockOutTime)}
             >
-              Confirm Clock Out
+              Konfirmasi Presensi Keluar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

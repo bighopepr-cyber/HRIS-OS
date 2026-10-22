@@ -21,22 +21,22 @@ import { format, addMonths, subMonths, isSameDay, parseISO } from "date-fns";
 import { toneClass } from "@/lib/statusStyles";
 const EVENT_TYPES = [{
   value: "holiday",
-  label: "Public Holiday",
+  label: "Hari Libur",
   icon: PartyPopper,
   color: "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300"
 }, {
   value: "company",
-  label: "Company Event",
+  label: "Acara Perusahaan",
   icon: Briefcase,
   color: "bg-primary/10 text-primary"
 }, {
   value: "meeting",
-  label: "All-Hands Meeting",
+  label: "Rapat Seluruh Karyawan",
   icon: Users,
   color: "bg-violet-50 text-violet-700 dark:bg-violet-950 dark:text-violet-300"
 }, {
   value: "other",
-  label: "Other",
+  label: "Lainnya",
   icon: CalendarDays,
   color: "bg-muted text-muted-foreground"
 }];
@@ -74,7 +74,7 @@ const CompanyCalendar = () => {
   };
   const handleCreate = async () => {
     if (!formData.title.trim() || !formData.event_date) {
-      toast.error("Title and date are required");
+      toast.error("Judul dan tanggal wajib diisi");
       return;
     }
     try {
@@ -85,16 +85,16 @@ const CompanyCalendar = () => {
         event_type: formData.event_type,
         is_holiday: formData.is_holiday
       });
-      toast.success("Event created successfully");
+      toast.success("Acara berhasil dibuat");
       setIsCreateOpen(false);
       resetForm();
     } catch (error) {
-      toast.error("Failed to create event");
+      toast.error("Gagal membuat acara");
     }
   };
   const handleUpdate = async () => {
     if (!editingEvent || !formData.title.trim() || !formData.event_date) {
-      toast.error("Title and date are required");
+      toast.error("Judul dan tanggal wajib diisi");
       return;
     }
     try {
@@ -106,19 +106,19 @@ const CompanyCalendar = () => {
         event_type: formData.event_type,
         is_holiday: formData.is_holiday
       });
-      toast.success("Event updated successfully");
+      toast.success("Acara berhasil diperbarui");
       setEditingEvent(null);
       resetForm();
     } catch (error) {
-      toast.error("Failed to update event");
+      toast.error("Gagal memperbarui acara");
     }
   };
   const handleDelete = async (id: string) => {
     try {
       await deleteEvent.mutateAsync(id);
-      toast.success("Event deleted successfully");
+      toast.success("Acara berhasil dihapus");
     } catch (error) {
-      toast.error("Failed to delete event");
+      toast.error("Gagal menghapus acara");
     }
   };
   const openEdit = (event: CompanyEvent) => {
@@ -139,7 +139,7 @@ const CompanyCalendar = () => {
     setIsCreateOpen(true);
   };
   const getEventTypeConfig = (type: string) => {
-    // Legacy rows use the DB default "event" — treat those as company events
+    // Baris lama menggunakan nilai bawaan basis data "event" — perlakukan sebagai acara perusahaan
     const normalized = type === "event" ? "company" : type;
     return EVENT_TYPES.find(t => t.value === normalized) || EVENT_TYPES[3];
   };
@@ -151,10 +151,10 @@ const CompanyCalendar = () => {
         error
       } = await supabase.functions.invoke("event-notification");
       if (error) throw error;
-      toast.success(data.message || "Notifications sent successfully");
+      toast.success(data.message || "Notifikasi berhasil dikirim");
     } catch (error) {
-      console.error("Error sending notifications:", error);
-      toast.error("Failed to send notifications");
+      console.error("Kesalahan saat mengirim notifikasi:", error);
+      toast.error("Gagal mengirim notifikasi");
     } finally {
       setIsSendingNotifications(false);
     }
@@ -164,20 +164,20 @@ const CompanyCalendar = () => {
   const holidayDates = events?.filter(isHolidayEvent).map(e => parseISO(e.event_date)) || [];
   const eventDates = events?.filter(e => !isHolidayEvent(e)).map(e => parseISO(e.event_date)) || [];
   const holidayCount = events?.filter(isHolidayEvent).length || 0;
-  // Everything that isn't a holiday (company events, all-hands, other) counts as a company event
+  // Semua yang bukan hari libur (acara perusahaan, rapat seluruh karyawan, lainnya) dihitung sebagai acara perusahaan
   const companyEventCount = events?.filter(e => !isHolidayEvent(e)).length || 0;
   const calendarStats = [{
-    label: "Holidays",
+    label: "Hari libur",
     value: holidayCount,
     icon: PartyPopper,
     tile: "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300"
   }, {
-    label: "Company events",
+    label: "Acara perusahaan",
     value: companyEventCount,
     icon: Briefcase,
     tile: "bg-primary/10 text-primary"
   }, {
-    label: "Total events",
+    label: "Total acara",
     value: events?.length || 0,
     icon: CalendarDays,
     tile: "bg-muted text-foreground"
@@ -187,43 +187,43 @@ const CompanyCalendar = () => {
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Calendar</h1>
-            <p className="text-muted-foreground">View holidays and company events</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Kalender</h1>
+            <p className="text-muted-foreground">Lihat hari libur dan acara perusahaan</p>
           </div>
           {canManageEvents && <div className="flex gap-2">
               <Button variant="outline" className="flex-1 sm:flex-none" onClick={sendNotifications} disabled={isSendingNotifications}>
                 <Mail className="mr-2 h-4 w-4" />
-                {isSendingNotifications ? "Sending..." : "Send notifications"}
+                {isSendingNotifications ? "Mengirim..." : "Kirim notifikasi"}
               </Button>
               <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
                 <DialogTrigger asChild>
                   <Button className="flex-1 sm:flex-none" onClick={() => resetForm()}>
                     <Plus className="mr-2 h-4 w-4" />
-                    Add event
+                    Tambah acara
                   </Button>
                 </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Create Event</DialogTitle>
-                  <DialogDescription>Add a new holiday or company event</DialogDescription>
+                  <DialogTitle>Buat Acara</DialogTitle>
+                  <DialogDescription>Tambahkan hari libur atau acara perusahaan baru</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="title">Title *</Label>
-                    <Input id="title" placeholder="e.g., Independence Day" value={formData.title} onChange={e => setFormData({
+                    <Label htmlFor="title">Judul *</Label>
+                    <Input id="title" placeholder="mis., Hari Kemerdekaan" value={formData.title} onChange={e => setFormData({
                     ...formData,
                     title: e.target.value
                   })} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="event_date">Date *</Label>
+                    <Label htmlFor="event_date">Tanggal *</Label>
                     <Input id="event_date" type="date" value={formData.event_date} onChange={e => setFormData({
                     ...formData,
                     event_date: e.target.value
                   })} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="event_type">Event Type</Label>
+                    <Label htmlFor="event_type">Jenis Acara</Label>
                     <Select value={formData.event_type} onValueChange={value => setFormData({
                     ...formData,
                     event_type: value
@@ -239,8 +239,8 @@ const CompanyCalendar = () => {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" placeholder="Additional details about the event" value={formData.description} onChange={e => setFormData({
+                    <Label htmlFor="description">Deskripsi</Label>
+                    <Textarea id="description" placeholder="Rincian tambahan tentang acara" value={formData.description} onChange={e => setFormData({
                     ...formData,
                     description: e.target.value
                   })} />
@@ -250,15 +250,15 @@ const CompanyCalendar = () => {
                     ...formData,
                     is_holiday: checked
                   })} />
-                    <Label htmlFor="is_holiday">Mark as paid holiday (office closed)</Label>
+                    <Label htmlFor="is_holiday">Tandai sebagai hari libur berbayar (kantor tutup)</Label>
                   </div>
                 </div>
                 <DialogFooter>
                   <Button variant="outline" onClick={() => setIsCreateOpen(false)}>
-                    Cancel
+                    Batal
                   </Button>
                   <Button onClick={handleCreate} disabled={createEvent.isPending}>
-                    Create
+                    Buat
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -266,7 +266,7 @@ const CompanyCalendar = () => {
             </div>}
         </div>
 
-        {/* Stats */}
+        {/* Statistik */}
         <div className="grid grid-cols-3 gap-3 sm:gap-4">
           {calendarStats.map(stat => {
             const Icon = stat.icon;
@@ -277,7 +277,7 @@ const CompanyCalendar = () => {
                   </div>
                   <div className="min-w-0">
                     <p className="text-xl font-bold sm:text-2xl">{stat.value}</p>
-                    <p className="text-sm text-muted-foreground">{stat.label}<span className="hidden sm:inline"> this month</span></p>
+                    <p className="text-sm text-muted-foreground">{stat.label}<span className="hidden sm:inline"> bulan ini</span></p>
                   </div>
                 </CardContent>
               </Card>;
@@ -285,18 +285,18 @@ const CompanyCalendar = () => {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Calendar */}
+          {/* Kalender */}
           <Card className="lg:col-span-2">
             <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0">
               <div>
                 <CardTitle aria-live="polite">{format(currentMonth, "MMMM yyyy")}</CardTitle>
-                <CardDescription>Click on a date to view events</CardDescription>
+                <CardDescription>Klik tanggal untuk melihat acara</CardDescription>
               </div>
               <div className="flex shrink-0 gap-2">
-                <Button variant="outline" size="icon" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} aria-label="Previous month" title="Previous month">
+                <Button variant="outline" size="icon" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} aria-label="Bulan sebelumnya" title="Bulan sebelumnya">
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} aria-label="Next month" title="Next month">
+                <Button variant="outline" size="icon" onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} aria-label="Bulan berikutnya" title="Bulan berikutnya">
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
@@ -327,29 +327,29 @@ const CompanyCalendar = () => {
                   <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t pt-4 text-xs text-muted-foreground">
                     <div className="flex items-center gap-1.5">
                       <div className="h-3 w-3 rounded-sm bg-red-100 ring-1 ring-red-300 dark:bg-red-950" />
-                      <span>Holiday</span>
+                      <span>Hari Libur</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="h-3 w-3 rounded-sm bg-primary/10 ring-1 ring-primary/40" />
-                      <span>Event</span>
+                      <span>Acara</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="h-3 w-3 rounded-sm ring-2 ring-inset ring-primary" />
-                      <span>Today</span>
+                      <span>Hari Ini</span>
                     </div>
                   </div>
                 </>}
             </CardContent>
           </Card>
 
-          {/* Events List */}
+          {/* Daftar Acara */}
           <Card>
             <CardHeader>
               <CardTitle>
-                {selectedDate ? format(selectedDate, "MMM d, yyyy") : "Events this month"}
+                {selectedDate ? format(selectedDate, "MMM d, yyyy") : "Acara bulan ini"}
               </CardTitle>
               <CardDescription>
-                {selectedDate ? <>Events on this date · <button type="button" className="underline-offset-4 hover:underline" onClick={() => setSelectedDate(undefined)}>Show all</button></> : format(currentMonth, "MMMM yyyy")}
+                {selectedDate ? <>Acara pada tanggal ini · <button type="button" className="underline-offset-4 hover:underline" onClick={() => setSelectedDate(undefined)}>Tampilkan semua</button></> : format(currentMonth, "MMMM yyyy")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -358,9 +358,9 @@ const CompanyCalendar = () => {
                 </div> : <div className="space-y-4">
                   {(selectedDate ? eventsOnSelectedDate : events)?.length === 0 ? <div className="flex h-32 flex-col items-center justify-center text-center text-muted-foreground">
                       <CalendarDays className="mb-2 h-8 w-8" />
-                      <p>No events {selectedDate ? "on this date" : "this month"}</p>
+                      <p>Tidak ada acara {selectedDate ? "pada tanggal ini" : "bulan ini"}</p>
                       {canManageEvents && selectedDate && <Button variant="link" size="sm" className="mt-2" onClick={() => openCreateWithDate(selectedDate)}>
-                          Add an event
+                          Tambahkan acara
                         </Button>}
                     </div> : (selectedDate ? eventsOnSelectedDate : events)?.map(event => {
                 const typeConfig = getEventTypeConfig(event.event_type);
@@ -377,39 +377,39 @@ const CompanyCalendar = () => {
                                   {format(parseISO(event.event_date), "MMM d, yyyy")}
                                 </p>
                                 {event.is_holiday && <Badge variant="outline" className={`mt-1 ${toneClass("danger")}`}>
-                                    Holiday
+                                    Hari Libur
                                   </Badge>}
                               </div>
                             </div>
                             {canManageEvents && <div className="flex shrink-0 gap-1">
                                 <Dialog open={editingEvent?.id === event.id} onOpenChange={open => !open && setEditingEvent(null)}>
                                   <DialogTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" onClick={() => openEdit(event)} aria-label={`Edit ${event.title}`} title="Edit event">
+                                     <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" onClick={() => openEdit(event)} aria-label={`Sunting ${event.title}`} title="Sunting acara">
                                       <Pencil className="h-4 w-4" />
                                     </Button>
                                   </DialogTrigger>
                                   <DialogContent>
                                     <DialogHeader>
-                                      <DialogTitle>Edit Event</DialogTitle>
-                                      <DialogDescription>Update event details</DialogDescription>
+                                      <DialogTitle>Sunting Acara</DialogTitle>
+                                      <DialogDescription>Perbarui detail acara</DialogDescription>
                                     </DialogHeader>
                                     <div className="space-y-4 py-4">
                                       <div className="space-y-2">
-                                        <Label htmlFor="edit-title">Title *</Label>
+                                        <Label htmlFor="edit-title">Judul *</Label>
                                         <Input id="edit-title" value={formData.title} onChange={e => setFormData({
                                 ...formData,
                                 title: e.target.value
                               })} />
                                       </div>
                                       <div className="space-y-2">
-                                        <Label htmlFor="edit-event_date">Date *</Label>
+                                        <Label htmlFor="edit-event_date">Tanggal *</Label>
                                         <Input id="edit-event_date" type="date" value={formData.event_date} onChange={e => setFormData({
                                 ...formData,
                                 event_date: e.target.value
                               })} />
                                       </div>
                                       <div className="space-y-2">
-                                        <Label htmlFor="edit-event_type">Event Type</Label>
+                                        <Label htmlFor="edit-event_type">Jenis Acara</Label>
                                         <Select value={formData.event_type} onValueChange={value => setFormData({
                                 ...formData,
                                 event_type: value
@@ -425,7 +425,7 @@ const CompanyCalendar = () => {
                                         </Select>
                                       </div>
                                       <div className="space-y-2">
-                                        <Label htmlFor="edit-description">Description</Label>
+                                        <Label htmlFor="edit-description">Deskripsi</Label>
                                         <Textarea id="edit-description" value={formData.description} onChange={e => setFormData({
                                 ...formData,
                                 description: e.target.value
@@ -437,16 +437,16 @@ const CompanyCalendar = () => {
                                 is_holiday: checked
                               })} />
                                         <Label htmlFor="edit-is_holiday">
-                                          Mark as paid holiday
+                                          Tandai sebagai hari libur berbayar
                                         </Label>
                                       </div>
                                     </div>
                                     <DialogFooter>
                                       <Button variant="outline" onClick={() => setEditingEvent(null)}>
-                                        Cancel
+                                        Batal
                                       </Button>
                                       <Button onClick={handleUpdate} disabled={updateEvent.isPending}>
-                                        Save Changes
+                                        Simpan Perubahan
                                       </Button>
                                     </DialogFooter>
                                   </DialogContent>
@@ -454,21 +454,21 @@ const CompanyCalendar = () => {
 
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Delete ${event.title}`} title="Delete event">
+                                     <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Hapus ${event.title}`} title="Hapus acara">
                                       <Trash2 className="h-4 w-4 text-destructive" />
                                     </Button>
                                   </AlertDialogTrigger>
                                   <AlertDialogContent>
                                     <AlertDialogHeader>
-                                      <AlertDialogTitle>Delete Event</AlertDialogTitle>
+                                      <AlertDialogTitle>Hapus Acara</AlertDialogTitle>
                                       <AlertDialogDescription>
-                                        Are you sure you want to delete "{event.title}"?
+                                        Anda yakin ingin menghapus "{event.title}"?
                                       </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogCancel>Batal</AlertDialogCancel>
                                       <AlertDialogAction onClick={() => handleDelete(event.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                                        Delete
+                                        Hapus
                                       </AlertDialogAction>
                                     </AlertDialogFooter>
                                   </AlertDialogContent>

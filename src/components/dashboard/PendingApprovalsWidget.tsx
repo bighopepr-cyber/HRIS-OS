@@ -21,11 +21,11 @@ export function PendingApprovalsWidget() {
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <ClipboardList className="h-5 w-5 text-amber-600" aria-hidden="true" />
-          Pending Approvals
+          Persetujuan Tertunda
         </CardTitle>
         {data && data.count > 0 && (
           <Badge variant="secondary" className="bg-amber-50 text-amber-800 border-amber-200">
-            {data.count} pending
+            {data.count} tertunda
           </Badge>
         )}
       </CardHeader>
@@ -47,7 +47,7 @@ export function PendingApprovalsWidget() {
                     {request.employees?.first_name} {request.employees?.last_name}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {request.leave_types?.name} · {request.days_count} day{request.days_count !== 1 ? 's' : ''}
+                    {request.leave_types?.name} · {request.days_count} hari{request.days_count !== 1 ? 's' : ''}
                   </p>
                 </div>
                 <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
@@ -61,13 +61,13 @@ export function PendingApprovalsWidget() {
               className="w-full mt-2"
               onClick={() => navigate("/leave-approvals")}
             >
-              View All
+              Lihat Semua
               <ArrowRight className="h-4 w-4 ml-1" />
             </Button>
           </>
         ) : (
           <p className="text-sm text-muted-foreground text-center py-4">
-            No pending requests
+            Tidak ada permintaan tertunda
           </p>
         )}
       </CardContent>

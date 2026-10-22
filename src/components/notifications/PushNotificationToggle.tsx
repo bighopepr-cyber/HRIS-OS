@@ -13,15 +13,15 @@ export function PushNotificationToggle() {
   const handleToggle = async () => {
     if (isSubscribed) {
       await unsubscribe();
-      toast({ title: "Push notifications disabled", description: "You won't receive push notifications anymore." });
+      toast({ title: "Notifikasi push dinonaktifkan", description: "Anda tidak akan menerima notifikasi push lagi." });
     } else {
       const success = await subscribe();
       if (success) {
-        toast({ title: "Push notifications enabled!", description: "You'll now receive alerts for leave approvals and other HR updates." });
+        toast({ title: "Notifikasi push diaktifkan!", description: "Anda sekarang akan menerima peringatan untuk persetujuan cuti dan pembaruan HR lainnya." });
       } else if (permission === "denied") {
         toast({
-          title: "Notifications blocked",
-          description: "Please enable notifications in your browser settings.",
+          title: "Notifikasi diblokir",
+          description: "Aktifkan notifikasi di pengaturan browser Anda.",
           variant: "destructive",
         });
       }
@@ -33,22 +33,22 @@ export function PushNotificationToggle() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg sm:text-2xl">
           <BellRing className="h-5 w-5 shrink-0" aria-hidden="true" />
-          Push notifications
+          Notifikasi push
         </CardTitle>
         <CardDescription>
-          Get instant alerts on your device for leave approvals, new requests, and attendance reminders
+          Dapatkan peringatan instan di perangkat Anda untuk persetujuan cuti, permintaan baru, dan pengingat kehadiran
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between gap-4">
           <div className="min-w-0 space-y-1">
             <p className="text-sm font-medium">
-              {isSubscribed ? "Notifications are enabled" : "Notifications are disabled"}
+              {isSubscribed ? "Notifikasi diaktifkan" : "Notifikasi dinonaktifkan"}
             </p>
             <p className="text-xs text-muted-foreground">
               {isSubscribed
-                ? "You'll receive push alerts even when the app is closed"
-                : "Enable to get real-time HR alerts on your device"}
+                ? "Anda akan menerima pemberitahuan push meskipun aplikasi ditutup"
+                : "Aktifkan untuk menerima peringatan HR real-time di perangkat Anda"}
             </p>
           </div>
           <Button
@@ -65,7 +65,7 @@ export function PushNotificationToggle() {
             ) : (
               <Bell className="h-4 w-4" />
             )}
-            {isSubscribed ? "Disable" : "Enable"}
+            {isSubscribed ? "Nonaktifkan" : "Aktifkan"}
           </Button>
         </div>
       </CardContent>

@@ -42,18 +42,18 @@ const Leaves = () => {
   const { can, roles } = usePermissions();
   const { data: branding } = useCompanyBranding();
 
-  // Approval dialog state
+  // Status dialog persetujuan
   const [selectedRequest, setSelectedRequest] = useState<LeaveRequest | null>(null);
   const [reviewNotes, setReviewNotes] = useState("");
   const [actionType, setActionType] = useState<"approve" | "reject" | null>(null);
 
-  // Processed tab filters
+  // Filter tab yang telah diproses
   const [processedStatusFilter, setProcessedStatusFilter] = useState<"all" | "approved" | "rejected">("all");
   const [processedTypeFilter, setProcessedTypeFilter] = useState<string>("all");
   const [processedMonthFilter, setProcessedMonthFilter] = useState<string>("all");
   const [processedYearFilter, setProcessedYearFilter] = useState<string>("all");
-  // Managers approve their reports (RLS limits them to their team);
-  // leaves:manage approves anyone's
+  // Manajer menyetujui laporan timnya (RLS membatasi mereka pada timnya);
+  // leaves:manage dapat menyetujui siapa pun
   const canApproveLeaves = can("leaves", "manage") || roles.includes("manager");
   const {
     data: myEmployeeId,
@@ -79,7 +79,7 @@ const Leaves = () => {
     data: stats
   } = useLeaveStats();
 
-  // Mutation for updating leave status with notes
+  // Mutasi untuk memperbarui status cuti beserta catatannya
   const updateStatusMutation = useMutation({
     mutationFn: async ({
       requestId,
@@ -90,7 +90,7 @@ const Leaves = () => {
       status: "approved" | "rejected";
       reviewNotes: string;
     }) => {
-      // Get current user's employee data for reviewed_by
+      // Ambil data karyawan pengguna saat ini untuk reviewed_by
       const {
         data: employeeData
       } = await supabase.from("employees").select("id, first_name, last_name").eq("user_id", user?.id).maybeSingle();
@@ -104,8 +104,8 @@ const Leaves = () => {
       }).eq("id", requestId);
       if (error) throw error;
 
-      // Send notification (fire and forget)
-      const reviewerName = employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : "HR Team";
+      // Kirim notifikasi (fire and forget)
+      const reviewerName = employeeData ? `${employeeData.first_name} ${employeeData.last_name}` : "Tim HR";
       supabase.functions.invoke("leave-status-notification", {
         body: {
           request_id: requestId,
@@ -114,7 +114,7 @@ const Leaves = () => {
           review_notes: reviewNotes.trim() || undefined
         }
       }).catch(err => {
-        console.error("Failed to send leave status notification:", err);
+        console.error("Gagal mengirim notifikasi status cuti:", err);
       });
       return status;
     },
@@ -129,8 +129,8 @@ const Leaves = () => {
         queryKey: ["leave-balances"]
       });
       toast({
-        title: status === "approved" ? "Leave Approved" : "Leave Rejected",
-        description: `The leave request has been ${status}.`
+        title: status === "approved" ? "Cuti Disetujui" : "Cuti Ditolak",
+        description: `Permintaan cuti telah ${status === "approved" ? "disetujui" : "ditolak"}.`
       });
       setSelectedRequest(null);
       setReviewNotes("");
@@ -138,8 +138,8 @@ const Leaves = () => {
     },
     onError: error => {
       toast({
-        title: "Error",
-        description: `Failed to update leave request: ${error.message}`,
+        title: "Kesalahan",
+        description: `Gagal memperbarui permintaan cuti: ${error.message}`,
         variant: "destructive"
       });
     }
@@ -186,7 +186,7 @@ const Leaves = () => {
   const exportToCSV = (startDate?: Date, endDate?: Date) => {
     const allRequests = [...pendingRequests, ...processedRequests];
     const filteredRequests = filterByDateRange(allRequests, startDate, endDate);
-    const headers = ["Employee", "Department", "Type", "Start Date", "End Date", "Days", "Status", "Reason"];
+    const headers = ["Karyawan", "Departemen", "Jenis", "Tanggal Mulai", "Tanggal Selesai", "Hari", "Status", "Alasan"];
     const csvContent = [headers.join(","), ...filteredRequests.map(req => [`"${req.employee.name}"`, `"${req.employee.department}"`, `"${req.type}"`, `"${req.startDateISO ?? req.startDate}"`, `"${req.endDateISO ?? req.endDate}"`, `"${req.days}"`, `"${req.status}"`, `"${req.reason || ''}"`].join(","))].join("\n");
     const blob = new Blob([csvContent], {
       type: "text/csv;charset=utf-8;"
@@ -197,8 +197,8 @@ const Leaves = () => {
     link.download = `leave-requests${dateRange}-${new Date().toISOString().split("T")[0]}.csv`;
     link.click();
     toast({
-      title: "Export Complete",
-      description: `${filteredRequests.length} leave requests exported to CSV`
+      title: "Ekspor Selesai",
+      description: `${filteredRequests.length} permintaan cuti diekspor ke CSV`
     });
   };
   const exportToPDF = async (startDate?: Date, endDate?: Date) => {
@@ -211,11 +211,11 @@ const Leaves = () => {
     const logoDataUrl = await fetchImageAsDataUrl(branding?.logoUrl);
 
     const subtitle = startDate || endDate
-      ? `Date Range: ${startDate ? format(startDate, "PP") : "Start"} - ${endDate ? format(endDate, "PP") : "End"}`
+      ? `Rentang Tanggal: ${startDate ? format(startDate, "PP") : "Awal"} - ${endDate ? format(endDate, "PP") : "Akhir"}`
       : undefined;
 
     let currentY = drawPdfHeader(doc, {
-      title: "Leave Requests Report",
+      title: "Laporan Permintaan Cuti",
       subtitle,
       companyName: branding?.companyName,
       companyAddress: branding?.companyAddress,
@@ -228,15 +228,15 @@ const Leaves = () => {
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     if (startDate || endDate) {
-      doc.text(`Total Requests: ${filteredRequests.length}`, margin, currentY);
+      doc.text(`Total Permintaan: ${filteredRequests.length}`, margin, currentY);
     } else {
-      doc.text(`Total Requests: ${filteredRequests.length} | Pending: ${pendingRequests.length} | Processed: ${processedRequests.length}`, margin, currentY);
+      doc.text(`Total Permintaan: ${filteredRequests.length} | Tertunda: ${pendingRequests.length} | Diproses: ${processedRequests.length}`, margin, currentY);
     }
     currentY += 10;
 
     autoTable(doc, {
       startY: currentY,
-      head: [["Employee", "Department", "Type", "Start Date", "End Date", "Days", "Status"]],
+      head: [["Karyawan", "Departemen", "Jenis", "Tanggal Mulai", "Tanggal Selesai", "Hari", "Status"]],
       body: filteredRequests.map(req => [req.employee.name, req.employee.department, req.type, req.startDate, req.endDate, req.days.toString(), req.status]),
       styles: {
         fontSize: 8
@@ -253,57 +253,57 @@ const Leaves = () => {
     const dateRange = startDate || endDate ? `-${startDate ? format(startDate, "yyyy-MM-dd") : "start"}-to-${endDate ? format(endDate, "yyyy-MM-dd") : "end"}` : "";
     doc.save(`leave-requests${dateRange}-${new Date().toISOString().split("T")[0]}.pdf`);
     toast({
-      title: "Export Complete",
-      description: `${filteredRequests.length} leave requests exported to PDF`
+      title: "Ekspor Selesai",
+      description: `${filteredRequests.length} permintaan cuti diekspor ke PDF`
     });
   };
   const pendingRequests = requests.filter(r => r.status === "pending");
   const allProcessedRequests = requests.filter(r => r.status !== "pending");
 
-  // Get unique leave types for filter
+  // Ambil jenis cuti unik untuk filter
   const uniqueLeaveTypes = [...new Set(allProcessedRequests.map(r => r.type))];
 
-  // Get unique years for filter
+  // Ambil tahun unik untuk filter
   const uniqueYears = [...new Set(allProcessedRequests.map(r => parseISO(r.startDateISO ?? "").getFullYear()).filter(y => !Number.isNaN(y)))].sort((a, b) => b - a);
   const MONTHS = [{
     value: "0",
-    label: "January"
+    label: "Januari"
   }, {
     value: "1",
-    label: "February"
+    label: "Februari"
   }, {
     value: "2",
-    label: "March"
+    label: "Maret"
   }, {
     value: "3",
     label: "April"
   }, {
     value: "4",
-    label: "May"
+    label: "Mei"
   }, {
     value: "5",
-    label: "June"
+    label: "Juni"
   }, {
     value: "6",
-    label: "July"
+    label: "Juli"
   }, {
     value: "7",
-    label: "August"
+    label: "Agustus"
   }, {
     value: "8",
     label: "September"
   }, {
     value: "9",
-    label: "October"
+    label: "Oktober"
   }, {
     value: "10",
     label: "November"
   }, {
     value: "11",
-    label: "December"
+    label: "Desember"
   }];
 
-  // Apply filters to processed requests
+  // Terapkan filter pada permintaan yang telah diproses
   const processedRequests = allProcessedRequests.filter(r => {
     const statusMatch = processedStatusFilter === "all" || r.status === processedStatusFilter;
     const typeMatch = processedTypeFilter === "all" || r.type === processedTypeFilter;
@@ -313,9 +313,9 @@ const Leaves = () => {
     return statusMatch && typeMatch && monthMatch && yearMatch;
   });
 
-  // Sorting for pending requests
+  // Pengurutan untuk permintaan tertunda
   const pendingSorting = useSorting<LeaveRequest>(pendingRequests, "startDateISO", "asc");
-  // Sorting for processed requests  
+  // Pengurutan untuk permintaan yang telah diproses
   const processedSorting = useSorting<LeaveRequest>(processedRequests, "startDateISO", "desc");
   const pendingPagination = usePagination(pendingSorting.sortedItems, {
     initialPageSize: 10
@@ -324,40 +324,40 @@ const Leaves = () => {
     initialPageSize: 10
   });
   const leaveStats = [{
-    label: "Pending",
+    label: "Tertunda",
     value: stats?.pending || 0,
     icon: <Clock className="h-5 w-5" />,
     color: "text-amber-600"
   }, {
-    label: "Approved",
+    label: "Disetujui",
     value: stats?.approved || 0,
     icon: <CheckCircle className="h-5 w-5" />,
     color: "text-emerald-600"
   }, {
-    label: "Rejected",
+    label: "Ditolak",
     value: stats?.rejected || 0,
     icon: <XCircle className="h-5 w-5" />,
     color: "text-destructive"
   }];
   const sortOptions = [{
     key: "startDateISO",
-    label: "Date",
+    label: "Tanggal",
     icon: Calendar
   }, {
     key: "days",
-    label: "Duration",
+    label: "Durasi",
     icon: Clock
   }, {
     key: "type",
-    label: "Type",
+    label: "Jenis",
     icon: Tag
   }] as const;
   const renderSortDropdown = (sorting: ReturnType<typeof useSorting<LeaveRequest>>) => <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="h-10 gap-2">
           <ArrowUpDown className="h-4 w-4" aria-hidden="true" />
-          Sort: {sorting.sortConfig.key ? sortOptions.find(o => o.key === sorting.sortConfig.key)?.label : "Default"}
-          {sorting.sortConfig.direction && <span aria-label={sorting.sortConfig.direction === "asc" ? "ascending" : "descending"}>{sorting.sortConfig.direction === "asc" ? "↑" : "↓"}</span>}
+          Urutkan: {sorting.sortConfig.key ? sortOptions.find(o => o.key === sorting.sortConfig.key)?.label : "Bawaan"}
+          {sorting.sortConfig.direction && <span aria-label={sorting.sortConfig.direction === "asc" ? "menaik" : "menurun"}>{sorting.sortConfig.direction === "asc" ? "↑" : "↓"}</span>}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -394,7 +394,7 @@ const Leaves = () => {
     };
     return <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>Show</span>
+          <span>Tampilkan</span>
           <Select value={pagination.pageSize.toString()} onValueChange={v => pagination.setPageSize(Number(v))}>
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue />
@@ -403,7 +403,7 @@ const Leaves = () => {
               {[5, 10, 20, 50].map(size => <SelectItem key={size} value={size.toString()}>{size}</SelectItem>)}
             </SelectContent>
           </Select>
-          <span>of {pagination.totalItems} requests</span>
+          <span>dari {pagination.totalItems} permintaan</span>
         </div>
         <Pagination>
           <PaginationContent>
@@ -429,33 +429,33 @@ const Leaves = () => {
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Leaves</h1>
-            <p className="text-muted-foreground">Manage and track leave requests</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Cuti</h1>
+            <p className="text-muted-foreground">Kelola dan lacak permintaan cuti</p>
           </div>
           <div className="flex gap-2">
-            <DateRangeExportDialog title="Export leave requests" description="Export leave requests with optional date range filter based on leave start date." onExportCSV={exportToCSV} onExportPDF={exportToPDF} triggerClassName="flex-1 sm:flex-none" />
+            <DateRangeExportDialog title="Ekspor permintaan cuti" description="Ekspor permintaan cuti dengan filter rentang tanggal opsional berdasarkan tanggal mulai cuti." onExportCSV={exportToCSV} onExportPDF={exportToPDF} triggerClassName="flex-1 sm:flex-none" />
             <Dialog open={isNewRequestOpen} onOpenChange={setIsNewRequestOpen}>
               <DialogTrigger asChild>
                 <Button className="flex-1 sm:flex-none">
                   <Plus className="mr-2 h-4 w-4" />
-                  New request
+                  Permintaan baru
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-xl">
                 <DialogHeader>
-                  <DialogTitle>New leave request</DialogTitle>
-                  <DialogDescription>Submit a leave request for approval.</DialogDescription>
+                  <DialogTitle>Permintaan cuti baru</DialogTitle>
+                  <DialogDescription>Kirim permintaan cuti untuk persetujuan.</DialogDescription>
                 </DialogHeader>
 
                 {isLoadingMyEmployee ? <Skeleton className="h-72 w-full" /> : !myEmployeeId ? <div className="rounded-lg border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-                    We couldn't find an employee profile linked to your account. Please contact HR to link your profile.
+                    Kami tidak menemukan profil karyawan yang terhubung dengan akun Anda. Silakan hubungi HR untuk menautkan profil Anda.
                   </div> : <LeaveRequestForm employeeId={myEmployeeId} variant="dialog" onCancel={() => setIsNewRequestOpen(false)} onSubmitted={() => setIsNewRequestOpen(false)} />}
               </DialogContent>
             </Dialog>
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Statistik */}
         <div className="grid grid-cols-3 gap-3 sm:gap-4">
           {leaveStats.map(stat => <Card key={stat.label}>
               <CardContent className="flex flex-col items-start gap-2 p-3 sm:flex-row sm:items-center sm:gap-4 sm:p-6">
@@ -470,17 +470,17 @@ const Leaves = () => {
             </Card>)}
         </div>
 
-        {/* Leave Requests */}
+        {/* Permintaan Cuti */}
         <Tabs defaultValue="pending">
           <TabsList>
             <TabsTrigger value="pending">
-              Pending
+              Tertunda
               <Badge variant="secondary" className="ml-2">
                 {pendingRequests.length}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="processed">Processed</TabsTrigger>
-            <TabsTrigger value="calendar">Calendar</TabsTrigger>
+            <TabsTrigger value="processed">Diproses</TabsTrigger>
+            <TabsTrigger value="calendar">Kalender</TabsTrigger>
           </TabsList>
 
           <TabsContent value="pending" className="mt-6 space-y-4">
@@ -489,15 +489,15 @@ const Leaves = () => {
               </div> : pendingRequests.length === 0 ? <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <Calendar className="mb-4 h-12 w-12 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold text-foreground">No pending requests</h3>
-                  <p className="text-muted-foreground">All leave requests have been processed</p>
+                  <h3 className="text-lg font-semibold text-foreground">Tidak ada permintaan tertunda</h3>
+                  <p className="text-muted-foreground">Semua permintaan cuti telah diproses</p>
                 </CardContent>
               </Card> : <>
                 <div className="flex justify-end">
                   {renderSortDropdown(pendingSorting)}
                 </div>
                 {pendingPagination.paginatedItems.map(request => {
-                  // Cannot approve own leave request
+                  // Tidak dapat menyetujui permintaan cuti sendiri
                   const isOwnRequest = myEmployeeId && request.employeeId === myEmployeeId;
                   const canApproveThisRequest = canApproveLeaves && !isOwnRequest;
                   return (
@@ -519,50 +519,50 @@ const Leaves = () => {
               </div> : allProcessedRequests.length === 0 ? <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <Calendar className="mb-4 h-12 w-12 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold text-foreground">No processed requests</h3>
-                  <p className="text-muted-foreground">Processed leave requests will appear here</p>
+                  <h3 className="text-lg font-semibold text-foreground">Tidak ada permintaan yang diproses</h3>
+                  <p className="text-muted-foreground">Permintaan cuti yang telah diproses akan muncul di sini</p>
                 </CardContent>
               </Card> : <>
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-wrap sm:items-center">
                     <Select value={processedMonthFilter} onValueChange={setProcessedMonthFilter}>
-                      <SelectTrigger className="sm:w-[140px]" aria-label="Filter by month">
-                        <SelectValue placeholder="Month" />
+                      <SelectTrigger className="sm:w-[140px]" aria-label="Filter berdasarkan bulan">
+                        <SelectValue placeholder="Bulan" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All months</SelectItem>
+                        <SelectItem value="all">Semua bulan</SelectItem>
                         {MONTHS.map(month => <SelectItem key={month.value} value={month.value}>
                             {month.label}
                           </SelectItem>)}
                       </SelectContent>
                     </Select>
                     <Select value={processedYearFilter} onValueChange={setProcessedYearFilter}>
-                      <SelectTrigger className="sm:w-[120px]" aria-label="Filter by year">
-                        <SelectValue placeholder="Year" />
+                      <SelectTrigger className="sm:w-[120px]" aria-label="Filter berdasarkan tahun">
+                        <SelectValue placeholder="Tahun" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All years</SelectItem>
+                        <SelectItem value="all">Semua tahun</SelectItem>
                         {uniqueYears.map(year => <SelectItem key={year} value={year.toString()}>
                             {year}
                           </SelectItem>)}
                       </SelectContent>
                     </Select>
                     <Select value={processedStatusFilter} onValueChange={v => setProcessedStatusFilter(v as "all" | "approved" | "rejected")}>
-                      <SelectTrigger className="sm:w-[130px]" aria-label="Filter by status">
+                      <SelectTrigger className="sm:w-[130px]" aria-label="Filter berdasarkan status">
                         <SelectValue placeholder="Status" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All statuses</SelectItem>
-                        <SelectItem value="approved">Approved</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
+                        <SelectItem value="all">Semua status</SelectItem>
+                        <SelectItem value="approved">Disetujui</SelectItem>
+                        <SelectItem value="rejected">Ditolak</SelectItem>
                       </SelectContent>
                     </Select>
                     <Select value={processedTypeFilter} onValueChange={setProcessedTypeFilter}>
-                      <SelectTrigger className="sm:w-[160px]" aria-label="Filter by leave type">
-                        <SelectValue placeholder="Leave Type" />
+                      <SelectTrigger className="sm:w-[160px]" aria-label="Filter berdasarkan jenis cuti">
+                        <SelectValue placeholder="Jenis Cuti" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All types</SelectItem>
+                        <SelectItem value="all">Semua jenis</SelectItem>
                         {uniqueLeaveTypes.map(type => <SelectItem key={type} value={type}>
                             {type}
                           </SelectItem>)}
@@ -574,7 +574,7 @@ const Leaves = () => {
                   setProcessedMonthFilter("all");
                   setProcessedYearFilter("all");
                 }}>
-                        Clear filters
+                        Hapus filter
                       </Button>}
                   </div>
                   {renderSortDropdown(processedSorting)}
@@ -582,8 +582,8 @@ const Leaves = () => {
                 {processedRequests.length === 0 ? <Card>
                     <CardContent className="flex flex-col items-center justify-center py-12">
                       <Calendar className="mb-4 h-12 w-12 text-muted-foreground" />
-                      <h3 className="text-lg font-semibold text-foreground">No matching requests</h3>
-                      <p className="text-muted-foreground">Try adjusting your filters</p>
+                      <h3 className="text-lg font-semibold text-foreground">Tidak ada permintaan yang cocok</h3>
+                      <p className="text-muted-foreground">Coba ubah filter Anda</p>
                     </CardContent>
                   </Card> : <>
                     {processedPagination.paginatedItems.map(request => <LeaveRequestCard key={request.id} request={request} />)}
@@ -597,7 +597,7 @@ const Leaves = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Approval Confirmation Dialog */}
+        {/* Dialog Konfirmasi Persetujuan */}
         <Dialog open={!!selectedRequest && !!actionType} onOpenChange={open => {
         if (!open) {
           setSelectedRequest(null);
@@ -608,10 +608,10 @@ const Leaves = () => {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {actionType === "approve" ? "Approve leave request" : "Reject leave request"}
+                {actionType === "approve" ? "Setujui permintaan cuti" : "Tolak permintaan cuti"}
               </DialogTitle>
               <DialogDescription>
-                {actionType === "approve" ? "Are you sure you want to approve this leave request?" : "Are you sure you want to reject this leave request?"}
+                {actionType === "approve" ? "Anda yakin ingin menyetujui permintaan cuti ini?" : "Anda yakin ingin menolak permintaan cuti ini?"}
               </DialogDescription>
             </DialogHeader>
 
@@ -625,13 +625,13 @@ const Leaves = () => {
                     {selectedRequest.startDate === selectedRequest.endDate ? selectedRequest.startDate : `${selectedRequest.startDate} – ${selectedRequest.endDate}`}
                   </p>
                   {selectedRequest.reason && <p className="text-sm text-muted-foreground mt-2">
-                      <span className="font-medium">Reason:</span> {selectedRequest.reason}
+                      <span className="font-medium">Alasan:</span> {selectedRequest.reason}
                     </p>}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="leave-review-notes">Notes (optional)</Label>
-                  <Textarea id="leave-review-notes" value={reviewNotes} onChange={e => setReviewNotes(e.target.value)} placeholder="Add any notes for the employee..." rows={3} />
+                  <Label htmlFor="leave-review-notes">Catatan (opsional)</Label>
+                  <Textarea id="leave-review-notes" value={reviewNotes} onChange={e => setReviewNotes(e.target.value)} placeholder="Tambahkan catatan untuk karyawan..." rows={3} />
                 </div>
               </div>}
 
@@ -641,11 +641,11 @@ const Leaves = () => {
               setActionType(null);
               setReviewNotes("");
             }}>
-                Cancel
+                Batal
               </Button>
               <Button onClick={confirmAction} disabled={updateStatusMutation.isPending} variant={actionType === "approve" ? "default" : "destructive"}>
                 {updateStatusMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                {actionType === "approve" ? "Approve" : "Reject"}
+                {actionType === "approve" ? "Setujui" : "Tolak"}
               </Button>
             </DialogFooter>
           </DialogContent>

@@ -1,5 +1,5 @@
 /**
- * Format a number as Indian Rupees (INR)
+ * Memformat angka sebagai Rupee India (INR)
  */
 export const formatCurrency = (amount: number, showDecimals: boolean = false) => {
   return new Intl.NumberFormat("en-IN", {
@@ -11,7 +11,7 @@ export const formatCurrency = (amount: number, showDecimals: boolean = false) =>
 };
 
 /**
- * Format a number with Indian locale (lakhs, crores)
+ * Memformat angka dengan format India (lakh, crore)
  */
 export const formatNumber = (amount: number) => {
   return new Intl.NumberFormat("en-IN").format(amount);

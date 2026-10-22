@@ -15,53 +15,53 @@ const NotificationPreferences = () => {
   const handleToggle = async (key: string, value: boolean) => {
     try {
       await updatePreferences.mutateAsync({ [key]: value });
-      toast.success("Preferences updated");
+      toast.success("Preferensi diperbarui");
     } catch (error) {
-      toast.error("Failed to update preferences");
+      toast.error("Gagal memperbarui preferensi");
     }
   };
 
   const notificationTypes = [
     {
       key: "event_notifications",
-      label: "Company events",
-      description: "Get notified about upcoming company events and meetings",
+      label: "Acara perusahaan",
+      description: "Diberitahukan tentang acara dan rapat perusahaan yang akan datang",
       icon: Calendar,
     },
     {
       key: "holiday_notifications",
-      label: "Holidays",
-      description: "Receive reminders about upcoming holidays",
+      label: "Hari libur",
+      description: "Terima pengingat tentang hari libur yang akan datang",
       icon: PartyPopper,
     },
     {
       key: "leave_status_notifications",
-      label: "Leave status updates",
-      description: "Get notified when your leave requests are approved or rejected",
+      label: "Status cuti",
+      description: "Diberitahukan saat permintaan cuti disetujui atau ditolak",
       icon: FileCheck,
     },
     {
       key: "review_notifications",
-      label: "Performance reviews",
-      description: "Receive notifications about performance review schedules and updates",
+      label: "Ulasan kinerja",
+      description: "Terima notifikasi tentang jadwal dan pembaruan ulasan kinerja",
       icon: Bell,
     },
     {
       key: "goal_reminder_notifications",
-      label: "Goal reminders",
-      description: "Get reminders about upcoming goal deadlines",
+      label: "Pengingat tujuan",
+      description: "Dapat pengingat tentang tenggat waktu tujuan yang akan datang",
       icon: Target,
     },
     {
       key: "onboarding_notifications",
-      label: "Onboarding updates",
-      description: "Receive notifications about onboarding tasks and progress",
+      label: "Pembaruan onboarding",
+      description: "Terima notifikasi tentang tugas dan kemajuan onboarding",
       icon: UserPlus,
     },
     {
       key: "attendance_reminder_notifications",
-      label: "Attendance reminders",
-      description: "Get reminders to clock in and clock out on working days",
+      label: "Pengingat absensi",
+      description: "Dapat pengingat untuk clock in dan clock out pada hari kerja",
       icon: Clock,
     },
   ];
@@ -70,9 +70,9 @@ const NotificationPreferences = () => {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Notification preferences</h1>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Preferensi notifikasi</h1>
           <p className="text-muted-foreground">
-            Choose how and when Peoplo notifies you — on this device and by email
+            Pilih bagaimana dan kapan Peoplo memberitahu Anda — di perangkat ini dan melalui surel
           </p>
         </div>
 
@@ -82,10 +82,10 @@ const NotificationPreferences = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg sm:text-2xl">
               <Mail className="h-5 w-5 shrink-0" aria-hidden="true" />
-              Email notifications
+              Notifikasi surel
             </CardTitle>
             <CardDescription>
-              Choose which updates are sent to your email
+              Pilih pembaruan mana yang dikirim ke surel Anda
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-0">

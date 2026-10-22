@@ -1,11 +1,11 @@
-# Code of Conduct
+# Kode Etik
 
-This project follows the [Contributor Covenant, version 2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+Proyek ini mengikuti [Contributor Covenant, versi 2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
-In short: be respectful and constructive, assume good intent, and welcome people of every background and experience level. Harassment, personal attacks, and discriminatory language or imagery are not acceptable in issues, pull requests, discussions or any other project space.
+Secara singkat: bersikaplah sopan dan konstruktif, anggap niat baik, dan sambut orang dari semua latar belakang dan level pengalaman. Pelecehan, serangan pribadi, dan bahasa atau citra diskriminatif tidak diperbolehkan di issue, pull request, diskusi, atau ruang proyek lainnya.
 
-## Reporting
+## Melaporkan
 
-If someone's behavior concerns you, report it privately to the maintainers by opening a private security advisory (Security → Report a vulnerability) and marking it as a conduct report, or by contacting a maintainer directly. Reports will be handled confidentially.
+Jika perilaku seseorang mengkhawatirkan Anda, laporkan secara pribadi ke pemelihara dengan membuka advisory keamanan pribadi (Security → Report a vulnerability) dan tandai sebagai laporan etik, atau hubungi pemelihara langsung. Laporan akan ditangani secara rahasia.
 
-Maintainers may remove, edit or reject comments, commits, code, issues and other contributions that don't follow this code of conduct. They may also temporarily or permanently ban contributors whose behavior is harmful.
+Pemelihara dapat mengedit, menghapus, atau menolak komentar, commit, code, issue, dan kontribusi lain yang tidak mengikuti kode etik ini. Mereka juga dapat menghentikan atau meng larang kontributor yang berperilaku merugikan secara sementara atau permanen.

@@ -8,14 +8,14 @@ import { cn } from "@/lib/utils";
 import { DEMO_URL, PUBLIC_NAV_LINKS } from "./publicSite";
 import { REPO_URL } from "@/lib/site";
 
-/** Shared sticky header for all public (logged-out) pages, with a mobile menu below md. */
+/** Kepala halaman lengket yang digunakan bersama oleh semua halaman publik (belum masuk), dengan menu seluler di bawah md. */
 const PublicHeader = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b pt-[env(safe-area-inset-top)] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <nav aria-label="Main" className="container mx-auto flex items-center justify-between gap-4 px-4 py-3 sm:py-4">
-        <Link to="/" className="flex items-center gap-2" aria-label="Peoplo home">
+      <nav aria-label="Utama" className="container mx-auto flex items-center justify-between gap-4 px-4 py-3 sm:py-4">
+        <Link to="/" className="flex items-center gap-2" aria-label="Beranda Peoplo">
           <img src={hrHubLogo} alt="" className="h-8 w-auto" />
           <span className="text-xl font-bold">Peoplo</span>
         </Link>
@@ -42,23 +42,23 @@ const PublicHeader = () => {
             href={REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Peoplo on GitHub"
+            aria-label="Lihat Peoplo di GitHub"
             className="hidden items-center gap-2 rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
           >
             <Github className="h-4 w-4" aria-hidden="true" />
             <span className="hidden lg:inline">GitHub</span>
           </a>
           <Button asChild variant="ghost" size="sm">
-            <Link to="/auth">Sign in</Link>
+            <Link to="/auth">Masuk</Link>
           </Button>
           <Button asChild size="sm" className="hidden sm:inline-flex">
             <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
-              Book a demo
+              Pesan Demo
             </a>
           </Button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-10 w-10 md:hidden" aria-label="Open menu">
+              <Button variant="ghost" size="icon" className="h-10 w-10 md:hidden" aria-label="Buka menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
@@ -86,18 +86,18 @@ const PublicHeader = () => {
               <div className="mt-6 flex flex-col gap-2 border-t pt-6">
                 <Button asChild className="w-full">
                   <Link to="/auth" onClick={() => setOpen(false)}>
-                    Sign in
+                    Masuk
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="w-full">
                   <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
-                    Book a demo
+                    Pesan Demo
                   </a>
                 </Button>
                 <Button asChild variant="ghost" className="w-full gap-2">
                   <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
                     <Github className="h-4 w-4" aria-hidden="true" />
-                    View on GitHub
+                    Lihat di GitHub
                   </a>
                 </Button>
               </div>

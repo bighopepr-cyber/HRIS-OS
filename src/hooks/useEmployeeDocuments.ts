@@ -53,27 +53,27 @@ export function useUploadDocument() {
       documentType: string;
     }) => {
       if (file.size > MAX_DOCUMENT_SIZE_BYTES) {
-        throw new Error("File is too large. Maximum size is 10MB.");
+        throw new Error("Ukuran file terlalu besar. Ukuran maksimum adalah 10MB.");
       }
       if (!ALLOWED_DOCUMENT_TYPES.includes(file.type)) {
-        throw new Error("Unsupported file type. Allowed: PDF, DOC, DOCX, JPG, PNG.");
+        throw new Error("Tipe file tidak didukung. Diizinkan: PDF, DOC, DOCX, JPG, PNG.");
       }
 
       const fileExt = file.name.split(".").pop();
-      // Sanitize filename: replace spaces and special characters with underscores
+      // Sanitasi nama file: ganti spasi dan karakter khusus dengan garis bawah
       const sanitizedName = file.name
         .replace(/[^a-zA-Z0-9.-]/g, "_")
         .replace(/_+/g, "_");
       const fileName = `${employeeId}/${Date.now()}-${sanitizedName}`;
 
-      // Upload file to storage
+      // Unggah file ke storage
       const { error: uploadError } = await supabase.storage
         .from("employee-documents")
         .upload(fileName, file);
 
       if (uploadError) throw uploadError;
 
-      // Create document record - store the file path, not a public URL
+      // Buat catatan dokumen - simpan path file, bukan URL publik
       const { data, error } = await supabase
         .from("employee_documents")
         .insert({
@@ -91,10 +91,10 @@ export function useUploadDocument() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["employee-documents", variables.employeeId] });
       queryClient.invalidateQueries({ queryKey: ["my-tax-documents", variables.employeeId] });
-      toast.success("Document uploaded successfully");
+      toast.success("Dokumen berhasil diunggah");
     },
     onError: (error) => {
-      toast.error("Failed to upload document: " + error.message);
+      toast.error("Gagal mengunggah dokumen: " + error.message);
     },
   });
 }
@@ -104,14 +104,14 @@ export function useDeleteDocument() {
 
   return useMutation({
     mutationFn: async ({ documentId, fileUrl, employeeId }: { documentId: string; fileUrl: string; employeeId: string }) => {
-      // Delete from storage
+      // Hapus dari storage
       const { error: storageError } = await supabase.storage
         .from("employee-documents")
         .remove([fileUrl]);
 
       if (storageError) throw storageError;
 
-      // Delete record
+      // Hapus catatan
       const { error } = await supabase
         .from("employee_documents")
         .delete()
@@ -122,10 +122,10 @@ export function useDeleteDocument() {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["employee-documents", variables.employeeId] });
       queryClient.invalidateQueries({ queryKey: ["my-tax-documents", variables.employeeId] });
-      toast.success("Document deleted successfully");
+      toast.success("Dokumen berhasil dihapus");
     },
     onError: (error) => {
-      toast.error("Failed to delete document: " + error.message);
+      toast.error("Gagal menghapus dokumen: " + error.message);
     },
   });
 }

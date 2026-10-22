@@ -31,13 +31,13 @@ const Index = () => {
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return "Selamat pagi";
+    if (hour < 17) return "Selamat siang";
+    return "Selamat malam";
   };
 
   const getUserFirstName = () => {
-    const fullName = user?.user_metadata?.full_name || user?.email || "User";
+    const fullName = user?.user_metadata?.full_name || user?.email || "Pengguna";
     return fullName.split(" ")[0];
   };
 
@@ -50,7 +50,7 @@ const Index = () => {
     }).format(amount);
   };
 
-  // Show loading state while checking employee status
+  // Tampilkan status pemuatan saat memeriksa status karyawan
   if (isEmployeeStatusLoading || isRoleLoading) {
     return (
       <DashboardLayout>
@@ -65,8 +65,8 @@ const Index = () => {
     );
   }
 
-  // Invited users who haven't been onboarded yet (no employee record and no
-  // module access) see the onboarding request form instead
+  // Pengguna yang diundang tetapi belum menyelesaikan onboarding (tidak ada
+  // data karyawan dan tidak ada akses modul) melihat formulir permintaan onboarding
   if (!employeeStatus?.isEmployee && !hasAnyModuleAccess) {
     return (
       <DashboardLayout>
@@ -78,19 +78,19 @@ const Index = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Update Notification for Admins */}
+        {/* Notifikasi Pembaruan untuk Admin */}
         <UpdateNotification />
 
-        {/* Greeting + Quick Actions */}
+        {/* Sapaan + Tindakan Cepat */}
         <div className="flex items-center justify-between gap-3">
           <h1 className="min-w-0 truncate text-xl font-semibold text-foreground sm:text-2xl">
             {getGreeting()}, {getUserFirstName()}
           </h1>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-10 w-10 shrink-0 gap-2 p-0 sm:h-9 sm:w-auto sm:px-3" aria-label="Quick Actions" title="Quick actions">
+              <Button variant="outline" size="sm" className="h-10 w-10 shrink-0 gap-2 p-0 sm:h-9 sm:w-auto sm:px-3" aria-label="Tindakan cepat" title="Tindakan cepat">
                 <Zap className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">Quick actions</span>
+                <span className="hidden sm:inline">Tindakan cepat</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" collisionPadding={12} className="w-52 bg-popover z-50">
@@ -99,21 +99,21 @@ const Index = () => {
                   {canAddEmployees && (
                     <DropdownMenuItem asChild>
                       <Link to="/onboarding" className="flex items-center gap-2 cursor-pointer">
-                        <UserPlus className="h-4 w-4" /> Add employee
+                        <UserPlus className="h-4 w-4" /> Tambah karyawan
                       </Link>
                     </DropdownMenuItem>
                   )}
                   {canViewAssets && (
                     <DropdownMenuItem asChild>
                       <Link to="/assets" className="flex items-center gap-2 cursor-pointer">
-                        <Package className="h-4 w-4" /> Manage assets
+                        <Package className="h-4 w-4" /> Kelola aset
                       </Link>
                     </DropdownMenuItem>
                   )}
                   {canViewPayroll && (
                     <DropdownMenuItem asChild>
                       <Link to="/payroll" className="flex items-center gap-2 cursor-pointer">
-                        <FileText className="h-4 w-4" /> View payroll
+                        <FileText className="h-4 w-4" /> Lihat penggajian
                       </Link>
                     </DropdownMenuItem>
                   )}
@@ -122,17 +122,17 @@ const Index = () => {
                 <>
                   <DropdownMenuItem asChild>
                     <Link to="/leaves" className="flex items-center gap-2 cursor-pointer">
-                      <Calendar className="h-4 w-4" /> Request leave
+                        <Calendar className="h-4 w-4" /> Ajukan cuti
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link to="/performance" className="flex items-center gap-2 cursor-pointer">
-                      <Target className="h-4 w-4" /> My KPIs
+                        <Target className="h-4 w-4" /> KPI saya
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link to="/attendance" className="flex items-center gap-2 cursor-pointer">
-                      <ClipboardList className="h-4 w-4" /> View attendance
+                        <ClipboardList className="h-4 w-4" /> Lihat kehadiran
                     </Link>
                   </DropdownMenuItem>
                 </>
@@ -141,7 +141,7 @@ const Index = () => {
           </DropdownMenu>
         </div>
 
-        {/* Stats Grid */}
+        {/* Grid Statistik */}
         <div className={`grid grid-cols-2 gap-3 sm:gap-4 ${hasPendingApprovals ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
           {isLoading ? (
             <>
@@ -152,17 +152,17 @@ const Index = () => {
           ) : (
             <>
               <StatsCard
-                title="Leave balance"
+                title="Saldo cuti"
                 value={`${stats?.availableLeaves || 0} / ${stats?.totalLeaves || 0}`}
                 icon={<CalendarDays className="h-6 w-6" />}
                 variant="primary"
               />
               {(() => {
                 const statusConfig = {
-                  leave: { title: "You're on leave", value: "On leave", variant: "warning" as const },
-                  holiday: { title: "Today's a holiday", value: "Holiday", variant: "default" as const },
-                  day_off: { title: "Status today", value: "Day off", variant: "default" as const },
-                  working: { title: "Status today", value: "Working", variant: "success" as const },
+                  leave: { title: "Anda sedang cuti", value: "Sedang cuti", variant: "warning" as const },
+                  holiday: { title: "Hari ini adalah hari libur", value: "Hari libur", variant: "default" as const },
+                  day_off: { title: "Status hari ini", value: "Hari bebas", variant: "default" as const },
+                  working: { title: "Status hari ini", value: "Bekerja", variant: "success" as const },
                 };
                 const { title, value, variant } = statusConfig[stats?.todayStatus || "working"];
                 return (
@@ -175,7 +175,7 @@ const Index = () => {
                 );
               })()}
               <StatsCard
-                title="My assets"
+                title="Aset saya"
                 value={String(stats?.assetsAssigned || 0)}
                 icon={<Package className="h-6 w-6" />}
                 variant="success"
@@ -186,10 +186,10 @@ const Index = () => {
                 <Link
                   to="/leave-approvals"
                   className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  aria-label={`${stats?.pendingApprovals || 0} pending approvals — review now`}
+                  aria-label={`${stats?.pendingApprovals || 0} persetujuan tertunda — tinjau sekarang`}
                 >
                   <StatsCard
-                    title="Pending approvals"
+                    title="Persetujuan tertunda"
                     value={String(stats?.pendingApprovals || 0)}
                     icon={<ClipboardCheck className="h-6 w-6" />}
                     variant="warning"
@@ -200,17 +200,17 @@ const Index = () => {
           )}
         </div>
 
-        {/* Who's Out */}
+        {/* Siapa yang Absen */}
         <WhosOut />
 
-        {/* Main Content Grid */}
+        {/* Grid Konten Utama */}
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Activity Feed */}
+          {/* Umpan Aktivitas */}
           <div className="lg:col-span-2">
             <RecentActivity />
           </div>
 
-          {/* Sidebar */}
+          {/* Bilah Sisi */}
           <div className="space-y-6">
             <UpcomingHolidays />
             <UpcomingCelebrations />

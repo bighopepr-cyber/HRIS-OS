@@ -9,33 +9,33 @@ const Security = () => {
   const securityFeatures = [
     {
       icon: Lock,
-      title: "Encryption",
-      description: "All data is encrypted at rest and in transit using industry-standard AES-256 encryption and TLS 1.3 protocols."
+      title: "Enkripsi",
+      description: "Semua data terenkripsi saat disimpan dan saat dikirim menggunakan enkripsi AES-256 serta protokol TLS 1.3 sesuai standar industri."
     },
     {
       icon: Server,
-      title: "Secure Infrastructure",
-      description: "Our infrastructure is hosted on enterprise-grade cloud platforms with SOC 2 Type II certification and 99.9% uptime SLA."
+      title: "Infrastruktur Aman",
+      description: "Infrastruktur kami berada di platform cloud kelas perusahaan dengan sertifikasi SOC 2 Type II dan SLA uptime 99,9%."
     },
     {
       icon: Key,
-      title: "Access Controls",
-      description: "Role-based access controls, multi-factor authentication, and single sign-on (SSO) to protect your accounts."
+      title: "Kontrol Akses",
+      description: "Kontrol akses berbasis peran, autentikasi multifaktor, dan single sign-on (SSO) untuk melindungi akun Anda."
     },
     {
       icon: Eye,
-      title: "Monitoring & Logging",
-      description: "24/7 security monitoring with comprehensive audit logs and real-time threat detection systems."
+      title: "Pemantauan & Pencatatan Log",
+      description: "Pemantauan keamanan 24/7 dengan log audit yang komprehensif dan sistem deteksi ancaman secara real-time."
     },
     {
       icon: RefreshCw,
-      title: "Regular Backups",
-      description: "Automated daily backups with point-in-time recovery and geo-redundant storage across multiple regions."
+      title: "Pencadangan Berkala",
+      description: "Pencadangan harian otomatis dengan pemulihan point-in-time dan penyimpanan geo-redundan di beberapa wilayah."
     },
     {
       icon: AlertTriangle,
-      title: "Incident Response",
-      description: "Dedicated security team with established incident response procedures and communication protocols."
+      title: "Respons Insiden",
+      description: "Tim keamanan khusus dengan prosedur respons insiden serta protokol komunikasi yang telah ditetapkan."
     }
   ];
 
@@ -50,39 +50,39 @@ const Security = () => {
 
   const securityPractices = [
     {
-      title: "Vulnerability Management",
+      title: "Manajemen Kerentanan",
       items: [
-        "Regular security assessments and penetration testing",
-        "Automated vulnerability scanning of all systems",
-        "Responsible disclosure program for security researchers",
-        "Timely patching and updates of all software components"
+        "Penilaian keamanan berkala dan pengujian penetrasi",
+        "Pemindaian kerentanan otomatis pada seluruh sistem",
+        "Program pengungkapan bertanggung jawab untuk peneliti keamanan",
+        "Penambalan dan pembaruan seluruh komponen perangkat lunak secara tepat waktu"
       ]
     },
     {
-      title: "Employee Security",
+      title: "Keamanan Karyawan",
       items: [
-        "Background checks for all employees",
-        "Regular security awareness training",
-        "Strict access controls based on role and need",
-        "Secure development practices and code reviews"
+        "Pemeriksaan latar belakang bagi seluruh karyawan",
+        "Pelatihan kesadaran keamanan secara berkala",
+        "Kontrol akses ketat berdasarkan peran dan kebutuhan",
+        "Praktik pengembangan yang aman dan peninjauan kode"
       ]
     },
     {
-      title: "Data Protection",
+      title: "Perlindungan Data",
       items: [
-        "Data minimization and purpose limitation",
-        "Secure data deletion upon request",
-        "Data processing agreements with all vendors",
-        "Regular data protection impact assessments"
+        "Minimalisasi data dan pembatasan tujuan",
+        "Penghapusan data secara aman atas permintaan",
+        "Perjanjian pemrosesan data dengan seluruh pemasok",
+        "Penilaian dampak perlindungan data secara berkala"
       ]
     },
     {
-      title: "Business Continuity",
+      title: "Keberlanjutan Bisnis",
       items: [
-        "Disaster recovery plans and procedures",
-        "Regular backup testing and validation",
-        "Multi-region availability options",
-        "Incident communication procedures"
+        "Rencana dan prosedur pemulihan dari disaster",
+        "Pengujian dan validasi pencadangan berkala",
+        "Pilihan ketersediaan lintas wilayah",
+        "Prosedur komunikasi insiden"
       ]
     }
   ];
@@ -91,26 +91,26 @@ const Security = () => {
     <div className="min-h-screen bg-background">
       <PublicHeader />
 
-      {/* Hero Section */}
+      {/* Bagian Hero */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <PublicPageBadge icon={<Shield />} className="mb-6">Enterprise-grade security</PublicPageBadge>
+          <PublicPageBadge icon={<Shield />} className="mb-6">Keamanan kelas perusahaan</PublicPageBadge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            Security You Can Trust
+            Keamanan yang Dapat Dipercayai
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            We take the security of your data seriously. Learn about the measures we take to protect your information.
+            Kami menganggap serius keamanan data Anda. Pelajari langkah-langkah yang kami lakukan untuk melindungi informasi Anda.
           </p>
         </div>
       </section>
 
-      {/* Security Features Grid */}
+      {/* Kisi Fitur Keamanan */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Security Features</h2>
+            <h2 className="text-3xl font-bold mb-4">Fitur Keamanan</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our platform is built with security at its core, implementing multiple layers of protection.
+              Platform kami dibangun dengan keamanan sebagai inti, dengan implementasi beberapa lapisan perlindungan.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -129,13 +129,13 @@ const Security = () => {
         </div>
       </section>
 
-      {/* Certifications */}
+      {/* Sertifikasi */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Compliance & Certifications</h2>
+            <h2 className="text-3xl font-bold mb-4">Kepatuhan & Sertifikasi</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We maintain compliance with industry standards and regulations to ensure your data is protected.
+              Kami menjaga kepatuhan terhadap standar industri dan regulasi agar data Anda terlindungi.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
@@ -149,13 +149,13 @@ const Security = () => {
         </div>
       </section>
 
-      {/* Security Practices */}
+      {/* Praktik Keamanan */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Our Security Practices</h2>
+            <h2 className="text-3xl font-bold mb-4">Praktik Keamanan Kami</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We follow industry best practices and continuously improve our security posture.
+              Kami mengikuti praktik terbaik industri dan terus memperbaiki keamanan kami.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -178,20 +178,21 @@ const Security = () => {
         </div>
       </section>
 
-      {/* Report Security Issue */}
+      {/* Laporkan Masalah Keamanan */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="max-w-3xl mx-auto">
             <CardContent className="p-8 text-center">
               <AlertTriangle className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h2 className="text-2xl font-bold mb-4">Report a Security Issue</h2>
+              <h2 className="text-2xl font-bold mb-4">Laporkan Masalah Keamanan</h2>
               <p className="text-muted-foreground mb-6">
-                If you believe you have found a security vulnerability in our service, please report it to us 
-                responsibly. We appreciate your help in keeping our platform and users safe.
+                Jika Anda yakin telah menemukan kerentanan keamanan pada layanan kami, mohon laporkannya kepada
+                kami secara bertanggung jawab. Kami menghargai bantuan Anda dalam menjaga keamanan platform dan
+                pengguna kami.
               </p>
               <Button asChild>
                 <a href="https://redmonk.in/contact-us/" target="_blank" rel="noopener noreferrer">
-                  Contact Security Team
+                  Hubungi Tim Keamanan
                 </a>
               </Button>
             </CardContent>

@@ -52,10 +52,10 @@ export function usePushNotifications() {
         return false;
       }
 
-      // Fetch VAPID public key from env
+      // Ambil public key VAPID dari env
       const vapidPublicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
       if (!vapidPublicKey) {
-        console.error("VAPID public key not configured");
+        console.error("Public key VAPID belum dikonfigurasi");
         setIsLoading(false);
         return false;
       }
@@ -69,7 +69,7 @@ export function usePushNotifications() {
 
       const subJson = subscription.toJSON();
 
-      // Save subscription to Supabase
+      // Simpan langganan ke Supabase
       const { error } = await supabase.from("push_subscriptions").upsert(
         {
           user_id: user.id,
@@ -81,7 +81,7 @@ export function usePushNotifications() {
       );
 
       if (error) {
-        console.error("Error saving push subscription:", error);
+        console.error("Kesalahan saat menyimpan langganan push:", error);
         setIsLoading(false);
         return false;
       }
@@ -90,7 +90,7 @@ export function usePushNotifications() {
       setIsLoading(false);
       return true;
     } catch (err) {
-      console.error("Push subscription error:", err);
+      console.error("Kesalahan langganan push:", err);
       setIsLoading(false);
       return false;
     }
@@ -107,7 +107,7 @@ export function usePushNotifications() {
       if (subscription) {
         await subscription.unsubscribe();
 
-        // Remove from database
+        // Hapus dari basis data
         await supabase
           .from("push_subscriptions")
           .delete()
@@ -117,7 +117,7 @@ export function usePushNotifications() {
 
       setIsSubscribed(false);
     } catch (err) {
-      console.error("Push unsubscribe error:", err);
+      console.error("Kesalahan saat berhenti langganan push:", err);
     } finally {
       setIsLoading(false);
     }

@@ -4,76 +4,76 @@ import Footer from "@/components/layout/Footer";
 import PublicHeader from "@/components/layout/PublicHeader";
 import PublicPageBadge from "@/components/layout/PublicPageBadge";
 
-/** Update this whenever the policy text below changes. */
-const LAST_UPDATED = "March 6, 2026";
+/** Perbarui nilai ini setiap kali teks kebijakan di bawah ini berubah. */
+const LAST_UPDATED = "6 Maret 2026";
 
 const PrivacyPolicy = () => {
   const sections = [
     {
       icon: Eye,
-      title: "Information We Collect",
+      title: "Informasi yang Kami Kumpulkan",
       content: [
-        "Personal identification information (name, email address, phone number, etc.)",
-        "Employment-related information when you use our HR services",
-        "Usage data and analytics to improve our services",
-        "Device and browser information for security purposes",
-        "Cookies and similar tracking technologies"
+        "Informasi identitas pribadi (nama, alamat email, nomor telepon, dan sebagainya)",
+        "Informasi terkait pekerjaan ketika Anda menggunakan layanan SDM kami",
+        "Data penggunaan dan analitik untuk meningkatkan layanan kami",
+        "Informasi perangkat dan peramban untuk keperluan keamanan",
+        "Cookie dan teknologi pelacakan serupa"
       ]
     },
     {
       icon: Database,
-      title: "How We Use Your Information",
+      title: "Cara Kami Menggunakan Informasi Anda",
       content: [
-        "To provide and maintain our HR management services",
-        "To notify you about changes to our services",
-        "To provide customer support and respond to inquiries",
-        "To gather analysis or valuable information to improve our services",
-        "To detect, prevent and address technical issues",
-        "To comply with legal obligations"
+        "Untuk menyediakan dan mengelola layanan manajemen SDM kami",
+        "Untuk memberitahukan Anda tentang perubahan pada layanan kami",
+        "Untuk memberikan dukungan pelanggan dan menjawab pertanyaan",
+        "Untuk menghimpun analisis atau informasi berharga guna meningkatkan layanan kami",
+        "Untuk mendeteksi, mencegah, dan menyelesaikan masalah teknis",
+        "Untuk mematuhi kewajiban hukum"
       ]
     },
     {
       icon: Lock,
-      title: "Data Security",
+      title: "Keamanan Data",
       content: [
-        "We implement industry-standard security measures to protect your data",
-        "All data transmissions are encrypted using SSL/TLS protocols",
-        "Regular security audits and vulnerability assessments",
-        "Access controls and authentication mechanisms",
-        "Secure data centers with physical security measures"
+        "Kami menerapkan langkah keamanan sesuai standar industri untuk melindungi data Anda",
+        "Seluruh transmisi data dienkripsi menggunakan protokol SSL/TLS",
+        "Audit keamanan dan penilaian kerentanan secara berkala",
+        "Kontrol akses dan mekanisme autentikasi",
+        "Pusat data aman dengan pengukuran keamanan fisik"
       ]
     },
     {
       icon: UserCheck,
-      title: "Your Rights",
+      title: "Hak Anda",
       content: [
-        "Right to access your personal data",
-        "Right to rectify inaccurate personal data",
-        "Right to erasure ('right to be forgotten')",
-        "Right to restrict processing of your data",
-        "Right to data portability",
-        "Right to object to processing",
-        "Right to withdraw consent at any time"
+        "Hak untuk mengakses data pribadi Anda",
+        "Hak untuk memperbaiki data pribadi yang tidak akurat",
+        "Hak atas penghapusan ('hak untuk dilupakan')",
+        "Hak untuk membatasi pemrosesan data Anda",
+        "Hak atas portabilitas data",
+        "Hak atas penolakan terhadap pemrosesan",
+        "Hak untuk mencabut persetujuan kapan saja"
       ]
     },
     {
       icon: Shield,
-      title: "Data Retention",
+      title: "Retensi Data",
       content: [
-        "We retain personal data only for as long as necessary",
-        "Data is retained to fulfill the purposes outlined in this policy",
-        "Legal and regulatory requirements may require longer retention",
-        "You may request deletion of your data at any time",
-        "Backup copies may be retained for a limited period"
+        "Kami menyimpan data pribadi hanya selama diperlukan",
+        "Data disimpan untuk memenuhi tujuan yang diuraikan dalam kebijakan ini",
+        "Persyaratan hukum dan regulasi mungkin mengharuskan penyimpanan lebih lama",
+        "Anda dapat meminta penghapusan data Anda kapan saja",
+        "Salinan cadangan mungkin disimpan untuk jangka waktu terbatas"
       ]
     },
     {
       icon: Mail,
-      title: "Contact Us",
+      title: "Hubungi Kami",
       content: [
-        "For any privacy-related questions or concerns, please contact us",
-        "We aim to respond to all inquiries within 30 days",
-        "You may also lodge a complaint with your local data protection authority"
+        "Untuk pertanyaan atau kekhawatiran terkait privasi, silakan hubungi kami",
+        "Kami berusaha menjawab seluruh pertanyaan dalam waktu 30 hari",
+        "Anda juga dapat mengajukan keluhan kepada otoritas perlindungan data setempat"
       ]
     }
   ];
@@ -82,40 +82,41 @@ const PrivacyPolicy = () => {
     <div className="min-h-screen bg-background">
       <PublicHeader />
 
-      {/* Hero Section */}
+      {/* Bagian Hero */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <PublicPageBadge icon={<Shield />} className="mb-6">Your privacy matters</PublicPageBadge>
+          <PublicPageBadge icon={<Shield />} className="mb-6">Privasi Anda penting bagi kami</PublicPageBadge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            Privacy Policy
+            Kebijakan Privasi
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-4">
-            We are committed to protecting your privacy and ensuring the security of your personal information.
+            Kami berkomitmen melindungi privasi Anda dan memastikan keamanan informasi pribadi Anda.
           </p>
           <p className="text-sm text-muted-foreground">
-            Last updated: {LAST_UPDATED}
+            Terakhir diperbarui: {LAST_UPDATED}
           </p>
         </div>
       </section>
 
-      {/* Introduction */}
+      {/* Pendahuluan */}
       <section className="pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
               <p className="text-muted-foreground leading-relaxed">
-                This Privacy Policy describes how Peoplo ("we", "us", or "our") collects, uses, and shares 
-                information about you when you use our HR management platform and related services. By using 
-                our services, you agree to the collection and use of information in accordance with this policy. 
-                We encourage you to read this policy carefully to understand our practices regarding your 
-                personal data and how we will treat it.
+                Kebijakan Privasi ini menjelaskan bagaimana Peoplo ("kami") mengumpulkan, menggunakan, dan
+                membagikan informasi tentang Anda ketika Anda menggunakan platform manajemen SDM serta layanan
+                terkait kami. Dengan menggunakan layanan kami, Anda menyetujui pengumpulan dan penggunaan
+                informasi sesuai dengan kebijakan ini. Kami mengajak Anda membaca kebijakan ini
+                dengan saksama agar memahami praktik kami mengenai data pribadi Anda dan cara kami
+                memperlakukannya.
               </p>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      {/* Policy Sections */}
+      {/* Bagian Kebijakan */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto space-y-8">
@@ -145,20 +146,20 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
-      {/* Additional Information */}
+      {/* Informasi Tambahan */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
-              <h2 className="text-xl font-semibold mb-4">Changes to This Privacy Policy</h2>
+              <h2 className="text-xl font-semibold mb-4">Perubahan atas Kebijakan Privasi Ini</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                We may update our Privacy Policy from time to time. We will notify you of any changes by 
-                posting the new Privacy Policy on this page and updating the "Last updated" date at the top 
-                of this policy.
+                Kami mungkin memperbarui Kebijakan Privasi ini dari waktu ke waktu. Kami akan memberitahukan
+                Anda tentang setiap perubahan dengan memuat Kebijakan Privasi terbaru di halaman ini dan
+                memperbarui tanggal "Terakhir diperbarui" di bagian atas kebijakan ini.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                You are advised to review this Privacy Policy periodically for any changes. Changes to this 
-                Privacy Policy are effective when they are posted on this page.
+                Kami saran agar Anda meninjau Kebijakan Privasi ini secara berkala untuk mengetahui setiap
+                perubahan. Perubahan atas Kebijakan Privasi ini berlaku sejak dimuat di halaman ini.
               </p>
             </CardContent>
           </Card>

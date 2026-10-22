@@ -83,13 +83,13 @@ serve(async (req) => {
 
     if (!canManageLeaves && !isManagerOfEmployee) {
       console.error("User not authorized to send this notification");
-      return jsonResponse({ error: 'Forbidden - You are not authorized to send this notification' }, 403);
+      return jsonResponse({ error: 'Dilarang - Anda tidak berwenang mengirim notifikasi ini' }, 403);
     }
 
     const status = leaveRequest.status as string;
     if (status !== "approved" && status !== "rejected") {
       console.error(`Leave request ${leaveRequest.id} has status ${status}; nothing to notify`);
-      return jsonResponse({ error: "Leave request has not been approved or rejected" }, 409);
+      return jsonResponse({ error: "Permintaan cuti belum disetujui atau ditolak" }, 409);
     }
 
     // Get leave type name
@@ -153,7 +153,7 @@ serve(async (req) => {
     const safeStartDate = escapeHtml(leaveRequest.start_date);
     const safeEndDate = escapeHtml(leaveRequest.end_date);
 
-    const plainMessage = `Your ${leaveTypeName} request for ${daysCount} day(s) has been ${status} by ${reviewerName}.`;
+    const plainMessage = `Permintaan ${leaveTypeName} Anda selama ${daysCount} hari telah ${status} oleh ${reviewerName}.`;
 
     // Create in-app notification (always send in-app notifications)
     if (employee.user_id) {
@@ -183,7 +183,7 @@ serve(async (req) => {
           },
           body: JSON.stringify({
             user_ids: [employee.user_id],
-            title: `Leave Request ${statusText}`,
+title: `Permintaan Cuti ${statusText}`,
             body: plainMessage,
             url: "/leaves",
           }),
@@ -201,24 +201,24 @@ serve(async (req) => {
         `Leave Request ${statusText} - ${safeLeaveTypeName}`,
         `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #333;">Leave Request ${statusText}</h2>
-            <p>Hi ${safeFirstName},</p>
-            <p>Your leave request has been <strong style="color: ${statusColor};">${safeStatus}</strong> by ${safeReviewerName}.</p>
+            <h2 style="color: #333;">Permintaan Cuti ${statusText}</h2>
+            <p>Halo ${safeFirstName},</p>
+            <p>Permintaan cuti Anda telah <strong style="color: ${statusColor};">${safeStatus}</strong> oleh ${safeReviewerName}.</p>
             
             <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid ${statusColor};">
-              <p style="margin: 0;"><strong>Leave Type:</strong> ${safeLeaveTypeName}</p>
-              <p style="margin: 10px 0 0;"><strong>Duration:</strong> ${safeDaysCount} day(s)</p>
-              <p style="margin: 10px 0 0;"><strong>Dates:</strong> ${safeStartDate} to ${safeEndDate}</p>
+              <p style="margin: 0;"><strong>Jenis Cuti:</strong> ${safeLeaveTypeName}</p>
+              <p style="margin: 10px 0 0;"><strong>Durasi:</strong> ${safeDaysCount} hari</p>
+              <p style="margin: 10px 0 0;"><strong>Tanggal:</strong> ${safeStartDate} sampai ${safeEndDate}</p>
               <p style="margin: 10px 0 0;"><strong>Status:</strong> ${statusText}</p>
               ${safeReviewNotes ? `<p style="margin: 10px 0 0;"><strong>Notes:</strong> ${safeReviewNotes}</p>` : ""}
             </div>
             
              <p>
-               <a href="${APP_URL}/leaves" style="display: inline-block; padding: 12px 24px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">View Leave Details</a>
-             </p>
-             <p style="color: #999; font-size: 12px; margin-top: 30px;">You can manage your notification preferences in your profile settings.</p>
-            
-            <p style="margin-top: 30px;">Best regards,<br>HR Team</p>
+<a href="${APP_URL}/leaves" style="display: inline-block; padding: 12px 24px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Lihat Detail Cuti</a>
+              </p>
+              <p style="color: #999; font-size: 12px; margin-top: 30px;">Anda dapat mengatur preferensi notifikasi di pengaturan profil Anda.</p>
+             
+            <p style="margin-top: 30px;">Salam,<br>Tim HR</p>
           </div>
         `
       );

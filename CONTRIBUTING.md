@@ -1,22 +1,22 @@
-# Contributing to Peoplo
+# Berkontribusi pada Peoplo
 
-Thanks for helping improve Peoplo. This guide covers how to get set up and what a good pull request looks like. Please follow the [code of conduct](CODE_OF_CONDUCT.md).
+Terima kasih atas bantuan Anda dalam meningkatkan Peoplo. Panduan ini menjelaskan cara menyiapkan lingkungan pengembangan dan apa yang membuat sebuah pull request yang baik. Silakan ikuti [Kode Etik](CODE_OF_CONDUCT.md).
 
-## Before you start
+## Sebelum Memulai
 
-- **Bugs**: search existing issues first, then open one using the bug report template.
-- **Features**: open an issue to discuss the idea before writing a lot of code, and check [docs/ROADMAP.md](docs/ROADMAP.md) to see if it's already planned.
-- **Security issues**: don't open a public issue. Follow [SECURITY.md](SECURITY.md).
+- **Ketikuan**: cari issue yang ada terlebih dahulu, kemudian buka satu menggunakan template laporan bug.
+- **Fitur**: buka issue untuk membahas ide sebelum menulis banyak code, dan periksa [docs/ROADMAP.md](docs/ROADMAP.md) untuk melihat apakah sudah direncanakan.
+- **Isu Keamanan**: jangan buka issue publik. Ikuti [SECURITY.md](SECURITY.md).
 
-## Development setup
+## Pengaturan Pengembangan
 
-Follow [Local development](README.md#local-development) in the README. You'll need your own Supabase project; the [self-hosting guide](docs/self-hosting.md) covers applying the migrations and deploying the edge functions to it. Never point a development copy at a production project.
+Ikuti [Pengembangan Lokal](README.md#local-development) di README. Anda akan membutuhkan proyek Supabase sendiri; panduan [self-hosting](docs/self-hosting.md) menjalankan migrasi dan menerapkan edge function ke dalamnya. Jangan pernah arahkan salinan pengembangan ke proyek produksi.
 
-## Making changes
+## Membuat Perubahan
 
-1. Fork the repo and create a branch from `main`.
-2. Keep each pull request focused on one change.
-3. Run the same checks CI runs before pushing:
+1. Fork repo dan buat branch dari `main`.
+2. Buat setiap pull request berfokus pada satu perubahan.
+3. Jalankan sama seperti yang dijalankan CI sebelum mengirim:
 
    ```sh
    npm run lint
@@ -25,27 +25,27 @@ Follow [Local development](README.md#local-development) in the README. You'll ne
    npm run build
    ```
 
-   If you change migrations, also run the database tests against a local Postgres 15+ (`supabase/tests/run.sh`; set `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD` as needed).
+   Jika Anda mengubah migrasi, jalankan juga uji database terhadap Postgres lokal 15+ (`supabase/tests/run.sh`; atur `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD` sesuai kebutuhan).
 
-4. Open a pull request and fill in the template. Include desktop and phone screenshots for UI changes.
+4. Buka pull request dan isi template. Sertakan screenshot desktop dan ponsel untuk perubahan UI.
 
-## Conventions
+## Konvensi
 
-[CLAUDE.md](CLAUDE.md) describes the architecture in detail. The rules that matter most:
+[CLAUDE.md](CLAUDE.md) mendeskripsikan arsitektur secara rinci. Aturan yang paling penting:
 
-- **Access is decided in the database.** Every table has row-level security. Organisation-wide access goes through `public.can('<module>', 'view' | 'manage')`; your own rows through `get_my_employee_id()` / `auth.uid()`; your team's through `is_manager_of()`. Never rely on hiding something in the UI.
-- **New tables ship with RLS** and a restrictive `"Deny blocked users"` policy in the same migration. CI rejects migrations containing `USING (true)`; if a table is genuinely public, explain why in a comment and ask for explicit review.
-- **New modules or permission levels** go into the `app_module` enum, `src/lib/permissions.ts` and the settings matrix together, with database tests in `supabase/tests/permissions.test.sql`.
-- **Migrations are append-only.** Add a new timestamped file in `supabase/migrations/` rather than editing one that has already been released.
-- **Sensitive changes are guarded by triggers** (for example, employees can't approve their own leave). If you add a workflow with approval or financial impact, add a guard trigger and a test.
-- **Edge functions** handle CORS `OPTIONS` preflight, authenticate callers with `authenticateCaller()` from `_shared/auth.ts` (or `verifyCronSecret()` for scheduled functions), check permissions with `userCan()`, load data from the database rather than trusting the request body, and escape every value put into email HTML with `escapeHtml()`.
-- **UI** uses the shadcn/ui components in `src/components/ui/` and the Tailwind tokens in `src/index.css`. Don't hardcode colours. Status badges use `statusBadgeClass()` / `formatStatus()` from `src/lib/statusStyles.ts`. Every screen must work at 390px wide; tables get a card layout below `sm`, and icon-only buttons need an `aria-label`.
-- **Currency** is ₹ formatted with the `en-IN` locale; dates are shown as `MMM d, yyyy`.
+- **Akses diputuskan di database.** Setiap tabel memiliki keamanan baris-level (RLS). Akses seluruh organisasi melalui `public.can('<module>', 'view' | 'manage')`; baris Anda sendiri melalui `get_my_employee_id()` / `auth.uid()`; tim Anda melalui `is_manager_of()`. Jangan pernah mengandalkan menyembunyikan sesuatu di UI.
+- **Tabel baru dikirim dengan RLS** dan kebijakan "Tolak pengguna yang diblokir" yang ketat dalam migrasi yang sama. CI menolak migrasi yang mengandung `USING (true)`; jika sebuah tabel memang publik, jelaskan alasan dalam komentar dan minta tinjauan eksplisit.
+- **Modul atau level izin baru** masuk ke dalam enum `app_module`, `src/lib/permissions.ts` dan matriks pengaturan bersamaan, dengan uji database di `supabase/tests/permissions.test.sql`.
+- **Migrasi hanya ditambahkan.** Tambahkan file bernomor timestamp baru di `supabase/migrations/` daripada mengedit yang sudah dirilis.
+- **Perubahan sensitif diawasi oleh trigger** (misalnya, karyawan tidak dapat menyetujui cuti mereka sendiri). Jika Anda menambahkan alur kerja yang memiliki dampak persetujuan atau keuangan, tambahkan trigger penjaga dan uji.
+- **Edge function** menangani preflight CORS `OPTIONS`, mengotentikasi pemanggil dengan `authenticateCaller()` dari `_shared/auth.ts` (atau `verifyCronSecret()` untuk function terjadwal), memeriksa izin dengan `userCan()`, memuat data dari database daripada memercayai body permintaan, dan mengescape setiap nilai yang dimasukkan ke HTML email dengan `escapeHtml()`.
+- **UI** menggunakan komponen shadcn/ui di `src/components/ui/` dan token Tailwind di `src/index.css`. Jangan hardcode warna. Badge status menggunakan `statusBadgeClass()` / `formatStatus()` dari `src/lib/statusStyles.ts`. Setiap halaman harus berfungsi pada lebar 390px; tabel beralih ke tata kartu di bawah `sm`, dan tombol ikon-only membutuhkan `aria-label`.
+- **Mata uang** adalah ₹ yang diformats dengan locale `en-IN`; tanggal ditampilkan sebagai `MMM d, yyyy`.
 
-## Commit messages
+## Pesan Commit
 
-Write a short imperative subject line (for example, "Add half-day leave to the leave calendar"), followed by a body explaining *why* when it isn't obvious.
+Tulis subjek imperatif singkat (contoh, "Add half-day leave to the leave calendar"), diikuti dengan body menjelaskan *mengapa* ketika tidak jelas.
 
-## License
+## Lisensi
 
-By contributing, you agree that your contributions are licensed under the [AGPL-3.0](LICENSE), the same license as the project.
+Dengan berkontribusi, Anda setuju bahwa kontribusi Anda dilisensikan di bawah [AGPL-3.0](LICENSE), lisensi yang sama dengan proyek.

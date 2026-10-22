@@ -388,9 +388,9 @@ export function RecentActivity() {
         <CardContent>
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <Activity className="h-10 w-10 text-muted-foreground/50 mb-3" />
-            <p className="text-sm text-muted-foreground">No recent activity</p>
+            <p className="text-sm text-muted-foreground">Tidak ada aktivitas baru</p>
             <p className="text-xs text-muted-foreground mt-1">
-              Activities will appear here as actions are performed
+              Aktivitas akan muncul di sini saat tindakan dilakukan
             </p>
           </div>
         </CardContent>

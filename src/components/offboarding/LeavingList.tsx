@@ -91,7 +91,7 @@ function PersonHeader({ exit }: { exit: EmployeeExit }) {
 
 function ChecklistView({ sections }: { sections: ChecklistSection[] }) {
   if (sections.length === 0) {
-    return <p className="text-sm text-muted-foreground">The checklist template is empty.</p>;
+    return <p className="text-sm text-muted-foreground">Templat daftar periksa kosong.</p>;
   }
   return (
     <div className="grid gap-4 rounded-lg border p-4 sm:grid-cols-2">
@@ -121,9 +121,9 @@ export function LeavingList({ canManage }: LeavingListProps) {
 
   const [templateOpen, setTemplateOpen] = useState(false);
   const [approving, setApproving] = useState<EmployeeExit | null>(null);
-  const [approveDate, setApproveDate] = useState("");
+  const [approveDate, setSetujuiDate] = useState("");
   const [declining, setDeclining] = useState<EmployeeExit | null>(null);
-  const [declineNote, setDeclineNote] = useState("");
+  const [declineNote, setTolakNote] = useState("");
   const [changingDate, setChangingDate] = useState<EmployeeExit | null>(null);
   const [newDate, setNewDate] = useState("");
   const [cancelling, setCancelling] = useState<EmployeeExit | null>(null);
@@ -142,9 +142,9 @@ export function LeavingList({ canManage }: LeavingListProps) {
 
   const fail = (title: string) => (error: Error) => toast.error(title, { description: error.message });
 
-  const openApprove = (exit: EmployeeExit) => {
+  const openSetujui = (exit: EmployeeExit) => {
     setApproving(exit);
-    setApproveDate(exit.last_working_day);
+    setSetujuiDate(exit.last_working_day);
     setEmailNote("");
     setRecipients({ employeeIds: [], emails: [] });
     defaultRecipientIds(exit.employee_id)
@@ -190,7 +190,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
         toast.warning("Resignation approved, but some emails weren't sent", { description: problems.join(" · ") });
       } else {
         toast.success("Resignation approved", {
-          description: `Last working day ${fmt(approveDate)}. ${nameOf(approving)} was emailed${sent ? `, and the checklist went to ${plural(sent, "person", "people")}` : ""}.`,
+          description: `Hari terakhir bekerja ${fmt(approveDate)}. ${nameOf(approving)} was emailed${sent ? `, and the checklist went to ${plural(sent, "person", "people")}` : ""}.`,
         });
       }
       setApproving(null);
@@ -207,7 +207,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
     try {
       await updateExit.mutateAsync({ id: declining.id, status: "declined", decisionNotes: declineNote });
       await sendDecisionEmail(declining.id).catch((e: Error) =>
-        toast.warning("Declined, but the email wasn't sent", { description: e.message }),
+        toast.warning("Tolakd, but the email wasn't sent", { description: e.message }),
       );
       toast.success("Resignation declined");
       setDeclining(null);
@@ -246,7 +246,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
       {canManage && (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-card p-4">
           <div className="min-w-0">
-            <p className="text-sm font-medium text-foreground">Offboarding checklist</p>
+            <p className="text-sm font-medium text-foreground">Daftar Periksa Offboarding</p>
             <p className="text-sm text-muted-foreground">
               {template.length
                 ? `${plural(template.length, "department", "departments")} · ${plural(template.reduce((n, s) => n + s.items.length, 0), "item", "items")}, emailed with every offboarding`
@@ -263,7 +263,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
       {requested.length > 0 && (
         <section aria-labelledby="resignations-heading" className="space-y-3">
           <h2 id="resignations-heading" className="text-sm font-semibold text-muted-foreground">
-            Resignations to review
+            Pengunduran Diri untuk Direviu
           </h2>
           <ul className="space-y-3">
             {requested.map((exit) => (
@@ -272,15 +272,15 @@ export function LeavingList({ canManage }: LeavingListProps) {
                   <CardContent className="flex flex-col gap-4 p-4 md:flex-row md:items-center">
                     <PersonHeader exit={exit} />
                     <div className="space-y-1 text-sm md:w-64">
-                      <p className="text-muted-foreground">Resigned {fmt(exit.created_at.slice(0, 10))}</p>
-                      <p className="font-medium text-foreground">Proposed last day: {fmt(exit.last_working_day)}</p>
+                      <p className="text-muted-foreground">Diajukan {fmt(exit.created_at.slice(0, 10))}</p>
+                      <p className="font-medium text-foreground">Hari terakhir yang diusulkan: {fmt(exit.last_working_day)}</p>
                       {exit.notes && <p className="line-clamp-2 text-muted-foreground">“{exit.notes}”</p>}
                     </div>
                     {canManage && (
                       <div className="flex flex-wrap gap-2 md:justify-end">
-                        <Button size="sm" className="h-10 sm:h-9" onClick={() => openApprove(exit)}>
+                        <Button size="sm" className="h-10 sm:h-9" onClick={() => openSetujui(exit)}>
                           <Check className="mr-2 h-4 w-4" aria-hidden="true" />
-                          Approve
+                          Setujui
                         </Button>
                         <Button
                           size="sm"
@@ -288,11 +288,11 @@ export function LeavingList({ canManage }: LeavingListProps) {
                           className="h-10 sm:h-9"
                           onClick={() => {
                             setDeclining(exit);
-                            setDeclineNote("");
+                            setTolakNote("");
                           }}
                         >
                           <X className="mr-2 h-4 w-4" aria-hidden="true" />
-                          Decline
+                          Tolak
                         </Button>
                       </div>
                     )}
@@ -306,7 +306,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
 
       <section aria-labelledby="leaving-heading" className="space-y-3">
         <h2 id="leaving-heading" className="text-sm font-semibold text-muted-foreground">
-          Leaving
+Meninggal
         </h2>
         {leaving.length === 0 ? (
           <Card>
@@ -315,18 +315,18 @@ export function LeavingList({ canManage }: LeavingListProps) {
                 <DoorOpen className="h-6 w-6" aria-hidden="true" />
               </span>
               <div>
-                <p className="font-semibold text-foreground">Nobody is leaving</p>
+                <p className="font-semibold text-foreground">Tidak ada yang keluar</p>
                 <p className="text-sm text-muted-foreground">
                   {canManage ? (
                     <>
-                      Start an offboarding from someone's row in{" "}
+                      Mulai offboarding dari baris seseorang di{" "}
                       <Link to="/employees" className="font-medium text-primary underline-offset-4 hover:underline">
                         Employees
                       </Link>
-                      . Resignations appear here for approval.
+                      . Pengunduran diri muncul di sini untuk disetujui.
                     </>
                   ) : (
-                    "People with an offboarding in progress appear here."
+                    "Orang dengan offboarding yang sedang berlangsung muncul di sini."
                   )}
                 </p>
               </div>
@@ -348,7 +348,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
                         <div className="space-y-1 md:w-64">
                           <p className="flex items-center gap-1.5 text-sm font-medium text-foreground">
                             <CalendarDays className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                            Last day {fmt(exit.last_working_day)}
+                            Hari terakhir {fmt(exit.last_working_day)}
                           </p>
                           <div className="flex flex-wrap items-center gap-1.5">
                             <Badge variant="outline" className={toneClass(due.tone)}>
@@ -362,14 +362,14 @@ export function LeavingList({ canManage }: LeavingListProps) {
                         <div className="space-y-0.5 text-sm md:w-56">
                           <p className="flex items-center gap-1.5 font-medium text-foreground">
                             <Mail className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                            {exit.notified_at ? `Emailed to ${plural(count, "person", "people")}` : "Checklist not emailed"}
+                            {exit.notified_at ? `Dikirim ke ${plural(count, "person", "people")}` : "Daftar periksa belum dikirim email"}
                           </p>
                           <p className="text-muted-foreground">
                             {exit.notified_at
                               ? `${formatDistanceToNow(new Date(exit.notified_at), { addSuffix: true })}${exit.reminder_sent_at ? " · reminder sent" : " · reminder on the last day"}`
                               : canManage
-                                ? "Pick who gets it and send"
-                                : "Not sent yet"}
+                                ? "Pilih siapa yang mendapatkannya dan kirim"
+                                : "Belum dikirim"}
                           </p>
                         </div>
                       </div>
@@ -384,7 +384,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
                               onClick={() => openEmail(exit)}
                             >
                               <Send className="mr-2 h-4 w-4" aria-hidden="true" />
-                              {exit.notified_at ? "Resend email" : "Email checklist"}
+                              {exit.notified_at ? "Kirim ulang email" : "Email daftar periksa"}
                             </Button>
                           )}
                           <CollapsibleTrigger asChild>
@@ -393,7 +393,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
                                 className={cn("mr-2 h-4 w-4 transition-transform", isOpen && "rotate-180")}
                                 aria-hidden="true"
                               />
-                              {isOpen ? "Hide checklist" : "Show checklist"}
+                              {isOpen ? "Sembunyi daftar periksa" : "Tampilkan daftar periksa"}
                             </Button>
                           </CollapsibleTrigger>
                           {canManage && (
@@ -408,12 +408,12 @@ export function LeavingList({ canManage }: LeavingListProps) {
                                 }}
                               >
                                 <CalendarClock className="mr-2 h-4 w-4" aria-hidden="true" />
-                                Change last day
+                                Ubah hari terakhir
                               </Button>
                               {canComplete && (
                                 <Button size="sm" className="h-10 sm:h-9" onClick={() => setCompleting(exit)}>
                                   <UserMinus className="mr-2 h-4 w-4" aria-hidden="true" />
-                                  Complete now
+Selesaikan sekarang
                                 </Button>
                               )}
                               <Button
@@ -423,7 +423,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
                                 onClick={() => setCancelling(exit)}
                               >
                                 <X className="mr-2 h-4 w-4" aria-hidden="true" />
-                                Cancel offboarding
+Batalkan offboarding
                               </Button>
                             </>
                           )}
@@ -447,7 +447,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
       {left.length > 0 && (
         <section aria-labelledby="left-heading">
           <h2 id="left-heading" className="mb-3 text-sm font-semibold text-muted-foreground">
-            Left in the last 90 days
+            Kiri dalam 90 hari terakhir
           </h2>
           <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {left.map((exit) => (
@@ -467,23 +467,23 @@ export function LeavingList({ canManage }: LeavingListProps) {
 
       <ChecklistTemplateDialog open={templateOpen} onOpenChange={setTemplateOpen} />
 
-      {/* Approve resignation */}
+      {/* Setujui resignation */}
       <Dialog open={!!approving} onOpenChange={(o) => !o && !busy && setApproving(null)}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle>Approve {approving ? nameOf(approving) : ""}'s resignation</DialogTitle>
+            <DialogTitle>Setujui {approving ? nameOf(approving) : ""}'s resignation</DialogTitle>
             <DialogDescription>
-              Confirm the last working day. {approving?.employee?.first_name ?? "They"} gets an email with the date.
+              Konfirmasi hari terakhir bekerja. {approving?.employee?.first_name ?? "Mereka"} menerima email dengan tanggal.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-2">
-            <Label htmlFor="approve-last-day">Last working day</Label>
+            <Label htmlFor="approve-last-day">Hari terakhir bekerja</Label>
             <Input
               id="approve-last-day"
               type="date"
               value={approveDate}
               min={approving?.notice_date}
-              onChange={(e) => setApproveDate(e.target.value)}
+              onChange={(e) => setSetujuiDate(e.target.value)}
             />
           </div>
           {approving && (
@@ -500,40 +500,40 @@ export function LeavingList({ canManage }: LeavingListProps) {
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setApproving(null)} disabled={busy}>
-              Cancel
+              Batalkan
             </Button>
             <Button disabled={!approveDate || busy} onClick={approve}>
               {busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {emailCount > 0 ? "Approve and email checklist" : "Approve"}
+              {emailCount > 0 ? "Setujui and email checklist" : "Setujui"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Decline resignation */}
+      {/* Tolak resignation */}
       <Dialog open={!!declining} onOpenChange={(o) => !o && !busy && setDeclining(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Decline {declining ? nameOf(declining) : ""}'s resignation?</DialogTitle>
-            <DialogDescription>They stay on as they are. Your note is emailed to them.</DialogDescription>
+            <DialogTitle>Tolak {declining ? nameOf(declining) : ""}'s resignation?</DialogTitle>
+            <DialogDescription>Mereka tetap seperti sekarang. Catatan Anda dikirim email kepada mereka.</DialogDescription>
           </DialogHeader>
           <div className="space-y-2">
-            <Label htmlFor="decline-note">Note to {declining?.employee?.first_name ?? "them"}</Label>
+            <Label htmlFor="decline-note">Catatan kepada {declining?.employee?.first_name ?? "them"}</Label>
             <Textarea
               id="decline-note"
               value={declineNote}
-              onChange={(e) => setDeclineNote(e.target.value)}
-              placeholder="e.g. Let's talk on Monday"
+              onChange={(e) => setTolakNote(e.target.value)}
+              placeholder="contoh. Mari kita bicara pada Senin"
               maxLength={2000}
               rows={3}
             />
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeclining(null)} disabled={busy}>
-              Cancel
+              Batalkan
             </Button>
             <Button variant="destructive" disabled={busy} onClick={decline}>
-              Decline
+              Tolak
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -544,10 +544,10 @@ export function LeavingList({ canManage }: LeavingListProps) {
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
           <DialogHeader>
             <DialogTitle>
-              {emailing?.notified_at ? "Resend" : "Email"} {emailing ? nameOf(emailing) : ""}'s offboarding checklist
+              {emailing?.notified_at ? "Kirim ulang" : "Email"} {emailing ? nameOf(emailing) : ""}'s daftar periksa offboarding
             </DialogTitle>
             <DialogDescription>
-              Last working day {emailing ? fmt(emailing.last_working_day) : ""}. A reminder goes to the same people on
+              Hari terakhir bekerja {emailing ? fmt(emailing.last_working_day) : ""}. A reminder goes to the same people on
               that day.
             </DialogDescription>
           </DialogHeader>
@@ -565,11 +565,11 @@ export function LeavingList({ canManage }: LeavingListProps) {
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setEmailing(null)} disabled={busy}>
-              Cancel
+              Batalkan
             </Button>
             <Button onClick={sendEmail} disabled={busy || emailCount === 0}>
               {busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" aria-hidden="true" />}
-              Send email
+              Kirim email
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -579,13 +579,13 @@ export function LeavingList({ canManage }: LeavingListProps) {
       <Dialog open={!!changingDate} onOpenChange={(o) => !o && setChangingDate(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Change {changingDate ? nameOf(changingDate) : ""}'s last day</DialogTitle>
+            <DialogTitle>Ubah {changingDate ? nameOf(changingDate) : ""}'s hari terakhir</DialogTitle>
             <DialogDescription>
-              Payroll for their final month is prorated to this date. Resend the email if the teams should know.
+              Gaji payroll untuk bulan akhir mereka akan dihitung proporsional hingga tanggal ini. Kirim ulang email jika tim harus mengetahuinya.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-2">
-            <Label htmlFor="change-last-day">Last working day</Label>
+            <Label htmlFor="change-last-day">Hari terakhir bekerja</Label>
             <Input
               id="change-last-day"
               type="date"
@@ -596,7 +596,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setChangingDate(null)}>
-              Cancel
+              Batalkan
             </Button>
             <Button
               disabled={!newDate || updateExit.isPending}
@@ -606,7 +606,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
                   { id: changingDate.id, lastWorkingDay: newDate },
                   {
                     onSuccess: () => {
-                      toast.success("Last working day updated", { description: fmt(newDate) });
+                      toast.success("Hari terakhir bekerja updated", { description: fmt(newDate) });
                       setChangingDate(null);
                     },
                     onError: fail("Couldn't change the date"),
@@ -614,24 +614,24 @@ export function LeavingList({ canManage }: LeavingListProps) {
                 )
               }
             >
-              Save
+              Simpan
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Cancel offboarding */}
+      {/* Batalkan offboarding */}
       <AlertDialog open={!!cancelling} onOpenChange={(o) => !o && setCancelling(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Cancel {cancelling ? nameOf(cancelling) : ""}'s offboarding?</AlertDialogTitle>
+            <AlertDialogTitle>Batalkan {cancelling ? nameOf(cancelling) : ""}'s offboarding?</AlertDialogTitle>
             <AlertDialogDescription>
-              They stay on as an active employee and no reminder is sent. They're notified in the app. If the checklist
-              was emailed, let those teams know.
+              Mereka tetap sebagai karyawan aktif dan tidak ada pengingat yang dikirim. Mereka diberitahu di aplikasi. Jika daftar periksa
+            telah dikirim email, beri tahu tim-tim tersebut.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Keep offboarding</AlertDialogCancel>
+            <AlertDialogCancel>Tetapkan offboarding</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() =>
@@ -645,7 +645,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
                 )
               }
             >
-              Cancel offboarding
+              Batalkan offboarding
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -655,14 +655,14 @@ export function LeavingList({ canManage }: LeavingListProps) {
       <AlertDialog open={!!completing} onOpenChange={(o) => !o && setCompleting(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Complete {completing ? nameOf(completing) : ""}'s offboarding now?</AlertDialogTitle>
+            <AlertDialogTitle>Selesaikan {completing ? nameOf(completing) : ""}'s offboarding sekarang?</AlertDialogTitle>
             <AlertDialogDescription>
-              They're marked as offboarded, their sign-in is blocked and pending leave is cancelled. This otherwise
-              happens automatically the morning after their last working day.
+              Mereka ditandai sebagai offboarded, masuk mereka diblokir dan cuti yang tertunda dibatalkan. Ini sebaliknya
+                terjadi secara otomatis pagi hari setelah hari terakhir mereka bekerja.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Not yet</AlertDialogCancel>
+              <AlertDialogCancel>Belum lagi</AlertDialogCancel>
             <AlertDialogAction
               onClick={() =>
                 completing &&
@@ -672,7 +672,7 @@ export function LeavingList({ canManage }: LeavingListProps) {
                 })
               }
             >
-              Complete offboarding
+              Selesaikan offboarding
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -57,15 +57,15 @@ function useLetterDownload() {
     } catch {
       toast.error("Couldn't create the revision letter");
     } finally {
-      setBusyId(null);
-    }
-  };
-  return { busyId, download };
-}
-
-// ---------------------------------------------------------------------------
-// One revision
-// ---------------------------------------------------------------------------
+        setBusyId(null);
+      }
+    };
+    return { busyId, download };
+  }
+  
+  // ---------------------------------------------------------------------------
+  // Satu revisi
+  // ---------------------------------------------------------------------------
 
 interface RevisionRowProps {
   revision: SalaryRevision;
@@ -97,21 +97,21 @@ function RevisionRow({ revision, showEmployee, canManage, onDecide, onDownload, 
           <p className="font-medium text-foreground">{title}</p>
           <p className="text-xs text-muted-foreground">
             {showEmployee && `${revisionTypeLabel(revision.revisionType)} · `}
-            Effective {shortDate(revision.effectiveFrom)}
-            {revision.reviewPeriod && ` · Review: ${revision.reviewPeriod}`}
+            Berlaku {shortDate(revision.effectiveFrom)}
+            {revision.reviewPeriod && ` · Ulasan: ${revision.reviewPeriod}`}
           </p>
         </div>
         <Badge variant="outline" className={statusBadgeClass(revisionStatusTone(revision.status))}>
-          {revision.status === "scheduled" && employeeView ? "Upcoming" : REVISION_STATUS_LABELS[revision.status]}
+          {revision.status === "scheduled" && employeeView ? "Mendatang" : REVISION_STATUS_LABELS[revision.status]}
         </Badge>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
-        <span className="text-muted-foreground">Monthly gross</span>
+        <span className="text-muted-foreground">Gaji kotor bulanan</span>
         {oldGross !== null && (
           <>
             <span className="text-foreground">{formatCurrency(oldGross)}</span>
-            <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" aria-label="to" />
+            <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" aria-label="ke" />
           </>
         )}
         <span className="font-semibold text-foreground">{formatCurrency(newGross)}</span>
@@ -120,22 +120,22 @@ function RevisionRow({ revision, showEmployee, canManage, onDecide, onDownload, 
             ({formatPercent(change)})
           </span>
         )}
-        <span className="text-muted-foreground">· Net {formatCurrency(netOf(revision.components))}</span>
+        <span className="text-muted-foreground">· Bersih {formatCurrency(netOf(revision.components))}</span>
       </div>
 
       {revision.status === "applied" && revision.adjustmentAmount !== 0 && (
         <p className="mt-1 text-xs text-muted-foreground">
-          {revision.adjustmentAmount > 0 ? "Arrears" : "Proration"} of {formatCurrency(Math.abs(revision.adjustmentAmount))}{" "}
-          {revision.adjustmentAmount > 0 ? "added to" : "taken from"} the next payroll.
+          {revision.adjustmentAmount > 0 ? "Tunggakan" : "Prorata"} sebesar {formatCurrency(Math.abs(revision.adjustmentAmount))}{" "}
+          {revision.adjustmentAmount > 0 ? "ditambahkan ke" : "dikurangi dari"} penggajian berikutnya.
         </p>
       )}
       {!employeeView && revision.reason && <p className="mt-2 text-sm text-foreground">{revision.reason}</p>}
       {!employeeView && revision.status === "rejected" && revision.decisionNotes && (
-        <p className="mt-2 text-sm text-destructive">Rejected: {revision.decisionNotes}</p>
+        <p className="mt-2 text-sm text-destructive">Ditolak: {revision.decisionNotes}</p>
       )}
       {!employeeView && revision.status === "pending_approval" && (proposedByMe || isMySalary) && (
         <p className="mt-2 text-xs text-muted-foreground">
-          {isMySalary ? "This is your salary, so" : "You proposed this, so"} another payroll admin has to approve it.
+          {isMySalary ? "Ini adalah gaji Anda, jadi" : "Anda mengusulkan ini, jadi"} admin penggajian lain harus menyetujuinya.
         </p>
       )}
 
@@ -143,23 +143,23 @@ function RevisionRow({ revision, showEmployee, canManage, onDecide, onDownload, 
         {revision.status === "applied" && (
           <Button type="button" variant="outline" size="sm" onClick={() => onDownload(revision)} disabled={downloading}>
             {downloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-            Revision letter
+            Surat revisi
           </Button>
         )}
         {canManage && isOpen && (
           <Button type="button" variant="ghost" size="sm" onClick={() => onDecide({ revision, action: "cancel" })}>
-            Cancel revision
+            Batalkan revisi
           </Button>
         )}
         {canManage && revision.status === "pending_approval" && !proposedByMe && !isMySalary && (
           <>
             <Button type="button" variant="outline" size="sm" onClick={() => onDecide({ revision, action: "reject" })}>
               <X className="mr-2 h-4 w-4" />
-              Reject
+              Tolak
             </Button>
             <Button type="button" size="sm" onClick={() => onDecide({ revision, action: "approve" })}>
               <Check className="mr-2 h-4 w-4" />
-              Approve
+              Setujui
             </Button>
           </>
         )}
@@ -169,7 +169,7 @@ function RevisionRow({ revision, showEmployee, canManage, onDecide, onDownload, 
 }
 
 // ---------------------------------------------------------------------------
-// Approve / reject / cancel confirmation
+// Setujui / tolak / batalkan konfirmasi
 // ---------------------------------------------------------------------------
 
 function DecideDialog({ pending, onClose }: { pending: DecideAction; onClose: () => void }) {
@@ -180,15 +180,15 @@ function DecideDialog({ pending, onClose }: { pending: DecideAction; onClose: ()
 
   const copy = {
     approve: {
-      title: "Approve this salary revision?",
-      body: "It takes effect on its effective date. If that date has passed, it's applied now.",
-      button: "Approve",
+      title: "Setujui revisi gaji ini?",
+      body: "Berlaku pada tanggal efektifnya. Jika tanggal tersebut telah lewat, akan diterapkan sekarang.",
+      button: "Setujui",
     },
-    reject: { title: "Reject this salary revision?", body: "The salary stays as it is.", button: "Reject" },
+    reject: { title: "Tolak revisi gaji ini?", body: "Gaji akan tetap seperti semula.", button: "Tolak" },
     cancel: {
-      title: "Cancel this salary revision?",
-      body: "It won't be applied. To change the amounts or the date, cancel it and create a new one.",
-      button: "Cancel revision",
+      title: "Batalkan revisi gaji ini?",
+      body: "Tidak akan diterapkan. Untuk mengubah jumlah atau tanggal, batalkan dan buat yang baru.",
+      button: "Batalkan revisi",
     },
   } as const;
 
@@ -199,19 +199,19 @@ function DecideDialog({ pending, onClose }: { pending: DecideAction; onClose: ()
       { id: revision.id, status, notes },
       {
         onSuccess: ({ revision: updated, emailError }) => {
-          const name = revision.employeeName || "The employee";
+          const name = revision.employeeName || "Karyawan";
           if (action === "approve") {
             toast.success(
-              updated?.status === "applied" ? `${name}'s salary is revised` : `Approved. It takes effect on ${shortDate(revision.effectiveFrom)}.`,
+              updated?.status === "applied" ? `Gaji ${name} telah direvisi` : `Disetujui. Berlaku pada ${shortDate(revision.effectiveFrom)}.`,
             );
           } else {
-            toast.success(action === "reject" ? "Revision rejected" : "Revision cancelled");
+            toast.success(action === "reject" ? "Revisi ditolak" : "Revisi dibatalkan");
           }
           if (emailError) toast.warning(emailError);
           setNotes("");
           onClose();
         },
-        onError: (error: Error) => toast.error("Couldn't update the revision", { description: error.message }),
+        onError: (error: Error) => toast.error("Tidak dapat memperbarui revisi", { description: error.message }),
       },
     );
   };
@@ -222,18 +222,18 @@ function DecideDialog({ pending, onClose }: { pending: DecideAction; onClose: ()
         <DialogHeader>
           <DialogTitle>{action ? copy[action].title : ""}</DialogTitle>
           <DialogDescription>
-            {revision?.employeeName ? `${revision.employeeName}, effective ${revision ? shortDate(revision.effectiveFrom) : ""}. ` : ""}
+            {revision?.employeeName ? `${revision.employeeName}, efektif ${revision ? shortDate(revision.effectiveFrom) : ""}. ` : ""}
             {action ? copy[action].body : ""}
           </DialogDescription>
         </DialogHeader>
         {action === "reject" && (
           <div className="space-y-2">
-            <Label htmlFor="revision-reject-notes">Reason</Label>
+            <Label htmlFor="revision-reject-notes">Alasan</Label>
             <Textarea
               id="revision-reject-notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Shared with whoever proposed it (optional)"
+              placeholder="Dibagikan kepada yang mengusulkan (opsional)"
               maxLength={2000}
               rows={3}
             />
@@ -241,7 +241,7 @@ function DecideDialog({ pending, onClose }: { pending: DecideAction; onClose: ()
         )}
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Back
+            Kembali
           </Button>
           <Button
             type="button"
@@ -293,34 +293,34 @@ export function SalaryRevisionsPanel({ employeeId, employeeName, structure }: Sa
       <div className="rounded-lg border border-border p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="text-sm text-muted-foreground">Current monthly salary</p>
+            <p className="text-sm text-muted-foreground">Gaji bulanan saat ini</p>
             <p className="text-2xl font-semibold text-foreground">{formatCurrency(grossOf(current))}</p>
             <p className="text-xs text-muted-foreground">
-              Net {formatCurrency(netOf(current))} · Annual gross {formatCurrency(grossOf(current) * 12)}
-              {structure.effective_from && ` · Since ${shortDate(structure.effective_from)}`}
+              Bersih {formatCurrency(netOf(current))} · Gaji kotor tahunan {formatCurrency(grossOf(current) * 12)}
+              {structure.effective_from && ` · Sejak ${shortDate(structure.effective_from)}`}
             </p>
           </div>
           {canRevise && (
             <Button type="button" onClick={() => setReviseOpen(true)} disabled={open.length > 0}>
               <TrendingUp className="mr-2 h-4 w-4" />
-              Revise salary
+              Revisi gaji
             </Button>
           )}
         </div>
         {canRevise && open.length > 0 && (
           <p className="mt-3 text-xs text-muted-foreground">
-            There's already a revision on the way. Cancel it to make a different one.
+            Sudah ada revisi dalam perjalanan. Batalkan untuk membuat yang berbeda.
           </p>
         )}
         <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-4">
           {[
-            ["Basic", current.basic_salary],
-            ["HRA", current.hra],
-            ["Transport", current.transport_allowance],
-            ["Medical", current.medical_allowance],
-            ["Other", current.other_allowances],
-            ["Tax", -current.tax_deduction],
-            ["PF", -current.pf_deduction],
+            ["Gaji pokok", current.basic_salary],
+            ["Tunjangan perumahan", current.hra],
+            ["Transportasi", current.transport_allowance],
+            ["Kesehatan", current.medical_allowance],
+            ["Lainnya", current.other_allowances],
+            ["Pajak", -current.tax_deduction],
+            ["BPJS/TK", -current.pf_deduction],
           ].map(([label, amount]) => (
             <div key={label as string}>
               <dt className="text-xs text-muted-foreground">{label}</dt>
@@ -336,7 +336,7 @@ export function SalaryRevisionsPanel({ employeeId, employeeName, structure }: Sa
         <>
           {open.length > 0 && (
             <section className="space-y-2">
-              <h4 className="text-sm font-medium text-foreground">On the way</h4>
+              <h4 className="text-sm font-medium text-foreground">Dalam proses</h4>
               <ul className="space-y-2">
                 {open.map((r) => (
                   <RevisionRow key={r.id} revision={r} {...rowProps} downloading={busyId === r.id} />
@@ -346,9 +346,9 @@ export function SalaryRevisionsPanel({ employeeId, employeeName, structure }: Sa
           )}
 
           <section className="space-y-2">
-            <h4 className="text-sm font-medium text-foreground">Revision history</h4>
+            <h4 className="text-sm font-medium text-foreground">Riwayat revisi</h4>
             {past.length === 0 && legacy.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No revisions yet.</p>
+              <p className="text-sm text-muted-foreground">Belum ada revisi.</p>
             ) : (
               <ul className="space-y-2">
                 {past.map((r) => (
@@ -359,11 +359,11 @@ export function SalaryRevisionsPanel({ employeeId, employeeName, structure }: Sa
                   return (
                     <li key={h.id} className="rounded-lg border border-dashed border-border p-4 text-sm">
                       <p className="text-foreground">
-                        Earlier salary: {formatCurrency(grossOf(c))} gross, {formatCurrency(netOf(c))} net
+                        Gaji sebelumnya: {formatCurrency(grossOf(c))} kotor, {formatCurrency(netOf(c))} bersih
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {shortDate(h.effective_from)}
-                        {h.effective_to ? ` – ${shortDate(h.effective_to)}` : ""} · edited before salary revisions
+                        {h.effective_to ? ` – ${shortDate(h.effective_to)}` : ""} · diubah sebelum sistem revisi gaji
                       </p>
                     </li>
                   );
@@ -399,9 +399,9 @@ export function PendingSalaryRevisions() {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Salary revisions awaiting approval</CardTitle>
+        <CardTitle className="text-base">Revisi gaji menunggu persetujuan</CardTitle>
         <CardDescription>
-          Someone other than the person who proposed it has to approve. Nobody approves their own salary.
+          Seseorang selain yang mengusulkan harus menyetujui. Tidak ada yang menyetujui gaji sendiri.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -454,22 +454,22 @@ export function MyCompensation({ employeeId }: { employeeId: string }) {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Compensation</CardTitle>
-        <CardDescription>Your current monthly salary and revision letters.</CardDescription>
+        <CardTitle className="text-base">Kompensasi</CardTitle>
+        <CardDescription>Gaji bulanan Anda saat ini dan surat revisi.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {current && (
           <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div className="rounded-lg bg-muted/50 p-3">
-              <dt className="text-xs text-muted-foreground">Monthly gross</dt>
+              <dt className="text-xs text-muted-foreground">Gaji kotor bulanan</dt>
               <dd className="text-lg font-semibold text-foreground">{formatCurrency(grossOf(current))}</dd>
             </div>
             <div className="rounded-lg bg-muted/50 p-3">
-              <dt className="text-xs text-muted-foreground">Monthly take-home</dt>
+              <dt className="text-xs text-muted-foreground">Take-home bulanan</dt>
               <dd className="text-lg font-semibold text-foreground">{formatCurrency(netOf(current))}</dd>
             </div>
             <div className="rounded-lg bg-muted/50 p-3">
-              <dt className="text-xs text-muted-foreground">Annual gross</dt>
+              <dt className="text-xs text-muted-foreground">Gaji kotor tahunan</dt>
               <dd className="text-lg font-semibold text-foreground">{formatCurrency(grossOf(current) * 12)}</dd>
             </div>
           </dl>

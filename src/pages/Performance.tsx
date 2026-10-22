@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 const Performance = () => {
   const { user } = useAuth();
 
-  // Get current employee ID, name, and check if they're a manager
+  // Ambil ID dan nama karyawan saat ini, serta periksa apakah dia seorang manajer
   const { data: employeeData, isLoading } = useQuery({
     queryKey: ["my-employee-with-team", user?.id],
     queryFn: async () => {
@@ -31,7 +31,7 @@ const Performance = () => {
       if (error) throw error;
       if (!employee) return null;
 
-      // Check if they manage anyone
+      // Periksa apakah dia mengelola karyawan lain
       const { data: managedEmployees } = await supabase
         .from("employees")
         .select("id")
@@ -62,15 +62,15 @@ const Performance = () => {
       <DashboardLayout>
         <div className="space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Performance</h1>
-            <p className="text-muted-foreground">Track KPIs and view performance reviews</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Kinerja</h1>
+            <p className="text-muted-foreground">Pantau KPI dan lihat penilaian kinerja</p>
           </div>
           <Card>
             <CardContent className="py-12 text-center">
-              <User className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h2 className="mt-4 text-lg font-semibold">No employee profile</h2>
+              <User className="mx-auto h-12 h-12 text-muted-foreground" />
+              <h2 className="mt-4 text-lg font-semibold">Tidak ada profil karyawan</h2>
               <p className="mt-2 text-muted-foreground">
-                Your account is not linked to an employee profile yet. Please contact HR.
+                Akun Anda belum terhubung dengan profil karyawan. Silakan hubungi HR.
               </p>
             </CardContent>
           </Card>
@@ -82,13 +82,13 @@ const Performance = () => {
   const employeeName = `${employeeData.first_name} ${employeeData.last_name}`;
 
   const tabs = [
-    { value: "kpis", label: "KPIs", icon: Target },
-    { value: "reviews", label: "Reviews", icon: FileText },
-    { value: "analytics", label: "Analytics", icon: BarChart3 },
+    { value: "kpis", label: "KPI", icon: Target },
+    { value: "reviews", label: "Penilaian", icon: FileText },
+    { value: "analytics", label: "Analitik", icon: BarChart3 },
     ...(employeeData.isManager
       ? [
-          { value: "team", label: "Team", icon: Users },
-          { value: "team-analytics", label: "Team Analytics", icon: TrendingUp },
+          { value: "team", label: "Tim", icon: Users },
+          { value: "team-analytics", label: "Analitik Tim", icon: TrendingUp },
         ]
       : []),
   ];
@@ -97,11 +97,11 @@ const Performance = () => {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Performance</h1>
+          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Kinerja</h1>
           <p className="text-muted-foreground">
             {employeeData.isManager 
-              ? "Track your KPIs, view reviews, and manage your team's performance"
-              : "Track your KPIs and view performance reviews"
+              ? "Pantau KPI Anda, lihat penilaian, dan kelola kinerja tim Anda"
+              : "Pantau KPI Anda dan lihat penilaian kinerja"
             }
           </p>
         </div>

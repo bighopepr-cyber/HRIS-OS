@@ -16,9 +16,9 @@ import {
 } from "@/lib/permissions";
 
 /**
- * The signed-in user's effective module permissions (from roles and direct
- * grants). This only decides what the UI shows; the database enforces the
- * same rules with RLS.
+ * Hak akses modul efektif dari pengguna yang sedang masuk (berasal dari peran
+ * dan pemberian akses langsung). Hook ini hanya menentukan apa yang
+ * ditampilkan UI; basis data menerapkan aturan yang sama melalui RLS.
  */
 export function usePermissions() {
   const { user } = useAuth();
@@ -30,9 +30,9 @@ export function usePermissions() {
       if (!error) return parsePermissions(data);
       if (!isMissingFunctionError(error)) throw error;
 
-      // The database hasn't been migrated to module permissions yet: fall
-      // back to the user's roles rather than failing (or retrying forever).
-      console.warn("get_my_permissions() not found; using role-based permissions until migrations are applied");
+      // Basis data belum dimigrasikan ke hak akses modul: gunakan peran
+      // pengguna sebagai cadangan, bukan gagal (atau mencoba tanpa henti).
+      console.warn("get_my_permissions() tidak ditemukan; menggunakan hak akses berbasis peran sampai migrasi diterapkan");
       const { data: roleRows, error: rolesError } = await supabase
         .from("user_roles")
         .select("role")

@@ -132,7 +132,7 @@ export function LeaveCalendarView() {
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 space-y-0 pb-2">
           <CardTitle className="text-lg flex items-center gap-2">
             <CalendarDays className="h-5 w-5 text-primary" />
-            Leave Calendar
+            Kalender Cuti
           </CardTitle>
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handlePrevMonth} aria-label="Previous month" title="Previous month">
@@ -174,11 +174,11 @@ export function LeaveCalendarView() {
           <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground border-t pt-4">
             <div className="flex items-center gap-1.5">
               <div className="h-3 w-3 rounded-sm bg-primary/15 ring-1 ring-primary/30" />
-              <span>Has leaves</span>
+              <span>Tidak ada izin</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="h-3 w-3 rounded-sm ring-2 ring-primary" />
-              <span>Today</span>
+              <span>Hari ini</span>
             </div>
           </div>
         </CardContent>
@@ -195,9 +195,7 @@ export function LeaveCalendarView() {
         <CardContent>
           {selectedDateLeaves.length > 0 ? (
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground mb-4">
-                {selectedDateLeaves.length} employee{selectedDateLeaves.length > 1 ? "s" : ""} on leave
-              </p>
+              <span>{selectedDateLeaves.length} karyawan{selectedDateLeaves.length > 1 ? "s" : ""} sedang cuti</span>
               {selectedDateLeaves.map((leave) => {
                 const fullName = leave.employee 
                   ? `${leave.employee.first_name} ${leave.employee.last_name}` 
@@ -240,15 +238,15 @@ export function LeaveCalendarView() {
           ) : selectedDate ? (
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <CalendarDays className="h-10 w-10 text-muted-foreground/50 mb-3" />
-              <p className="text-sm text-muted-foreground">No approved leaves on this date</p>
+              <p className="text-sm text-muted-foreground">Tidak ada cuti yang disetujui pada tanggal ini</p>
               <p className="text-xs text-muted-foreground mt-1">
-                Click on highlighted dates to see who's out
+                Klik pada tanggal yang disorot untuk melihat siapa yang tidak hadir
               </p>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <CalendarDays className="h-10 w-10 text-muted-foreground/50 mb-3" />
-              <p className="text-sm text-muted-foreground">Select a date to view leaves</p>
+              <p className="text-sm text-muted-foreground">Pilih tanggal untuk melihat cuti</p>
             </div>
           )}
         </CardContent>

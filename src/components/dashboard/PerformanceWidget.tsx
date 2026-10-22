@@ -91,19 +91,19 @@ export function PerformanceWidget() {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
           <Target className="h-5 w-5 text-primary" />
-          Performance Overview
+          Ringkasan Performa
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* KPIs Progress */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Active KPIs</span>
+            <span className="text-muted-foreground">KPI Aktif</span>
             <span className="font-medium">{totalGoals}</span>
           </div>
           <Progress value={avgProgress} className="h-2" />
           <p className="text-xs text-muted-foreground">
-            {avgProgress}% average completion
+            {avgProgress}% rata-rata penyelesaian
           </p>
         </div>
 
@@ -121,21 +121,21 @@ export function PerformanceWidget() {
             ))}
             {totalGoals > 3 && (
               <Badge variant="outline" className="text-xs">
-                +{totalGoals - 3} more
+                +{totalGoals - 3} lainnya
               </Badge>
             )}
           </div>
         )}
 
         {totalGoals === 0 && (
-          <p className="text-sm text-muted-foreground">No active KPIs set</p>
+          <p className="text-sm text-muted-foreground">Tidak ada KPI aktif yang diatur</p>
         )}
 
         {/* Reviews Section */}
         <div className="border-t pt-4 space-y-3">
           <div className="flex items-center gap-2 text-sm font-medium">
             <Calendar className="h-4 w-4 text-primary" />
-            Reviews
+Ulasan
           </div>
 
           {upcomingReviews.length > 0 ? (
@@ -144,7 +144,7 @@ export function PerformanceWidget() {
                 <div key={review.id} className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{review.review_period}</span>
                   <Badge variant="outline" className="text-xs">
-                    {review.status === "draft" ? "Pending" : "In Progress"}
+                    {review.status === "draft" ? "Tertunda" : "Sedang Berlangsung"}
                   </Badge>
                 </div>
               ))}
@@ -152,7 +152,7 @@ export function PerformanceWidget() {
           ) : latestCompletedReview ? (
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">
-                Last: {latestCompletedReview.review_period}
+                Terakhir: {latestCompletedReview.review_period}
               </span>
               {latestCompletedReview.overall_rating && (
                 <div className="flex items-center gap-1">
@@ -164,7 +164,7 @@ export function PerformanceWidget() {
               )}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No reviews yet</p>
+            <p className="text-sm text-muted-foreground">Belum ada ulasan</p>
           )}
         </div>
       </CardContent>

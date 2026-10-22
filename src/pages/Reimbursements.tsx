@@ -34,8 +34,8 @@ const Reimbursements = () => {
   const [reviewNotes, setReviewNotes] = useState("");
   const [actionType, setActionType] = useState<"approve" | "reject" | "paid" | null>(null);
 
-  // Managers approve their reports (RLS limits them to their team);
-  // reimbursements:manage approves anyone's and marks claims paid
+  // Manajer menyetujui laporan timnya (RLS membatasi mereka pada timnya);
+  // reimbursements:manage dapat menyetujui siapa pun dan menandai klaim sebagai dibayar
   const canApprove = can("reimbursements", "manage") || roles.includes("manager");
   const canSeeOthersRequests = canApprove || can("reimbursements", "view");
   const canMarkPaid = can("reimbursements", "manage");
@@ -61,7 +61,7 @@ const Reimbursements = () => {
       .createSignedUrl(filePath, 3600);
 
     if (error) {
-      toast({ title: "Error", description: "Failed to get receipt URL", variant: "destructive" });
+      toast({ title: "Kesalahan", description: "Gagal mendapatkan URL bukti", variant: "destructive" });
       return null;
     }
     return data.signedUrl;
@@ -110,7 +110,7 @@ const Reimbursements = () => {
 
     const reviewerName = reviewerEmployee
       ? `${reviewerEmployee.first_name} ${reviewerEmployee.last_name}`
-      : "HR Team";
+      : "Tim HR";
 
     const status = actionType === "approve" ? "approved" : actionType === "reject" ? "rejected" : "paid";
 
@@ -123,8 +123,8 @@ const Reimbursements = () => {
     });
 
     toast({
-      title: status === "approved" ? "Claim Approved" : status === "rejected" ? "Claim Rejected" : "Marked as Paid",
-      description: `The reimbursement request has been ${status}.`,
+      title: status === "approved" ? "Klaim Disetujui" : status === "rejected" ? "Klaim Ditolak" : "Ditandai Sudah Dibayar",
+      description: `Permintaan reimbursement telah ${status === "approved" ? "disetujui" : status === "rejected" ? "ditolak" : "ditandai sudah dibayar"}.`,
     });
     setSelectedRequest(null);
     setReviewNotes("");
@@ -136,10 +136,10 @@ const Reimbursements = () => {
   const processedRequests = requests.filter((r) => r.status === "rejected" || r.status === "paid");
 
   const reimbursementStats = [
-    { label: "Pending", value: stats?.pending || 0, icon: <Clock className="h-5 w-5" />, color: "text-amber-600" },
-    { label: "Approved", value: stats?.approved || 0, icon: <CheckCircle className="h-5 w-5" />, color: "text-emerald-600" },
-    { label: "Rejected", value: stats?.rejected || 0, icon: <XCircle className="h-5 w-5" />, color: "text-destructive" },
-    { label: "Paid", value: stats?.paid || 0, icon: <Banknote className="h-5 w-5" />, color: "text-primary" },
+    { label: "Tertunda", value: stats?.pending || 0, icon: <Clock className="h-5 w-5" />, color: "text-amber-600" },
+    { label: "Disetujui", value: stats?.approved || 0, icon: <CheckCircle className="h-5 w-5" />, color: "text-emerald-600" },
+    { label: "Ditolak", value: stats?.rejected || 0, icon: <XCircle className="h-5 w-5" />, color: "text-destructive" },
+    { label: "Dibayar", value: stats?.paid || 0, icon: <Banknote className="h-5 w-5" />, color: "text-primary" },
   ];
 
   return (
@@ -147,28 +147,28 @@ const Reimbursements = () => {
       <div className="space-y-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Reimbursements</h1>
-            <p className="text-muted-foreground">Submit and track expense claims</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Reimbursement</h1>
+            <p className="text-muted-foreground">Kirim dan lacak klaim pengeluaran</p>
           </div>
           <div className="flex gap-2">
           <Dialog open={isNewRequestOpen} onOpenChange={setIsNewRequestOpen}>
             <DialogTrigger asChild>
               <Button className="flex-1 sm:flex-none">
                 <Plus className="mr-2 h-4 w-4" />
-                New claim
+                Klaim baru
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-xl">
               <DialogHeader>
-                <DialogTitle>New expense claim</DialogTitle>
-                <DialogDescription>Submit a reimbursement request for approval.</DialogDescription>
+                <DialogTitle>Klaim pengeluaran baru</DialogTitle>
+                <DialogDescription>Kirim permintaan reimbursement untuk persetujuan.</DialogDescription>
               </DialogHeader>
 
               {isLoadingMyEmployee ? (
                 <Skeleton className="h-72 w-full" />
               ) : !myEmployeeId ? (
                 <div className="rounded-lg border border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-                  We couldn't find an employee profile linked to your account. Please contact HR to link your profile.
+                  Kami tidak menemukan profil karyawan yang terhubung dengan akun Anda. Silakan hubungi HR untuk menautkan profil Anda.
                 </div>
               ) : (
                 <ReimbursementRequestForm
@@ -199,20 +199,20 @@ const Reimbursements = () => {
         <Tabs defaultValue="pending">
           <TabsList>
             <TabsTrigger value="pending">
-              Pending
+              Tertunda
               <Badge variant="secondary" className="ml-2">
                 {pendingRequests.length}
               </Badge>
             </TabsTrigger>
             {canSeeOthersRequests && (
               <TabsTrigger value="approved">
-                Approved
+                Disetujui
                 <Badge variant="secondary" className="ml-2">
                   {approvedRequests.length}
                 </Badge>
               </TabsTrigger>
             )}
-            <TabsTrigger value="processed">Processed</TabsTrigger>
+            <TabsTrigger value="processed">Diproses</TabsTrigger>
           </TabsList>
 
           <TabsContent value="pending" className="mt-6 space-y-4">
@@ -226,8 +226,8 @@ const Reimbursements = () => {
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <Receipt className="mb-4 h-12 w-12 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold text-foreground">No pending claims</h3>
-                  <p className="text-muted-foreground">All expense claims have been processed</p>
+                  <h3 className="text-lg font-semibold text-foreground">Tidak ada klaim tertunda</h3>
+                  <p className="text-muted-foreground">Semua klaim pengeluaran telah diproses</p>
                 </CardContent>
               </Card>
             ) : (
@@ -259,8 +259,8 @@ const Reimbursements = () => {
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center py-12">
                     <Banknote className="mb-4 h-12 w-12 text-muted-foreground" />
-                    <h3 className="text-lg font-semibold text-foreground">Nothing awaiting payment</h3>
-                    <p className="text-muted-foreground">Approved claims awaiting disbursement will appear here</p>
+                    <h3 className="text-lg font-semibold text-foreground">Tidak ada yang menunggu pembayaran</h3>
+                    <p className="text-muted-foreground">Klaim yang disetujui dan menunggu pembayaran akan muncul di sini</p>
                   </CardContent>
                 </Card>
               ) : (
@@ -287,8 +287,8 @@ const Reimbursements = () => {
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <Receipt className="mb-4 h-12 w-12 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold text-foreground">No processed claims</h3>
-                  <p className="text-muted-foreground">Rejected and paid claims will appear here</p>
+                  <h3 className="text-lg font-semibold text-foreground">Tidak ada klaim yang diproses</h3>
+                  <p className="text-muted-foreground">Klaim yang ditolak dan dibayar akan muncul di sini</p>
                 </CardContent>
               </Card>
             ) : (
@@ -313,17 +313,17 @@ const Reimbursements = () => {
             <DialogHeader>
               <DialogTitle>
                 {actionType === "approve"
-                  ? "Approve reimbursement"
+                  ? "Setujui reimbursement"
                   : actionType === "reject"
-                  ? "Reject reimbursement"
-                  : "Mark reimbursement as paid"}
+                  ? "Tolak reimbursement"
+                  : "Tandai reimbursement sebagai dibayar"}
               </DialogTitle>
               <DialogDescription>
                 {actionType === "approve"
-                  ? "Are you sure you want to approve this expense claim?"
+                  ? "Anda yakin ingin menyetujui klaim pengeluaran ini?"
                   : actionType === "reject"
-                  ? "Are you sure you want to reject this expense claim?"
-                  : "Confirm that this expense claim has been paid out."}
+                  ? "Anda yakin ingin menolak klaim pengeluaran ini?"
+                  : "Konfirmasi bahwa klaim pengeluaran ini telah dibayarkan."}
               </DialogDescription>
             </DialogHeader>
 
@@ -341,12 +341,12 @@ const Reimbursements = () => {
 
                 {actionType !== "paid" && (
                   <div className="space-y-2">
-                    <Label htmlFor="reimb-review-notes">Notes (optional)</Label>
+                    <Label htmlFor="reimb-review-notes">Catatan (opsional)</Label>
                     <Textarea
                       id="reimb-review-notes"
                       value={reviewNotes}
                       onChange={(e) => setReviewNotes(e.target.value)}
-                      placeholder="Add any notes for the employee..."
+                      placeholder="Tambahkan catatan untuk karyawan..."
                       rows={3}
                     />
                   </div>
@@ -363,7 +363,7 @@ const Reimbursements = () => {
                   setReviewNotes("");
                 }}
               >
-                Cancel
+                Batal
               </Button>
               <Button
                 onClick={confirmAction}
@@ -371,7 +371,7 @@ const Reimbursements = () => {
                 variant={actionType === "reject" ? "destructive" : "default"}
               >
                 {updateStatusMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                {actionType === "approve" ? "Approve" : actionType === "reject" ? "Reject" : "Mark as paid"}
+                {actionType === "approve" ? "Setujui" : actionType === "reject" ? "Tolak" : "Tandai sudah dibayar"}
               </Button>
             </DialogFooter>
           </DialogContent>

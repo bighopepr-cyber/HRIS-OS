@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 
 const WEEKDAYS = [
-  { value: 0, label: "Sun", name: "Sunday" },
-  { value: 1, label: "Mon", name: "Monday" },
-  { value: 2, label: "Tue", name: "Tuesday" },
-  { value: 3, label: "Wed", name: "Wednesday" },
-  { value: 4, label: "Thu", name: "Thursday" },
-  { value: 5, label: "Fri", name: "Friday" },
-  { value: 6, label: "Sat", name: "Saturday" },
+  { value: 0, label: "Min", name: "Minggu" },
+  { value: 1, label: "Sen", name: "Senin" },
+  { value: 2, label: "Sel", name: "Selasa" },
+  { value: 3, label: "Rab", name: "Rabu" },
+  { value: 4, label: "Kam", name: "Kamis" },
+  { value: 5, label: "Jum", name: "Jumat" },
+  { value: 6, label: "Sab", name: "Sabtu" },
 ];
 
 interface WorkingDaysPickerProps {
@@ -57,10 +57,10 @@ export function WorkingDaysPicker({
             <span
               key={day.value}
               className={cn(classes, !selected && "text-muted-foreground")}
-              title={`${day.name}: ${selected ? "working day" : "day off"}`}
+              title={`${day.name}: ${selected ? "hari kerja" : "hari libur"}`}
             >
               <span aria-hidden="true">{day.label}</span>
-              <span className="sr-only">{`${day.name}: ${selected ? "working day" : "day off"}`}</span>
+              <span className="sr-only">{`${day.name}: ${selected ? "hari kerja" : "hari libur"}`}</span>
             </span>
           );
         }

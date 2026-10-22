@@ -73,7 +73,7 @@ export function DateRangeExportDialog({
         <div className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="export-start-date">Start date</Label>
+              <Label htmlFor="export-start-date">Tanggal Mulai</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -85,7 +85,7 @@ export function DateRangeExportDialog({
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {startDate ? format(startDate, "MMM d, yyyy") : "Select date"}
+                    {startDate ? format(startDate, "MMM d, yyyy") : "Pilih tanggal"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -101,7 +101,7 @@ export function DateRangeExportDialog({
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="export-end-date">End date</Label>
+              <Label htmlFor="export-end-date">Tanggal Akhir</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -113,7 +113,7 @@ export function DateRangeExportDialog({
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {endDate ? format(endDate, "MMM d, yyyy") : "Select date"}
+                    {endDate ? format(endDate, "MMM d, yyyy") : "Pilih tanggal"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -132,25 +132,25 @@ export function DateRangeExportDialog({
           
           {(startDate || endDate) && (
             <Button variant="ghost" size="sm" onClick={handleClearDates}>
-              Clear date filters
+              Hapus filter tanggal
             </Button>
           )}
           
           <p className="text-sm text-muted-foreground">
             {startDate || endDate 
-              ? `Exporting data${startDate ? ` from ${format(startDate, "MMM d, yyyy")}` : ""}${endDate ? ` to ${format(endDate, "MMM d, yyyy")}` : ""}`
-              : "Leave dates empty to export all data"}
+              ? `Mengekspor data${startDate ? ` dari ${format(startDate, "MMM d, yyyy")}` : ""}${endDate ? ` sampai ${format(endDate, "MMM d, yyyy")}` : ""}`
+              : "Biarkan tanggal kosong untuk mengekspor semua data"}
           </p>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={handleExportCSV}>
             <FileSpreadsheet className="mr-2 h-4 w-4" />
-            Export CSV
+            Ekspor CSV
           </Button>
           <Button onClick={handleExportPDF}>
             <FileText className="mr-2 h-4 w-4" />
-            Export PDF
+            Ekspor PDF
           </Button>
         </DialogFooter>
       </DialogContent>

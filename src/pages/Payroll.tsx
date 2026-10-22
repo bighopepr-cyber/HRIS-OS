@@ -48,18 +48,18 @@ import { usePermissions } from "@/hooks/usePermissions";
 import { usePagination } from "@/hooks/usePagination";
 
 const months = [
-  { value: "1", label: "January" },
-  { value: "2", label: "February" },
-  { value: "3", label: "March" },
+  { value: "1", label: "Januari" },
+  { value: "2", label: "Februari" },
+  { value: "3", label: "Maret" },
   { value: "4", label: "April" },
-  { value: "5", label: "May" },
-  { value: "6", label: "June" },
-  { value: "7", label: "July" },
-  { value: "8", label: "August" },
+  { value: "5", label: "Mei" },
+  { value: "6", label: "Juni" },
+  { value: "7", label: "Juli" },
+  { value: "8", label: "Agustus" },
   { value: "9", label: "September" },
-  { value: "10", label: "October" },
+  { value: "10", label: "Oktober" },
   { value: "11", label: "November" },
-  { value: "12", label: "December" },
+  { value: "12", label: "Desember" },
 ];
 
 const periodKey = (year: number, month: number) => `${year}-${month}`;
@@ -77,9 +77,9 @@ const Payroll = () => {
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
 
-  // Pay-run period and History filters start as null ("auto"): they resolve to the most
-  // recent month that has payroll records, so the page never opens on an empty month
-  // while last cycle's payslips are still waiting to be paid.
+  // Filter periode penggajian dan Riwayat diawali dengan null ("auto"): nilai tersebut
+  // diisi dengan bulan terakhir yang memiliki catatan penggajian, sehingga halaman tidak pernah
+  // terbuka pada bulan kosong ketika slip gaji siklus lalu masih menunggu pembayaran.
   const [runPeriod, setRunPeriod] = useState<string | null>(null);
   const [historySearchQuery, setHistorySearchQuery] = useState("");
   const [historyMonthState, setHistoryMonth] = useState<string | null>(null);
@@ -94,7 +94,7 @@ const Payroll = () => {
   const canManage = can("payroll", "manage");
   const { data: branding } = useCompanyBranding();
 
-  // One query for every record; the pay-run tab, history tab and stat cards all derive from it.
+  // Satu kueri untuk seluruh catatan; tab penggajian, tab riwayat, dan kartu statistik semuanya berasal dari kueri ini.
   const { data: allRecords = [], isLoading: isLoadingHistory } = usePayrollRecords();
   const isLoading = isLoadingHistory;
 
@@ -108,7 +108,7 @@ const Payroll = () => {
     return best ?? { year: currentYear, month: currentMonth };
   }, [allRecords, currentMonth, currentYear]);
 
-  // Periods offered in the pay-run picker: every month with records, plus the current month.
+  // Periode yang ditawarkan pada pemilih penggajian: setiap bulan yang memiliki catatan, ditambah bulan berjalan.
   const periodOptions = useMemo(() => {
     const keys = new Map<string, { year: number; month: number }>();
     keys.set(periodKey(currentYear, currentMonth), { year: currentYear, month: currentMonth });
@@ -128,7 +128,7 @@ const Payroll = () => {
   const historyMonth = historyMonthState ?? String(latestPeriod.month);
   const historyYear = historyYearState ?? String(latestPeriod.year);
   
-  // Generate available years from records
+  // Hasilkan tahun yang tersedia dari catatan
   const availableYears = useMemo(() => {
     const years = new Set<number>();
     allRecords.forEach(record => {
@@ -138,7 +138,7 @@ const Payroll = () => {
     return Array.from(years).sort((a, b) => b - a);
   }, [allRecords, historyYear]);
   
-  // Filter history records
+  // Saring catatan riwayat
   const filteredHistoryRecords = useMemo(() => {
     return allRecords.filter((record) => {
       const matchesSearch =
@@ -153,7 +153,7 @@ const Payroll = () => {
     });
   }, [allRecords, historySearchQuery, historyMonth, historyYear]);
 
-  // Pagination for history records
+  // Paginasi untuk catatan riwayat
   const {
     currentPage,
     pageSize,
@@ -184,15 +184,15 @@ const Payroll = () => {
       {
         onSuccess: (data) => {
           toast({
-            title: "Payroll Generated",
-            description: `Successfully generated payroll for ${data.count} employees.`,
+            title: "Penggajian Dibuat",
+            description: `Penggajian untuk ${data.count} karyawan berhasil dibuat.`,
           });
           setGenerateDialogOpen(false);
         },
         onError: (error) => {
           toast({
-            title: "Failed to Generate Payroll",
-            description: error instanceof Error ? error.message : "An error occurred",
+            title: "Gagal Membuat Penggajian",
+            description: error instanceof Error ? error.message : "Terjadi kesalahan",
             variant: "destructive",
           });
         },
@@ -200,7 +200,7 @@ const Payroll = () => {
     );
   };
 
-  // Show loading while checking role
+  // Tampilkan pemuatan saat memeriksa peran
   if (roleLoading) {
     return (
       <DashboardLayout>
@@ -211,15 +211,15 @@ const Payroll = () => {
     );
   }
 
-  // Redirect non-admin/HR users
+  // Alihkan pengguna non-admin/HR
   if (!canView) {
     return (
       <DashboardLayout>
         <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4">
           <ShieldAlert className="h-16 w-16 text-destructive" />
-          <h2 className="text-2xl font-bold text-foreground">Access Denied</h2>
-          <p className="text-muted-foreground">You don't have permission to access this page.</p>
-          <p className="text-sm text-muted-foreground">Only administrators and HR personnel can manage payroll.</p>
+          <h2 className="text-2xl font-bold text-foreground">Akses Ditolak</h2>
+          <p className="text-muted-foreground">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+          <p className="text-sm text-muted-foreground">Hanya administrator dan staf HR yang dapat mengelola penggajian.</p>
         </div>
       </DashboardLayout>
     );
@@ -241,14 +241,14 @@ const Payroll = () => {
       {
         onSuccess: () => {
           toast({
-            title: "Status Updated",
-            description: `Payroll for ${record.employee.name} marked as processed.`,
+            title: "Status Diperbarui",
+            description: `Penggajian untuk ${record.employee.name} ditandai telah diproses.`,
           });
         },
         onError: () => {
           toast({
-            title: "Update Failed",
-            description: "Failed to update payroll status",
+            title: "Pembaruan Gagal",
+            description: "Gagal memperbarui status penggajian",
             variant: "destructive",
           });
         },
@@ -262,14 +262,14 @@ const Payroll = () => {
       {
         onSuccess: () => {
           toast({
-            title: "Status Updated",
-            description: `Payroll for ${record.employee.name} marked as paid.`,
+            title: "Status Diperbarui",
+            description: `Penggajian untuk ${record.employee.name} ditandai telah dibayar.`,
           });
         },
         onError: () => {
           toast({
-            title: "Update Failed",
-            description: "Failed to update payroll status",
+            title: "Pembaruan Gagal",
+            description: "Gagal memperbarui status penggajian",
             variant: "destructive",
           });
         },
@@ -283,14 +283,14 @@ const Payroll = () => {
       {
         onSuccess: () => {
           toast({
-            title: "Status Updated",
-            description: `Payroll for ${record.employee.name} reverted to pending.`,
+            title: "Status Diperbarui",
+            description: `Penggajian untuk ${record.employee.name} dikembalikan ke status tertunda.`,
           });
         },
         onError: () => {
           toast({
-            title: "Update Failed",
-            description: "Failed to update payroll status",
+            title: "Pembaruan Gagal",
+            description: "Gagal memperbarui status penggajian",
             variant: "destructive",
           });
         },
@@ -304,14 +304,14 @@ const Payroll = () => {
       {
         onSuccess: (data) => {
           toast({
-            title: "Bulk Update Successful",
-            description: `${data.count} records marked as processed.`,
+            title: "Pembaruan Massal Berhasil",
+            description: `${data.count} catatan ditandai telah diproses.`,
           });
         },
         onError: () => {
           toast({
-            title: "Update Failed",
-            description: "Failed to update payroll status",
+            title: "Pembaruan Gagal",
+            description: "Gagal memperbarui status penggajian",
             variant: "destructive",
           });
         },
@@ -325,14 +325,14 @@ const Payroll = () => {
       {
         onSuccess: (data) => {
           toast({
-            title: "Bulk Update Successful",
-            description: `${data.count} records marked as paid.`,
+            title: "Pembaruan Massal Berhasil",
+            description: `${data.count} catatan ditandai telah dibayar.`,
           });
         },
         onError: () => {
           toast({
-            title: "Update Failed",
-            description: "Failed to update payroll status",
+            title: "Pembaruan Gagal",
+            description: "Gagal memperbarui status penggajian",
             variant: "destructive",
           });
         },
@@ -346,14 +346,14 @@ const Payroll = () => {
       {
         onSuccess: (data) => {
           toast({
-            title: "Bulk Update Successful",
-            description: `${data.count} records reverted to pending.`,
+            title: "Pembaruan Massal Berhasil",
+            description: `${data.count} catatan dikembalikan ke status tertunda.`,
           });
         },
         onError: () => {
           toast({
-            title: "Update Failed",
-            description: "Failed to update payroll status",
+            title: "Pembaruan Gagal",
+            description: "Gagal memperbarui status penggajian",
             variant: "destructive",
           });
         },
@@ -385,7 +385,7 @@ const Payroll = () => {
     }
 
     return baseData.filter((record) => {
-      // Create a date from month and year (use first day of month for comparison)
+      // Buat tanggal dari bulan dan tahun (gunakan tanggal pertama bulan untuk perbandingan)
       const recordDate = new Date(record.year, record.monthNum - 1, 1);
       
       if (startDate && endDate) {
@@ -403,14 +403,14 @@ const Payroll = () => {
     const dataToExport = getFilteredByDateRange(startDate, endDate);
     if (dataToExport.length === 0) {
       toast({
-        title: "No Data",
-        description: "No payroll records to export for the selected period",
+        title: "Tidak Ada Data",
+        description: "Tidak ada catatan penggajian untuk diekspor pada periode yang dipilih",
         variant: "destructive",
       });
       return;
     }
 
-    const headers = ["Employee Code", "Employee Name", "Email", "Month", "Year", "Basic Salary", "Allowances", "Deductions", "Net Salary", "Status"];
+    const headers = ["Kode Karyawan", "Nama Karyawan", "Email", "Bulan", "Tahun", "Gaji Pokok", "Tunjangan", "Potongan", "Gaji Bersih", "Status"];
     const csvContent = [
       headers.join(","),
       ...dataToExport.map((record) =>
@@ -435,8 +435,8 @@ const Payroll = () => {
     link.download = `payroll-export-${format(new Date(), "yyyy-MM-dd")}.csv`;
     link.click();
     toast({
-      title: "Export Complete",
-      description: `${dataToExport.length} payroll records exported to CSV`,
+      title: "Ekspor Selesai",
+      description: `${dataToExport.length} catatan penggajian diekspor ke CSV`,
     });
   };
 
@@ -444,8 +444,8 @@ const Payroll = () => {
     const dataToExport = getFilteredByDateRange(startDate, endDate);
     if (dataToExport.length === 0) {
       toast({
-        title: "No Data",
-        description: "No payroll records to export for the selected period",
+        title: "Tidak Ada Data",
+        description: "Tidak ada catatan penggajian untuk diekspor pada periode yang dipilih",
         variant: "destructive",
       });
       return;
@@ -458,11 +458,11 @@ const Payroll = () => {
     const logoDataUrl = await fetchImageAsDataUrl(branding?.logoUrl);
 
     const dateRangeText = startDate || endDate
-      ? `Period: ${startDate ? format(startDate, "PP") : "Beginning"} - ${endDate ? format(endDate, "PP") : "Present"}`
+      ? `Periode: ${startDate ? format(startDate, "PP") : "Awal"} - ${endDate ? format(endDate, "PP") : "Sekarang"}`
       : undefined;
 
     let currentY = drawPdfHeader(doc, {
-      title: "Payroll Report",
+      title: "Laporan Penggajian",
       subtitle: dateRangeText,
       companyName: branding?.companyName,
       companyAddress: branding?.companyAddress,
@@ -474,14 +474,14 @@ const Payroll = () => {
     doc.setTextColor(...PDF_COLORS.dark);
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.text(`Total Records: ${dataToExport.length}`, margin, currentY);
+    doc.text(`Total Catatan: ${dataToExport.length}`, margin, currentY);
     const totalNet = dataToExport.reduce((sum, r) => sum + r.netSalary, 0);
-    doc.text(`Total Net Salary: ${formatCurrencyForPdf(totalNet)}`, margin, currentY + 6);
+    doc.text(`Total Gaji Bersih: ${formatCurrencyForPdf(totalNet)}`, margin, currentY + 6);
     currentY += 16;
 
     autoTable(doc, {
       startY: currentY,
-      head: [["Emp Code", "Name", "Email", "Month", "Year", "Basic", "Allowances", "Deductions", "Net Salary", "Status"]],
+      head: [["Kode Karyawan", "Nama", "Email", "Bulan", "Tahun", "Gaji Pokok", "Tunjangan", "Potongan", "Gaji Bersih", "Status"]],
       body: dataToExport.map((record) => [
         record.employeeCode,
         record.employee.name,
@@ -506,12 +506,12 @@ const Payroll = () => {
 
     doc.save(`payroll-report-${format(new Date(), "yyyy-MM-dd")}.pdf`);
     toast({
-      title: "Export Complete",
-      description: `${dataToExport.length} payroll records exported to PDF`,
+      title: "Ekspor Selesai",
+      description: `${dataToExport.length} catatan penggajian diekspor ke PDF`,
     });
   };
 
-  // Stat cards follow whatever period the active tab is showing.
+  // Kartu statistik mengikuti periode yang sedang ditampilkan oleh tab aktif.
   const statsRecords = activeTab === "history"
     ? allRecords.filter((r) =>
         (historyMonth === "all" || r.monthNum === parseInt(historyMonth)) &&
@@ -519,21 +519,21 @@ const Payroll = () => {
     : records;
   const statsPeriodLabel = activeTab === "history"
     ? historyMonth === "all" && historyYear === "all"
-      ? "All time"
+      ? "Sepanjang waktu"
       : historyMonth === "all"
-        ? `All of ${historyYear}`
+        ? `Seluruh tahun ${historyYear}`
         : historyYear === "all"
-          ? `${months[parseInt(historyMonth) - 1]?.label}, all years`
+          ? `${months[parseInt(historyMonth) - 1]?.label}, semua tahun`
           : periodLabel(parseInt(historyYear), parseInt(historyMonth))
     : periodLabel(runSelection.year, runSelection.month);
   const statsTotal = statsRecords.reduce((sum, r) => sum + r.netSalary, 0);
   const statsEmployees = new Set(statsRecords.map((r) => r.employeeId)).size;
   const statsPending = statsRecords.filter((r) => r.status === "pending").length;
   const payrollStats = [
-    { label: "Total net payroll", value: formatCurrency(statsTotal), icon: <IndianRupee className="h-5 w-5" aria-hidden="true" /> },
-    { label: statsEmployees === 1 ? "Employee paid" : "Employees paid", value: String(statsEmployees), icon: <Users className="h-5 w-5" aria-hidden="true" /> },
-    { label: "Avg. net salary", value: formatCurrency(statsRecords.length ? statsTotal / statsRecords.length : 0), icon: <TrendingUp className="h-5 w-5" aria-hidden="true" /> },
-    { label: "Pending payslips", value: String(statsPending), icon: <FileText className="h-5 w-5" aria-hidden="true" /> },
+    { label: "Total gaji bersih", value: formatCurrency(statsTotal), icon: <IndianRupee className="h-5 w-5" aria-hidden="true" /> },
+    { label: statsEmployees === 1 ? "Karyawan dibayar" : "Karyawan dibayar", value: String(statsEmployees), icon: <Users className="h-5 w-5" aria-hidden="true" /> },
+    { label: "Rata-rata gaji bersih", value: formatCurrency(statsRecords.length ? statsTotal / statsRecords.length : 0), icon: <TrendingUp className="h-5 w-5" aria-hidden="true" /> },
+    { label: "Slip gaji tertunda", value: String(statsPending), icon: <FileText className="h-5 w-5" aria-hidden="true" /> },
   ];
   const showLatestHistory = () => {
     setHistoryMonth(String(latestPeriod.month));
@@ -546,20 +546,20 @@ const Payroll = () => {
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Payroll</h1>
-            <p className="text-muted-foreground">Process and track employee payroll</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Penggajian</h1>
+            <p className="text-muted-foreground">Proses dan lacak penggajian karyawan</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <DateRangeExportDialog
-              title="Export payroll"
-              description="Select a date range to export payroll records. Leave empty to export all records."
+              title="Ekspor penggajian"
+              description="Pilih rentang tanggal untuk mengekspor catatan penggajian. Kosongkan untuk mengekspor semua catatan."
               onExportCSV={exportToCSV}
               onExportPDF={exportToPDF}
               disabled={allRecords.length === 0}
             />
             {canManage && (
               <Button onClick={() => setGenerateDialogOpen(true)}>
-                Generate payroll
+                Buat penggajian
               </Button>
             )}
           </div>
@@ -568,18 +568,19 @@ const Payroll = () => {
         <Dialog open={generateDialogOpen} onOpenChange={setGenerateDialogOpen}>
           <DialogContent className="max-w-sm">
             <DialogHeader>
-              <DialogTitle>Generate payroll</DialogTitle>
+              <DialogTitle>Buat penggajian</DialogTitle>
               <DialogDescription>
-                Pick the month to generate payroll for — including past months. Employees who joined
-                after the selected month are skipped, and mid-month joiners are pro-rated by working days.
+                Pilih bulan untuk membuat penggajian — termasuk bulan-bulan sebelumnya. Karyawan yang bergabung
+                setelah bulan yang dipilih akan dilewati, sedangkan karyawan yang bergabung di tengah bulan dihitung
+                proporsional berdasarkan hari kerja.
               </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-2 gap-4 py-2">
               <div className="space-y-2">
-                <Label htmlFor="generate-month">Month</Label>
+                <Label htmlFor="generate-month">Bulan</Label>
                 <Select value={generateMonth} onValueChange={setGenerateMonth}>
                   <SelectTrigger id="generate-month">
-                    <SelectValue placeholder="Month" />
+                    <SelectValue placeholder="Bulan" />
                   </SelectTrigger>
                   <SelectContent>
                     {months.map((month) => (
@@ -591,10 +592,10 @@ const Payroll = () => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="generate-year">Year</Label>
+                <Label htmlFor="generate-year">Tahun</Label>
                 <Select value={generateYear} onValueChange={setGenerateYear}>
                   <SelectTrigger id="generate-year">
-                    <SelectValue placeholder="Year" />
+                    <SelectValue placeholder="Tahun" />
                   </SelectTrigger>
                   <SelectContent>
                     {generateYearOptions.map((year) => (
@@ -608,26 +609,26 @@ const Payroll = () => {
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setGenerateDialogOpen(false)}>
-                Cancel
+                Batal
               </Button>
               <Button onClick={handleGeneratePayroll} disabled={generatePayroll.isPending}>
                 {generatePayroll.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating...
+                    Membuat...
                   </>
                 ) : (
-                  "Generate"
+                  "Buat"
                 )}
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
-        {/* Stats */}
-        <section aria-label={`Payroll summary for ${statsPeriodLabel}`} className="space-y-2">
+        {/* Statistik */}
+        <section aria-label={`Ringkasan penggajian untuk ${statsPeriodLabel}`} className="space-y-2">
           <p className="text-sm text-muted-foreground" aria-live="polite">
-            Summary for <span className="font-medium text-foreground">{statsPeriodLabel}</span>
+            Ringkasan untuk <span className="font-medium text-foreground">{statsPeriodLabel}</span>
           </p>
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {payrollStats.map((stat) => (
@@ -646,37 +647,37 @@ const Payroll = () => {
 
         <PendingSalaryRevisions />
 
-        {/* Payroll Table */}
+        {/* Tabel Penggajian */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList>
-            <TabsTrigger value="run">Pay run</TabsTrigger>
-            <TabsTrigger value="history">History</TabsTrigger>
-            <TabsTrigger value="salary">Salary structure</TabsTrigger>
+            <TabsTrigger value="run">Penggajian</TabsTrigger>
+            <TabsTrigger value="history">Riwayat</TabsTrigger>
+            <TabsTrigger value="salary">Struktur gaji</TabsTrigger>
           </TabsList>
 
           <TabsContent value="run" className="mt-6 space-y-4">
-            {/* Filters */}
+            {/* Filter */}
             <div className="flex flex-col gap-4 sm:flex-row">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  placeholder="Search employees..."
-                  aria-label="Search employees"
+                  placeholder="Cari karyawan..."
+                  aria-label="Cari karyawan"
                   className="pl-10"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <Select value={effectiveRunPeriod} onValueChange={setRunPeriod}>
-                <SelectTrigger className="w-full sm:w-[200px]" aria-label="Pay period">
+                <SelectTrigger className="w-full sm:w-[200px]" aria-label="Periode penggajian">
                   <Calendar className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
-                  <SelectValue placeholder="Pay period" />
+                  <SelectValue placeholder="Periode penggajian" />
                 </SelectTrigger>
                 <SelectContent>
                   {periodOptions.map((p) => (
                     <SelectItem key={p.key} value={p.key}>
                       {p.label}
-                      {p.key === periodKey(currentYear, currentMonth) ? " (current)" : ""}
+                      {p.key === periodKey(currentYear, currentMonth) ? " (saat ini)" : ""}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -693,11 +694,11 @@ const Payroll = () => {
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <FileText className="mb-4 h-12 w-12 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold text-foreground">No payroll records</h3>
+                  <h3 className="text-lg font-semibold text-foreground">Tidak ada catatan penggajian</h3>
                   <p className="text-center text-muted-foreground">
                     {records.length === 0
-                      ? `Payroll hasn't been generated for ${periodLabel(runSelection.year, runSelection.month)} yet.`
-                      : "No records match your search criteria"}
+                      ? `Penggajian untuk ${periodLabel(runSelection.year, runSelection.month)} belum dibuat.`
+                      : "Tidak ada catatan yang cocok dengan kriteria pencarian Anda"}
                   </p>
                   {records.length === 0 && canManage && (
                     <Button className="mt-4" onClick={() => {
@@ -705,7 +706,7 @@ const Payroll = () => {
                       setGenerateYear(String(runSelection.year));
                       setGenerateDialogOpen(true);
                     }}>
-                      Generate payroll
+                      Buat penggajian
                     </Button>
                   )}
                 </CardContent>
@@ -728,25 +729,25 @@ const Payroll = () => {
           </TabsContent>
 
           <TabsContent value="history" className="mt-6 space-y-4">
-            {/* History Filters */}
+            {/* Filter Riwayat */}
             <div className="flex flex-col gap-4 sm:flex-row">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  placeholder="Search by name, email, or employee code..."
-                  aria-label="Search payroll history"
+                  placeholder="Cari berdasarkan nama, email, atau kode karyawan..."
+                  aria-label="Cari riwayat penggajian"
                   className="pl-10"
                   value={historySearchQuery}
                   onChange={(e) => setHistorySearchQuery(e.target.value)}
                 />
               </div>
               <Select value={historyMonth} onValueChange={setHistoryMonth}>
-                <SelectTrigger className="w-full sm:w-[160px]" aria-label="Filter by month">
+                <SelectTrigger className="w-full sm:w-[160px]" aria-label="Filter berdasarkan bulan">
                   <Calendar className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
-                  <SelectValue placeholder="Month" />
+                  <SelectValue placeholder="Bulan" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All months</SelectItem>
+                  <SelectItem value="all">Semua bulan</SelectItem>
                   {months.map((month) => (
                     <SelectItem key={month.value} value={month.value}>
                       {month.label}
@@ -755,11 +756,11 @@ const Payroll = () => {
                 </SelectContent>
               </Select>
               <Select value={historyYear} onValueChange={setHistoryYear}>
-                <SelectTrigger className="w-full sm:w-[120px]" aria-label="Filter by year">
-                  <SelectValue placeholder="Year" />
+                <SelectTrigger className="w-full sm:w-[120px]" aria-label="Filter berdasarkan tahun">
+                  <SelectValue placeholder="Tahun" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All years</SelectItem>
+                  <SelectItem value="all">Semua tahun</SelectItem>
                   {availableYears.map((year) => (
                     <SelectItem key={year} value={String(year)}>
                       {year}
@@ -779,19 +780,19 @@ const Payroll = () => {
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <FileText className="mb-4 h-12 w-12 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold text-foreground">No records found</h3>
+                  <h3 className="text-lg font-semibold text-foreground">Tidak ada catatan ditemukan</h3>
                   <p className="text-center text-muted-foreground">
                     {allRecords.length === 0
-                      ? "No payroll history available yet"
-                      : "No records match your filter criteria"}
+                      ? "Riwayat penggajian belum tersedia"
+                      : "Tidak ada catatan yang cocok dengan kriteria filter Anda"}
                   </p>
                   {allRecords.length > 0 && (
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <Button variant="outline" onClick={showLatestHistory}>
-                        Show latest month ({periodLabel(latestPeriod.year, latestPeriod.month)})
+                        Tampilkan bulan terbaru ({periodLabel(latestPeriod.year, latestPeriod.month)})
                       </Button>
                       <Button variant="ghost" onClick={() => { setHistoryMonth("all"); setHistoryYear("all"); setHistorySearchQuery(""); }}>
-                        Show all records
+                        Tampilkan semua catatan
                       </Button>
                     </div>
                   )}
@@ -813,22 +814,22 @@ const Payroll = () => {
                   canManage={canManage}
                 />
                 
-                {/* Pagination Controls */}
+                {/* Kontrol paginasi */}
                 {totalPages > 1 && (
                   <div className="flex flex-col items-center justify-between gap-4 pt-4 sm:flex-row">
                     <div className="flex flex-wrap items-center justify-center gap-4">
                       <p className="text-sm text-muted-foreground">
-                        Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, totalItems)} of {totalItems} records
+                        Menampilkan {((currentPage - 1) * pageSize) + 1} sampai {Math.min(currentPage * pageSize, totalItems)} dari {totalItems} catatan
                       </p>
                       <Select value={String(pageSize)} onValueChange={(value) => setPageSize(Number(value))}>
-                        <SelectTrigger className="w-[110px]" aria-label="Records per page">
+                        <SelectTrigger className="w-[110px]" aria-label="Catatan per halaman">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="5">5 / page</SelectItem>
-                          <SelectItem value="10">10 / page</SelectItem>
-                          <SelectItem value="20">20 / page</SelectItem>
-                          <SelectItem value="50">50 / page</SelectItem>
+                          <SelectItem value="5">5 / halaman</SelectItem>
+                          <SelectItem value="10">10 / halaman</SelectItem>
+                          <SelectItem value="20">20 / halaman</SelectItem>
+                          <SelectItem value="50">50 / halaman</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -842,7 +843,7 @@ const Payroll = () => {
                           />
                         </PaginationItem>
                         
-                        {/* First page */}
+                        {/* Halaman pertama */}
                         {currentPage > 2 && (
                           <PaginationItem>
                             <PaginationLink onClick={() => setPage(1)} className="cursor-pointer">
@@ -851,14 +852,14 @@ const Payroll = () => {
                           </PaginationItem>
                         )}
                         
-                        {/* Ellipsis before current */}
+                        {/* Titik-titik sebelum halaman saat ini */}
                         {currentPage > 3 && (
                           <PaginationItem>
                             <PaginationEllipsis />
                           </PaginationItem>
                         )}
                         
-                        {/* Previous page */}
+                        {/* Halaman sebelumnya */}
                         {currentPage > 1 && (
                           <PaginationItem>
                             <PaginationLink onClick={() => setPage(currentPage - 1)} className="cursor-pointer">
@@ -867,14 +868,14 @@ const Payroll = () => {
                           </PaginationItem>
                         )}
                         
-                        {/* Current page */}
+                        {/* Halaman saat ini */}
                         <PaginationItem>
                           <PaginationLink isActive className="cursor-pointer">
                             {currentPage}
                           </PaginationLink>
                         </PaginationItem>
                         
-                        {/* Next page */}
+                        {/* Halaman berikutnya */}
                         {currentPage < totalPages && (
                           <PaginationItem>
                             <PaginationLink onClick={() => setPage(currentPage + 1)} className="cursor-pointer">
@@ -883,14 +884,14 @@ const Payroll = () => {
                           </PaginationItem>
                         )}
                         
-                        {/* Ellipsis after current */}
+                        {/* Titik-titik setelah halaman saat ini */}
                         {currentPage < totalPages - 2 && (
                           <PaginationItem>
                             <PaginationEllipsis />
                           </PaginationItem>
                         )}
                         
-                        {/* Last page */}
+                        {/* Halaman terakhir */}
                         {currentPage < totalPages - 1 && (
                           <PaginationItem>
                             <PaginationLink onClick={() => setPage(totalPages)} className="cursor-pointer">

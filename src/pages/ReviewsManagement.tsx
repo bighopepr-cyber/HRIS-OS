@@ -26,7 +26,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import { statusBadgeClass, formatStatus } from "@/lib/statusStyles";
 
-// Quarter, half-year and annual cycles for last year and this year (e.g. "Q1 2026", "Annual 2026").
+// Siklus kuartalan, semesteran, dan tahunan untuk tahun lalu dan tahun ini (mis., "Q1 2026", "Annual 2026").
 const buildReviewPeriods = () => {
   const year = new Date().getFullYear();
   return [year - 1, year].flatMap((y) => [
@@ -62,12 +62,12 @@ const ReviewsManagement = () => {
   const { data: employees } = useEmployees();
   const createMutation = useCreateReview();
 
-  // Filter reviews by status
+  // Saring penilaian berdasarkan status
   const filteredReviews = reviews?.filter((review) =>
     statusFilter === "all" ? true : review.status === statusFilter
   );
 
-  // Get current user's employee ID
+  // Ambil ID karyawan pengguna saat ini
   const { data: currentEmployee } = useQuery({
     queryKey: ["my-employee-id", user?.id],
     queryFn: async () => {
@@ -119,12 +119,12 @@ const ReviewsManagement = () => {
       return (
         <span className="text-muted-foreground">
           <span aria-hidden="true">—</span>
-          <span className="sr-only">Not rated</span>
+          <span className="sr-only">Belum dinilai</span>
         </span>
       );
     }
     return (
-      <div className="flex items-center gap-0.5" role="img" aria-label={`${rating} of 5 stars`}>
+      <div className="flex items-center gap-0.5" role="img" aria-label={`${rating} dari 5 bintang`}>
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
             key={star}
@@ -145,7 +145,7 @@ const ReviewsManagement = () => {
           key={star}
           type="button"
           onClick={() => onChange(star)}
-          aria-label={`${star} of 5 stars`}
+          aria-label={`${star} dari 5 bintang`}
           aria-pressed={value === star}
           className="rounded p-1 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
@@ -178,15 +178,15 @@ const ReviewsManagement = () => {
       <DashboardLayout>
         <div className="space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Reviews management</h1>
-            <p className="text-muted-foreground">Create and manage performance reviews</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Manajemen Penilaian</h1>
+            <p className="text-muted-foreground">Buat dan kelola penilaian kinerja</p>
           </div>
           <Card>
             <CardContent className="py-12 text-center">
-              <ShieldX className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h2 className="mt-4 text-lg font-semibold">Access denied</h2>
+              <ShieldX className="mx-auto h-12 h-12 text-muted-foreground" />
+              <h2 className="mt-4 text-lg font-semibold">Akses ditolak</h2>
               <p className="mt-2 text-muted-foreground">
-                You need access to the Performance module to see all reviews.
+                Anda memerlukan akses ke modul Kinerja untuk melihat semua penilaian.
               </p>
             </CardContent>
           </Card>
@@ -200,25 +200,25 @@ const ReviewsManagement = () => {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Reviews management</h1>
-            <p className="text-muted-foreground">Create and manage employee performance reviews</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Manajemen Penilaian</h1>
+            <p className="text-muted-foreground">Buat dan kelola penilaian kinerja karyawan</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-[160px]" aria-label="Filter by status">
-                <SelectValue placeholder="Filter by status" />
+              <SelectTrigger className="w-full sm:w-[160px]" aria-label="Filter berdasarkan status">
+                <SelectValue placeholder="Filter berdasarkan status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All statuses</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="submitted">Submitted</SelectItem>
-                <SelectItem value="acknowledged">Acknowledged</SelectItem>
+                <SelectItem value="all">Semua status</SelectItem>
+                <SelectItem value="draft">Draf</SelectItem>
+                <SelectItem value="submitted">Diajukan</SelectItem>
+                <SelectItem value="acknowledged">Diketahui</SelectItem>
               </SelectContent>
             </Select>
             {canManage && (
               <Button onClick={() => setIsDialogOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
-                Create Review
+                Buat Penilaian
               </Button>
             )}
           </div>
@@ -234,14 +234,14 @@ const ReviewsManagement = () => {
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Employee</TableHead>
-                    <TableHead>Period</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Rating</TableHead>
-                    <TableHead>Reviewer</TableHead>
-                    <TableHead>Status</TableHead>
-                  </TableRow>
+                    <TableRow>
+                      <TableHead>Karyawan</TableHead>
+                      <TableHead>Periode</TableHead>
+                      <TableHead>Tanggal</TableHead>
+                      <TableHead>Penilaian</TableHead>
+                      <TableHead>Peninjau</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredReviews.map((review) => (
@@ -280,7 +280,7 @@ const ReviewsManagement = () => {
               </Table>
             </CardContent>
           </Card>
-          <ul className="space-y-3 sm:hidden" aria-label="Performance reviews">
+          <ul className="space-y-3 sm:hidden" aria-label="Penilaian kinerja">
             {filteredReviews.map((review) => (
               <li key={review.id}>
                 <Card>
@@ -303,19 +303,19 @@ const ReviewsManagement = () => {
                     </div>
                     <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                       <div>
-                        <dt className="text-xs text-muted-foreground">Period</dt>
+                        <dt className="text-xs text-muted-foreground">Periode</dt>
                         <dd>{review.review_period}</dd>
                       </div>
                       <div>
-                        <dt className="text-xs text-muted-foreground">Date</dt>
+                        <dt className="text-xs text-muted-foreground">Tanggal</dt>
                         <dd>{format(new Date(review.review_date), "MMM d, yyyy")}</dd>
                       </div>
                       <div>
-                        <dt className="text-xs text-muted-foreground">Rating</dt>
+                        <dt className="text-xs text-muted-foreground">Penilaian</dt>
                         <dd>{renderStars(review.overall_rating)}</dd>
                       </div>
                       <div className="min-w-0">
-                        <dt className="text-xs text-muted-foreground">Reviewer</dt>
+                        <dt className="text-xs text-muted-foreground">Peninjau</dt>
                         <dd className="truncate">
                           {review.reviewer
                             ? `${review.reviewer.first_name} ${review.reviewer.last_name}`
@@ -334,35 +334,35 @@ const ReviewsManagement = () => {
             <CardContent className="py-12 text-center">
               <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
               <h2 className="mt-4 text-lg font-semibold">
-                {statusFilter === "all" ? "No reviews yet" : `No ${formatStatus(statusFilter).toLowerCase()} reviews`}
+                {statusFilter === "all" ? "Belum ada penilaian" : `Tidak ada penilaian ${formatStatus(statusFilter).toLowerCase()}`}
               </h2>
               <p className="mt-2 text-muted-foreground">
                 {statusFilter !== "all"
-                  ? "Try a different status filter."
+                  ? "Coba gunakan filter status yang lain."
                   : canManage
-                    ? "Create the first performance review to get started."
-                    : "Performance reviews will appear here once they are created."}
+                    ? "Buat penilaian kinerja pertama untuk memulai."
+                    : "Penilaian kinerja akan muncul di sini setelah dibuat."}
               </p>
             </CardContent>
           </Card>
         )}
 
-        {/* Create Review Dialog */}
+        {/* Dialog Buat Penilaian */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Create performance review</DialogTitle>
+              <DialogTitle>Buat penilaian kinerja</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="review-employee">Employee</Label>
+                  <Label htmlFor="review-employee">Karyawan</Label>
                   <Select
                     value={formData.employee_id}
                     onValueChange={(value) => setFormData({ ...formData, employee_id: value })}
                   >
                     <SelectTrigger id="review-employee">
-                      <SelectValue placeholder="Select employee" />
+                      <SelectValue placeholder="Pilih karyawan" />
                     </SelectTrigger>
                     <SelectContent>
                       {employees?.map((emp) => (
@@ -374,13 +374,13 @@ const ReviewsManagement = () => {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="review-period">Review period</Label>
+                  <Label htmlFor="review-period">Periode penilaian</Label>
                   <Select
                     value={formData.review_period}
                     onValueChange={(value) => setFormData({ ...formData, review_period: value })}
                   >
                     <SelectTrigger id="review-period">
-                      <SelectValue placeholder="Select period" />
+                      <SelectValue placeholder="Pilih periode" />
                     </SelectTrigger>
                     <SelectContent>
                       {REVIEW_PERIODS.map((period) => (
@@ -395,7 +395,7 @@ const ReviewsManagement = () => {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="review-date">Review date</Label>
+                  <Label htmlFor="review-date">Tanggal penilaian</Label>
                   <Input
                     id="review-date"
                     type="date"
@@ -413,16 +413,16 @@ const ReviewsManagement = () => {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="draft">Draft</SelectItem>
-                      <SelectItem value="submitted">Submitted</SelectItem>
-                      <SelectItem value="acknowledged">Acknowledged</SelectItem>
+                      <SelectItem value="draft">Draf</SelectItem>
+                      <SelectItem value="submitted">Diajukan</SelectItem>
+                      <SelectItem value="acknowledged">Diketahui</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <p className="text-sm font-medium" id="review-overall-rating">Overall rating</p>
+                <p className="text-sm font-medium" id="review-overall-rating">Penilaian keseluruhan</p>
                 <StarRating
                   value={formData.overall_rating}
                   onChange={(v) => setFormData({ ...formData, overall_rating: v })}
@@ -430,48 +430,48 @@ const ReviewsManagement = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="review-strengths">Strengths</Label>
+                <Label htmlFor="review-strengths">Kekuatan</Label>
                 <Textarea
                   id="review-strengths"
                   value={formData.strengths}
                   onChange={(e) => setFormData({ ...formData, strengths: e.target.value })}
-                  placeholder="What are the employee's key strengths?"
+                  placeholder="Apa kekuatan utama karyawan?"
                   rows={3}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="review-improvement">Areas for improvement</Label>
+                <Label htmlFor="review-improvement">Area perbaikan</Label>
                 <Textarea
                   id="review-improvement"
                   value={formData.areas_for_improvement}
                   onChange={(e) => setFormData({ ...formData, areas_for_improvement: e.target.value })}
-                  placeholder="What areas could the employee improve?"
+                  placeholder="Area apa yang dapat diperbaiki oleh karyawan?"
                   rows={3}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="review-comments">Additional comments</Label>
+                <Label htmlFor="review-comments">Komentar tambahan</Label>
                 <Textarea
                   id="review-comments"
                   value={formData.comments}
                   onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
-                  placeholder="Any additional feedback or comments..."
+                  placeholder="Umpan balik atau komentar tambahan..."
                   rows={3}
                 />
               </div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                Cancel
+                Batal
               </Button>
               <Button
                 onClick={handleSubmit}
                 disabled={!formData.employee_id || !formData.review_period || createMutation.isPending}
               >
                 {createMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-                Create Review
+                Buat Penilaian
               </Button>
             </DialogFooter>
           </DialogContent>

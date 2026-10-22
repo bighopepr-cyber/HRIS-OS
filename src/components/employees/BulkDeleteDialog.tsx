@@ -36,10 +36,10 @@ export function BulkDeleteDialog({
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2 text-destructive">
             <AlertTriangle className="h-5 w-5" />
-            Delete {employees.length} Employee{employees.length > 1 ? 's' : ''}?
+            Hapus {employees.length} Karyawan{employees.length > 1 ? 's' : ''}?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. The following employees will be permanently removed from the system:
+            Tindakan ini tidak dapat dibatalkan. Karyawan berikut akan dihapus secara permanen dari sistem:
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -84,14 +84,14 @@ export function BulkDeleteDialog({
           <p className="text-sm text-destructive flex items-start gap-2">
             <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
             <span>
-              All associated data including documents, attendance records, leave requests, 
-              and payroll history will also be deleted.
+Semua data terkait termasuk dokumen, catatan kehadiran, permintaan cuti, 
+dan riwayat gaji juga akan dihapus.
             </span>
           </p>
         </div>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isDeleting}>Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault();
@@ -101,7 +101,7 @@ export function BulkDeleteDialog({
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            {isDeleting ? "Deleting..." : `Delete ${employees.length} Employee${employees.length > 1 ? 's' : ''}`}
+            {isDeleting ? "Menghapus..." : `Hapus ${employees.length} Karyawan${employees.length > 1 ? 's' : ''}`}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

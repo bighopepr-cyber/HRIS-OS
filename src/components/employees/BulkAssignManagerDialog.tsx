@@ -69,19 +69,19 @@ export function BulkAssignManagerDialog({
     },
     onSuccess: ({ updatedCount }) => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
-      toast.success(`Reporting manager assigned to ${updatedCount} employee${updatedCount > 1 ? "s" : ""}`);
+      toast.success(`Manajer atasan ditetapkan kepada ${updatedCount} karyawan${updatedCount > 1 ? "s" : ""}`);
       setSelectedManagerId("");
       onOpenChange(false);
       onSuccess?.();
     },
     onError: (error) => {
-      toast.error(`Failed to assign manager: ${error.message}`);
+      toast.error(`Gagal menetapkan manajer: ${error.message}`);
     },
   });
 
   const handleAssign = () => {
     if (!selectedManagerId) {
-      toast.error("Please select a reporting manager");
+      toast.error("Silakan pilih manajer atasan");
       return;
     }
     assignManagerMutation.mutate({
@@ -98,10 +98,10 @@ export function BulkAssignManagerDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" aria-hidden="true" />
-            Assign Reporting Manager
+            Tetapkan Manajer Atasan
           </DialogTitle>
           <DialogDescription>
-            Assign a reporting manager to {employees.length} selected employee
+            Tetapkan manajer atasan kepada {employees.length} karyawan yang dipilih
             {employees.length > 1 ? "s" : ""}.
           </DialogDescription>
         </DialogHeader>
@@ -109,7 +109,7 @@ export function BulkAssignManagerDialog({
         <div className="space-y-4 py-4">
           {/* Selected employees preview */}
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Selected Employees</Label>
+            <Label className="text-sm font-medium">Karyawan yang Dipilih</Label>
             <div className="max-h-32 overflow-y-auto rounded-md border bg-muted/50 p-3">
               <ul className="space-y-1 text-sm">
                 {employees.slice(0, 5).map((emp) => (
@@ -119,7 +119,7 @@ export function BulkAssignManagerDialog({
                 ))}
                 {employees.length > 5 && (
                   <li className="text-muted-foreground font-medium">
-                    ... and {employees.length - 5} more
+                    ... dan {employees.length - 5} lainnya
                   </li>
                 )}
               </ul>
@@ -128,14 +128,14 @@ export function BulkAssignManagerDialog({
 
           {/* Manager selection */}
           <div className="space-y-2">
-            <Label htmlFor="manager">Reporting Manager *</Label>
+            <Label htmlFor="manager">Manajer Atasan *</Label>
             <Select
               value={selectedManagerId}
               onValueChange={setSelectedManagerId}
               disabled={isLoadingManagers}
             >
               <SelectTrigger id="manager">
-                <SelectValue placeholder="Select a manager" />
+                <SelectValue placeholder="Pilih seorang manajer" />
               </SelectTrigger>
               <SelectContent>
                 {availableManagers.map((mgr) => (
@@ -147,7 +147,7 @@ export function BulkAssignManagerDialog({
             </Select>
             {availableManagers.length === 0 && !isLoadingManagers && (
               <p className="text-xs text-muted-foreground">
-                No available managers found. Managers cannot be assigned to themselves.
+                Tidak ada manajer yang tersedia. Manajer tidak dapat ditetapkan kepada diri mereka sendiri.
               </p>
             )}
           </div>
@@ -156,8 +156,8 @@ export function BulkAssignManagerDialog({
             <div className="rounded-md border bg-primary/5 p-3">
               <p className="text-sm">
                 <span className="font-medium">{selectedManager.first_name} {selectedManager.last_name}</span>{" "}
-                will be assigned as the reporting manager for{" "}
-                <span className="font-medium">{employees.length} employee{employees.length > 1 ? "s" : ""}</span>.
+                akan ditetapkan sebagai manajer atasan untuk{" "}
+                <span className="font-medium">{employees.length} karyawan{employees.length > 1 ? "s" : ""}</span>.
               </p>
             </div>
           )}
@@ -179,7 +179,7 @@ export function BulkAssignManagerDialog({
             {assignManagerMutation.isPending && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Assign Manager
+            Tetapkan Manajer
           </Button>
         </DialogFooter>
       </DialogContent>

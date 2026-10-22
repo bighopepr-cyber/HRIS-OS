@@ -22,26 +22,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    // Set up auth state listener FIRST
+    // Siapkan listener status autentikasi TERLEBIH DAHULU
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setIsLoading(false);
         
-        // Invalidate user-role cache on login/signup to force refetch
+        // Invalidasi cache peran pengguna saat login/pendaftaran agar data diambil ulang
         if (event === 'SIGNED_IN' && session?.user?.id) {
           queryClient.invalidateQueries({ queryKey: ['user-role', session.user.id] });
         }
         
-        // Clear cache on logout
+        // Bersihkan cache saat logout
         if (event === 'SIGNED_OUT') {
           queryClient.removeQueries({ queryKey: ['user-role'] });
         }
       }
     );
 
-    // THEN check for existing session
+    // KEMUDIAN periksa sesi yang sudah ada
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: error as Error };
     }
     
-    // Check if user is blocked
+    // Periksa apakah pengguna diblokir
     if (data.user) {
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
@@ -70,13 +70,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
       
       if (profileError) {
-        console.error('Error checking blocked status:', profileError);
+        console.error('Kesalahan saat memeriksa status pemblokiran:', profileError);
       }
       
       if (profile?.blocked) {
-        // Sign out the user immediately
+        // Keluar langsung dari pengguna
         await supabase.auth.signOut({ scope: 'local' });
-        return { error: new Error('Your account has been blocked. Please contact an administrator.') };
+        return { error: new Error('Akun Anda telah diblokir. Silakan hubungi administrator.') };
       }
     }
     
@@ -88,9 +88,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await supabase.auth.signOut({ scope: 'local' });
     } catch (error) {
-      console.error('Sign out error:', error);
+      console.error('Kesalahan saat keluar:', error);
     } finally {
-      // Clear local state regardless of server response
+      // Bersihkan status lokal apa pun hasil respons server
       setSession(null);
       setUser(null);
       queryClient.clear();
@@ -108,7 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth harus digunakan di dalam AuthProvider");
   }
   return context;
 }

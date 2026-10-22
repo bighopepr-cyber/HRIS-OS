@@ -30,20 +30,20 @@ export function UpdateNotification() {
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <p className="font-medium text-foreground">
-                  New version available!
+                  Versi baru tersedia!
                 </p>
                 <Badge variant="secondary">
                   v{versionData.currentVersion}
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                You're running v{APP_VERSION}. Update to get the latest features and security fixes.
+                Anda menjalankan v{APP_VERSION}. Perbarui untuk mendapatkan fitur dan perbaikan keamanan terbaru.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0 ml-10 sm:ml-0">
             <Button variant="outline" size="sm" asChild>
-              <Link to="/changelog">View Changes</Link>
+              <Link to="/changelog">Lihat Perubahan</Link>
             </Button>
             <Button size="sm" asChild>
               <a
@@ -51,7 +51,7 @@ export function UpdateNotification() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Update
+Perbarui
                 <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
               </a>
             </Button>
@@ -60,8 +60,8 @@ export function UpdateNotification() {
               size="icon"
               className="h-8 w-8"
               onClick={() => setDismissed(true)}
-              aria-label="Dismiss update notice"
-              title="Dismiss"
+              aria-label="Arahkan pembaruan"
+              title="Tutup"
             >
               <X className="h-4 w-4" />
             </Button>

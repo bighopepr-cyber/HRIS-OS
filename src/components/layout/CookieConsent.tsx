@@ -31,18 +31,18 @@ const CookieConsent = () => {
         <div className="flex items-center gap-3">
           <Cookie className="h-5 w-5 text-primary shrink-0" />
           <p className="text-sm text-muted-foreground">
-            We use cookies to enhance your experience. By continuing to visit this site, you agree to our use of cookies.{" "}
+            Kami menggunakan cookie untuk meningkatkan pengalaman Anda. Dengan terus mengunjungi situs ini, Anda menyetujui penggunaan cookie oleh kami.{" "}
             <Link to="/privacy-policy" className="text-primary hover:underline">
-              Learn more
+              Pelajari lebih lanjut
             </Link>
           </p>
         </div>
         <div className="flex gap-2 shrink-0">
           <Button variant="outline" size="sm" onClick={handleDecline}>
-            Decline
+            Tolak
           </Button>
           <Button size="sm" onClick={handleAccept}>
-            Accept
+            Terima
           </Button>
         </div>
       </div>

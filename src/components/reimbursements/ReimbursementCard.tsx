@@ -41,12 +41,12 @@ export function ReimbursementCard({ request, onApprove, onReject, onMarkPaid, on
               <p className="text-sm text-muted-foreground">{request.employee.department}</p>
               <div className="mt-2 flex flex-wrap items-baseline gap-x-2 text-sm">
                 <span className="text-lg font-semibold text-foreground">{formatCurrency(request.amount, true)}</span>
-                <span className="text-muted-foreground">on {request.expenseDate}</span>
+                <span className="text-muted-foreground">pada {request.expenseDate}</span>
               </div>
               {request.submittedAt && (
                 <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                   <Clock className="h-3 w-3 shrink-0" aria-hidden="true" />
-                  <span>Submitted: {request.submittedAt}</span>
+                  <span>Diserahkan: {request.submittedAt}</span>
                 </div>
               )}
               {request.description && (
@@ -60,28 +60,28 @@ export function ReimbursementCard({ request, onApprove, onReject, onMarkPaid, on
                   onClick={() => onViewReceipt(request.receiptUrl)}
                 >
                   <Receipt className="mr-1 h-3.5 w-3.5" />
-                  View receipt
+                  Lihat kuitansi
                 </Button>
               )}
               {request.status !== "pending" && request.reviewedBy && (
                 <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                   <UserCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
                   <span>
-                    Reviewed by{" "}
+                    Ditinjau oleh{" "}
                     <span className="font-medium text-foreground">{request.reviewedBy.name}</span>
-                    {request.reviewedAt && <span> on {request.reviewedAt}</span>}
+                    {request.reviewedAt && <span> pada {request.reviewedAt}</span>}
                   </span>
                 </div>
               )}
               {request.reviewNotes && (
-                <p className="mt-1 text-xs text-muted-foreground italic">Note: {request.reviewNotes}</p>
+                <p className="mt-1 text-xs text-muted-foreground italic">Catatan: {request.reviewNotes}</p>
               )}
               {request.status === "paid" && request.paidBy && (
                 <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                   <Banknote className="h-3 w-3 shrink-0" aria-hidden="true" />
                   <span>
-                    Paid by <span className="font-medium text-foreground">{request.paidBy.name}</span>
-                    {request.paidAt && <span> on {request.paidAt}</span>}
+                    Dibayar oleh <span className="font-medium text-foreground">{request.paidBy.name}</span>
+                    {request.paidAt && <span> pada {request.paidAt}</span>}
                   </span>
                 </div>
               )}
@@ -98,7 +98,7 @@ export function ReimbursementCard({ request, onApprove, onReject, onMarkPaid, on
                     onClick={() => onApprove(request.id)}
                   >
                     <Check className="mr-1 h-4 w-4" />
-                    Approve
+Setujui
                   </Button>
                 )}
                 {onReject && (
@@ -109,7 +109,7 @@ export function ReimbursementCard({ request, onApprove, onReject, onMarkPaid, on
                     onClick={() => onReject(request.id)}
                   >
                     <X className="mr-1 h-4 w-4" />
-                    Reject
+Tolak
                   </Button>
                 )}
               </>
@@ -120,7 +120,7 @@ export function ReimbursementCard({ request, onApprove, onReject, onMarkPaid, on
                 </Badge>
                 <Button size="sm" className="h-10 sm:h-9" onClick={() => onMarkPaid(request.id)}>
                   <Banknote className="mr-1 h-4 w-4" />
-                  Mark as paid
+                  Tandai sudah dibayar
                 </Button>
               </div>
             ) : (

@@ -115,16 +115,16 @@ const sendWelcomeEmail = async (
     body: JSON.stringify({
       from: RESEND_FROM_EMAIL,
       to: [to],
-      subject: "You're invited to Peoplo: set up your account",
+      subject: "Anda diundang ke Peoplo: siapkan akun Anda",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #0369a1;">Welcome aboard, ${safeFirstName}!</h1>
+          <h1 style="color: #0369a1;">Selamat bergabung, ${safeFirstName}!</h1>
           ${introHtml}
-          <p>Set up your account to see your profile, apply for leave, clock in and get your payslips.</p>
+          <p>Siapkan akun Anda untuk melihat profil, mengajukan cuti, clock in, dan mendapatkan slip gaji.</p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${safeInviteLink}"
                style="background-color: #0369a1; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
-              Set up your account
+              Siapkan akun Anda
             </a>
           </div>
           <p style="color: #666;">You'll choose a password on the next screen. This link expires in 24 hours; if it does, ask HR to resend it.</p>

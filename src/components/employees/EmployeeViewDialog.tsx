@@ -71,7 +71,7 @@ export function EmployeeViewDialog({ employee, open, onOpenChange }: EmployeeVie
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Employee profile</DialogTitle>
+          <DialogTitle>Profil Karyawan</DialogTitle>
         </DialogHeader>
         <div className="space-y-6">
           {/* Profile Header */}
@@ -118,18 +118,18 @@ export function EmployeeViewDialog({ employee, open, onOpenChange }: EmployeeVie
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="text-muted-foreground">Joined {employee.joinDate}</span>
+                <span className="text-muted-foreground">Bergabung {employee.joinDate}</span>
               </div>
               {managerName && (
                 <div className="flex items-center gap-3 text-sm">
                   <UserCheck className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">Reports to {managerName}</span>
+                  <span className="text-muted-foreground">Melaporkan ke {managerName}</span>
                 </div>
               )}
               {departmentHeadName && (
                 <div className="flex items-center gap-3 text-sm">
                   <Crown className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">Dept. Head: {departmentHeadName}</span>
+                  <span className="text-muted-foreground">Kepala Departemen: {departmentHeadName}</span>
                 </div>
               )}
             </CardContent>

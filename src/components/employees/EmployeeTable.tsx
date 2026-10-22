@@ -131,24 +131,24 @@ export function EmployeeTable({
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => onView?.(employee)}>
           <Eye className="mr-2 h-4 w-4" />
-          View profile
+          Lihat profil
         </DropdownMenuItem>
         {canManage && (
           <>
             <DropdownMenuItem onClick={() => onEdit?.(employee)}>
               <Edit className="mr-2 h-4 w-4" />
-              Edit
+Sunting
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onManageDocuments?.(employee)}>
               <FileText className="mr-2 h-4 w-4" />
-              Documents
+Dokumen
             </DropdownMenuItem>
           </>
         )}
         {onInvite && employee.hasAccount === false && employee.status !== "offboarded" && (
           <DropdownMenuItem onClick={() => onInvite(employee)}>
             <Send className="mr-2 h-4 w-4" />
-            Invite to sign in
+            Undang untuk masuk
           </DropdownMenuItem>
         )}
         {onOffboard && employee.status === "active" && !employee.leavingOn && (
@@ -156,7 +156,7 @@ export function EmployeeTable({
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => onOffboard(employee)}>
               <DoorOpen className="mr-2 h-4 w-4" />
-              Start offboarding
+              Mulai offboarding
             </DropdownMenuItem>
           </>
         )}
@@ -170,29 +170,29 @@ export function EmployeeTable({
       {showBulkActions && selectedIds.length > 0 && (
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-primary/20 bg-primary/5 p-3">
           <span className="whitespace-nowrap text-sm font-medium" aria-live="polite">
-            {selectedIds.length}<span className="hidden sm:inline">&nbsp;employee{selectedIds.length > 1 ? 's' : ''}</span>&nbsp;selected
+            {selectedIds.length}<span className="hidden sm:inline">&nbsp;karyawan{selectedIds.length > 1 ? 's' : ''}</span>&nbsp;terpilih
           </span>
           <div className="flex items-center gap-2">
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm">
-                  Bulk actions
+                  Tindakan massal
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => onBulkAction?.('export', selectedIds)}>
                   <Download className="mr-2 h-4 w-4" />
-                  Export selected
+                  Ekspor yang dipilih
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onBulkAction?.('email', selectedIds)}>
                   <Mail className="mr-2 h-4 w-4" />
-                  Copy emails
+                  Salin email
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => onBulkAction?.('assign-manager', selectedIds)}>
                   <UserCog className="mr-2 h-4 w-4" />
-                  Assign manager
+                  Tetapkan manajer
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
@@ -200,7 +200,7 @@ export function EmployeeTable({
                   className="text-destructive focus:text-destructive"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete selected
+                  Hapus yang dipilih
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -210,7 +210,7 @@ export function EmployeeTable({
               onClick={() => onSelectionChange?.([])}
               aria-label="Clear selection"
             >
-              Clear<span className="hidden sm:inline">&nbsp;selection</span>
+              Hapus<span className="hidden sm:inline">&nbsp;pilihan</span>
             </Button>
           </div>
         </div>
@@ -225,7 +225,7 @@ export function EmployeeTable({
                   <Checkbox
                     checked={allSelected ? true : someSelected ? "indeterminate" : false}
                     onCheckedChange={(checked) => handleSelectAll(checked === true)}
-                    aria-label="Select all employees on this page"
+                    aria-label="Pilih semua karyawan di halaman ini"
                   />
                 </TableHead>
               )}
@@ -238,7 +238,7 @@ export function EmployeeTable({
                     onSort={handleSort}
                     className="w-[110px] whitespace-nowrap"
                   >
-                    Emp. No.
+No. Kary.
                   </SortableTableHead>
                   <SortableTableHead
                     sortKey="name"
@@ -247,7 +247,7 @@ export function EmployeeTable({
                     onSort={handleSort}
                     className="w-[260px]"
                   >
-                    Employee
+Karyawan
                   </SortableTableHead>
                   <SortableTableHead
                     sortKey="department"
@@ -255,7 +255,7 @@ export function EmployeeTable({
                     direction={sortKey === "department" ? sortDirection ?? null : null}
                     onSort={handleSort}
                   >
-                    Department
+Departemen
                   </SortableTableHead>
                   <SortableTableHead
                     sortKey="designation"
@@ -263,7 +263,7 @@ export function EmployeeTable({
                     direction={sortKey === "designation" ? sortDirection ?? null : null}
                     onSort={handleSort}
                   >
-                    Designation
+Jabatan
                   </SortableTableHead>
                   <SortableTableHead
                     sortKey="joinDate"
@@ -271,7 +271,7 @@ export function EmployeeTable({
                     direction={sortKey === "joinDate" ? sortDirection ?? null : null}
                     onSort={handleSort}
                   >
-                    Join Date
+Tanggal Bergabung
                   </SortableTableHead>
                   <SortableTableHead
                     sortKey="status"
@@ -307,7 +307,7 @@ export function EmployeeTable({
                     <Checkbox 
                       checked={selectedIds.includes(employee.id)}
                       onCheckedChange={(checked) => handleSelectOne(employee.id, checked as boolean)}
-                      aria-label={`Select ${employee.name}`}
+                      aria-label={`Pilih {employee.name}`}
                     />
                   </TableCell>
                 )}
@@ -352,9 +352,9 @@ export function EmployeeTable({
             <Checkbox
               checked={allSelected ? true : someSelected ? "indeterminate" : false}
               onCheckedChange={(checked) => handleSelectAll(checked === true)}
-              aria-label="Select all employees on this page"
+              aria-label="Pilih semua karyawan di halaman ini"
             />
-            Select all on this page
+            Pilih semua di halaman ini
           </label>
         )}
         {employees.map((employee) => {
@@ -371,7 +371,7 @@ export function EmployeeTable({
                     className="mt-3"
                     checked={selected}
                     onCheckedChange={(checked) => handleSelectOne(employee.id, checked === true)}
-                    aria-label={`Select ${employee.name}`}
+                    aria-label={`Pilih {employee.name}`}
                   />
                 )}
                 <Avatar className="h-10 w-10 shrink-0">
@@ -397,7 +397,7 @@ export function EmployeeTable({
                 <span className="font-mono text-xs">{employee.employeeCode}</span>
                 {employee.designation && <span>{employee.designation}</span>}
                 {employee.department && <span>{employee.department}</span>}
-                {employee.joinDate && <span>Joined {employee.joinDate}</span>}
+                {employee.joinDate && <span>Bergabung {employee.joinDate}</span>}
               </div>
             </div>
           );

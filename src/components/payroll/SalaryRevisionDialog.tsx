@@ -168,7 +168,7 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <form onSubmit={submit} className="space-y-5">
           <DialogHeader>
-            <DialogTitle>Revise salary for {employee?.name}</DialogTitle>
+            <DialogTitle>Revisi gaji untuk {employee?.name}</DialogTitle>
             <DialogDescription>
               Monthly amounts. The current salary stays on record, and payroll uses the new one from the effective
               date.
@@ -177,7 +177,7 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
 
           {isOwn && (
             <p className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
-              This is your own salary. As an admin you can revise it; the change is recorded with your name.
+              Ini adalah gaji Anda sendiri. Sebagai admin Anda dapat merevisinya; perubahan dicatat dengan nama Anda.
             </p>
           )}
 
@@ -198,7 +198,7 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="revise-effective">Effective from *</Label>
+              <Label htmlFor="revise-effective">Efektif mulai *</Label>
               <Input
                 id="revise-effective"
                 type="date"
@@ -220,7 +220,7 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="revise-increment">Increase every earning by</Label>
+            <Label htmlFor="revise-increment">Naikkan setiap pendapatan sebesar</Label>
             <div className="flex gap-2">
               <div className="relative w-32">
                 <Input
@@ -244,10 +244,10 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
                 </span>
               </div>
               <Button type="button" variant="outline" onClick={applyPercent} disabled={!increment}>
-                Apply
+                Terapkan
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground">Optional. Fills in the amounts below; you can still edit each one.</p>
+            <p className="text-xs text-muted-foreground">Opsional. Mengisi jumlah di bawah; Anda masih dapat mengedit masing-masing.</p>
           </div>
 
           <fieldset className="space-y-3">
@@ -297,13 +297,13 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="revise-review">Linked performance review</Label>
+            <Label htmlFor="revise-review">Tautan ulasan kinerja:</Label>
             <Select value={reviewId} onValueChange={setReviewId}>
               <SelectTrigger id="revise-review">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="none">None</SelectItem>
+                <SelectItem value="none">Tidak ada</SelectItem>
                 {reviews.map((r) => (
                   <SelectItem key={r.id} value={r.id}>
                     {r.review_period}
@@ -320,7 +320,7 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
               id="revise-reason"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              placeholder="For payroll records (optional). Not shown to the employee."
+              placeholder="Untuk catatan penggajian (opsional). Tidak ditampilkan kepada karyawan."
               maxLength={2000}
               rows={3}
             />
@@ -340,11 +340,11 @@ export function SalaryRevisionDialog({ employee, current, onOpenChange }: Salary
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              Batal
             </Button>
             <Button type="submit" disabled={!effectiveFrom || unchanged || invalidAmount || missingBasic || create.isPending}>
               {create.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {approvalRequired ? "Submit for approval" : isFuture ? "Schedule revision" : "Revise salary"}
+              {approvalRequired ? "Kirim untuk persetujuan" : isFuture ? "Jadwalkan revisi" : "Revisi gaji"}
             </Button>
           </DialogFooter>
         </form>

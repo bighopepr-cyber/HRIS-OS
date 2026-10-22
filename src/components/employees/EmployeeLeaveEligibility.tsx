@@ -72,16 +72,16 @@ export const EmployeeLeaveEligibility = forwardRef<EmployeeLeaveEligibilityHandl
     return (
       <div className="space-y-4">
         <div className="rounded-lg border bg-muted/40 p-3 text-sm text-muted-foreground">
-          Select which paid leave types this employee is eligible to apply for.
+          Pilih jenis cuti berbayar yang karyawan ini layak untuk diajukan.
           <span className="block mt-1 text-xs">
-            Unpaid Leave is always available to every employee and does not require allocation.
+            Cuti Tidak Dibayar selalu tersedia untuk setiap karyawan dan tidak memerlukan alokasi.
           </span>
         </div>
 
         {(leaveTypes ?? []).length > 0 && (
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">
-              {selected.size} of {allIds.length} selected
+              {selected.size} dari {allIds.length} yang dipilih
             </span>
             <Button
               type="button"
@@ -89,7 +89,7 @@ export const EmployeeLeaveEligibility = forwardRef<EmployeeLeaveEligibilityHandl
               size="sm"
               onClick={toggleAll}
             >
-              {allSelected ? "Deselect All" : "Select All"}
+              {allSelected ? "Batalkan Semua" : "Pilih Semua"}
             </Button>
           </div>
         )}
@@ -113,10 +113,10 @@ export const EmployeeLeaveEligibility = forwardRef<EmployeeLeaveEligibilityHandl
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge variant="secondary" className="text-xs">
-                    {type.days_per_year} days/yr
+                    {type.days_per_year} hari/tahun
                   </Badge>
                   <Badge variant={type.is_paid ? "default" : "outline"} className="text-xs">
-                    {type.is_paid ? "Paid" : "Unpaid"}
+                    {type.is_paid ? "Dibayar" : "Tidak Dibayar"}
                   </Badge>
                 </div>
               </label>
@@ -125,7 +125,7 @@ export const EmployeeLeaveEligibility = forwardRef<EmployeeLeaveEligibilityHandl
 
           {(leaveTypes ?? []).length === 0 && (
             <div className="text-sm text-muted-foreground text-center py-4">
-              No leave types configured.
+              Tidak ada jenis cuti yang dikonfigurasi.
             </div>
           )}
         </div>

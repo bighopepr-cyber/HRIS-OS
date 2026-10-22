@@ -32,7 +32,7 @@ function useCarousel() {
   const context = React.useContext(CarouselContext);
 
   if (!context) {
-    throw new Error("useCarousel must be used within a <Carousel />");
+    throw new Error("useCarousel harus digunakan di dalam <Carousel />");
   }
 
   return context;
@@ -120,7 +120,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
           onKeyDownCapture={handleKeyDown}
           className={cn("relative", className)}
           role="region"
-          aria-roledescription="carousel"
+          aria-roledescription="karusel"
           {...props}
         >
           {children}
@@ -186,7 +186,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         {...props}
       >
         <ArrowLeft className="h-4 w-4" />
-        <span className="sr-only">Previous slide</span>
+        <span className="sr-only">Slide sebelumnya</span>
       </Button>
     );
   },
@@ -214,7 +214,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         {...props}
       >
         <ArrowRight className="h-4 w-4" />
-        <span className="sr-only">Next slide</span>
+        <span className="sr-only">Slide berikutnya</span>
       </Button>
     );
   },

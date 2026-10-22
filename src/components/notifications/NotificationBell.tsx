@@ -13,10 +13,11 @@ import {
   type Notification,
 } from "@/hooks/useNotifications";
 import { formatDistanceToNow } from "date-fns";
+import { id as localeID } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
-/** The list query is capped at 50 rows; beyond that only the server count is exact. */
+/** Kueri daftar dibatasi 50 baris; di luar itu, hanya hitungan dari server yang akurat. */
 const LIST_LIMIT = 50;
 
 const typeIcon = (type: string) => {
@@ -39,8 +40,8 @@ export const NotificationBell = () => {
   const markRead = useMarkNotificationRead();
   const markAllRead = useMarkAllNotificationsRead();
 
-  // Keep the badge consistent with what the panel shows: once the list has loaded,
-  // count the unread items in it (unless the list is truncated).
+  // Jaga lencana tetap konsisten dengan isi panel: setelah daftar dimuat,
+  // hitung item yang belum dibaca di dalamnya (kecuali daftar terpotong).
   const listUnreadCount = notifications.filter((n) => !n.read).length;
   const unreadCount =
     isSuccess && notifications.length < LIST_LIMIT ? listUnreadCount : Math.max(serverUnreadCount, listUnreadCount);
@@ -55,12 +56,12 @@ export const NotificationBell = () => {
   };
 
   const triggerLabel =
-    unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications";
+    unreadCount > 0 ? `Notifikasi, ${unreadCount} belum dibaca` : "Notifikasi";
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative" aria-label={triggerLabel} title="Notifications">
+        <Button variant="ghost" size="icon" className="relative" aria-label={triggerLabel} title="Notifikasi">
           <Bell className="h-5 w-5" aria-hidden="true" />
           {unreadCount > 0 && (
             <span
@@ -76,13 +77,13 @@ export const NotificationBell = () => {
         className="w-[calc(100vw-1.5rem)] max-w-sm p-0"
         align="end"
         collisionPadding={12}
-        aria-label="Notifications"
+        aria-label="Notifikasi"
       >
         <div className="flex items-center justify-between gap-2 border-b px-4 py-3">
           <div className="min-w-0">
-            <h2 className="font-semibold leading-tight">Notifications</h2>
+            <h2 className="font-semibold leading-tight">Notifikasi</h2>
             <p className="text-xs text-muted-foreground">
-              {unreadCount > 0 ? `${unreadCount} unread` : "You're all caught up"}
+              {unreadCount > 0 ? `${unreadCount} belum dibaca` : "Anda semua terkini"}
             </p>
           </div>
           {unreadCount > 0 && (
@@ -94,17 +95,17 @@ export const NotificationBell = () => {
               disabled={markAllRead.isPending}
             >
               <CheckCheck className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
-              Mark all read
+              Tandai semua dibaca
             </Button>
           )}
         </div>
         <div className="max-h-[min(24rem,60vh)] overflow-y-auto">
           {isLoading ? (
-            <div className="p-6 text-center text-sm text-muted-foreground">Loading…</div>
+            <div className="p-6 text-center text-sm text-muted-foreground">Memuat…</div>
           ) : notifications.length === 0 ? (
             <div className="flex flex-col items-center gap-2 p-6 text-center text-sm text-muted-foreground">
               <Bell className="h-6 w-6 text-muted-foreground/60" aria-hidden="true" />
-              No notifications yet
+              Belum ada notifikasi
             </div>
           ) : (
             <ul className="divide-y">
@@ -137,13 +138,13 @@ export const NotificationBell = () => {
                           {notification.message}
                         </span>
                         <span className="mt-1 block text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true })}
+                          {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true, locale: localeID })}
                         </span>
                       </span>
                       {unread && (
                         <>
                           <span aria-hidden="true" className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                          <span className="sr-only">(unread)</span>
+                          <span className="sr-only">(belum dibaca)</span>
                         </>
                       )}
                     </button>

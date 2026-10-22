@@ -1,116 +1,116 @@
 # Changelog
 
-All notable changes to Peoplo are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/). Releases up to v1.1.1 are described on [GitHub Releases](https://github.com/redmonkin/core-hr-hub/releases).
+Semua perubahan penting pada Peoplo tercantum di sini. Formatnya mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), dan versi mengikuti [Semantic Versioning](https://semver.org/). Rilis hingga v1.1.1 dijelaskan di [GitHub Releases](https://github.com/redmonkin/core-hr-hub/releases).
 
-When you update a self-hosted copy, read the **Upgrade notes** of every version since yours: they list new migrations, secrets and settings. The steps are in [Updating to a new version](docs/self-hosting.md#updating-to-a-new-version).
+Saat Anda memperbarui salinan self-hosting, baca **Catatan Upgrade** setiap versi sejak versi Anda: mereka mencantumkan migrasi baru, rahasia dan pengaturan. Langkah-langkahnya ada di [Memperbarui ke versi baru](docs/self-hosting.md#updating-to-a-new-version).
 
 ## [Unreleased]
 
-### Salary revisions (appraisals)
+### Revisi gaji (penilaian)
 
-- **Revise salary** from Payroll → Salary structure or Employees → Edit → Salary: type (annual appraisal, promotion, market correction, adjustment, other), effective date, reason, an optional linked performance review, and the new components. A quick "increase every earning by %" fills them in; old vs new and the % change are shown before saving.
-- **Takes effect on its date**: future revisions wait as *Scheduled* and are applied automatically; a revision part-way through a month that hasn't been run is prorated; a **backdated** revision adds **arrears** to the next payroll, shown on the payslip as "Salary Revision Arrears".
-- **Payslips keep the salary they were generated with**, so a revision never changes an old payslip.
-- **Rules**: only people with payroll manage access can revise; nobody revises (or cancels a revision of) their own salary except admins, and it's recorded with their name. Revisions can't be edited, only cancelled and redone.
-- **Optional approval** (Settings → Payroll, off by default, admins only): revisions then wait for another payroll admin; nobody approves a revision they proposed or one to their own salary. Revisions waiting for approval are listed on the Payroll page. Setting up someone's first salary doesn't need approval.
-- **Revision letter** (PDF) and an **email** to the employee when the revision is applied (can be unticked), plus a **Compensation** card in Profile → Payslips with the current salary, upcoming and past revisions and their letters.
-- Salary structures are no longer edited directly: the Edit button became **Revise salary**, which also shows the history.
+- **Revisi gaji** dari Payroll → Struktur gaji atau Karyawan → Edit → Gaji: jenis (penilaian tahunan, promosi, koreksi pasar, penyesuaian, lain), tanggal efektif, alasan, ulasan kinerja yang terkait secara opsional, dan komponen baru. "Naikkan setiap komponen pendapatan dengan %" dengan cepat mengisi mereka; perbandingan lama vs baru dan persentase perubahan ditampilkan sebelum menyimpan.
+- **Berlaku pada tanggalnya**: revisi masa depan menunggu sebagai *Dijadwalkan* dan diterapkan secara otomatis; revisi di tengah bulan yang belum diproses akan dihitung proporsional; revisi **mundur** menambahkan **keterlambatan** ke payroll berikutnya, ditampilkan pada slip gaji sebagai "Revisi Gaji Keterlambatan".
+- **Slip gaji tetap mempertahankan gaji saat dibuat**, sehingga revisi tidak pernah mengubah slip gaji lama.
+- **Aturan**: hanya orang dengan akses manajemen payroll yang dapat merevisi; tidak ada yang merevisi (atau membatalkan revisi) gaji sendiri kecuali admin, dan dicatat dengan nama mereka. Revisi tidak dapat diedit, hanya dapat dibatalkan dan diulang.
+- **Persetujuan opsional** (Pengaturan → Payroll, mati secara default, hanya admin): revisi kemudian menunggu persetujuan dari admin payroll lain; tidak ada yang menyetujui revisi yang mereka ajukan atau revisi pada gaji mereka sendiri. Revisi yang menunggu persetujuan tercantum pada halaman Payroll. Pengaturan gaji seseorang untuk pertama kalinya tidak memerlukan persetujuan.
+- **Surat revisi** (PDF) dan **email** kepada karyawan saat revisi diterapkan (dapat dicoret), serta kartu **Kompensasi** di Profil → Slip Gaji dengan gaji saat ini, revisi mendatang dan sebelumnya beserta surat mereka.
+- Struktur gaji tidak lagi diedit secara langsung: tombol Edit menjadi **Revisi gaji**, yang juga menampilkan histori.
 
-### Upgrade notes (salary revisions)
+### Catatan upgrade (revisi gaji)
 
-- Apply `20261011100000_salary_revisions.sql`, deploy `salary-revisions` and redeploy `generate-monthly-payroll`, and schedule `salary-revisions-daily` (see the self-hosting guide). Deploy the website at the same time: the old Edit salary form is blocked by the new rules.
+- Terapkan `20261011100000_salary_revisions.sql`, deploy `salary-revisions` dan redeploy `generate-monthly-payroll`, dan jadwalkan `salary-revisions-daily` (lihat panduan self-hosting). Deploy website pada saat yang sama: formulir Edit gaji lama diblokir oleh aturan baru.
 
-### Onboarding, simplified
+### Pengalaman onboarding, disederhanakan
 
-- **One step to add and invite**: adding an employee in Onboarding creates their record and emails them an invitation to set up their account. The separate "invite to self-onboard" flow, the employee-submitted onboarding request and the Requests tab are gone.
-- **Pending shows who hasn't joined yet**: each new hire's invitation state (sent, link expired, not sent, cancelled) with **Resend** and **Cancel invitation**, plus who joined in the last 30 days.
-- **Joining is automatic**: when the new hire opens the link and chooses a password (a new welcome screen), their invitation is accepted, their record becomes active, leave balances are created, and whoever invited them is notified. "Mark as joined" is still available for people who won't use the app.
-- **Invite anyone without an account** from their row in Employees.
-- The Add employee form no longer asks for a base salary; set pay in **Employees → Edit → Salary**, which covers the full structure (allowances and deductions).
-- **One invitation email**, with a working link: previously Supabase's email and ours were both sent, and the second made the first link invalid. Resending to someone who never set up their account now works.
-- The daily onboarding reminder only tells HR about new hires whose link expired or who were never invited, instead of emailing every pending hire a link they couldn't use.
+- **Satu langkah untuk menambah dan undang**: menambahkan karyawan di Onboarding membuat rekannya dan mengirimkan email undangan untuk menyiapkan akun mereka. Alur undangan terpisah "undang untuk self-onboard", permintaan onboarding yang diajukan karyawan, dan tab Requests telah dihapus.
+- **Pending menunjukkan siapa yang belum bergabung**: setiap status undangan karyawan baru (dikirim, kadaluarsa link, tidak terkirim, dibatalkan) dengan **Kirim Ulang** dan **Batalkan Undangan**, ditambah siapa yang bergabung dalam 30 hari terakhir.
+- **Bergabung otomatis**: saat karyawan baru membuka link dan memilih kata sandi (layar selamat datang baru), undangannya diterima, rekannya menjadi aktif, saldo cuti dibuat, dan siapa yang mengundangnya diberi tahu. "Tandai sebagai bergabung" masih tersedia untuk orang yang tidak akan menggunakan aplikasi.
+- **Undang siapa pun tanpa akun** dari baris mereka di Karyawan.
+- Formulir Tambah karyawan tidak lagi meminta gaji dasar; tetapkan gaji di **Karyawan → Edit → Gaji**, yang mencakup struktur lengkap (tensi dan potongan).
+- **Satu email undangan**, dengan link yang berfungsi: sebelumnya email Supabase dan kami dikeduanya, dan yang kedua membuat link pertama tidak valid. Mengirim ulang ke siapa yang belum menyiapkan akun mereka sekarang berfungsi.
+- Pengingat harian onboarding hanya memberi tahu HR tentang karyawan baru yang linknya kadaluarsa atau yang tidak pernah diundang, alih-alih mengirim email ke setiap karyawan pending dengan link yang tidak bisa mereka gunakan.
 
-### Upgrade notes (onboarding)
+### Catatan upgrade (onboarding)
 
-- Apply `20261006100000_onboarding_invites.sql` and redeploy `invite-employee` and `onboarding-reminders`. The `onboarding-request-notification` function is no longer used and can be deleted from your project.
+- Terapkan `20261006100000_onboarding_invites.sql` dan redeploy `invite-employee` dan `onboarding-reminders`. Fungsi `onboarding-request-notification` tidak lagi digunakan dan dapat dihapus dari proyek Anda.
 
-### Offboarding emails
+### Email offboarding
 
-- **Department-wise offboarding checklist** (IT, HR, Finance, Facilities/Admin), edited from Onboarding → Leaving → **Edit checklist**.
-- When HR starts an offboarding or approves a resignation, they **pick who gets the checklist email**: anyone in the team (the reporting manager and department managers are suggested) and outside addresses such as it@company.com, with an optional note and a **preview**. Replies go to the HR person who sent it. A **reminder** goes to the same people on the last working day, and the email can be resent from the Leaving tab.
-- **Resignations are emailed** to HR and the reporting manager, with a confirmation to the employee; approvals (with the confirmed last day) and declines are emailed to the employee.
-- The in-app tick-box checklist is replaced by the emailed checklist; teams confirm by replying to the email.
+- **Daftar periksa offboarding per departemen** (IT, HR, Keuangan, Fasilitas/Admin), diedit dari Onboarding → Berhenti → **Edit daftar periksa**.
+- Saat HR memulai offboarding atau menyetujui pengunduran diri, mereka **memilih siapa yang menerima email daftar periksa**: siapa pun dalam tim (manajer pelaporan dan manajer departemen disarankan) dan alamat luar seperti it@company.com, dengan catatan opsional dan **preview**. Balasan akan dikirim ke orang HR yang mengirimkannya. **Pengingat** dikirim ke orang-orang yang sama pada hari kerja terakhir, dan email dapat dikirim ulang dari tab Berhenti.
+- **Pengunduran diri dikirim melalui email** ke HR dan manajer pelaporan, dengan konfirmasi ke karyawan; persetujuan (dengan hari terakhir yang dikonfirmasi) dan penolakan dikirim melalui email ke karyawan.
+- Daftar periksa kotak centang dalam aplikasi diganti oleh daftar periksa yang dikirim melalui email; tim mengonfirmasi dengan membalas email.
 
-### Upgrade notes (offboarding emails)
+### Catatan upgrade (offboarding emails)
 
-- Apply `20261009100000_offboarding_emails.sql`, deploy `offboarding-email` and `offboarding-reminders`, and schedule the reminder (see the self-hosting guide).
+- Terapkan `20261009100000_offboarding_emails.sql`, deploy `offboarding-email` dan `offboarding-reminders`, dan jadwalkan pengingat (lihat panduan self-hosting).
 
 
-- **Start offboarding** from an employee's row in Employees: reason, notice date and last working day. They stay active through their notice period and show as "Leaving <date>".
-- **Resignations**: employees can resign from their profile with a proposed last day; HR approves (confirming the date) or declines with a note. Employees can withdraw until it's approved.
-- **Leaving tab** in Onboarding: resignations to review, everyone leaving with a checklist (each assigned asset to return, which ticks itself when the asset is returned, plus reimbursements, leave, final payroll, handover and exit interview, and your own items), and who left in the last 90 days.
-- **Automatic on the last day**: the morning after the last working day the person is marked offboarded, their sign-in is blocked and pending leave is cancelled; HR and their manager are notified. HR can also complete it on the day, change the date, or cancel.
-- **Payroll** no longer pays people who have left, and prorates the final month to the last working day. Reports count leavers by their last working day.
-- Employee **status is now set by the workflows** (joining and offboarding) and shown read-only when editing; the unused **Inactive** status and the bulk "Set as active / inactive" actions are gone.
+- **Mulai offboarding** dari baris karyawan di Karyawan: alasan, tanggal pemberitahuan dan hari kerja terakhir. Mereka tetap aktif selama periode pemberitahuan dan ditampilkan sebagai "Berhenti <tanggal>".
+- **Pengunduran diri**: karyawan dapat mengundurkan diri dari profil mereka dengan hari terakhir yang diusulkan; HR menyetujui (mengonfirmasi tanggal) atau menolak dengan catatan. Karyawan dapat menariknya kembali hingga disetujui.
+- **Tab Berhenti** di Onboarding: pengunduran diri untuk ditinjau, semua orang yang berhenti dengan daftar periksa (setiap aset yang harus dikembalikan, yang mencentang itself saat aset dikembalikan, ditambah pengembalian, cuti, payroll akhir, penyerahan pekerjaan dan wawancara keluar, serta item Anda sendiri), dan siapa yang berhenti dalam 90 hari terakhir.
+- **Otomatis pada hari terakhir**: besok pagi setelah hari kerja terakhir, orang tersebut ditandai sebagai offboarded, masuknya diblokir dan cuti yang belum diproses dibatalkan; HR dan manajer mereka diberi tahu. HR juga dapat menyelesaikannya pada hari itu, mengubah tanggal, atau membatalkannya.
+- **Payroll** tidak lagi membayar orang yang telah berhenti, dan dihitung proporsional bulan terakhir hingga hari kerja terakhir. Laporan menghitung orang yang berhenti berdasarkan hari kerja terakhir mereka.
+- **Status karyawan kini ditetapkan oleh alur kerja** (bergabung dan offboarding) dan ditampilkan sebagai read-only saat diedit; status **Tidak Aktif** yang tidak digunakan dan tindakan bulk "Tetapkan sebagai aktif / tidak aktif" telah dihapus.
 
-### Upgrade notes (offboarding)
+### Catatan upgrade (offboarding)
 
-- Apply `20261008100000_offboarding.sql`, redeploy `generate-monthly-payroll`, and schedule the daily job: `select cron.schedule('process-employee-exits', '30 0 * * *', $$select public.process_employee_exits()$$);`
+- Terapkan `20261008100000_offboarding.sql`, redeploy `generate-monthly-payroll`, dan jadwalkan tugas harian: `select cron.schedule('process-employee-exits', '30 0 * * *', $$select public.process_employee_exits()$$);`
 
-### Bank details
+### Detail bank
 
-- Employee bank details now include the **IFSC code** (Employees → Edit → Personal). It's checked for the standard 11-character format and shown on payslips.
+- Detail bank karyawan kini mencakup **kode IFSC** (Karyawan → Edit → Pribadi). Format standar 11 karakter diperiksa dan ditampilkan pada slip gaji.
 
-### Upgrade notes (bank details)
+### Catatan upgrade (detail bank)
 
-- Apply `20261007100000_bank_ifsc.sql`.
+- Terapkan `20261007100000_bank_ifsc.sql`.
 
-### Payroll at month end
+### Payroll di akhir bulan
 
-- Payroll is now generated automatically on the **last day of each month** (previously the 27th).
-- Payslip PDFs are dated to the **last day of their pay month** ("Generated on 30 September 2026"), not the day they were downloaded.
+- Payroll kini dibuat secara otomatis pada **hari terakhir setiap bulan** (sebelumnya tanggal 27).
+- PDF slip gaji ditanggalkan pada **hari terakhir bulan gaji mereka** ("Dibuat pada 30 September 2026"), bukan hari diunduh.
 
-### Upgrade notes (payroll)
+### Catatan upgrade (payroll)
 
-- Reschedule the payroll job: `select cron.schedule('monthly-payroll-generation', '0 9 $ * *', ...)` with the same command as before (see [Scheduled jobs](docs/self-hosting.md)). Scheduling a job with an existing name replaces it.
+- Jadwalkan ulang tugas payroll: `select cron.schedule('monthly-payroll-generation', '0 9 $ * *', ...)` dengan perintah yang sama seperti sebelumnya (lihat [Tugas yang Dijadwalkan](docs/self-hosting.md)). Jadwalkan tugas dengan nama yang sama akan menggantinya.
 
-### License
+### Lisensi
 
-- Peoplo is now licensed under the **AGPL-3.0** (previously MIT). Versions released before this change remain available under MIT. The app shows a **Source code** link, configurable with `VITE_REPO_URL`.
+- Peoplo kini dilisensikan di bawah **AGPL-3.0** (sebelumnya MIT). Versi yang dirilis sebelum perubahan ini tetap tersedia di bawah MIT. Aplikasi menampilkan tautan **Kode sumber**, yang dapat dikonfigurasi dengan `VITE_REPO_URL`.
 
-### Features
+### Fitur
 
-- **Permissions per module**: roles set default view/manage access for each module (employees, onboarding, attendance, leaves, reimbursements, performance, assets, payroll, calendar, settings), and admins can give one person extra access from **Settings → Users & access**.
-- **Invite-only accounts**: nobody can sign up without an invitation. Invitations are managed from **Onboarding**, can be revoked or extended, and can be limited to approved email domains.
-- **Payroll**: choose the month when generating payroll; mid-month joiners are prorated. Payslip PDFs follow a standard salary-slip layout. The Payroll page has a pay-period picker that opens on the latest month with records.
-- **Colleague directory** for employees, showing only safe fields.
-- **New landing and features pages** presenting Peoplo as open source, with recreated 3D product previews instead of screenshots, and a self-hosting guide.
+- **Izin per modul**: peran menetapkan akses tampil/kelola default untuk setiap modul (karyawan, onboarding, kehadiran, cuti, pengembalian, kinerja, aset, payroll, kalender, pengaturan), dan admin dapat memberikan akses tambahan pada satu orang dari **Pengaturan → Pengguna & akses**.
+- **Akun hanya undangan**: tidak ada yang dapat mendaftar tanpa undangan. Undangan dikelola dari **Onboarding**, dapat dicabut atau diperpanjang, dan dapat dibatasi pada domain email yang disetujui.
+- **Payroll**: pilih bulan saat membuat payroll; karyawan yang bergabung pertengahan bulan dihitung proporsional. PDF slip gaji mengikuti tata letak slip gaji standar. Halaman Payroll memiliki pemilih periode payroll yang membuka pada bulan terbaru dengan catatan.
+- **Direktori rekan kerja** untuk karyawan, menampilkan hanya bidang yang aman.
+- **Halaman landing dan fitur baru** yang menyajikan Peoplo sebagai open source, dengan pratinjau produk 3D yang dibuat ulang alih-alih tangkapan layar, dan panduan self-hosting.
 
-### Fixes
+### Perbaikan
 
-- Onboarding's Pending tab was always empty; the employee details dialog didn't show the manager.
-- Editing an asset erased its purchase date and vendor.
-- Payroll summary cards ignored the selected month; the salary form lost focus on every keystroke.
-- Processed-leave filters, sorting and export didn't work; leave dates could shift by a day in some time zones.
-- Reports: payroll axis in ₹, consistent headcount figures, whole-number axes.
-- Calendar counts and highlights, team calendar date range, dashboard "status today" on non-working days.
-- Notification delivery, and links in emails now use the configured app address.
-- Mobile: every page fits a phone screen, tables become cards, dialogs keep their buttons visible, the menu closes on navigation, and pinch-zoom works again. Text contrast and screen-reader labels throughout.
+- Tab Pending di Onboarding selalu kosong; dialog detail karyawan tidak menampilkan manajer.
+- Mengedit aset menghapus tanggal pembelian dan vendor.
+- Kartu ringkasan payroll mengabaikan bulan yang dipilih; formulir gaji kehilangan fokus pada setiap tekanan tombol.
+- Filter, pengurutan dan ekspor cuti yang diproses tidak berfungsi; tanggal cuti dapat bergeser satu hari di beberapa zona waktu.
+- Laporan: sumbu payroll dalam ₹, jumlah karyawan yang konsisten, sumbu bilangan bulat.
+- Perhitungan dan penandaan kalender, rentang tanggal kalender tim, "status hari ini" di dasbor pada hari non-kerja.
+- Pengiriman notifikasi, dan tautan dalam email kini menggunakan alamat aplikasi yang dikonfigurasi.
+- Seluler: setiap halaman muat di layar ponsel, tabel menjadi kartu, dialog tetap menampilkan tombolnya, menu menutup saat navigasi, dan pinch-zoom bekerja lagi. Kontras teks dan label pembaca layar di seluruhnya.
 
-### Security
+### Keamanan
 
-- Every table's access rules were rebuilt on the module permissions and enforced with row-level security, plus a restrictive policy that locks out blocked users.
-- Triggers guard sensitive changes: leave and reimbursement requests always start as pending and only the right approver can decide them; attendance can't be backdated or edited after clock-out; ratings can only be set by their owner; review acknowledgements and onboarding documents are checked.
-- Bank details moved from `employees` into a separate `employee_bank_details` table, readable only by the employee and people with payroll or employee-management access.
-- Storage policies follow the module permissions.
-- Edge functions verify the caller and their permissions, load data from the database instead of trusting the request, escape all email HTML, and validate invite redirect URLs. Scheduled functions require the `x-cron-secret` header.
+- Aturan akses setiap tabel dibangun ulang berdasarkan izin modul dan ditegakkan dengan keamanan baris, ditambah kebijakan restriktif yang mengunci pengguna yang diblokir.
+- Pemicu melindungi perubahan sensitif: permintaan cuti dan pengembalian selalu dimulai sebagai pending dan hanya pengeset yang tepat yang dapat memutuskannya; kehadiran tidak dapat ditentukan mundur atau diedit setelah check-out; penilaian hanya dapat ditetapkan oleh pemiliknya; pengakuan ulasan dan dokumen onboarding diperiksa.
+- Detail bank dipindahkan dari `employees` ke tabel terpisah `employee_bank_details`, dapat dibaca hanya oleh karyawan dan orang dengan akses payroll atau manajemen karyawan.
+- Kebijakan penyimpanan mengikuti izin modul.
+- Fungsi edge memverifikasi pemanggil dan izin mereka, memuat data dari basis data alih-alih mempercaya permintaan, melarikan semua HTML email, dan memvalidasi URL pengalihan undangan. Fungsi yang dijadwalkan memerlukan header `x-cron-secret`.
 
-### Upgrade notes
+### Catatan upgrade
 
-- Apply all migrations up to `20261003100300_integrity_guards.sql` with `npx supabase db push`. It moves bank details into a new table and rebuilds every access rule; take a backup first.
-- Redeploy **all** edge functions (`npx supabase functions deploy`).
-- Set the function secrets `APP_URL` (your site's `https://` address), `RESEND_FROM_EMAIL` and `CRON_SECRET`. Scheduled functions refuse every call until `CRON_SECRET` is set; update your `pg_cron` jobs to send it in an `x-cron-secret` header (see [Scheduled jobs](docs/self-hosting.md#part-6-scheduled-jobs)).
-- Existing users keep their roles. Turn off **Allow new users to sign up** in Supabase Auth, and set **Settings → Domain whitelist**.
-- Optional: set `VITE_REPO_URL` if you run a modified fork.
+- Terapkan semua migrasi hingga `20261003100300_integrity_guards.sql` dengan `npx supabase db push`. Ini memindahkan detail bank ke tabel baru dan membangun ulang setiap aturan akses; ambil cadangan terlebih dahulu.
+- Redeploy **semua** fungsi edge (`npx supabase functions deploy`).
+- Tetapkan rahasia fungsi `APP_URL` (alamat `https://` situs Anda), `RESEND_FROM_EMAIL` dan `CRON_SECRET`. Fungsi yang dijadwalkan menolak setiap panggilan hingga `CRON_SECRET` ditetapkan; perbarui tugas `pg_cron` Anda untuk mengirimkannya dalam header `x-cron-secret` (lihat [Tugas yang Dijadwalkan](docs/self-hosting.md#part-6-scheduled-jobs)).
+- Pengguna lama tetap mempertahankan peran mereka. Matikan **Izinkan pengguna baru untuk mendaftar** di Supabase Auth, dan tetapkan **Pengaturan → Daftar putih domain**.
+- Opsional: tetapkan `VITE_REPO_URL` jika Anda menjalankan fork yang dimodifikasi.
 
 [Unreleased]: https://github.com/redmonkin/core-hr-hub/compare/v1.1.1...HEAD

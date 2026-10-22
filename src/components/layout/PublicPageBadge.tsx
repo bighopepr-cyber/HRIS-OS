@@ -7,7 +7,7 @@ interface PublicPageBadgeProps {
   className?: string;
 }
 
-/** Eyebrow pill shown above the H1 on every public marketing/legal page. */
+/** Pil penanda yang ditampilkan di atas H1 pada setiap halaman pemasaran atau legal publik. */
 const PublicPageBadge = ({ icon, children, className }: PublicPageBadgeProps) => (
   <div
     className={cn(

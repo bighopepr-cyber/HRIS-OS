@@ -1,9 +1,9 @@
 import { format } from "date-fns";
 
 /**
- * Pure payroll calculation helpers, kept free of Supabase/React so they can be
- * unit-tested. Mirrored in supabase/functions/generate-monthly-payroll/index.ts
- * (Deno can't import from src/) — keep the two in sync.
+ * Pembantu perhitungan penggajian murni, terpisah dari Supabase/React sehingga dapat diuji unit.
+ * Disalin di supabase/functions/generate-monthly-payroll/index.ts
+ * (Deno tidak dapat mengimpor dari src/) — jaga agar keduanya tetap sinkron.
  */
 
 export const DEFAULT_WORKING_DAYS = [1, 2, 3, 4, 5];
@@ -30,7 +30,7 @@ export interface PayrollAmounts {
   net_salary: number;
 }
 
-/** Expands holiday rows (possibly multi-day) into a set of "yyyy-MM-dd" strings, clipped to [monthStart, monthEnd]. */
+/** Memperluas baris hari libur (bisa multi-hari) menjadi set string "yyyy-MM-dd", dipotong ke [monthStart, monthEnd]. */
 export function buildHolidaySet(holidays: HolidayRow[], monthStart: Date, monthEnd: Date): Set<string> {
   const set = new Set<string>();
   holidays.forEach((h) => {
@@ -46,7 +46,7 @@ export function buildHolidaySet(holidays: HolidayRow[], monthStart: Date, monthE
   return set;
 }
 
-/** Counts days in [start, end] (inclusive) that fall on one of workingDays and aren't a holiday. */
+/** Menghitung hari dalam [start, end] (inklusif) yang jatuh pada salah satu workingDays dan bukan hari libur. */
 export function countWorkingDays(start: Date, end: Date, workingDays: number[], holidaySet: Set<string>): number {
   let count = 0;
   for (const cur = new Date(start); cur <= end; cur.setDate(cur.getDate() + 1)) {
@@ -57,16 +57,16 @@ export function countWorkingDays(start: Date, end: Date, workingDays: number[], 
   return count;
 }
 
-/** Falls back to Mon–Fri when an employee has no working days configured. */
+/** Kembali ke Senin–Jumat jika karyawan tidak memiliki konfigurasi hari kerja. */
 export function resolveWorkingDays(workingDays: number[] | null | undefined): number[] {
   return workingDays && workingDays.length > 0 ? workingDays : DEFAULT_WORKING_DAYS;
 }
 
 /**
- * Fraction of the month's pay an employee earns: working days they were
- * employed / working days in the month. That's 1 unless they joined after the
- * 1st or their last working day (`exitDate`) falls before the month's end.
- * Dates are "yyyy-MM-dd" strings.
+ * Fraksi gaji bulan yang diperoleh karyawan: hari kerja saat bekerja /
+ * hari kerja dalam bulan. Nilainya 1 kecuali bergabung setelah tanggal 1 atau
+ * hari kerja terakhir (exitDate) jatuh sebelum akhir bulan.
+ * Tanggal berupa string "yyyy-MM-dd".
  */
 export function getProrationRatio(
   hireDate: string | null | undefined,
@@ -88,8 +88,8 @@ export function getProrationRatio(
 }
 
 /**
- * Whether someone is paid at all for the month: they joined by its last day
- * and hadn't left before its first day.
+ * Apakah seseorang dibayar untuk bulan tersebut: bergabung paling lambat di hari terakhir bulan
+ * dan tidak keluar sebelum hari pertama bulan.
  */
 export function isEmployedDuringMonth(
   hireDate: string | null | undefined,
@@ -100,7 +100,7 @@ export function isEmployedDuringMonth(
   return (!hireDate || hireDate <= monthEndStr) && (!exitDate || exitDate >= monthStartStr);
 }
 
-/** Applies the proration ratio to basic, allowances and deductions and derives net salary. */
+/** Menerapkan rasio pro-rata pada gaji pokok, tunjangan, dan potongan serta menghitung gaji bersih. */
 export function calculatePayrollAmounts(salary: SalaryComponents, ratio: number): PayrollAmounts {
   const totalAllowances =
     Number(salary.hra || 0) +
@@ -132,8 +132,8 @@ export interface PayrollComponents {
 }
 
 /**
- * The salary components for one payroll record, prorated like the totals.
- * Stored on the record so a later salary revision never changes an old payslip.
+ * Komponen gaji untuk satu catatan penggajian, diproratakan seperti totalnya.
+ * Disimpan pada catatan sehingga revisi gaji di kemudian hari tidak mengubah slip gaji lama.
  */
 export function prorateComponents(salary: SalaryComponents, ratio: number): PayrollComponents {
   const part = (value: number | string | null | undefined) => Math.round(Number(value || 0) * ratio * 100) / 100;

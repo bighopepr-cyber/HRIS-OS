@@ -5,26 +5,26 @@ export type PermissionLevel = Database["public"]["Enums"]["permission_level"];
 export type AppRole = Database["public"]["Enums"]["app_role"];
 
 /**
- * Modules that access can be granted on, in display order. Each grant is
- * "view" (read across the organisation) or "manage" (edit and approve).
- * Must match the app_module enum in the database.
+ * Modul yang dapat diberi akses, sesuai urutan tampilan. Setiap pemberian akses
+ * adalah "view" (baca seluruh organisasi) atau "manage" (edit dan setujui).
+ * Harus sesuai dengan enum app_module di database.
  */
 export const MODULES: { key: AppModule; label: string; description: string }[] = [
-  { key: "employees", label: "Employees", description: "Employee records, departments and documents" },
-  { key: "onboarding", label: "Onboarding", description: "Invitations, onboarding requests and new joiners" },
-  { key: "attendance", label: "Attendance", description: "Everyone's attendance records" },
-  { key: "leaves", label: "Leaves", description: "Leave requests, leave types and balances" },
-  { key: "reimbursements", label: "Reimbursements", description: "Expense claims, approvals and payouts" },
-  { key: "performance", label: "Performance", description: "Reviews, goals and team analytics" },
-  { key: "assets", label: "Assets", description: "Company assets and assignments" },
-  { key: "payroll", label: "Payroll", description: "Salary structures, payroll runs and bank details" },
-  { key: "calendar", label: "Calendar", description: "Company events and holidays" },
-  { key: "settings", label: "Settings", description: "Branding, domain whitelist, office location, employee codes" },
+  { key: "employees", label: "Karyawan", description: "Catatan karyawan, departemen, dan dokumen" },
+  { key: "onboarding", label: "Onboarding", description: "Undangan, permintaan onboarding, dan k baru" },
+  { key: "attendance", label: "Absensi", description: "Catatan absensi semua karyawan" },
+  { key: "leaves", label: "Cuti", description: "Permintaan cuti, jenis cuti, dan saldo" },
+  { key: "reimbursements", label: "Penggantian", description: "Klaim pengeluaran, persetujuan, dan pembayaran" },
+  { key: "performance", label: "Kinerja", description: "Ulasan, tujuan, dan analitik tim" },
+  { key: "assets", label: "Aset", description: "Aset perusahaan dan penugasan" },
+  { key: "payroll", label: "Gaji", description: "Struktur gaji, proses payroll, dan detail bank" },
+  { key: "calendar", label: "Kalender", description: "Acara dan hari libur perusahaan" },
+  { key: "settings", label: "Pengaturan", description: "Branding, domain whitelist, lokasi kantor, dan code karyawan" },
 ];
 
 export const PERMISSION_LEVELS: { key: PermissionLevel; label: string }[] = [
-  { key: "view", label: "View" },
-  { key: "manage", label: "Manage" },
+  { key: "view", label: "Lihat" },
+  { key: "manage", label: "Kelola" },
 ];
 
 const LEVEL_RANK: Record<PermissionLevel, number> = { view: 1, manage: 2 };
@@ -40,7 +40,7 @@ export interface Permissions {
 
 export const NO_PERMISSIONS: Permissions = { isAdmin: false, isBlocked: false, roles: [], modules: {} };
 
-/** Does `granted` satisfy a requirement of `required`? */
+/** Apakah `granted` memenuhi persyaratan `required`? */
 export function levelSatisfies(granted: PermissionLevel | undefined, required: PermissionLevel): boolean {
   return granted !== undefined && LEVEL_RANK[granted] >= LEVEL_RANK[required];
 }

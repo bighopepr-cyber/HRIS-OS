@@ -50,7 +50,7 @@ export function StatsCard({
                   <TrendingDown className="h-4 w-4" />
                 )}
                 <span>{Math.abs(change.value)}%</span>
-                <span className="text-muted-foreground">vs last month</span>
+                <span className="text-muted-foreground">vs bulan lalu</span>
               </div>
             )}
           </div>

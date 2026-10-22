@@ -88,10 +88,10 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["review-kpi-ratings", expandedReview] });
-      toast.success("Rating saved");
+      toast.success("Penilaian disimpan");
     },
     onError: (error) => {
-      toast.error("Failed to save rating: " + error.message);
+      toast.error("Gagal menyimpan penilaian: " + error.message);
     },
   });
 
@@ -100,7 +100,7 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
   }
 
   const renderStars = (rating: number | null) => {
-    if (!rating) return <span className="text-muted-foreground text-sm">Not rated</span>;
+    if (!rating) return <span className="text-muted-foreground text-sm">Belum dinilai</span>;
     return (
       <div className="flex items-center gap-1">
         <span className="flex items-center gap-1" role="img" aria-label={`${rating} of 5 stars`}>
@@ -119,8 +119,8 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2"><FileText className="h-5 w-5" />Performance reviews</CardTitle>
-        <CardDescription>View your performance evaluations and rate your KPIs</CardDescription>
+        <CardTitle className="flex items-center gap-2"><FileText className="h-5 w-5" />Ulasan kinerja</CardTitle>
+        <CardDescription>Lihat evaluasi kinerja Anda dan nilai KPI Anda</CardDescription>
       </CardHeader>
       <CardContent>
         {reviews && reviews.length > 0 ? (
@@ -138,14 +138,14 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
                       <h3 className="font-medium">{review.review_period}</h3>
                       <p className="text-sm text-muted-foreground">
                         {format(new Date(review.review_date), "MMM d, yyyy")}
-                        {review.reviewer && <> • Reviewed by {review.reviewer.first_name} {review.reviewer.last_name}</>}
+                        {review.reviewer && <> • Ditinjau oleh {review.reviewer.first_name} {review.reviewer.last_name}</>}
                       </p>
                     </div>
                     <Badge variant="outline" className={`shrink-0 ${statusBadgeClass(review.status)}`}>{formatStatus(review.status)}</Badge>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm text-muted-foreground">Overall rating:</span>
+                    <span className="text-sm text-muted-foreground">Penilaian keseluruhan:</span>
                     {renderStars(review.overall_rating)}
                   </div>
 
@@ -161,18 +161,18 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
                       >
                         <Target className="h-4 w-4" />
                         {isExpanded
-                          ? "Hide KPI ratings"
+                          ? "Sembunyikan penilaian KPI"
                           : canSelfRate(review.status)
-                            ? `Rate KPIs (${goals.length})`
-                            : `View KPI ratings (${goals.length})`}
+                            ? `Nilai KPI (${goals.length})`
+                            : `Lihat penilaian KPI (${goals.length})`}
                       </Button>
 
                       {isExpanded && (
                         <div className="space-y-2 mt-2 rounded-md border p-3 bg-muted/30">
                           <p className="text-xs text-muted-foreground mb-2">
                             {canSelfRate(review.status)
-                              ? "Rate each KPI based on your self-assessment:"
-                              : "KPI ratings for this review:"}
+                              ? "Nilai setiap KPI berdasarkan penilaian diri Anda:"
+                              : "Penilaian KPI untuk ulasan ini:"}
                           </p>
                           {goals.map((goal) => {
                             const rating = ratingsMap[goal.id];
@@ -184,7 +184,7 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
                                 </div>
                                 <div className="flex flex-col gap-1 sm:items-end">
                                   <RatingStars
-                                    label="Self"
+                                    label="Diri sendiri"
                                     value={rating?.employee_rating ?? null}
                                     onChange={canSelfRate(review.status)
                                       ? (r) => upsertRating.mutate({ reviewId: review.id, goalId: goal.id, rating: r })
@@ -193,7 +193,7 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
                                     size="sm"
                                   />
                                   <RatingStars
-                                    label="Manager"
+                                    label="Manajer"
                                     value={rating?.manager_rating ?? null}
                                     readonly
                                     size="sm"
@@ -208,27 +208,26 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
                   )}
 
                   {review.strengths && (
-                    <div className="space-y-1"><p className="text-sm font-medium text-emerald-700 dark:text-emerald-400">Strengths</p><p className="text-sm text-muted-foreground">{review.strengths}</p></div>
+                    <div className="space-y-1"><p className="text-sm font-medium text-emerald-700 dark:text-emerald-400">Kekuatan</p><p className="text-sm text-muted-foreground">{review.strengths}</p></div>
                   )}
                   {review.areas_for_improvement && (
-                    <div className="space-y-1"><p className="text-sm font-medium text-amber-800 dark:text-amber-400">Areas for improvement</p><p className="text-sm text-muted-foreground">{review.areas_for_improvement}</p></div>
+                    <div className="space-y-1"><p className="text-sm font-medium text-amber-800 dark:text-amber-400">Area perbaikan</p><p className="text-sm text-muted-foreground">{review.areas_for_improvement}</p></div>
                   )}
                   {review.comments && (
-                    <div className="space-y-1"><p className="text-sm font-medium">Comments</p><p className="text-sm text-muted-foreground">{review.comments}</p></div>
+                    <div className="space-y-1"><p className="text-sm font-medium">Komentar</p><p className="text-sm text-muted-foreground">{review.comments}</p></div>
                   )}
 
                   {review.status === "submitted" && user && (
                     <div className="pt-2 border-t">
                       <Button size="sm" onClick={() => acknowledgeMutation.mutate({ reviewId: review.id, userId: user.id, employeeName, reviewPeriod: review.review_period })} disabled={acknowledgeMutation.isPending}>
-                        <CheckCircle className="h-4 w-4 mr-2" />{acknowledgeMutation.isPending ? "Acknowledging..." : "Acknowledge review"}
-                      </Button>
+                        <CheckCircle className="h-4 w-4 mr-2" />{acknowledgeMutation.isPending ? "Mengakui..." : "Akui ulasan"}                      </Button>
                     </div>
                   )}
 
                   {review.acknowledged_at && (
                     <div className="pt-2 border-t text-sm text-muted-foreground">
                       <CheckCircle className="h-4 w-4 inline mr-1 text-emerald-600" aria-hidden="true" />
-                      Acknowledged on {format(new Date(review.acknowledged_at), "MMM d, yyyy")}
+                      Diakui pada {format(new Date(review.acknowledged_at), "MMM d, yyyy")}
                     </div>
                   )}
                 </div>
@@ -237,7 +236,7 @@ export function PerformanceReviews({ employeeId, employeeName = "Employee" }: Pe
           </div>
         ) : (
           <div className="text-center py-8 text-muted-foreground">
-            <FileText className="mx-auto h-8 w-8 mb-2 opacity-50" /><p>No performance reviews yet</p><p className="text-sm">Reviews will appear here once a review is started for you</p>
+            <FileText className="mx-auto h-8 w-8 mb-2 opacity-50" /><p>Belum ada ulasan kinerja</p><p className="text-sm">Ulasan akan muncul di sini setelah dimulai untuk Anda</p>
           </div>
         )}
       </CardContent>

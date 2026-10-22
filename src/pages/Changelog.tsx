@@ -20,16 +20,16 @@ import {
 import { format } from "date-fns";
 
 const changeTypeConfig = {
-  feature: { icon: Sparkles, label: "New feature", className: "bg-green-500/10 text-green-800 dark:text-green-400" },
-  fix: { icon: Bug, label: "Bug fix", className: "bg-yellow-500/10 text-amber-800 dark:text-yellow-400" },
-  security: { icon: Shield, label: "Security", className: "bg-red-500/10 text-red-800 dark:text-red-400" },
-  docs: { icon: FileText, label: "Documentation", className: "bg-blue-500/10 text-blue-800 dark:text-blue-400" },
-  breaking: { icon: AlertTriangle, label: "Breaking change", className: "bg-orange-500/10 text-orange-800 dark:text-orange-400" },
+  feature: { icon: Sparkles, label: "Fitur baru", className: "bg-green-500/10 text-green-800 dark:text-green-400" },
+  fix: { icon: Bug, label: "Perbaikan bug", className: "bg-yellow-500/10 text-amber-800 dark:text-yellow-400" },
+  security: { icon: Shield, label: "Keamanan", className: "bg-red-500/10 text-red-800 dark:text-red-400" },
+  docs: { icon: FileText, label: "Dokumentasi", className: "bg-blue-500/10 text-blue-800 dark:text-blue-400" },
+  breaking: { icon: AlertTriangle, label: "Perubahan tidak kompatibel", className: "bg-orange-500/10 text-orange-800 dark:text-orange-400" },
 };
 
 const versionTypeConfig = {
-  major: { label: "Major release", className: "bg-primary text-primary-foreground" },
-  minor: { label: "Minor release", className: "bg-secondary text-secondary-foreground" },
+  major: { label: "Rilis utama", className: "bg-primary text-primary-foreground" },
+  minor: { label: "Rilis minor", className: "bg-secondary text-secondary-foreground" },
   patch: { label: "Patch", className: "bg-muted text-muted-foreground" },
 };
 
@@ -73,7 +73,7 @@ function ChangelogEntryCard({ entry, isCurrentVersion }: { entry: ChangelogEntry
             {isCurrentVersion && (
               <Badge variant="secondary" className="gap-1">
                 <CheckCircle2 className="h-3 w-3" />
-                Current
+                Saat ini
               </Badge>
             )}
           </div>
@@ -108,9 +108,10 @@ function ChangelogEntryCard({ entry, isCurrentVersion }: { entry: ChangelogEntry
 export default function Changelog() {
   const { data: versionData, isLoading, isError, refetch, isRefetching } = useVersionCheck();
   const effectiveVersionData = versionData ?? FALLBACK_VERSION_RESPONSE;
-  // The remote check can fail or come back without a changelog; in that case we can't
-  // claim the user is up to date, and we fall back to the changelog bundled with the app.
-  // checkForUpdates() resolves to the bundled fallback (same changelog array) when no server answered.
+  // Pemeriksaan jarak jauh dapat gagal atau kembali tanpa catatan perubahan; dalam
+  // hal tersebut kami tidak dapat menyatakan pengguna sudah mutakhir, sehingga
+  // kami kembali ke catatan perubahan yang disertakan bersama aplikasi.
+  // checkForUpdates() menghasilkan cadangan bawaan (array catatan perubahan yang sama) ketika tidak ada server yang menjawab.
   const usedFallback = !!versionData && versionData.changelog === FALLBACK_VERSION_RESPONSE.changelog;
   const checkFailed = isError || !versionData || !versionData.currentVersion || usedFallback;
   const remoteChangelog = versionData?.changelog;
@@ -118,11 +119,11 @@ export default function Changelog() {
     remoteChangelog && remoteChangelog.length > 0 ? remoteChangelog : FALLBACK_VERSION_RESPONSE.changelog;
   const showingBundledChangelog = !(remoteChangelog && remoteChangelog.length > 0);
   
-  // For auto-updating environments, always show the latest version from GitHub
-  // For self-hosted: if there's no update available (they're up to date), 
-  // show the latest version from GitHub since they've deployed the latest code
-  // If there's an update available, show the local APP_VERSION so they know they need to update
-  const displayVersion = isAutoUpdatingEnvironment() 
+  // Untuk lingkungan yang pembaruan otomatis, selalu tampilkan versi terbaru dari GitHub
+  // Untuk hosting sendiri: jika tidak ada pembaruan yang tersedia (pengguna sudah mutakhir),
+  // tampilkan versi terbaru dari GitHub karena mereka telah menerapkan kode terbaru
+  // Jika ada pembaruan yang tersedia, tampilkan APP_VERSION lokal agar pengguna tahu bahwa mereka perlu memperbarui
+  const displayVersion = isAutoUpdatingEnvironment()
     ? (versionData?.currentVersion ?? APP_VERSION)
     : (effectiveVersionData.hasUpdate ? APP_VERSION : (versionData?.currentVersion ?? APP_VERSION));
 
@@ -132,9 +133,9 @@ export default function Changelog() {
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">Changelog</h1>
+            <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">Catatan Perubahan</h1>
             <p className="text-muted-foreground">
-              View the latest updates and improvements to Peoplo
+              Lihat pembaruan dan peningkatan terbaru pada Peoplo
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -145,7 +146,7 @@ export default function Changelog() {
               disabled={isRefetching}
             >
               <RefreshCw className={`mr-2 h-4 w-4 ${isRefetching ? "animate-spin" : ""}`} />
-              Check for updates
+              Periksa pembaruan
             </Button>
             <Button size="sm" asChild>
               <a
@@ -153,14 +154,14 @@ export default function Changelog() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                GitHub releases
+                Rilis GitHub
                 <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
               </a>
             </Button>
           </div>
         </div>
 
-        {/* Version Status Card */}
+        {/* Kartu Status Versi */}
         <Card>
           <CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
@@ -178,17 +179,17 @@ export default function Changelog() {
               <div>
                 <p className="font-medium">
                   {isLoading
-                    ? "Checking for updates…"
+                    ? "Memeriksa pembaruan…"
                     : checkFailed
-                      ? "Couldn't check for updates"
+                      ? "Tidak dapat memeriksa pembaruan"
                       : effectiveVersionData.hasUpdate
-                        ? "Update available"
-                        : "You're up to date"}
+                        ? "Pembaruan tersedia"
+                        : "Anda sudah menggunakan versi terbaru"}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Current version: <strong>v{displayVersion}</strong>
+                  Versi saat ini: <strong>v{displayVersion}</strong>
                   {!checkFailed && effectiveVersionData.hasUpdate && (
-                    <> · Latest: <strong>v{effectiveVersionData.currentVersion}</strong></>
+                    <> · Terbaru: <strong>v{effectiveVersionData.currentVersion}</strong></>
                   )}
                 </p>
               </div>
@@ -200,7 +201,7 @@ export default function Changelog() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Download update
+                  Unduh pembaruan
                   <ExternalLink className="ml-1.5 h-4 w-4" />
                 </a>
               </Button>
@@ -208,9 +209,9 @@ export default function Changelog() {
           </CardContent>
         </Card>
 
-        {/* Changelog Entries */}
+        {/* Entri Catatan Perubahan */}
         <div className="space-y-6">
-          <h2 className="text-lg font-semibold">Release history</h2>
+          <h2 className="text-lg font-semibold">Riwayat rilis</h2>
           
           {isLoading ? (
             <div className="space-y-6">
@@ -221,7 +222,7 @@ export default function Changelog() {
             <div className="space-y-6">
               {checkFailed && showingBundledChangelog && (
                 <p className="text-sm text-muted-foreground">
-                  Showing the release notes bundled with this version. Newer releases may be listed on GitHub.
+                  Menampilkan catatan rilis yang disertakan dalam versi ini. Rilis yang lebih baru mungkin tercantum di GitHub.
                 </p>
               )}
               {changelog.map((entry) => (
@@ -237,11 +238,11 @@ export default function Changelog() {
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <FileText className="h-12 w-12 text-muted-foreground/50" />
                 <p className="mt-4 text-center text-muted-foreground">
-                  Unable to load changelog. Please check your connection and try again.
+                  Tidak dapat memuat catatan perubahan. Silakan periksa koneksi Anda dan coba lagi.
                 </p>
                 <Button variant="outline" className="mt-4" onClick={() => refetch()}>
                   <RefreshCw className="mr-2 h-4 w-4" />
-                  Retry
+                  Coba Lagi
                 </Button>
               </CardContent>
             </Card>

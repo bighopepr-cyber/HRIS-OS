@@ -59,7 +59,7 @@ const formatCurrency = (amount: number) => {
 };
 
 interface SalaryStructureManagerProps {
-  /** Allow adding, editing and deleting structures (payroll:manage). */
+  /** Izinkan menambah, menyunting, dan menghapus struktur (payroll:manage). */
   canManage?: boolean;
 }
 
@@ -115,8 +115,8 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
 
   const handleAdd = () => {
     if (!formData.employee_id || !formData.basic_salary) {
-      toast.error("Employee and basic salary are required");
-      return;
+toast.error("Karyawan dan gaji pokok wajib diisi");
+    return;
     }
 
     createStructure.mutate(
@@ -133,13 +133,13 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
       },
       {
         onSuccess: () => {
-          toast.success("Salary structure created successfully");
-          setIsAddDialogOpen(false);
+toast.success("Struktur gaji berhasil dibuat");
+    setIsAddDialogOpen(false);
           resetForm();
         },
         onError: () => {
-          toast.error("Failed to create salary structure");
-        },
+toast.error("Gagal membuat struktur gaji");
+    },
       }
     );
   };
@@ -154,13 +154,13 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
 
     deleteStructure.mutate(selectedStructure.id, {
       onSuccess: () => {
-        toast.success("Salary structure deleted successfully");
-        setIsDeleteDialogOpen(false);
+toast.success("Struktur gaji berhasil dihapus");
+    setIsDeleteDialogOpen(false);
         setSelectedStructure(null);
       },
       onError: () => {
-        toast.error("Failed to delete salary structure");
-      },
+toast.error("Gagal menghapus struktur gaji");
+    },
     });
   };
 
@@ -198,7 +198,7 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
   const renderSalaryFormFields = (idPrefix: string) => (
     <div className="space-y-4">
       <p className="text-xs text-muted-foreground">
-        All amounts below are <span className="font-medium text-foreground">monthly</span> figures, not annual (CTC).
+        Semua jumlah di bawah adalah angka <span className="font-medium text-foreground">bulanan</span>, bukan tahunan (CTC).
       </p>
 
       {amountInput(idPrefix, "basic_salary", "Basic salary (monthly) *", "50000", "")}
@@ -251,8 +251,8 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
           size="icon"
           className="h-10 w-10 sm:h-9 sm:w-9"
           onClick={() => setRevisingId(structure.id)}
-          aria-label={`Revise salary for ${structure.employeeName}`}
-          title="Revise salary and history"
+          aria-label={`Revisi gaji untuk ${structure.employeeName}`}
+          title="Revisi gaji dan riwayat"
         >
           <TrendingUp className="h-4 w-4" aria-hidden="true" />
         </Button>
@@ -262,7 +262,7 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
           className="h-10 w-10 text-destructive hover:text-destructive sm:h-9 sm:w-9"
           onClick={() => handleDelete(structure)}
           aria-label={`Delete salary structure for ${structure.employeeName}`}
-          title="Delete"
+          title="Hapus"
         >
           <Trash2 className="h-4 w-4" aria-hidden="true" />
         </Button>
@@ -276,8 +276,8 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search employees..."
-            aria-label="Search salary structures"
+            placeholder="Cari karyawan..."
+            aria-label="Cari struktur gaji"
             className="pl-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -286,7 +286,7 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
         {canManage && (
           <Button onClick={() => setIsAddDialogOpen(true)} disabled={employeesWithoutStructure.length === 0}>
             <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-            Add salary structure
+Tambah struktur gaji
           </Button>
         )}
       </div>
@@ -302,16 +302,16 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <IndianRupee className="mb-4 h-12 w-12 text-muted-foreground" />
-            <h3 className="text-lg font-semibold text-foreground">No salary structures</h3>
+            <h3 className="text-lg font-semibold text-foreground">Tidak ada struktur gaji</h3>
             <p className="text-muted-foreground">
               {structures.length === 0
-                ? "Add salary structures to enable payroll generation"
-                : "No structures match your search"}
+                ? "Tambahkan struktur gaji untuk mengaktifkan pembuatan penggajian"
+                : "Tidak ada struktur yang cocok dengan pencarian Anda"}
             </p>
             {canManage && structures.length === 0 && employeesWithoutStructure.length > 0 && (
               <Button className="mt-4" onClick={() => setIsAddDialogOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
-                Add first salary structure
+                Tambah struktur gaji pertama
               </Button>
             )}
           </CardContent>
@@ -335,20 +335,20 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
                 </div>
                 <dl className="mt-3 grid grid-cols-3 gap-2 text-sm">
                   <div>
-                    <dt className="text-xs text-muted-foreground">Basic</dt>
+                    <dt className="text-xs text-muted-foreground">Pokok</dt>
                     <dd className="text-foreground">{formatCurrency(structure.basicSalary)}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs text-muted-foreground">Allowances</dt>
+                    <dt className="text-xs text-muted-foreground">Tunjangan</dt>
                     <dd className="text-emerald-700 dark:text-emerald-400">+{formatCurrency(structure.totalAllowances)}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs text-muted-foreground">Deductions</dt>
+                    <dt className="text-xs text-muted-foreground">Potongan</dt>
                     <dd className="text-destructive">-{formatCurrency(structure.totalDeductions)}</dd>
                   </div>
                 </dl>
                 <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-                  <span className="text-xs text-muted-foreground">Net salary (monthly)</span>
+                  <span className="text-xs text-muted-foreground">Gaji bersih (bulanan)</span>
                   <span className="font-semibold text-foreground">{formatCurrency(structure.netSalary)}</span>
                 </div>
               </div>
@@ -362,10 +362,10 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
                 <TableHeader>
                   <TableRow>
                     <TableHead>Employee</TableHead>
-                    <TableHead className="text-right">Basic</TableHead>
-                    <TableHead className="text-right">Allowances</TableHead>
-                    <TableHead className="text-right">Deductions</TableHead>
-                    <TableHead className="text-right">Net salary</TableHead>
+                    <TableHead className="text-right">Pokok</TableHead>
+                    <TableHead className="text-right">Tunjangan</TableHead>
+                    <TableHead className="text-right">Potongan</TableHead>
+                    <TableHead className="text-right">Gaji bersih</TableHead>
                     {canManage && <TableHead className="text-right">Actions</TableHead>}
                   </TableRow>
                 </TableHeader>
@@ -410,18 +410,18 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add salary structure</DialogTitle>
-            <DialogDescription>Set up salary components for an employee.</DialogDescription>
+            <DialogTitle>Tambah struktur gaji</DialogTitle>
+            <DialogDescription>Atur komponen gaji untuk karyawan.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="add-salary-employee">Employee *</Label>
+              <Label htmlFor="add-salary-employee">Karyawan *</Label>
               <Select
                 value={formData.employee_id}
                 onValueChange={(value) => setFormData({ ...formData, employee_id: value })}
               >
                 <SelectTrigger id="add-salary-employee">
-                  <SelectValue placeholder="Choose an employee" />
+                  <SelectValue placeholder="Pilih karyawan" />
                 </SelectTrigger>
                 <SelectContent>
                   {employeesWithoutStructure.map((emp) => (
@@ -436,10 +436,10 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-              Cancel
+Batal
             </Button>
             <Button onClick={handleAdd} disabled={createStructure.isPending}>
-              {createStructure.isPending ? "Creating..." : "Create structure"}
+              {createStructure.isPending ? "Membuat..." : "Buat struktur"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -449,8 +449,8 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
       <Dialog open={!!revising} onOpenChange={(open) => !open && setRevisingId(null)}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{revising?.employeeName}'s salary</DialogTitle>
-            <DialogDescription>Revise their pay, approve pending changes and see past revisions.</DialogDescription>
+<DialogTitle>{revising?.employeeName}'s gaji</DialogTitle>
+<DialogDescription>Revisi gaji mereka, setujui perubahan tertunda, dan lihat revisi sebelumnya.</DialogDescription>
           </DialogHeader>
           {revising && (
             <SalaryRevisionsPanel
@@ -475,7 +475,7 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete salary structure?</AlertDialogTitle>
+            <AlertDialogTitle>Hapus struktur gaji?</AlertDialogTitle>
             <AlertDialogDescription>
               This will permanently delete the salary structure for {selectedStructure?.employeeName}.
               This action cannot be undone.
@@ -487,7 +487,7 @@ export function SalaryStructureManager({ canManage = true }: SalaryStructureMana
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteStructure.isPending ? "Deleting..." : "Delete"}
+              {deleteStructure.isPending ? "Menghapus..." : "Hapus"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

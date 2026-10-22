@@ -45,20 +45,20 @@ export function ChecklistTemplateDialog({ open, onOpenChange }: ChecklistTemplat
   const submit = () =>
     save.mutate(sections, {
       onSuccess: () => {
-        toast.success("Checklist saved", { description: "New offboarding emails will use it." });
+        toast.success("Daftar periksa disimpan", { description: "Email offboarding baru akan menggunakannya." });
         onOpenChange(false);
       },
-      onError: (e: Error) => toast.error("Couldn't save the checklist", { description: e.message }),
+      onError: (e: Error) => toast.error("Tidak dapat menyimpan daftar periksa", { description: e.message }),
     });
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Offboarding checklist</DialogTitle>
+          <DialogTitle>Daftar Periksa Offboarding</DialogTitle>
           <DialogDescription>
-            Grouped by department. It's included in every offboarding email and the last-day reminder. Empty items and
-            sections without items are left out.
+            Dikelompokkan menurut departemen. Dapatkan di setiap email offboarding dan pengingat hari terakhir. Item kosong dan
+                bagian tanpa item dihilangkan.
           </DialogDescription>
         </DialogHeader>
 
@@ -67,12 +67,12 @@ export function ChecklistTemplateDialog({ open, onOpenChange }: ChecklistTemplat
             <li key={si} className="space-y-3 rounded-lg border border-border p-4">
               <div className="flex flex-wrap items-end gap-2">
                 <div className="min-w-[12rem] flex-1 space-y-1.5">
-                  <Label htmlFor={`section-${si}`}>Department</Label>
+                  Departemen
                   <Input
                     id={`section-${si}`}
                     value={section.name}
                     onChange={(e) => update(si, { name: e.target.value })}
-                    placeholder="e.g. IT Department"
+                    placeholder="contoh. Departemen TI"
                     maxLength={80}
                   />
                 </div>
@@ -144,7 +144,7 @@ export function ChecklistTemplateDialog({ open, onOpenChange }: ChecklistTemplat
                 onClick={() => update(si, { items: [...section.items, ""] })}
               >
                 <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                Add item
+                Tambah item
               </Button>
             </li>
           ))}
@@ -156,7 +156,7 @@ export function ChecklistTemplateDialog({ open, onOpenChange }: ChecklistTemplat
           onClick={() => setSections((all) => [...all, { name: "", items: [""] }])}
         >
           <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-          Add department
+          Tambah departemen
         </Button>
 
         <DialogFooter>
@@ -165,7 +165,7 @@ export function ChecklistTemplateDialog({ open, onOpenChange }: ChecklistTemplat
           </Button>
           <Button onClick={submit} disabled={save.isPending}>
             {save.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Save checklist
+            Simpan daftar periksa
           </Button>
         </DialogFooter>
       </DialogContent>

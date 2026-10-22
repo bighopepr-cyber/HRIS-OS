@@ -15,8 +15,8 @@ import { DEMO_URL } from "@/components/layout/publicSite";
 import { REPO_URL } from "@/lib/site";
 
 const loginSchema = z.object({
-  email: z.string().trim().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z.string().trim().email("Silakan masukkan alamat email yang valid"),
+  password: z.string().min(6, "Kata sandi harus minimal 6 karakter"),
 });
 
 const Auth = () => {
@@ -61,19 +61,19 @@ const Auth = () => {
     if (error) {
       if (error.message.includes("Invalid login credentials")) {
         toast({
-          title: "Login Failed",
-          description: "Invalid email or password. Please try again.",
+          title: "Masuk Gagal",
+          description: "Email atau kata sandi tidak valid. Silakan coba lagi.",
           variant: "destructive",
         });
       } else if (error.message.includes("Email not confirmed")) {
         toast({
-          title: "Email Not Verified",
-          description: "Please check your email and verify your account first.",
+          title: "Email Belum Terverifikasi",
+          description: "Silakan periksa email dan verifikasi akun Anda terlebih dahulu.",
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Login Failed",
+          title: "Masuk Gagal",
           description: error.message,
           variant: "destructive",
         });
@@ -83,27 +83,27 @@ const Auth = () => {
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!resetEmail.trim()) {
-      toast({ title: "Error", description: "Please enter your email address.", variant: "destructive" });
-      return;
-    }
-    setIsLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail.trim(), {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    setIsLoading(false);
-    if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
-    } else {
-      toast({ title: "Email sent", description: "Check your email for the password reset link." });
-      setShowForgotPassword(false);
-    }
+if (!resetEmail.trim()) {
+        toast({ title: "Kesalahan", description: "Silakan masukkan alamat email Anda.", variant: "destructive" });
+        return;
+      }
+      setIsLoading(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail.trim(), {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      setIsLoading(false);
+      if (error) {
+        toast({ title: "Kesalahan", description: error.message, variant: "destructive" });
+      } else {
+        toast({ title: "Email terkirim", description: "Cek email Anda untuk tautan reset kata sandi." });
+        setShowForgotPassword(false);
+      }
   };
 
   const trust = [
-    { icon: Code2, text: "Open source under AGPL-3.0" },
-    { icon: ShieldCheck, text: "Access rules enforced in the database" },
-    { icon: Lock, text: "Invite-only accounts" },
+    { icon: Code2, text: "Sumber terbuka di bawah AGPL-3.0" },
+    { icon: ShieldCheck, text: "Aturan akses ditegakkan di database" },
+    { icon: Lock, text: "Akun hanya dengan undangan" },
   ];
 
   return (
@@ -111,7 +111,7 @@ const Auth = () => {
       <Backdrop />
 
       <header className="container relative z-10 mx-auto flex items-center justify-between px-4 py-5">
-        <Link to="/" className="inline-flex items-center gap-2.5" aria-label="Peoplo home">
+        <Link to="/" className="inline-flex items-center gap-2.5" aria-label="Beranda Peoplo">
           <img src={hrHubLogo} alt="" className="h-9 w-auto" />
           <span className="text-xl font-bold tracking-tight text-foreground">Peoplo</span>
         </Link>
@@ -119,7 +119,7 @@ const Auth = () => {
           <Link to="/">
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             <span>
-              Back<span className="hidden sm:inline"> to home</span>
+              Kembali<span className="hidden sm:inline"> ke beranda</span>
             </span>
           </Link>
         </Button>
@@ -127,7 +127,7 @@ const Auth = () => {
 
       <main className="container relative z-10 mx-auto grid flex-1 items-center gap-12 px-4 pb-10 pt-2 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pb-16">
         {/* Brand side (large screens) */}
-        <section className="hidden lg:block" aria-label="About Peoplo">
+        <section className="hidden lg:block" aria-label="Tentang Peoplo">
           <a
             href={REPO_URL}
             target="_blank"
@@ -138,21 +138,21 @@ const Auth = () => {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60 motion-reduce:hidden" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             </span>
-            Free &amp; open source · AGPL-3.0
+            Percuma &amp; sumber terbuka · AGPL-3.0
           </a>
           <h2
             className="mb-4 animate-fade-up text-4xl font-bold tracking-tight text-foreground xl:text-5xl"
             style={{ animationDelay: "80ms" }}
           >
-            Your team's HR,
+            HR tim Anda,
             <br />
-            <span className="text-shimmer animate-shimmer motion-reduce:animate-none">all in one place.</span>
+            <span className="text-shimmer animate-shimmer motion-reduce:animate-none">semua dalam satu tempat.</span>
           </h2>
           <p
             className="max-w-lg animate-fade-up text-lg text-muted-foreground"
             style={{ animationDelay: "160ms" }}
           >
-            People, attendance, leave, payroll and performance, with access you control down to each module.
+            Karyawan, absensi, cuti, gaji, dan kinerja, dengan akses yang Anda kendalikan hingga ke setiap modul.
           </p>
           <div className="mt-16 max-w-xl animate-fade-up pl-14 pr-12" style={{ animationDelay: "220ms" }}>
             <HeroScene />
@@ -164,24 +164,24 @@ const Auth = () => {
           <div className="rounded-2xl border border-border/80 bg-card/85 p-6 shadow-xl shadow-primary/10 backdrop-blur-md sm:p-8">
             <div className="mb-6 space-y-2">
               <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                {showForgotPassword ? "Reset your password" : "Welcome back"}
+                {showForgotPassword ? "Atur ulang kata sandi Anda" : "Selamat kembali"}
               </h1>
               <p className="text-sm text-muted-foreground">
                 {showForgotPassword
-                  ? "Enter your work email and we'll send you a link to set a new password."
-                  : "Sign in to your Peoplo workspace."}
+                  ? "Masukkan email kerja dan kami akan mengirimkan tautan untuk menyetel kata sandi baru."
+                  : "Masuk ke ruang kerja Peoplo Anda."}
               </p>
             </div>
 
             {showForgotPassword ? (
               <form onSubmit={handleForgotPassword} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="reset-email">Work email</Label>
+                  <Label htmlFor="reset-email">Email kerja</Label>
                   <Input
                     id="reset-email"
                     type="email"
                     autoComplete="email"
-                    placeholder="name@company.com"
+                    placeholder="nama@perusahaan.com"
                     value={resetEmail}
                     onChange={(e) => setResetEmail(e.target.value)}
                     disabled={isLoading}
@@ -193,10 +193,10 @@ const Auth = () => {
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Sending...
+                      Mengirim...
                     </>
                   ) : (
-                    "Send reset link"
+                    "Kirim tautan reset"
                   )}
                 </Button>
                 <Button
@@ -206,18 +206,18 @@ const Auth = () => {
                   onClick={() => setShowForgotPassword(false)}
                 >
                   <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                  Back to sign in
+                  Kembali ke masuk
                 </Button>
               </form>
             ) : (
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="login-email">Work email</Label>
+                  <Label htmlFor="login-email">Email kerja</Label>
                   <Input
                     id="login-email"
                     type="email"
                     autoComplete="email"
-                    placeholder="name@company.com"
+                    placeholder="nama@perusahaan.com"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     disabled={isLoading}
@@ -231,14 +231,14 @@ const Auth = () => {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="login-password">Password</Label>
+                    <Label htmlFor="login-password">Kata sandi</Label>
                     <Button
                       type="button"
                       variant="link"
                       className="h-auto p-0 text-sm"
                       onClick={() => { setShowForgotPassword(true); setResetEmail(loginEmail); }}
                     >
-                      Forgot password?
+                      Lupa kata sandi?
                     </Button>
                   </div>
                   <div className="relative">
@@ -260,7 +260,7 @@ const Auth = () => {
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => setShowLoginPassword(!showLoginPassword)}
-                      aria-label={showLoginPassword ? "Hide password" : "Show password"}
+                      aria-label={showLoginPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
                       aria-pressed={showLoginPassword}
                     >
                       {showLoginPassword ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
@@ -274,11 +274,11 @@ const Auth = () => {
                   {isLoading ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Signing in...
+                      Sedang masuk...
                     </>
                   ) : (
                     <>
-                      Sign in
+                      Masuk
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                     </>
                   )}
@@ -289,21 +289,20 @@ const Auth = () => {
             <div className="mt-6 flex gap-3 rounded-xl border border-primary/15 bg-primary/5 p-3 text-sm">
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
               <p className="text-muted-foreground">
-                <span className="font-medium text-foreground">Accounts are by invitation.</span> Joining the team? Your
-                HR will email you a link to set up your account.
+                <span className="font-medium text-foreground">Akun hanya dengan undangan.</span> Bergabung dengan tim? HR Anda akan mengirim email berisi tautan untuk menyiapkan akun.
               </p>
             </div>
           </div>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Want Peoplo for your company?{" "}
+            Mau gunakan Peoplo untuk perusahaan Anda?{" "}
             <a
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-primary underline-offset-4 hover:underline"
             >
-              Book a demo
+              Pesan Demo
             </a>
           </p>
         </section>

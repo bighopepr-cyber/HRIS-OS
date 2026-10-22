@@ -91,7 +91,7 @@ export function TeamLeaveCalendar() {
       <CardHeader className="pb-2">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <Users className="h-5 w-5 text-primary" aria-hidden="true" />
-          Team calendar
+          Kalender Tim
         </CardTitle>
         <div className="flex items-center justify-between pt-2">
           <Button
@@ -99,8 +99,8 @@ export function TeamLeaveCalendar() {
             size="icon"
             className="h-9 w-9"
             onClick={handlePrevMonth}
-            aria-label="Previous month"
-            title="Previous month"
+            aria-label="Bulan sebelumnya"
+            title="Bulan sebelumnya"
           >
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </Button>
@@ -112,8 +112,8 @@ export function TeamLeaveCalendar() {
             size="icon"
             className="h-9 w-9"
             onClick={handleNextMonth}
-            aria-label="Next month"
-            title="Next month"
+            aria-label="Bulan berikutnya"
+            title="Bulan berikutnya"
           >
             <ChevronRight className="h-4 w-4" aria-hidden="true" />
           </Button>
@@ -155,7 +155,7 @@ export function TeamLeaveCalendar() {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                 <CalendarDays className="h-4 w-4" aria-hidden="true" />
-                {selectedDate ? format(selectedDate, "EEEE, MMMM d") : "Select a date"}
+                {selectedDate ? format(selectedDate, "EEEE, MMMM d") : "Pilih tanggal"}
               </div>
 
               {selectedDate && selectedDateLeaves.length > 0 ? (
@@ -186,7 +186,7 @@ export function TeamLeaveCalendar() {
                   ))}
                 </div>
               ) : selectedDate ? (
-                <p className="text-sm text-muted-foreground py-2">No team members on leave</p>
+                <p className="text-sm text-muted-foreground py-2">Tidak ada anggota tim yang sedang cuti</p>
               ) : (
                 <p className="text-sm text-muted-foreground py-2">
                   {teamLeaves.length > 0 ? (
@@ -195,7 +195,7 @@ export function TeamLeaveCalendar() {
                       {`${teamLeaves.length} approved leave${teamLeaves.length !== 1 ? "s" : ""} in ${format(currentMonth, "MMMM")} — tap a highlighted day for details`}
                     </>
                   ) : (
-                    `No approved leaves in ${format(currentMonth, "MMMM")}`
+                    `Tidak ada cuti yang disetujui di ${format(currentMonth, "MMMM")}`
                   )}
                 </p>
               )}

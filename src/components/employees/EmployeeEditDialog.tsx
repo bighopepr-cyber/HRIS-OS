@@ -452,7 +452,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit employee</DialogTitle>
+          <DialogTitle>Sunting karyawan</DialogTitle>
         </DialogHeader>
         {isLoadingDetails ? (
           <div className="flex items-center justify-center py-8">
@@ -462,16 +462,16 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
           <form onSubmit={handleSubmit} className="min-w-0 space-y-4">
             <Tabs defaultValue="basic" className="w-full min-w-0">
               <TabsList className="flex w-full justify-start sm:grid sm:grid-cols-5">
-                <TabsTrigger value="basic" className="shrink-0">Basic<span className="hidden sm:inline">&nbsp;info</span></TabsTrigger>
-                <TabsTrigger value="job" className="shrink-0">Job<span className="hidden sm:inline">&nbsp;details</span></TabsTrigger>
-                <TabsTrigger value="schedule" className="shrink-0">Schedule</TabsTrigger>
-                <TabsTrigger value="salary" className="shrink-0">Salary</TabsTrigger>
-                <TabsTrigger value="leaves" className="shrink-0">Leaves</TabsTrigger>
+                <TabsTrigger value="basic" className="shrink-0">Dasbor<span className="hidden sm:inline">&nbsp;info</span></TabsTrigger>
+                <TabsTrigger value="job" className="shrink-0">Detail<span className="hidden sm:inline">&nbsp;pekerjaan</span></TabsTrigger>
+                <TabsTrigger value="schedule" className="shrink-0">Jadwal</TabsTrigger>
+                <TabsTrigger value="salary" className="shrink-0">Gaji</TabsTrigger>
+                <TabsTrigger value="leaves" className="shrink-0">Cuti</TabsTrigger>
               </TabsList>
               
               <TabsContent value="basic" className="space-y-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="employee_code">Employee Number *</Label>
+                  <Label htmlFor="employee_code">Nomor Karyawan *</Label>
                   <div className="relative">
                     <Hash className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -486,7 +486,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="first_name">First Name *</Label>
+                    <Label htmlFor="first_name">Nama Depan *</Label>
                     <Input
                       id="first_name"
                       value={formData.first_name}
@@ -495,7 +495,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="last_name">Last Name *</Label>
+                    <Label htmlFor="last_name">Nama Belakang *</Label>
                     <Input
                       id="last_name"
                       value={formData.last_name}
@@ -517,7 +517,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
+                    <Label htmlFor="phone">Telepon</Label>
                     <Input
                       id="phone"
                       value={formData.phone}
@@ -528,7 +528,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="date_of_birth">Date of Birth</Label>
+                    <Label htmlFor="date_of_birth">Tanggal Lahir</Label>
                     <Input
                       id="date_of_birth"
                       type="date"
@@ -538,7 +538,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="gender">Gender</Label>
+                    <Label htmlFor="gender">Jenis Kelamin</Label>
                     <Select
                       value={formData.gender}
                       onValueChange={(value) => setFormData({ ...formData, gender: value })}
@@ -547,28 +547,28 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                         <SelectValue placeholder="Select gender" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                        <SelectItem value="prefer_not_to_say">Prefer not to say</SelectItem>
+                        <SelectItem value="male">Laki-laki</SelectItem>
+                        <SelectItem value="female">Perempuan</SelectItem>
+                        <SelectItem value="other">Lainnya</SelectItem>
+                        <SelectItem value="prefer_not_to_say">Tidak ingin menyebutkan</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="address">Address</Label>
+                  <Label htmlFor="address">Alamat</Label>
                   <Input
                     id="address"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    placeholder="Street address"
+                    placeholder="Alamat jalan"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="city">City</Label>
+                    <Label htmlFor="city">Kota</Label>
                     <Input
                       id="city"
                       value={formData.city}
@@ -576,7 +576,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="country">Country</Label>
+                    <Label htmlFor="country">Negara</Label>
                     <Input
                       id="country"
                       value={formData.country}
@@ -587,16 +587,16 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="bank_name">Bank Name</Label>
+                    <Label htmlFor="bank_name">Nama Bank</Label>
                     <Input
                       id="bank_name"
                       value={formData.bank_name}
                       onChange={(e) => setFormData({ ...formData, bank_name: e.target.value })}
-                      placeholder="e.g. HDFC"
+                      placeholder="contoh. HDFC"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="bank_account_number">Bank Account Number</Label>
+                    <Label htmlFor="bank_account_number">Nomor Rekening Bank</Label>
                     <Input
                       id="bank_account_number"
                       value={formData.bank_account_number}
@@ -604,12 +604,12 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="ifsc_code">IFSC Code</Label>
+                    <Label htmlFor="ifsc_code">Kode IFSC</Label>
                     <Input
                       id="ifsc_code"
                       value={formData.ifsc_code}
                       onChange={(e) => setFormData({ ...formData, ifsc_code: e.target.value.toUpperCase() })}
-                      placeholder="e.g. HDFC0001234"
+                      placeholder="contoh. HDFC0001234"
                       maxLength={11}
                       autoCapitalize="characters"
                       aria-describedby="ifsc_code_hint"
@@ -624,7 +624,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
               <TabsContent value="job" className="space-y-4 mt-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="designation">Designation *</Label>
+                    <Label htmlFor="designation">Jabatan *</Label>
                     <Input
                       id="designation"
                       value={formData.designation}
@@ -633,7 +633,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="hire_date">Join Date *</Label>
+                    <Label htmlFor="hire_date">Tanggal Bergabung *</Label>
                     <Input
                       id="hire_date"
                       type="date"
@@ -646,13 +646,13 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="department">Department</Label>
+                    <Label htmlFor="department">Departemen</Label>
                     <Select
                       value={formData.department_id}
                       onValueChange={(value) => setFormData({ ...formData, department_id: value })}
                     >
                       <SelectTrigger id="department">
-                        <SelectValue placeholder="Select department" />
+                        <SelectValue placeholder="Pilih departemen" />
                       </SelectTrigger>
                       <SelectContent>
                         {departments.map((dept) => (
@@ -664,19 +664,19 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="employment_type">Employment Type</Label>
+                    <Label htmlFor="employment_type">Tipe Pekerjaan</Label>
                     <Select
                       value={formData.employment_type}
                       onValueChange={(value) => setFormData({ ...formData, employment_type: value })}
                     >
                       <SelectTrigger id="employment_type">
-                        <SelectValue placeholder="Select type" />
+                        <SelectValue placeholder="Pilih tipe" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="full-time">Full-time</SelectItem>
-                        <SelectItem value="part-time">Part-time</SelectItem>
-                        <SelectItem value="contract">Contract</SelectItem>
-                        <SelectItem value="intern">Intern</SelectItem>
+                        <SelectItem value="full-time">Penuh waktu</SelectItem>
+                        <SelectItem value="part-time">Waktu paruh</SelectItem>
+                        <SelectItem value="contract">Kontrak</SelectItem>
+                        <SelectItem value="intern">Magang</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -686,10 +686,10 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                 <div className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-4">
                   <div className="space-y-0.5">
                     <Label htmlFor="department-manager" className="text-base font-medium">
-                      Department Manager
+Manajer Departemen
                     </Label>
                     <p className="text-sm text-muted-foreground">
-                      Tag this employee as the head of their department
+                      Tandai karyawan ini sebagai kepala departemen mereka
                     </p>
                   </div>
                   <Switch
@@ -707,17 +707,17 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
 
                 <div className="space-y-2">
                   <Label htmlFor="manager">
-                    Reporting Manager {!isDepartmentManager && '*'}
+                    Manajer Atasan {!isDepartmentManager && '*'}
                   </Label>
                   <Select
                     value={formData.manager_id}
                     onValueChange={(value) => setFormData({ ...formData, manager_id: value === "none" ? "" : value })}
                   >
                     <SelectTrigger id="manager">
-                      <SelectValue placeholder="Select manager" />
+                      <SelectValue placeholder="Pilih manajer" />
                     </SelectTrigger>
                     <SelectContent>
-                      {isDepartmentManager && <SelectItem value="none">No Manager</SelectItem>}
+                      {isDepartmentManager && <SelectItem value="none">Tanpa Manajer</SelectItem>}
                       {managers
                         .filter((mgr) => mgr.id !== employee?.id)
                         .map((mgr) => (
@@ -729,7 +729,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                   </Select>
                   {!isDepartmentManager && (
                     <p className="text-xs text-muted-foreground">
-                      Required for employees who are not department managers
+                      Diperlukan untuk karyawan yang bukan manajer departemen
                     </p>
                   )}
                 </div>
@@ -747,8 +747,8 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Set automatically: new hires become active when they set up their account, and people leave
-                    through <span className="font-medium">Start offboarding</span> in the Employees list.
+                    Tetapkan otomatis: karyawan baru menjadi aktif saat menyiapkan akun mereka, dan orang-orang keluar melalui
+                    melalui <span className="font-medium">Mulai offboarding</span> di daftar Karyawan.
                   </p>
                 </div>
               </TabsContent>
@@ -756,7 +756,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
               <TabsContent value="schedule" className="space-y-4 mt-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="working_hours_start">Work Start Time</Label>
+                    <Label htmlFor="working_hours_start">Waktu Mulai Kerja</Label>
                     <Input
                       id="working_hours_start"
                       type="time"
@@ -765,7 +765,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="working_hours_end">Work End Time</Label>
+                    <Label htmlFor="working_hours_end">Waktu Akhir Kerja</Label>
                     <Input
                       id="working_hours_end"
                       type="time"
@@ -776,7 +776,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                 </div>
 
                 <div className="space-y-2">
-                  <Label id="edit-working-days-label">Working days</Label>
+                  <Label id="edit-working-days-label">Hari kerja</Label>
                   <WorkingDaysPicker
                     labelledBy="edit-working-days-label"
                     value={formData.working_days}
@@ -799,11 +799,11 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                 ) : (
                   <>
                     <p className="text-xs text-muted-foreground">
-                      No salary set up yet. All amounts below are <span className="font-medium text-foreground">monthly</span> figures, not annual (CTC).
+                      Tidak ada gaji yang diatur. Semua jumlah di bawah adalah <span className="font-medium text-foreground">monthly</span> angka bulanan, bukan tahunan (CTC).
                     </p>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="basic_salary">Basic Salary (Monthly) *</Label>
+                        <Label htmlFor="basic_salary">Gaji Pokok (Bulanan) *</Label>
                         <div className="relative">
                           <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                           <Input
@@ -817,7 +817,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="effective_from">Effective From *</Label>
+                        <Label htmlFor="effective_from">Berlaku Dari *</Label>
                         <Input
                           id="effective_from"
                           type="date"
@@ -831,7 +831,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                       <h4 className="text-sm font-medium text-muted-foreground">Allowances</h4>
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor="hra">HRA</Label>
+                          <Label htmlFor="hra">Tunjangan Rumah</Label>
                           <div className="relative">
                             <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
@@ -845,7 +845,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="transport_allowance">Transport Allowance</Label>
+                          <Label htmlFor="transport_allowance">Tunjangan Transportasi</Label>
                           <div className="relative">
                             <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
@@ -859,7 +859,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="medical_allowance">Medical Allowance</Label>
+                          <Label htmlFor="medical_allowance">Tunjangan Medis</Label>
                           <div className="relative">
                             <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
@@ -873,7 +873,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="other_allowances">Other Allowances</Label>
+                          <Label htmlFor="other_allowances">Tunjangan Lainnya</Label>
                           <div className="relative">
                             <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
@@ -893,7 +893,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                       <h4 className="text-sm font-medium text-muted-foreground">Deductions</h4>
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor="tax_deduction">Tax Deduction</Label>
+                          <Label htmlFor="tax_deduction">Potongan Pajak</Label>
                           <div className="relative">
                             <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
@@ -907,7 +907,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="pf_deduction">PF Deduction</Label>
+                          <Label htmlFor="pf_deduction">Potongan PF</Label>
                           <div className="relative">
                             <IndianRupee className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
@@ -925,15 +925,15 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
 
                     <div className="rounded-lg border border-border bg-muted/50 p-4 space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Total Allowances</span>
+                        <span className="text-muted-foreground">Total Tunjangan</span>
                         <span className="text-green-600 dark:text-green-400">+{formatCurrency(salaryTotals.totalAllowances)}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Total Deductions</span>
+                        <span className="text-muted-foreground">Total Potongan</span>
                         <span className="text-red-600 dark:text-red-400">-{formatCurrency(salaryTotals.totalDeductions)}</span>
                       </div>
                       <div className="border-t border-border pt-2 flex justify-between font-medium">
-                        <span>Net Salary</span>
+                        <span>Gaji Bersih</span>
                         <span>{formatCurrency(salaryTotals.netSalary)}</span>
                       </div>
                     </div>
@@ -947,7 +947,7 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
                   <EmployeeLeaveEligibility ref={eligibilityRef} employeeId={employee.id} />
                 ) : (
                   <div className="text-sm text-muted-foreground">
-                    Save the employee first to manage leave eligibility.
+                    Simpan karyawan terlebih dahulu untuk mengelola kelayakan cuti.
                   </div>
                 )}
               </TabsContent>
@@ -955,11 +955,11 @@ export function EmployeeEditDialog({ employee, open, onOpenChange }: EmployeeEdi
 
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                Cancel
+                Batal
               </Button>
               <Button type="submit" disabled={updateMutation.isPending || salaryMutation.isPending}>
                 {(updateMutation.isPending || salaryMutation.isPending) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Save changes
+                Simpan perubahan
               </Button>
             </DialogFooter>
           </form>

@@ -4,81 +4,81 @@ import Footer from "@/components/layout/Footer";
 import PublicHeader from "@/components/layout/PublicHeader";
 import PublicPageBadge from "@/components/layout/PublicPageBadge";
 
-/** Update this whenever the policy text below changes. */
-const LAST_UPDATED = "March 6, 2026";
+/** Perbarui nilai ini setiap kali teks ketentuan di bawah ini berubah. */
+const LAST_UPDATED = "6 Maret 2026";
 
 const TermsOfService = () => {
   const sections = [
     {
       icon: Users,
-      title: "Account Terms",
+      title: "Ketentuan Akun",
       content: [
-        "You must be 18 years or older to use this service",
-        "You must provide accurate and complete registration information",
-        "You are responsible for maintaining the security of your account credentials",
-        "You are responsible for all activities that occur under your account",
-        "You must notify us immediately of any unauthorized use of your account",
-        "One person or legal entity may not maintain more than one account"
+        "Anda harus berusia 18 tahun atau lebih untuk menggunakan layanan ini",
+        "Anda harus memberikan informasi pendaftaran yang akurat dan lengkap",
+        "Anda bertanggung jawab menjaga keamanan kredensial akun Anda",
+        "Anda bertanggung jawab atas seluruh aktivitas yang terjadi pada akun Anda",
+        "Anda harus segera memberi tahu kami atas penggunaan akun Anda yang tidak sah",
+        "Satu orang atau badan hukum tidak boleh memiliki lebih dari satu akun"
       ]
     },
     {
       icon: FileText,
-      title: "Acceptable Use",
+      title: "Penggunaan yang Diterima",
       content: [
-        "You agree to use the service only for lawful purposes",
-        "You must not violate any applicable laws or regulations",
-        "You must not infringe upon the rights of others",
-        "You must not attempt to gain unauthorized access to our systems",
-        "You must not transmit any malicious code or harmful content",
-        "You must not use the service to send spam or unsolicited communications"
+        "Anda setuju menggunakan layanan ini hanya untuk tujuan yang sah",
+        "Anda tidak boleh melanggar hukum atau regulasi yang berlaku",
+        "Anda tidak boleh melanggar hak orang lain",
+        "Anda tidak boleh mencoba memperoleh akses tidak sah ke sistem kami",
+        "Anda tidak boleh mengirim kode berbahaya maupun konten yang merugikan",
+        "Anda tidak boleh menggunakan layanan ini untuk mengirim spam atau komunikasi yang tidak diminta"
       ]
     },
     {
       icon: CreditCard,
-      title: "Payment Terms",
+      title: "Ketentuan Pembayaran",
       content: [
-        "Paid plans are billed in advance on a monthly or annual basis",
-        "All fees are exclusive of applicable taxes unless stated otherwise",
-        "You are responsible for providing accurate billing information",
-        "Failure to pay may result in suspension or termination of your account",
-        "Refunds are provided in accordance with our refund policy",
-        "Prices are subject to change with reasonable notice"
+        "Paket berbayar ditagihkan di muka secara bulanan atau tahunan",
+        "Seluruh biaya belum termasuk pajak yang berlaku kecuali dinyatakan lain",
+        "Anda bertanggung jawab memberikan informasi penagihan yang akurat",
+        "Kegagalan pembayaran dapat menyebabkan penangguhan atau penghentian akun Anda",
+        "Pengembalian dana diberikan sesuai kebijakan pengembalian dana kami",
+        "Harga dapat berubah dengan pemberitahuan yang wajar"
       ]
     },
     {
       icon: Ban,
-      title: "Prohibited Activities",
+      title: "Aktivitas yang Dilarang",
       content: [
-        "Reselling or redistributing the service without authorization",
-        "Using the service for any illegal or fraudulent activities",
-        "Attempting to reverse engineer or decompile the software",
-        "Interfering with or disrupting the service or servers",
-        "Collecting or harvesting user data without consent",
-        "Impersonating another person or entity"
+        "Menjual kembali atau mendistribusikan ulang layanan ini tanpa izin",
+        "Menggunakan layanan ini untuk kegiatan yang ilegal atau kecurangan",
+        "Berusaha melakukan rekayasa balik atau dekompilasi perangkat lunak ini",
+        "Mengganggu atau mengganggu layanan maupun server",
+        "Mengumpulkan atau memanen data pengguna tanpa persetujuan",
+        "Menyamar sebagai orang atau badan lain"
       ]
     },
     {
       icon: AlertTriangle,
-      title: "Limitation of Liability",
+      title: "Pembatasan Tanggung Jawab",
       content: [
-        "The service is provided 'as is' without warranties of any kind",
-        "We do not guarantee uninterrupted or error-free service",
-        "We are not liable for any indirect, incidental, or consequential damages",
-        "Our total liability shall not exceed the fees paid in the past 12 months",
-        "Some jurisdictions do not allow limitation of liability, so these may not apply",
-        "We are not responsible for third-party services or content"
+        "Layanan ini disediakan 'apa adanya' tanpa jaminan dalam bentuk apa pun",
+        "Kami tidak menjamin layanan yang tanpa gangguan atau bebas kesalahan",
+        "Kami tidak bertanggung jawab atas kerugian tidak langsung, insidental, atau ikutan",
+        "Total tanggung jawab kami tidak akan melebihi biaya yang dibayarkan dalam 12 bulan terakhir",
+        "Beberapa yurisdiksi tidak memperbolehkan pembatasan tanggung jawab, sehingga ketentuan ini mungkin tidak berlaku",
+        "Kami tidak bertanggung jawab atas layanan atau konten pihak ketiga"
       ]
     },
     {
       icon: Scale,
-      title: "Governing Law",
+      title: "Hukum yang Berlaku",
       content: [
-        "These terms shall be governed by applicable laws",
-        "Any disputes shall be resolved through appropriate legal channels",
-        "You agree to submit to the jurisdiction of competent courts",
-        "If any provision is found unenforceable, others remain in effect",
-        "These terms constitute the entire agreement between parties",
-        "Waiver of any term shall not constitute ongoing waiver"
+        "Ketentuan ini tunduk pada hukum yang berlaku",
+        "Setiap perselisihan diselesaikan melalui jalur hukum yang sesuai",
+        "Anda setuju tunduk pada yurisdiksi pengadilan yang berwenang",
+        "Jika suatu ketentuan dinyatakan tidak dapat ditegakkan, ketentuan lainnya tetap berlaku",
+        "Ketentuan ini merupakan keseluruhan perjanjian antara para pihak",
+        "Pelepasan atas suatu ketentuan tidak berarti pelepasan berkelanjutan atas ketentuan tersebut"
       ]
     }
   ];
@@ -87,39 +87,40 @@ const TermsOfService = () => {
     <div className="min-h-screen bg-background">
       <PublicHeader />
 
-      {/* Hero Section */}
+      {/* Bagian Hero */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <PublicPageBadge icon={<FileText />} className="mb-6">Legal agreement</PublicPageBadge>
+          <PublicPageBadge icon={<FileText />} className="mb-6">Perjanjian hukum</PublicPageBadge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            Terms of Service
+            Ketentuan Layanan
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-4">
-            Please read these terms carefully before using our services.
+            Harap baca ketentuan ini dengan saksama sebelum menggunakan layanan kami.
           </p>
           <p className="text-sm text-muted-foreground">
-            Last updated: {LAST_UPDATED}
+            Terakhir diperbarui: {LAST_UPDATED}
           </p>
         </div>
       </section>
 
-      {/* Introduction */}
+      {/* Pendahuluan */}
       <section className="pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
               <p className="text-muted-foreground leading-relaxed">
-                Welcome to Peoplo. By accessing or using our HR management platform and services, you agree to 
-                be bound by these Terms of Service ("Terms"). If you disagree with any part of these terms, 
-                you may not access the service. These Terms apply to all visitors, users, and others who 
-                access or use the service.
+                Selamat datang di Peoplo. Dengan mengakses atau menggunakan platform manajemen SDM dan
+                layanan kami, Anda menyetujui untuk terikat oleh Ketentuan Layanan ini ("Ketentuan"). Jika Anda
+                tidak setuju dengan bagian mana pun dari ketentuan ini, Anda tidak boleh mengakses layanan ini.
+                Ketentuan ini berlaku bagi seluruh pengunjung, pengguna, dan pihak lain yang mengakses atau
+                menggunakan layanan ini.
               </p>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      {/* Terms Sections */}
+      {/* Bagian Ketentuan */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto space-y-8">
@@ -149,36 +150,38 @@ const TermsOfService = () => {
         </div>
       </section>
 
-      {/* Termination */}
+      {/* Penghentian */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
-              <h2 className="text-xl font-semibold mb-4">Termination</h2>
+              <h2 className="text-xl font-semibold mb-4">Penghentian</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                We may terminate or suspend your account immediately, without prior notice or liability, for 
-                any reason whatsoever, including without limitation if you breach the Terms. Upon termination, 
-                your right to use the service will immediately cease.
+                Kami dapat menghentikan atau menangguhkan akun Anda secara langsung, tanpa pemberitahuan
+                sebelumnya maupun kewajiban apa pun, dengan alasan apa pun, termasuk tanpa batasan apabila Anda
+                melanggar Ketentuan. Setelah penghentian, hak Anda untuk menggunakan layanan ini akan langsung
+                berakhir.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                If you wish to terminate your account, you may simply discontinue using the service or contact 
-                us to request account deletion. All provisions of the Terms which by their nature should survive 
-                termination shall survive termination.
+                Jika Anda ingin menghentikan akun Anda, Anda cukup menghentikan penggunaan layanan ini atau
+                menghubungi kami untuk meminta penghapusan akun. Seluruh ketentuan yang menurut sifatnya
+                seharusnya tetap berlaku setelah penghentian akan tetap berlaku setelah penghentian.
               </p>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      {/* Contact */}
+      {/* Kontak */}
       <section className="py-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
-              <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
+              <h2 className="text-xl font-semibold mb-4">Hubungi Kami</h2>
               <p className="text-muted-foreground leading-relaxed">
-                If you have any questions about these Terms, please contact us. We will make every effort to 
-                resolve any issues and answer your questions in a timely manner.
+                Jika Anda memiliki pertanyaan mengenai Ketentuan ini, silakan hubungi kami. Kami akan
+                melakukan segala upaya untuk menyelesaikan setiap masalah dan menjawab pertanyaan Anda
+                secara tepat waktu.
               </p>
             </CardContent>
           </Card>

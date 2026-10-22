@@ -285,8 +285,8 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
 
   const handleBulkSubmit = async () => {
     if (bulkSelectedIds.size === 0) {
-      toast.error("Please select at least one team member");
-      return;
+toast.error("Harap pilih setidaknya satu anggota tim");
+    return;
     }
     if (!bulkReviewPeriod.trim()) {
       toast.error("Please enter a review period");
@@ -308,12 +308,12 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
         });
         created++;
       } catch (e) {
-        toast.error(`Failed to create review for ${member.first_name} ${member.last_name}`);
+        toast.error(`Gagal membuat ulasan untuk ${member.first_name} ${member.last_name}`);
       }
     }
 
     if (created > 0) {
-      toast.success(`Created ${created} draft ${created === 1 ? "review" : "reviews"}`);
+      toast.success(`Dibuat ${created} draft ${created === 1 ? "ulasan" : "ulasan"}`);
       queryClient.invalidateQueries({ queryKey: ["team-reviews-by-manager", managerId] });
     }
     setIsBulkDialogOpen(false);
@@ -338,7 +338,7 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
   };
 
   const handleDeleteDraft = async (reviewId: string) => {
-    if (confirm("Are you sure you want to delete this draft review?")) {
+    if (confirm("Anda yakin ingin menghapus draft ulasan ini?")) {
       await deleteReviewMutation.mutateAsync(reviewId);
       queryClient.invalidateQueries({ queryKey: ["team-reviews-by-manager", managerId] });
     }
@@ -389,15 +389,15 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
     <>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><FileText className="h-5 w-5" />Team reviews</CardTitle>
-          <CardDescription>Create and manage performance reviews with KPI ratings</CardDescription>
+          <CardTitle className="flex items-center gap-2"><FileText className="h-5 w-5" />Ulasan tim</CardTitle>
+          <CardDescription>Buat dan kelola ulasan kinerja dengan penilaian KPI</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h4 className="font-medium text-sm text-muted-foreground">Your team</h4>
+              <h4 className="font-medium text-sm text-muted-foreground">Tim Anda</h4>
               <Button size="sm" variant="outline" onClick={() => { setBulkSelectedIds(new Set()); setIsBulkDialogOpen(true); }}>
-                <ListChecks className="h-4 w-4 mr-1" />Bulk review
+                <ListChecks className="h-4 w-4 mr-1" />Ulasan massal
               </Button>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -411,7 +411,7 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
                     <p className="font-medium truncate">{employee.first_name} {employee.last_name}</p>
                     <p className="text-xs text-muted-foreground truncate">{employee.designation}</p>
                   </div>
-                  <Button size="sm" className="shrink-0" onClick={() => openCreateDialog(employee)} aria-label={`Create review for ${employee.first_name} ${employee.last_name}`}><Plus className="h-4 w-4 mr-1" />Review</Button>
+                  <Button size="sm" className="shrink-0" onClick={() => openCreateDialog(employee)} aria-label={`Buat ulasan untuk ${employee.first_name} ${employee.last_name}`}><Plus className="h-4 w-4 mr-1" />Ulasan</Button>
                 </div>
               ))}
             </div>
@@ -419,7 +419,7 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
 
           {draftReviews.length > 0 && (
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground">Draft reviews</h4>
+              <h4 className="font-medium text-sm text-muted-foreground">Draft ulasan</h4>
               <div className="space-y-2">
                {draftReviews.map(review => (
                    <div key={review.id} className="flex flex-col gap-3 p-3 rounded-lg border border-dashed sm:flex-row sm:items-center sm:justify-between">
@@ -430,8 +430,8 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
                      <div className="flex flex-wrap items-center gap-2">
                        {review.overall_rating ? renderStars(review.overall_rating) : null}
                        <Badge variant="outline" className={statusBadgeClass(review.status)}>{formatStatus(review.status)}</Badge>
-                       <Button size="sm" variant="outline" onClick={() => loadRatingsForEdit(review)} aria-label={`Edit draft review for ${review.employee.first_name} ${review.employee.last_name}`}><Edit2 className="h-4 w-4 mr-1" />Edit</Button>
-                       <Button size="sm" variant="outline" onClick={() => handleDeleteDraft(review.id)} disabled={isPending} aria-label={`Delete draft review for ${review.employee.first_name} ${review.employee.last_name}`}><Trash2 className="h-4 w-4 mr-1" />Delete</Button>
+                       <Button size="sm" variant="outline" onClick={() => loadRatingsForEdit(review)} aria-label={`Sunting draft ulasan untuk ${review.employee.first_name} ${review.employee.last_name}`}><Edit2 className="h-4 w-4 mr-1" />Sunting</Button>
+                       <Button size="sm" variant="outline" onClick={() => handleDeleteDraft(review.id)} disabled={isPending} aria-label={`Hapus draft ulasan untuk ${review.employee.first_name} ${review.employee.last_name}`}><Trash2 className="h-4 w-4 mr-1" />Hapus</Button>
                      </div>
                    </div>
                  ))}
@@ -441,7 +441,7 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
 
           {otherReviews.length > 0 && (
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground">Submitted reviews</h4>
+              <h4 className="font-medium text-sm text-muted-foreground">Ulasan yang dikirim</h4>
               <div className="space-y-2">
                 {otherReviews.slice(0, 5).map(review => (
                   <div key={review.id} className="flex flex-col gap-2 p-3 rounded-lg border sm:flex-row sm:items-center sm:justify-between">
@@ -467,21 +467,21 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>
-              {editingReview ? "Edit" : "Create"} review for {selectedEmployee?.first_name} {selectedEmployee?.last_name}
+              {editingReview ? "Sunting" : "Buat"} ulasan untuk {selectedEmployee?.first_name} {selectedEmployee?.last_name}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="team-review-period">Review period</Label>
-              <Input id="team-review-period" value={formData.review_period} onChange={(e) => setFormData({ ...formData, review_period: e.target.value })} placeholder="e.g., Q1 2025, Annual 2024" />
+              <Label htmlFor="team-review-period">Periode ulasan</Label>
+              <Input id="team-review-period" value={formData.review_period} onChange={(e) => setFormData({ ...formData, review_period: e.target.value })} placeholder="mis., Q1 2025, Tahunan 2024" />
             </div>
 
             {/* KPI Ratings Section */}
             {employeeGoals.length > 0 && (
               <div className="space-y-2">
-                <p className="flex items-center gap-2 text-sm font-medium"><Target className="h-4 w-4" aria-hidden="true" />KPI ratings</p>
+                <p className="flex items-center gap-2 text-sm font-medium"><Target className="h-4 w-4" aria-hidden="true" />Penilaian KPI</p>
                 <div className="rounded-md border p-3 space-y-2 bg-muted/30">
-                  <p className="text-xs text-muted-foreground">Rate each KPI for this employee. Employee must submit their self-rating first.</p>
+                  <p className="text-xs text-muted-foreground">Nilai setiap KPI untuk karyawan ini. Karyawan harus mengirim penilaian diri terlebih dahulu.</p>
                   {employeeGoals.map((goal) => {
                     // Find existing employee rating
                     const existingRating = (existingKpiRatings || []).find(r => r.goal_id === goal.id);
@@ -501,11 +501,11 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
                             {hasEmployeeRated ? (
                               <RatingStars value={existingRating!.employee_rating} readonly size="sm" />
                             ) : (
-                              <span className="text-xs text-muted-foreground italic">Not yet rated</span>
+                              <span className="text-xs text-muted-foreground italic">Belum dinilai</span>
                             )}
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className="text-xs text-muted-foreground w-16">Manager:</span>
+                            <span className="text-xs text-muted-foreground w-16">Manajer:</span>
                             {hasEmployeeRated ? (
                               <RatingStars
                                 value={kpiManagerRatings[goal.id] ?? existingRating?.manager_rating ?? null}
@@ -513,7 +513,7 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
                                 size="sm"
                               />
                             ) : (
-                              <span className="text-xs text-muted-foreground italic">Awaiting employee</span>
+                              <span className="text-xs text-muted-foreground italic">Menunggu karyawan</span>
                             )}
                           </div>
                         </div>
@@ -526,47 +526,47 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium" id="team-review-overall">Overall rating</p>
+                <p className="text-sm font-medium" id="team-review-overall">Penilaian keseluruhan</p>
                 {formData.overall_rating > 0 && (
                   <Button 
                     size="sm" 
                     variant="ghost"
                     onClick={() => setFormData({ ...formData, overall_rating: 0 })}
                   >
-                    Clear
+                    Hapus
                   </Button>
                 )}
               </div>
               <RatingStars
-                label="Overall"
+                label="Keseluruhan"
                 value={formData.overall_rating || null}
                 onChange={(r) => setFormData({ ...formData, overall_rating: r })}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="team-review-strengths">Strengths</Label>
-              <Textarea id="team-review-strengths" value={formData.strengths} onChange={(e) => setFormData({ ...formData, strengths: e.target.value })} placeholder="What does this employee do well?" rows={2} />
+              <Label htmlFor="team-review-strengths">Kekuatan</Label>
+              <Textarea id="team-review-strengths" value={formData.strengths} onChange={(e) => setFormData({ ...formData, strengths: e.target.value })} placeholder="Apa yang dilakukan dengan baik?" rows={2} />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="team-review-improvement">Areas for improvement</Label>
-              <Textarea id="team-review-improvement" value={formData.areas_for_improvement} onChange={(e) => setFormData({ ...formData, areas_for_improvement: e.target.value })} placeholder="Where can they improve?" rows={2} />
+              <Label htmlFor="team-review-improvement">Area perbaikan</Label>
+              <Textarea id="team-review-improvement" value={formData.areas_for_improvement} onChange={(e) => setFormData({ ...formData, areas_for_improvement: e.target.value })} placeholder="Apa yang perlu ditingkatkan?" rows={2} />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="team-review-comments">Additional comments</Label>
-              <Textarea id="team-review-comments" value={formData.comments} onChange={(e) => setFormData({ ...formData, comments: e.target.value })} placeholder="Any other feedback..." rows={2} />
+              <Label htmlFor="team-review-comments">Komentar tambahan</Label>
+              <Textarea id="team-review-comments" value={formData.comments} onChange={(e) => setFormData({ ...formData, comments: e.target.value })} placeholder="Umpan balik lainnya..." rows={2} />
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Batal</Button>
             <Button variant="secondary" onClick={() => handleSubmit("draft")} disabled={isPending}>
-              {editingReview ? "Save draft" : "Save as draft"}
+              {editingReview ? "Simpan draft" : "Simpan sebagai draft"}
             </Button>
             <Button onClick={() => handleSubmit("submitted")} disabled={isPending || formData.overall_rating === 0}>
               {isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              Submit review
+              Kirim ulasan
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -576,21 +576,21 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
       <Dialog open={isBulkDialogOpen} onOpenChange={setIsBulkDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Bulk create draft reviews</DialogTitle>
+            <DialogTitle>Buat draft ulasan massal</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="bulk-review-period">Review period</Label>
-              <Input id="bulk-review-period" value={bulkReviewPeriod} onChange={(e) => setBulkReviewPeriod(e.target.value)} placeholder="e.g., Q1 2026, Annual 2025" />
+              <Label htmlFor="bulk-review-period">Periode ulasan</Label>
+              <Input id="bulk-review-period" value={bulkReviewPeriod} onChange={(e) => setBulkReviewPeriod(e.target.value)} placeholder="mis., Q1 2026, Tahunan 2025" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium">Select team members</p>
+                <p className="text-sm font-medium">Pilih anggota tim</p>
                 <Button size="sm" variant="ghost" onClick={toggleSelectAll}>
-                  {bulkSelectedIds.size === (teamMembers?.length || 0) ? "Deselect all" : "Select all"}
+                  {bulkSelectedIds.size === (teamMembers?.length || 0) ? "Batal pilih semua" : "Pilih semua"}
                 </Button>
               </div>
-              <div className="rounded-md border divide-y max-h-60 overflow-y-auto" tabIndex={0} role="group" aria-label="Team members">
+              <div className="rounded-md border divide-y max-h-60 overflow-y-auto" tabIndex={0} role="group" aria-label="Anggota tim">
                 {teamMembers?.map(member => (
                   <label key={member.id} className="flex items-center gap-3 p-3 hover:bg-muted/50 cursor-pointer transition-colors">
                     <Checkbox checked={bulkSelectedIds.has(member.id)} onCheckedChange={() => toggleBulkSelect(member.id)} />
@@ -606,15 +606,15 @@ export function TeamReviewsManager({ managerId, managerName }: TeamReviewsManage
                 ))}
               </div>
               {bulkSelectedIds.size > 0 && (
-                <p className="text-xs text-muted-foreground">{bulkSelectedIds.size} {bulkSelectedIds.size === 1 ? "member" : "members"} selected</p>
+                <p className="text-xs text-muted-foreground">{bulkSelectedIds.size} {bulkSelectedIds.size === 1 ? "anggota" : "anggota"} dipilih</p>
               )}
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setIsBulkDialogOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsBulkDialogOpen(false)}>Batal</Button>
             <Button onClick={handleBulkSubmit} disabled={isPending || bulkSelectedIds.size === 0 || !bulkReviewPeriod.trim()}>
               {isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              Create {bulkSelectedIds.size} draft{bulkSelectedIds.size !== 1 ? "s" : ""}
+              Buat {bulkSelectedIds.size} draft{bulkSelectedIds.size !== 1 ? "" : ""}
             </Button>
           </DialogFooter>
         </DialogContent>

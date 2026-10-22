@@ -83,10 +83,10 @@ export function GoalsManager({ employeeId }: GoalsManagerProps) {
       <Card>
         <CardHeader className="flex flex-col gap-3 space-y-0 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1.5">
-            <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" />KPIs</CardTitle>
-            <CardDescription>Your key performance indicators. Ratings are added during review cycles.</CardDescription>
+<CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" />KPI</CardTitle>
+<CardDescription>Indikator kinerja utama Anda. Penilaian ditambahkan selama siklus peninjauan.</CardDescription>
           </div>
-          <Button onClick={openCreateDialog} className="w-full shrink-0 sm:w-auto"><Plus className="h-4 w-4 mr-2" />Add KPI</Button>
+          <Button onClick={openCreateDialog} className="w-full shrink-0 sm:w-auto"><Plus className="h-4 w-4 mr-2" />Tambah KPI</Button>
         </CardHeader>
         <CardContent>
           {goals && goals.length > 0 ? (
@@ -99,12 +99,12 @@ export function GoalsManager({ employeeId }: GoalsManagerProps) {
                       {goal.description && <p className="text-sm text-muted-foreground">{goal.description}</p>}
                     </div>
                     <div className="flex shrink-0 items-center gap-1">
-                      <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Edit KPI ${goal.title}`} title="Edit KPI" onClick={() => openEditDialog(goal)}><Edit2 className="h-4 w-4" /></Button>
+                      <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Sunting KPI ${goal.title}`} title="Sunting KPI" onClick={() => openEditDialog(goal)}><Edit2 className="h-4 w-4" /></Button>
                       <AlertDialog>
-                        <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Delete KPI ${goal.title}`} title="Delete KPI"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
+                        <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" aria-label={`Hapus KPI ${goal.title}`} title="Hapus KPI"><Trash2 className="h-4 w-4 text-destructive" /></Button></AlertDialogTrigger>
                         <AlertDialogContent>
-                          <AlertDialogHeader><AlertDialogTitle>Delete KPI</AlertDialogTitle><AlertDialogDescription>Are you sure? This cannot be undone.</AlertDialogDescription></AlertDialogHeader>
-                          <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={() => deleteMutation.mutate({ id: goal.id, employeeId })}>Delete</AlertDialogAction></AlertDialogFooter>
+                          <AlertDialogHeader><AlertDialogTitle>Hapus KPI</AlertDialogTitle><AlertDialogDescription>Anda yakin? Tindakan ini tidak dapat dibatalkan.</AlertDialogDescription></AlertDialogHeader>
+                          <AlertDialogFooter><AlertDialogCancel>Batal</AlertDialogCancel><AlertDialogAction onClick={() => deleteMutation.mutate({ id: goal.id, employeeId })}>Hapus</AlertDialogAction></AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
                     </div>
@@ -120,8 +120,8 @@ export function GoalsManager({ employeeId }: GoalsManagerProps) {
           ) : (
             <div className="text-center py-8 text-muted-foreground">
               <Target className="mx-auto h-8 w-8 mb-2 opacity-50" />
-              <p>No KPIs set yet</p>
-              <p className="text-sm">Create your first KPI to start tracking performance</p>
+<p>Belum ada KPI</p>
+<p className="text-sm">Buat KPI pertama Anda untuk mulai melacak kinerja</p>
             </div>
           )}
         </CardContent>
@@ -129,38 +129,38 @@ export function GoalsManager({ employeeId }: GoalsManagerProps) {
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>{editingGoal ? "Edit KPI" : "Create new KPI"}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{editingGoal ? "Sunting KPI" : "Buat KPI baru"}</DialogTitle></DialogHeader>
           <div className="space-y-4">
-            <div className="space-y-2"><Label htmlFor="kpi-title">Title</Label><Input id="kpi-title" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Enter KPI title" /></div>
-            <div className="space-y-2"><Label htmlFor="kpi-description">Description</Label><Textarea id="kpi-description" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe your KPI..." rows={3} /></div>
+            <div className="space-y-2"><Label htmlFor="kpi-title">Judul</Label><Input id="kpi-title" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Masukkan judul KPI" /></div>
+            <div className="space-y-2"><Label htmlFor="kpi-description">Deskripsi</Label><Textarea id="kpi-description" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Jelaskan KPI Anda..." rows={3} /></div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="kpi-category">Category</Label>
+                <Label htmlFor="kpi-category">Kategori</Label>
                 <Select value={formData.category} onValueChange={(v) => setFormData({ ...formData, category: v, customCategory: v === "other" ? formData.customCategory : "" })}>
                   <SelectTrigger id="kpi-category"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="performance">Performance</SelectItem><SelectItem value="productivity">Productivity</SelectItem>
-                    <SelectItem value="quality">Quality</SelectItem><SelectItem value="leadership">Leadership</SelectItem>
-                    <SelectItem value="development">Development</SelectItem><SelectItem value="other">Other</SelectItem>
+<SelectItem value="performance">Kinerja</SelectItem><SelectItem value="productivity">Produktivitas</SelectItem>
+<SelectItem value="quality">Kualitas</SelectItem><SelectItem value="leadership">Kepemimpinan</SelectItem>
+<SelectItem value="development">Pengembangan</SelectItem><SelectItem value="other">Lainnya</SelectItem>
                   </SelectContent>
                 </Select>
-                {formData.category === "other" && <Input value={formData.customCategory} onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })} placeholder="Enter custom category" aria-label="Custom category" className="mt-2" />}
+                {formData.category === "other" && <Input value={formData.customCategory} onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })} placeholder="Masukkan kategori kustom" aria-label="Kategori kustom" className="mt-2" />}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="kpi-priority">Priority</Label>
+                <Label htmlFor="kpi-priority">Prioritas</Label>
                 <Select value={formData.priority} onValueChange={(v) => setFormData({ ...formData, priority: v })}>
                   <SelectTrigger id="kpi-priority"><SelectValue /></SelectTrigger>
-                  <SelectContent><SelectItem value="low">Low</SelectItem><SelectItem value="medium">Medium</SelectItem><SelectItem value="high">High</SelectItem></SelectContent>
+                  <SelectContent><SelectItem value="low">Rendah</SelectItem><SelectItem value="medium">Sedang</SelectItem><SelectItem value="high">Tinggi</SelectItem></SelectContent>
                 </Select>
               </div>
             </div>
-            <div className="space-y-2"><Label htmlFor="kpi-due-date">Due date (optional)</Label><Input id="kpi-due-date" type="date" value={formData.due_date} onChange={(e) => setFormData({ ...formData, due_date: e.target.value })} /></div>
+            <div className="space-y-2"><Label htmlFor="kpi-due-date">Tanggal jatuh tempo (opsional)</Label><Input id="kpi-due-date" type="date" value={formData.due_date} onChange={(e) => setFormData({ ...formData, due_date: e.target.value })} /></div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Batal</Button>
             <Button onClick={handleSubmit} disabled={!formData.title.trim() || createMutation.isPending || updateMutation.isPending}>
               {(createMutation.isPending || updateMutation.isPending) && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              {editingGoal ? "Save changes" : "Create KPI"}
+              {editingGoal ? "Simpan perubahan" : "Buat KPI"}
             </Button>
           </DialogFooter>
         </DialogContent>

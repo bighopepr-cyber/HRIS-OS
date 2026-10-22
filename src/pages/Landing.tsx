@@ -39,87 +39,87 @@ import { LICENSE_URL, REPO_URL, SECURITY_POLICY_URL, SELF_HOST_GUIDE_URL } from 
 import peoploLogoLight from "@/assets/hr-hub-logo-light.svg";
 
 const pillars = [
-  { icon: Code2, title: "Open source", text: "Every line is public under AGPL-3.0" },
-  { icon: ShieldCheck, title: "Secure by default", text: "Access rules enforced in the database" },
-  { icon: Database, title: "Your data", text: "Run it on your own Supabase project" },
-  { icon: Unlock, title: "No lock-in", text: "Fork it, host it, change it" },
+  { icon: Code2, title: "Sumber terbuka", text: "Setiap baris kode bersifat publik di bawah AGPL-3.0" },
+  { icon: ShieldCheck, title: "Aman secara bawaan", text: "Aturan akses ditegakkan di level basis data" },
+  { icon: Database, title: "Data Anda", text: "Jalankan pada proyek Supabase milik Anda sendiri" },
+  { icon: Unlock, title: "Tanpa ketergantungan vendor", text: "Fork, hosting, dan ubah sesuka Anda" },
 ];
 
 const features = [
   {
     icon: Users,
-    title: "People & Departments",
-    description: "One record per person: job details, manager, documents, assets and history, organised by department.",
+    title: "Karyawan & Departemen",
+    description: "Satu catatan per orang: detail pekerjaan, atasan, dokumen, aset, dan riwayat, yang tersusun berdasarkan departemen.",
   },
   {
     icon: UserPlus,
-    title: "Invite-only Onboarding",
-    description: "Add a new hire once and they get an email to set up their account. They're active, with leave balances, the moment they do.",
+    title: "Onboarding khusus undangan",
+    description: "Tambahkan karyawan baru sekali saja dan mereka menerima email untuk mengatur akun. Mereka aktif beserta saldo cutinya begitu akun siap digunakan.",
   },
   {
     icon: Clock,
-    title: "Attendance",
-    description: "Clock in and out with location and breaks, working schedules, and reminders before shifts start and end.",
+    title: "Absensi",
+    description: "Catat masuk dan keluar beserta lokasi dan jeda kerja, jadwal kerja, serta pengingat sebelum dan setelah shift dimulai.",
   },
   {
     icon: CalendarDays,
-    title: "Leave & Holidays",
-    description: "Leave types and balances, manager approvals, a team calendar and your company holiday list.",
+    title: "Cuti & Hari Libur",
+    description: "Jenis cuti dan saldo cuti, persetujuan atasan, kalender tim, dan daftar hari libur perusahaan Anda.",
   },
   {
     icon: CreditCard,
-    title: "Payroll & Payslips",
-    description: "Salary structures, monthly payroll runs and branded payslips in ₹, with PF and other deductions.",
+    title: "Penggajian & Slip Gaji",
+    description: "Struktur gaji, penggajian bulanan, dan slip gaji berlogo dalam ₹, lengkap dengan PF dan potongan lainnya.",
   },
   {
     icon: Target,
-    title: "Performance",
-    description: "KPIs, review cycles with self and manager ratings, and team analytics for managers.",
+    title: "Kinerja",
+    description: "KPI, siklus penilaian dengan penilaian diri dan penilaian atasan, serta analitik tim untuk para atasan.",
   },
   {
     icon: Receipt,
-    title: "Reimbursements",
-    description: "Employees submit claims with receipts; managers approve and finance marks them paid.",
+    title: "Reimbursement",
+    description: "Karyawan mengajukan klaim beserta nota; atasan menyetujui dan bagian keuangan menandainya sebagai telah dibayar.",
   },
   {
     icon: Package,
-    title: "Assets",
-    description: "Track laptops, phones and other equipment, who has them, and their full assignment history.",
+    title: "Aset",
+    description: "Lacak laptop, ponsel, dan peralatan lainnya, siapa yang memegangnya, serta riwayat penugasan lengkapnya.",
   },
   {
     icon: BarChart3,
-    title: "Reports",
-    description: "Headcount, attendance, leave balances, payroll and asset reports, exportable to CSV and PDF.",
+    title: "Laporan",
+    description: "Laporan jumlah karyawan, absensi, saldo cuti, penggajian, dan aset, yang dapat diekspor ke CSV dan PDF.",
   },
 ];
 
 const howItWorks = [
-  { step: 1, title: "Set up your company", description: "Add departments, leave types, office locations and your branding." },
-  { step: 2, title: "Add your team", description: "Adding someone invites them. Only invited people can create an account." },
-  { step: 3, title: "Run the day to day", description: "Attendance, leave and reimbursements flow to the right approver." },
-  { step: 4, title: "Pay and grow", description: "Run payroll, share payslips and review performance each cycle." },
+  { step: 1, title: "Siapkan perusahaan Anda", description: "Tambahkan departemen, jenis cuti, lokasi kantor, dan merek Anda." },
+  { step: 2, title: "Tambahkan tim Anda", description: "Menambahkan seseorang berarti mengundang mereka. Hanya orang yang diundang yang dapat membuat akun." },
+  { step: 3, title: "Jalankan rutinitas harian", description: "Absensi, cuti, dan reimbursement mengalir otomatis ke pihak yang berwenang." },
+  { step: 4, title: "Bayar dan kembangkan", description: "Jalankan penggajian, bagikan slip gaji, dan tinjau kinerja setiap siklus." },
 ];
 
 const securityPoints = [
   {
     icon: ShieldCheck,
-    title: "Permissions in the database",
-    text: "Postgres row-level security decides who sees what, not just the screens. A bug in the UI can't leak salaries.",
+    title: "Izin di level basis data",
+    text: "Keamanan baris PostgreSQL menentukan siapa dapat melihat apa, bukan sekadar tampilan layar. Bug pada antarmuka tidak dapat membocorkan data gaji.",
   },
   {
     icon: KeyRound,
-    title: "Access module by module",
-    text: "Give someone Assets only, or Payroll view-only. Roles set the defaults; extra access is per person.",
+    title: "Akses per modul",
+    text: "Berikan hanya akses Assets, atau Payroll dalam mode hanya-lihat. Peran menetapkan pengaturan bawaan; akses tambahan berlaku per orang.",
   },
   {
     icon: MailCheck,
-    title: "Invite-only accounts",
-    text: "Nobody can sign up uninvited. Email domains can be restricted to your company.",
+    title: "Akun khusus undangan",
+    text: "Tidak ada yang dapat mendaftar tanpa undangan. Domain email dapat dibatasi hanya untuk perusahaan Anda.",
   },
   {
     icon: Lock,
-    title: "Guards on sensitive changes",
-    text: "Employees can't approve their own leave or edit closed attendance. Bank details live in their own locked-down table.",
+    title: "Perlindungan pada perubahan sensitif",
+    text: "Karyawan tidak dapat menyetujui cuti sendiri atau mengubah absensi yang sudah ditutup. Data bank disimpan pada tabel tersendiri yang dikunci.",
   },
 ];
 
@@ -129,14 +129,14 @@ const selfHostSteps = [
   { prompt: true, text: "supabase link --project-ref <your-project>" },
   { prompt: true, text: "supabase db push && supabase functions deploy" },
   { prompt: true, text: "npm run build" },
-  { prompt: false, text: "✓ Your own Peoplo, on infrastructure you control" },
+  { prompt: false, text: "✓ Peoplo milik Anda sendiri, pada infrastruktur yang Anda kendalikan" },
 ];
 
 const openSourcePoints = [
-  { icon: Code2, text: "Read every line before your people's data goes in." },
-  { icon: Layers, text: "Fork it and adapt it to your policies and workflows." },
-  { icon: Scale, text: "AGPL-3.0 keeps improvements open, including on hosted versions." },
-  { icon: Bell, text: "Report issues and suggest features in the open on GitHub." },
+  { icon: Code2, text: "Baca setiap baris kode sebelum data karyawan Anda dimasukkan." },
+  { icon: Layers, text: "Fork dan sesuaikan dengan kebijakan serta alur kerja Anda." },
+  { icon: Scale, text: "AGPL-3.0 menjaga tetap terbukanya perbaikan, termasuk pada versi hosting." },
+  { icon: Bell, text: "Laporkan masalah dan usulkan fitur secara terbuka di GitHub." },
 ];
 
 function ExternalLink({ href, className, children }: { href: string; className?: string; children: ReactNode }) {
@@ -164,32 +164,32 @@ const Landing = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const deploymentOptions = [
+    const deploymentOptions = [
     {
       icon: Server,
-      name: "Host it yourself",
-      description: "Run your own copy on your own Supabase project.",
+      name: "Hosting sendiri",
+      description: "Jalankan salinan Anda sendiri pada proyek Supabase milik Anda.",
       features: [
-        "Free and open source (AGPL-3.0)",
-        "Your database, your data, your region",
-        "Deploy the frontend anywhere static sites run",
-        "Change it to fit your policies",
+        "Gratis dan sumber terbuka (AGPL-3.0)",
+        "Basis data, data, dan wilayah Anda sendiri",
+        "Deploy frontend di mana saja situs statis berjalan",
+        "Ubah sesuai dengan kebijakan Anda",
       ],
-      cta: "Read the self-hosting guide",
+      cta: "Baca panduan self-hosting",
       href: SELF_HOST_GUIDE_URL,
       highlight: false,
     },
     {
       icon: Cloud,
-      name: "Let us run it",
-      description: "A dedicated, managed workspace for your company.",
+      name: "Biarkan kami menjalankannya",
+      description: "Ruang kerja khusus terkelola untuk perusahaan Anda.",
       features: [
-        "Nothing to install or maintain",
-        "Updates and backups handled for you",
-        "The same open-source app, no lock-in",
-        "Help setting up your team",
+        "Tidak ada yang perlu dipasang atau dipelihara",
+        "Pembaruan dan pencadangan kami tangani untuk Anda",
+        "Aplikasi sumber terbuka yang sama, tanpa ketergantungan vendor",
+        "Bantuan dalam menyiapkan tim Anda",
       ],
-      cta: "Book a demo",
+      cta: "Pesan Demo",
       href: DEMO_URL,
       highlight: true,
     },
@@ -200,7 +200,7 @@ const Landing = () => {
       <PublicHeader />
 
       <main>
-        {/* Hero */}
+        {/* Bagian Hero */}
         <section className="relative">
           <Backdrop />
           <div className="container relative mx-auto grid items-center gap-16 px-4 pb-24 pt-14 md:pt-20 lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:pb-32 lg:pt-24">
@@ -213,23 +213,24 @@ const Landing = () => {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60 motion-reduce:hidden" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
                 </span>
-                Free &amp; open source · AGPL-3.0
+                Gratis &amp; sumber terbuka · AGPL-3.0
                 <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               </ExternalLink>
               <h1
                 className="mb-6 animate-fade-up text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl"
                 style={{ animationDelay: "80ms" }}
               >
-                HR that runs itself,
+                SDM yang berjalan sendiri,
                 <br />
-                <span className="text-shimmer animate-shimmer motion-reduce:animate-none">in the open.</span>
+                <span className="text-shimmer animate-shimmer motion-reduce:animate-none">secara terbuka.</span>
               </h1>
               <p
                 className="mx-auto mb-8 max-w-xl animate-fade-up text-lg text-muted-foreground md:text-xl lg:mx-0"
                 style={{ animationDelay: "160ms" }}
               >
-                Peoplo is free, open-source HR software for growing teams: people, attendance, leave,
-                payroll and performance in one secure place you can host yourself.
+                Peoplo adalah perangkat lunak SDM gratis dan sumber terbuka untuk tim yang sedang bertumbuh:
+                karyawan, absensi, cuti, penggajian, dan kinerja dalam satu tempat aman yang dapat Anda
+                hosting sendiri.
               </p>
               <div
                 className="flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start"
@@ -237,14 +238,14 @@ const Landing = () => {
               >
                 <Button size="lg" className="group w-full gap-2 shadow-lg shadow-primary/25 sm:w-auto" asChild>
                   <ExternalLink href={DEMO_URL}>
-                    Book a demo
+                    Pesan Demo
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                   </ExternalLink>
                 </Button>
                 <Button size="lg" variant="outline" className="w-full gap-2 bg-background/70 backdrop-blur sm:w-auto" asChild>
                   <ExternalLink href={REPO_URL}>
                     <Github className="h-4 w-4" aria-hidden="true" />
-                    View on GitHub
+                    Lihat di GitHub
                   </ExternalLink>
                 </Button>
               </div>
@@ -252,7 +253,7 @@ const Landing = () => {
                 className="mt-8 flex animate-fade-up flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground lg:justify-start"
                 style={{ animationDelay: "320ms" }}
               >
-                {["Self-host for free", "Built for Indian payroll", "No ads or trackers"].map((item) => (
+                {["Hosting sendiri secara gratis", "Dibuat untuk penggajian India", "Tanpa iklan atau pelacak"].map((item) => (
                   <li key={item} className="flex items-center gap-1.5">
                     <CheckCircle className="h-4 w-4 text-primary" aria-hidden="true" />
                     {item}
@@ -266,7 +267,7 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Trust pillars */}
+        {/* Pilar Kepercayaan */}
         <section className="border-y border-border bg-card/70">
           <div className="container mx-auto grid grid-cols-2 gap-px px-4 md:grid-cols-4">
             {pillars.map((pillar, i) => (
@@ -283,12 +284,12 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Features */}
+        {/* Fitur */}
         <section id="features" className="container mx-auto scroll-mt-20 px-4 py-24 md:py-32">
           <SectionHeading
-            eyebrow="Features"
-            title="Everything your people team needs"
-            text="From the first invitation to the monthly payslip, without stitching five tools together."
+            eyebrow="Fitur"
+            title="Semua yang dibutuhkan tim SDM Anda"
+            text="Mulai dari undangan pertama hingga slip gaji bulanan, tanpa perlu menyatukan lima alat berbeda."
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, i) => (
@@ -306,13 +307,13 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* How it works */}
+        {/* Cara Kerjanya */}
         <section id="how-it-works" className="scroll-mt-20 border-y border-border bg-card py-24 md:py-32">
           <div className="container mx-auto px-4">
             <SectionHeading
-              eyebrow="How it works"
-              title="Up and running in an afternoon"
-              text="Set it up once, and everyday HR flows to the right person automatically."
+              eyebrow="Cara Kerjanya"
+              title="Siap digunakan dalam satu sore hari"
+              text="Atur sekali saja, lalu seluruh aktivitas harian SDM mengalir otomatis ke orang yang tepat."
             />
             <div className="relative">
               <div
@@ -337,17 +338,18 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Open source */}
+        {/* Sumber Terbuka */}
         <section id="open-source" className="container mx-auto grid scroll-mt-20 items-center gap-14 px-4 py-24 md:py-32 lg:grid-cols-2">
           <div>
             <Reveal>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">Open source</p>
+              <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">Sumber terbuka</p>
               <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                Your HR system shouldn't be a black box.
+                Sistem SDM Anda tidak seharusnya menjadi kotak hitam.
               </h2>
               <p className="mb-8 text-lg text-muted-foreground">
-                People data is the most sensitive data a company holds. With Peoplo you can see exactly how
-                it's stored and who can reach it, because all of it is public and licensed under AGPL-3.0.
+                Data karyawan adalah data paling sensitif yang dimiliki sebuah perusahaan. Dengan Peoplo Anda
+                dapat melihat dengan jelas bagaimana data itu disimpan dan siapa yang dapat mengaksesnya,
+                karena semuanya bersifat publik dan berlisensi AGPL-3.0.
               </p>
             </Reveal>
             <ul className="mb-8 space-y-4">
@@ -364,13 +366,13 @@ const Landing = () => {
               <Button className="gap-2" asChild>
                 <ExternalLink href={REPO_URL}>
                   <Github className="h-4 w-4" aria-hidden="true" />
-                  Star on GitHub
+                  Beri bintang di GitHub
                 </ExternalLink>
               </Button>
               <Button variant="outline" className="gap-2" asChild>
                 <ExternalLink href={LICENSE_URL}>
                   <Scale className="h-4 w-4" aria-hidden="true" />
-                  Read the license
+                  Baca lisensi
                 </ExternalLink>
               </Button>
             </Reveal>
@@ -383,21 +385,22 @@ const Landing = () => {
           </Reveal>
         </section>
 
-        {/* Security & self-hosting */}
+        {/* Keamanan & Self-Hosting */}
         <section id="security" className="relative scroll-mt-20 overflow-hidden bg-[hsl(222_47%_11%)] py-24 text-slate-100 md:py-32">
           <Backdrop tone="light" className="opacity-60" />
           <div className="container relative mx-auto grid items-center gap-14 px-4 lg:grid-cols-2">
             <div>
               <Reveal>
-                <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-sky-400">Trust</p>
+                <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-sky-400">Kepercayaan</p>
                 <h2 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  Built in the open.
+                  Dibangun secara terbuka.
                   <br />
-                  Secure by default.
+                  Aman secara bawaan.
                 </h2>
                 <p className="mb-10 text-lg text-slate-300">
-                  Your employees trust you with their salaries, documents and bank details. Peoplo is designed
-                  so you can trust it with them — and because the code is public, you don't have to take our word for it.
+                  Karyawan mempercayakan gaji, dokumen, dan data bank mereka kepada Anda. Peoplo dirancang
+                  agar Anda pun dapat mempercayakannya — dan karena kodenya bersifat publik, Anda tidak perlu
+                  sekadar menerima kata-kata kami.
                 </p>
               </Reveal>
               <div className="grid gap-6 sm:grid-cols-2">
@@ -415,15 +418,15 @@ const Landing = () => {
               </div>
               <Reveal className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm">
                 <ExternalLink href={SECURITY_POLICY_URL} className="inline-flex items-center gap-1.5 text-sky-400 underline-offset-4 hover:underline">
-                  <ShieldCheck className="h-4 w-4" aria-hidden="true" /> Security policy
+                  <ShieldCheck className="h-4 w-4" aria-hidden="true" /> Kebijakan keamanan
                 </ExternalLink>
                 <ExternalLink href={LICENSE_URL} className="inline-flex items-center gap-1.5 text-sky-400 underline-offset-4 hover:underline">
-                  <Scale className="h-4 w-4" aria-hidden="true" /> AGPL-3.0 license
+                  <Scale className="h-4 w-4" aria-hidden="true" /> Lisensi AGPL-3.0
                 </ExternalLink>
               </Reveal>
             </div>
 
-            {/* Self-host terminal */}
+            {/* Terminal Self-Hosting */}
             <Reveal delay={150} className="[perspective:1400px]">
               <div className="rounded-2xl border border-white/10 bg-slate-950/80 shadow-2xl shadow-sky-900/40 backdrop-blur transition-transform duration-500 lg:[transform:rotateY(-8deg)_rotateX(4deg)] lg:hover:[transform:rotateY(0deg)_rotateX(0deg)] motion-reduce:transform-none">
                 <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-3">
@@ -432,7 +435,7 @@ const Landing = () => {
                   <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
                   <span className="ml-3 font-mono text-xs text-slate-400">self-host.sh</span>
                 </div>
-                <div className="overflow-x-auto p-5 font-mono text-[13px] leading-7" tabIndex={0} aria-label="Self-hosting commands">
+                <div className="overflow-x-auto p-5 font-mono text-[13px] leading-7" tabIndex={0} aria-label="Perintah self-hosting">
                   {selfHostSteps.map((line, i) => (
                     <Reveal key={line.text} delay={300 + i * 180} className="whitespace-pre">
                       {line.prompt ? (
@@ -449,9 +452,9 @@ const Landing = () => {
                 </div>
               </div>
               <p className="mt-4 text-center text-sm text-slate-400 lg:text-left">
-                The full walkthrough, including secrets, email and scheduled jobs, is in the{" "}
+                Panduan lengkap, termasuk secret, email, dan job terjadwal, tersedia dalam{" "}
                 <ExternalLink href={SELF_HOST_GUIDE_URL} className="text-sky-400 underline-offset-4 hover:underline">
-                  setup guide
+                  panduan penyiapan
                 </ExternalLink>
                 .
               </p>
@@ -459,12 +462,12 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Deployment options */}
+        {/* Pilihan Deployment */}
         <section id="get-started" className="container mx-auto scroll-mt-20 px-4 py-24 md:py-32">
           <SectionHeading
-            eyebrow="Get started"
-            title="Two ways to run Peoplo"
-            text="The same open-source app either way. Host it yourself, or let us run it for you."
+            eyebrow="Mulai"
+            title="Dua cara menjalankan Peoplo"
+            text="Aplikasi sumber terbuka yang sama, apa pun pilihan Anda. Hosting sendiri, atau biar kami yang menjalankannya untuk Anda."
           />
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
             {deploymentOptions.map((option, i) => (
@@ -476,7 +479,7 @@ const Landing = () => {
                 >
                   {option.highlight && (
                     <span className="absolute -top-3 left-7 rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-primary-foreground shadow">
-                      Managed for you
+                      Dikelola untuk Anda
                     </span>
                   )}
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -500,14 +503,14 @@ const Landing = () => {
             ))}
           </div>
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Want the details?{" "}
+            Ingin melihat detailnya?{" "}
             <Link to="/pricing" className="font-medium text-primary underline-offset-4 hover:underline">
-              Compare plans
+              Bandingkan paket
             </Link>
           </p>
         </section>
 
-        {/* CTA */}
+        {/* Ajakan Bertindak (CTA) */}
         <section className="px-4 py-24 md:py-32">
           <Reveal className="container relative mx-auto overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-sky-700 to-sky-900 px-6 py-16 text-center text-primary-foreground shadow-2xl shadow-primary/30 md:py-20">
             <Backdrop tone="light" className="opacity-50" />
@@ -515,15 +518,16 @@ const Landing = () => {
               <div className="motion-decor mx-auto mb-6 flex h-16 w-16 animate-float items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/25 backdrop-blur">
                 <img src={peoploLogoLight} alt="" className="h-10 w-10" />
               </div>
-              <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Ready for calmer HR?</h2>
+              <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Siap untuk SDM yang lebih tenang?</h2>
               <p className="mx-auto mb-8 max-w-2xl text-lg text-white/90">
-                Host it yourself today, or book a demo and we'll set it up for you. Peoplo is open source,
-                so you can read the code, suggest features and contribute.
+                Hosting sendiri mulai hari ini, atau pesan demo dan kami akan menyiapkannya untuk Anda. Peoplo
+                bersifat sumber terbuka, sehingga Anda dapat membaca kodenya, mengusulkan fitur, dan ikut
+                berkontribusi.
               </p>
               <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button size="lg" variant="secondary" className="group w-full gap-2 sm:w-auto" asChild>
                   <ExternalLink href={DEMO_URL}>
-                    Book a demo
+                    Pesan Demo
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                   </ExternalLink>
                 </Button>
@@ -535,7 +539,7 @@ const Landing = () => {
                 >
                   <ExternalLink href={REPO_URL}>
                     <Github className="h-4 w-4" aria-hidden="true" />
-                    Star on GitHub
+                    Beri bintang di GitHub
                   </ExternalLink>
                 </Button>
               </div>

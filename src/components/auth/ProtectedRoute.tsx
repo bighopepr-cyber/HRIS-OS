@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-/** Shown (inside the normal app shell) when someone without an employee profile opens a module. */
+/** Ditampilkan (di dalam kerangka aplikasi biasa) ketika seseorang tanpa profil karyawan membuka sebuah modul. */
 function NotOnboardedYet() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
@@ -20,16 +20,16 @@ function NotOnboardedYet() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
             <Clock className="h-8 w-8 text-primary" aria-hidden="true" />
           </div>
-          <h1 className="text-xl font-semibold leading-tight sm:text-2xl">Not available yet</h1>
+          <h1 className="text-xl font-semibold leading-tight sm:text-2xl">Belum tersedia</h1>
           <CardDescription className="pt-1">
-            This page is for employees. It will open once HR links your account to your employee profile.
+            Halaman ini diperuntukkan bagi karyawan. Halaman ini akan terbuka setelah HR menautkan akun Anda ke profil karyawan Anda.
           </CardDescription>
         </CardHeader>
         <CardContent className="text-center">
           <Button asChild className="gap-2">
             <Link to="/dashboard">
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              Back to dashboard
+              Kembali ke dasbor
             </Link>
           </Button>
         </CardContent>
@@ -48,7 +48,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   if (isLoading || isEmployeeLoading || isRoleLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" aria-label="Loading" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" aria-label="Memuat" />
       </div>
     );
   }
@@ -57,12 +57,12 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <Navigate to="/auth" replace />;
   }
 
-  // Everyone can open the dashboard; people without an employee profile see a
-  // short explanation there
+  // Semua orang dapat membuka dasbor; orang tanpa profil karyawan akan melihat
+  // penjelasan singkat di sana
   const isDashboard = location.pathname === "/dashboard";
 
-  // Users without an employee record can only use the app if they've been
-  // given access to a module (e.g. an external accountant with payroll access)
+  // Pengguna tanpa catatan karyawan hanya dapat menggunakan aplikasi jika mereka
+  // telah diberi akses ke sebuah modul (misalnya akuntan eksternal dengan akses gaji)
   if (!isEmployee && !hasAnyModuleAccess && !isDashboard) {
     return (
       <DashboardLayout>

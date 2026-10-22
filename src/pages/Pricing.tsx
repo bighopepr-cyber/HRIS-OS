@@ -19,56 +19,56 @@ import { DEMO_URL } from "@/components/layout/publicSite";
 
 const plans = [
   {
-    name: "Open Source",
-    price: "Free",
-    description: "Self-host on your own infrastructure. Every feature, licensed under AGPL-3.0.",
+    name: "Sumber Terbuka",
+    price: "Gratis",
+    description: "Hosting sendiri di infrastruktur Anda sendiri. Semua fitur, berlisensi AGPL-3.0.",
     icon: <Github className="h-6 w-6" />,
     features: [
-      "Unlimited employees",
-      "All core features included",
-      "Full source code access",
-      "Community support",
-      "Deploy anywhere",
-      "Your data, your servers"
+      "Karyawan tanpa batas",
+      "Semua fitur inti sudah termasuk",
+      "Akses penuh ke kode sumber",
+      "Dukungan komunitas",
+      "Deploy di mana saja",
+      "Data Anda, server Anda"
     ],
-    cta: "View on GitHub",
+    cta: "Lihat di GitHub",
     ctaLink: "https://github.com/redmonkin/core-hr-hub",
     variant: "outline" as const,
     highlight: false
   },
   {
-    name: "Cloud Hosted",
+    name: "Hosting Cloud",
     price: "₹3,500",
-    period: "/month",
-    description: "We handle hosting, updates, and backups. You focus on your business.",
+    period: "/bulan",
+    description: "Kami menangani hosting, pembaruan, dan pencadangan. Anda fokus pada bisnis Anda.",
     icon: <Cloud className="h-6 w-6" />,
     features: [
-      "Up to 50 employees",
-      "All core features included",
-      "Automatic updates",
-      "Daily backups",
-      "Email support",
-      "99.9% uptime SLA"
+      "Maksimal 50 karyawan",
+      "Semua fitur inti sudah termasuk",
+      "Pembaruan otomatis",
+      "Pencadangan harian",
+      "Dukungan melalui email",
+      "SLA uptime 99,9%"
     ],
-    cta: "Request access",
+    cta: "Ajukan akses",
     ctaLink: DEMO_URL,
     variant: "default" as const,
     highlight: true
   },
   {
     name: "Enterprise",
-    price: "Custom",
-    description: "For larger organizations with specific needs and requirements.",
+    price: "Kustom",
+    description: "Untuk organisasi yang lebih besar dengan kebutuhan dan persyaratan khusus.",
     icon: <Zap className="h-6 w-6" />,
     features: [
-      "Unlimited employees",
-      "Priority support",
-      "Custom integrations",
-      "Dedicated infrastructure",
-      "SSO & advanced security",
-      "Onboarding assistance"
+      "Karyawan tanpa batas",
+      "Dukungan prioritas",
+      "Integrasi khusus",
+      "Infrastruktur khusus",
+      "SSO dan keamanan tingkat lanjut",
+      "Bantuan onboarding"
     ],
-    cta: "Talk to sales",
+    cta: "Hubungi tim penjualan",
     ctaLink: DEMO_URL,
     variant: "outline" as const,
     highlight: false
@@ -77,44 +77,44 @@ const plans = [
 
 const faqs = [
   {
-    question: "Is Peoplo really free?",
-    answer: "Yes. Peoplo is open source under the AGPL-3.0 license, so you can self-host every feature on your own infrastructure at no cost. The cloud-hosted option is a paid service for teams that prefer managed hosting."
+    question: "Apakah Peoplo benar-benar gratis?",
+    answer: "Ya. Peoplo bersifat sumber terbuka di bawah lisensi AGPL-3.0, sehingga Anda dapat meng-hosting sendiri seluruh fiturnya di infrastruktur Anda sendiri tanpa biaya apa pun. Opsi hosting cloud merupakan layanan berbayar bagi tim yang memilih hosting terkelola."
   },
   {
-    question: "Can I migrate from self-hosted to cloud?",
-    answer: "Yes. Both run the same open-source app and database schema, so we can move your data across in either direction."
+    question: "Bisakah saya bermigrasi dari hosting sendiri ke cloud?",
+    answer: "Bisa. Keduanya menjalankan aplikasi sumber terbuka dan skema basis data yang sama, sehingga kami dapat memindahkan data Anda ke kedua arah."
   },
   {
-    question: "How do I get a hosted workspace?",
-    answer: "Book a demo and we'll set up a workspace for your company. Accounts are invite-only, so once it's ready you invite your team from inside Peoplo."
+    question: "Bagaimana cara mendapatkan ruang kerja terkelola?",
+    answer: "Pesan demo dan kami akan menyiapkan ruang kerja untuk perusahaan Anda. Akun hanya dapat dibuat melalui undangan, sehingga begitu siap Anda mengundang tim Anda dari dalam Peoplo."
   },
   {
-    question: "What does the AGPL-3.0 license mean for my company?",
-    answer: "You can use, run and modify Peoplo for your own organisation freely. If you change it and offer it to others over a network, you must share your changes under the same license. Using it internally for your own staff doesn't require publishing anything."
+    question: "Apa arti lisensi AGPL-3.0 bagi perusahaan saya?",
+    answer: "Anda dapat menggunakan, menjalankan, dan memodifikasi Peoplo secara bebas untuk organisasi Anda sendiri. Jika Anda mengubahnya dan menawarkannya kepada orang lain melalui jaringan, Anda harus membagikan perubahan tersebut di bawah lisensi yang sama. Penggunaannya secara internal untuk staf Anda sendiri tidak mengharuskan penerbitan apa pun."
   },
   {
-    question: "Where is our data stored?",
-    answer: "When you self-host, everything lives in your own Supabase project: your database, your file storage, your region. Nothing is sent to us."
+    question: "Di mana data kami disimpan?",
+    answer: "Saat Anda hosting sendiri, semuanya berada di proyek Supabase Anda sendiri: basis data, penyimpanan berkas, dan wilayah Anda. Tidak ada yang dikirim kepada kami."
   },
   {
-    question: "Who can see salaries and personal details?",
-    answer: "Only people you give access to. Payroll, employee records and every other module have view and manage levels, enforced by the database itself."
+    question: "Siapa yang dapat melihat gaji dan data pribadi?",
+    answer: "Hanya orang yang Anda beri akses. Modul penggajian, data karyawan, dan modul lainnya memiliki tingkatan lihat dan kelola, yang ditegakkan langsung oleh basis data."
   },
   {
-    question: "Can employees sign up on their own?",
-    answer: "No. Accounts are invite-only. HR adds each new hire, which emails them a link to set up their account; they become active as soon as they do."
+    question: "Bisakah karyawan mendaftar sendiri?",
+    answer: "Tidak. Akun hanya dapat dibuat melalui undangan. Tim SDM menambahkan setiap karyawan baru, yang kemudian menerima email berisi tautan untuk mengatur akunnya; mereka menjadi aktif begitu tautannya selesai digunakan."
   },
   {
-    question: "Can several companies share one Peoplo?",
-    answer: "No. Each Peoplo deployment is one company's workspace, tied to your email domain, so your data never sits alongside another organisation's. Self-host your own, or book a demo and we'll set up a dedicated workspace for you."
+    question: "Bisakah beberapa perusahaan berbagi satu Peoplo?",
+    answer: "Tidak. Setiap deployment Peoplo merupakan ruang kerja satu perusahaan yang terikat pada domain email Anda, sehingga data Anda tidak pernah berada di samping organisasi lain. Hosting sendiri di lingkungan Anda, atau pesan demo dan kami akan menyiapkan ruang kerja khusus untuk Anda."
   },
   {
-    question: "Does it work on phones?",
-    answer: "Yes. Peoplo is a progressive web app, so people can clock in, apply for leave and check payslips from their phone and get push notifications."
+    question: "Apakah dapat digunakan di ponsel?",
+    answer: "Bisa. Peoplo adalah progressive web app (aplikasi web progresif), sehingga orang dapat mencatat absensi, mengajukan cuti, dan memeriksa slip gaji dari ponselnya serta menerima notifikasi push."
   },
   {
-    question: "Do you offer discounts for NGOs?",
-    answer: "Yes! Non-profits and educational institutions get 50% off all paid plans. Contact us to apply."
+    question: "Apakah Anda menawarkan diskon untuk LSM?",
+    answer: "Tentu! Organisasi nirlaba dan institutes pendidikan mendapat diskon 50% untuk semua paket berbayar. Hubungi kami untuk mengajukan."
   }
 ];
 
@@ -123,23 +123,23 @@ const Pricing = () => {
     <div className="min-h-screen bg-background">
       <PublicHeader />
 
-      {/* Hero */}
+      {/* Bagian Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
         <div className="container mx-auto px-4 py-20 lg:py-28 relative">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <PublicPageBadge icon={<HeartHandshake />}>Open source first</PublicPageBadge>
+            <PublicPageBadge icon={<HeartHandshake />}>Sumber terbuka lebih dulu</PublicPageBadge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-              Simple, <span className="text-primary">Transparent</span> Pricing
+              Harga yang <span className="text-primary">Sederhana</span> dan Transparan
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Free forever for self-hosted. Affordable cloud hosting for those who prefer managed infrastructure.
+              Gratis selamanya untuk hosting sendiri. Hosting cloud terjangkau bagi yang memilih infrastruktur terkelola.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Pricing Cards */}
+      {/* Kartu Paket Harga */}
       <section className="container mx-auto px-4 pb-20">
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
@@ -153,7 +153,7 @@ const Pricing = () => {
             >
               {plan.highlight && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-medium px-4 py-1.5 rounded-full">
-                  Most Popular
+                  Paling Populer
                 </div>
               )}
               <CardContent className="p-8">
@@ -181,9 +181,9 @@ const Pricing = () => {
                 {plan.ctaLink.startsWith('http') ? (
                   <Button asChild variant={plan.variant} className="w-full gap-2 h-12">
                     <a href={plan.ctaLink} target="_blank" rel="noopener noreferrer">
-                      {plan.name === "Open Source" && <Github className="h-4 w-4" />}
+                      {plan.name === "Sumber Terbuka" && <Github className="h-4 w-4" />}
                       {plan.cta}
-                      {plan.name !== "Open Source" && <ArrowRight className="h-4 w-4" />}
+                      {plan.name !== "Sumber Terbuka" && <ArrowRight className="h-4 w-4" />}
                     </a>
                   </Button>
                 ) : (
@@ -199,16 +199,16 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* Bagian FAQ */}
       <section className="bg-muted/30 py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4">FAQ</Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Frequently Asked Questions
+              Pertanyaan yang Sering Diajukan
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Pricing, licensing, data and how Peoplo works for your team.
+              Harga, lisensi, data, dan cara kerja Peoplo bagi tim Anda.
             </p>
           </div>
           <div className="mx-auto max-w-3xl divide-y divide-border rounded-2xl border border-border bg-card">
@@ -226,8 +226,8 @@ const Pricing = () => {
       </section>
 
       <PublicCtaSection
-        title="Start for free today"
-        description="Self-host it free under AGPL-3.0, or book a demo and we'll run it for you."
+        title="Mulai gratis hari ini"
+        description="Hosting sendiri secara gratis di bawah AGPL-3.0, atau pesan demo dan kami akan menjalankannya untuk Anda."
       />
 
       <Footer />

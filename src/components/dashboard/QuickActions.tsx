@@ -13,21 +13,21 @@ const adminActions: {
   requires: [AppModule, PermissionLevel];
 }[] = [
   {
-    label: "Add Employee",
+    label: "Tambah Karyawan",
     icon: <UserPlus className="h-5 w-5" />,
     href: "/onboarding",
     variant: "default" as const,
     requires: ["onboarding", "manage"],
   },
   {
-    label: "Manage Assets",
+    label: "Kelola Aset",
     icon: <Package className="h-5 w-5" />,
     href: "/assets",
     variant: "secondary" as const,
     requires: ["assets", "view"],
   },
   {
-    label: "View Payroll",
+    label: "Lihat Gaji",
     icon: <FileText className="h-5 w-5" />,
     href: "/payroll",
     variant: "secondary" as const,
@@ -37,19 +37,19 @@ const adminActions: {
 
 const employeeActions = [
   {
-    label: "Request Leave",
+    label: "Ajukan Cuti",
     icon: <Calendar className="h-5 w-5" />,
     href: "/leaves",
     variant: "default" as const,
   },
   {
-    label: "My Goals",
+    label: "Tujuan Saya",
     icon: <Target className="h-5 w-5" />,
     href: "/performance",
     variant: "secondary" as const,
   },
   {
-    label: "View Attendance",
+    label: "Lihat Kehadiran",
     icon: <ClipboardList className="h-5 w-5" />,
     href: "/attendance",
     variant: "secondary" as const,
@@ -66,7 +66,7 @@ export function QuickActions() {
     return (
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg font-semibold">Quick Actions</CardTitle>
+          <CardTitle className="text-lg font-semibold">Aksi Cepat</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {[1, 2, 3].map((i) => (
@@ -80,7 +80,7 @@ export function QuickActions() {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold">Quick Actions</CardTitle>
+        <CardTitle className="text-lg font-semibold">Aksi Cepat</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         {actions.map((action, index) => (

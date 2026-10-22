@@ -215,12 +215,12 @@ export function UserRolesManager() {
       queryClient.invalidateQueries({ queryKey: ['permissions'] });
       setDialogOpen(false);
       setSelectedUser(null);
-      toast({ title: "Role updated", description: "User role has been updated successfully." });
+      toast({ title: "Peran diperbarui", description: "Peran pengguna berhasil diperbarui." });
     },
     onError: (error: Error) => {
       // e.g. "Cannot remove the last admin. Make someone else an admin first."
       queryClient.invalidateQueries({ queryKey: ['users-with-roles'] });
-      toast({ title: "Couldn't change role", description: error.message, variant: "destructive" });
+      toast({ title: "Tidak dapat mengubah peran", description: error.message, variant: "destructive" });
     },
   });
 
@@ -267,7 +267,7 @@ export function UserRolesManager() {
       setLinkDialogOpen(false);
       setSelectedUser(null);
       setSelectedEmployeeId("");
-      toast({ title: "Employee linked", description: "User has been linked to the employee record." });
+      toast({ title: "Karyawan ditautkan", description: "Pengguna telah ditautkan ke catatan karyawan." });
     },
     onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });
@@ -288,7 +288,7 @@ export function UserRolesManager() {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
       setUnlinkDialogOpen(false);
       setSelectedUser(null);
-      toast({ title: "Employee unlinked", description: "User has been unlinked from the employee record." });
+      toast({ title: "Karyawan dilepas tautannya", description: "Pengguna telah dilepas tautannya dari catatan karyawan." });
     },
     onError: (error: Error) => {
       toast({ title: "Error", description: error.message, variant: "destructive" });

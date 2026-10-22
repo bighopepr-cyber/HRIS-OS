@@ -9,10 +9,10 @@ interface PublicCtaSectionProps {
   description?: string;
 }
 
-/** Closing call-to-action band shared by the public marketing pages. */
+/** Pita ajakan bertindak penutup yang dipakai bersama oleh halaman pemasaran publik. */
 const PublicCtaSection = ({
-  title = "Ready for calmer HR?",
-  description = "Host Peoplo yourself for free, or book a demo and we'll set it up for you. It's open source under AGPL-3.0.",
+  title = "Siap untuk HR yang lebih tenang?",
+  description = "Hosting Peoplo sendiri secara gratis, atau pesan demo dan kami akan menyiapkannya untuk Anda. Peoplo bersifat open source di bawah lisensi AGPL-3.0.",
 }: PublicCtaSectionProps) => (
   <section className="px-4 py-16 sm:py-20">
     <div className="container relative mx-auto overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-sky-700 to-sky-900 px-6 py-14 text-center text-primary-foreground shadow-2xl shadow-primary/30 sm:py-16">
@@ -23,7 +23,7 @@ const PublicCtaSection = ({
         <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row sm:gap-4">
           <Button asChild size="lg" variant="secondary" className="group h-12 gap-2 px-8">
             <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
-              Book a demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              Pesan Demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
           </Button>
           <Button
@@ -34,7 +34,7 @@ const PublicCtaSection = ({
           >
             <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
               <Github className="h-4 w-4" aria-hidden="true" />
-              Star on GitHub
+              Bintangkan di GitHub
             </a>
           </Button>
         </div>

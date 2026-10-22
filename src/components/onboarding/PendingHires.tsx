@@ -78,7 +78,7 @@ function StatePill({ state }: { state: InviteState }) {
     case "sent":
       return (
         <div className="flex flex-col items-start gap-0.5">
-          <Badge variant="outline" className={toneClass("info")}>Invitation sent</Badge>
+          <Badge variant="outline" className={toneClass("info")}>Undangan terkirim</Badge>
           <span className="text-xs text-muted-foreground">
             {ago(state.sentAt)}
             {state.count > 1 ? ` · sent ${state.count} times` : ""}
@@ -88,19 +88,19 @@ function StatePill({ state }: { state: InviteState }) {
     case "expired":
       return (
         <div className="flex flex-col items-start gap-0.5">
-          <Badge variant="outline" className={toneClass("warning")}>Link expired</Badge>
+          <Badge variant="outline" className={toneClass("warning")}>Tautan kedaluwarsa</Badge>
           <span className="text-xs text-muted-foreground">Sent {ago(state.sentAt)}</span>
         </div>
       );
     case "cancelled":
       return (
         <div className="flex flex-col items-start gap-0.5">
-          <Badge variant="outline" className={toneClass("neutral")}>Invitation cancelled</Badge>
+          <Badge variant="outline" className={toneClass("neutral")}>Undangan dibatalkan</Badge>
           <span className="text-xs text-muted-foreground">{ago(state.at)}</span>
         </div>
       );
     default:
-      return <Badge variant="outline" className={toneClass("danger")}>Not invited yet</Badge>;
+      return <Badge variant="outline" className={toneClass("danger")}>Belum diundang</Badge>;
   }
 }
 
@@ -166,20 +166,20 @@ export function PendingHires({ hires, isLoading, canManage, onOpenDetails, onAdd
       refresh();
       toast(
         result.status === "linked"
-          ? { title: "Linked to an existing account", description: `${hire.email} already has an account, so ${hire.first_name} is now active.` }
-          : { title: "Invitation sent", description: `${hire.first_name} will get an email at ${hire.email} to set up their account.` },
+          ? { title: "Terkait dengan akun yang ada", description: `${hire.email} sudah memiliki akun, sehingga ${hire.first_name} sekarang aktif.` }
+          : { title: "Undangan terkirim", description: `${hire.first_name} akan menerima email di ${hire.email} untuk menyiapkan akun.` },
       );
     },
-    onError: (error: Error) => toast({ title: "Invitation not sent", description: error.message, variant: "destructive" }),
+    onError: (error: Error) => toast({ title: "Undangan tidak terkirim", description: error.message, variant: "destructive" }),
   });
 
   const cancel = useMutation({
     mutationFn: (hire: PendingHire) => cancelInvitation(hire.id),
     onSuccess: (_result, hire) => {
       refresh();
-      toast({ title: "Invitation cancelled", description: `Links sent to ${hire.email} no longer work. You can send a new one any time.` });
+      toast({ title: "Undangan dibatalkan", description: `Links sent to ${hire.email} no longer work. You can send a new one any time.` });
     },
-    onError: (error: Error) => toast({ title: "Couldn't cancel the invitation", description: error.message, variant: "destructive" }),
+    onError: (error: Error) => toast({ title: "Tidak dapat membatalkan undangan", description: error.message, variant: "destructive" }),
   });
 
   if (isLoading || loadingInvites) {
@@ -199,10 +199,10 @@ export function PendingHires({ hires, isLoading, canManage, onOpenDetails, onAdd
               <UserCheck className="h-6 w-6" aria-hidden="true" />
             </span>
             <div>
-              <p className="font-semibold text-foreground">Everyone's set up</p>
-              <p className="text-sm text-muted-foreground">New hires appear here until they accept their invitation.</p>
+              <p className="font-semibold text-foreground">Semua sudah siap</p>
+              <p className="text-sm text-muted-foreground">Karyawan baru muncul di sini hingga mereka menerima undangan.</p>
             </div>
-            {canManage && onAddEmployee && <Button onClick={onAddEmployee}>Add employee</Button>}
+            {canManage && onAddEmployee && <Button onClick={onAddEmployee}>Tambah karyawan</Button>}
           </CardContent>
         </Card>
       ) : (
@@ -224,7 +224,7 @@ export function PendingHires({ hires, isLoading, canManage, onOpenDetails, onAdd
                           {hire.first_name} {hire.last_name}
                         </p>
                         <p className="truncate text-sm text-muted-foreground">
-                          {[hire.designation, hire.departments?.name].filter(Boolean).join(" · ") || "No role set"}
+                          {[hire.designation, hire.departments?.name].filter(Boolean).join(" · ") || "Tidak ada peran ditetapkan"}
                         </p>
                         <p className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
                           <span className="inline-flex min-w-0 items-center gap-1">
@@ -234,7 +234,7 @@ export function PendingHires({ hires, isLoading, canManage, onOpenDetails, onAdd
                           {hire.hire_date && (
                             <span className="inline-flex items-center gap-1">
                               <CalendarDays className="h-3 w-3" aria-hidden="true" />
-                              Joins {format(parseISO(hire.hire_date), "MMM d, yyyy")}
+                              Bergabung {format(parseISO(hire.hire_date), "MMM d, yyyy")}
                             </span>
                           )}
                         </p>
@@ -247,12 +247,12 @@ export function PendingHires({ hires, isLoading, canManage, onOpenDetails, onAdd
                       {canManage && (
                         <Button size="sm" className="h-10 sm:h-9" onClick={() => send.mutate(hire)} disabled={sending}>
                           {sending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" aria-hidden="true" />}
-                          {state.kind === "not_sent" || state.kind === "cancelled" ? "Send invitation" : "Resend"}
+                          {state.kind === "not_sent" || state.kind === "cancelled" ? "Kirim undangan" : "Kirim ulang"}
                         </Button>
                       )}
                       <Button size="sm" variant="outline" className="h-10 sm:h-9" onClick={() => onOpenDetails(hire.id)}>
                         <Eye className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Details
+Detail
                       </Button>
                       {canManage && canCancel && (
                         <Button
@@ -262,7 +262,7 @@ export function PendingHires({ hires, isLoading, canManage, onOpenDetails, onAdd
                           onClick={() => setToCancel(hire)}
                         >
                           <XCircle className="mr-2 h-4 w-4" aria-hidden="true" />
-                          Cancel invitation
+Batalkan undangan
                         </Button>
                       )}
                     </div>
@@ -304,14 +304,13 @@ export function PendingHires({ hires, isLoading, canManage, onOpenDetails, onAdd
       <AlertDialog open={!!toCancel} onOpenChange={(open) => !open && setToCancel(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Cancel {toCancel?.first_name}'s invitation?</AlertDialogTitle>
+            <AlertDialogTitle>Batalkan undangan {toCancel?.first_name}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Links already emailed to {toCancel?.email} will stop working. Their employee record stays here, and you can send a
-              new invitation later.
+Tautan yang sudah dikirim ke {toCancel?.email} tidak akan berfungsi lagi. Catatan karyawan tetap ada di sini, dan Anda dapat mengirim undangan baru nanti.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Keep invitation</AlertDialogCancel>
+            <AlertDialogCancel>Pertahankan undangan</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() => {

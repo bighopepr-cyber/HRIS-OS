@@ -75,7 +75,7 @@ export function WhosOut() {
       <CardHeader className="pb-3">
         <CardTitle className="text-base flex items-center gap-2">
           <UserX className="h-5 w-5 text-amber-600" aria-hidden="true" />
-          Who's out today
+          Siapa yang luar hari ini
           {whosOut.length > 0 && (
             <Badge variant="secondary" className="ml-auto">
               {whosOut.length}
@@ -110,8 +110,8 @@ export function WhosOut() {
                   <p className="text-sm font-medium truncate">{leave.employee_name}</p>
                   <p className="text-xs text-muted-foreground">
                     {leave.start_date === leave.end_date
-                      ? "Today only"
-                      : `Until ${format(parseISO(leave.end_date), "MMM d")}`}
+                      ? "Hanya hari ini"
+                      : `Sampai ${format(parseISO(leave.end_date), "MMM d")}`}
                   </p>
                 </div>
                 <Badge variant="outline" className="text-xs shrink-0">
@@ -122,7 +122,7 @@ export function WhosOut() {
           </div>
         ) : (
           <p className="text-sm text-muted-foreground text-center py-4">
-            Everyone is in today! 🎉
+            Semua hadir hari ini! 🎉
           </p>
         )}
       </CardContent>

@@ -12,7 +12,7 @@ export function PWAInstallBanner() {
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    // Check if already dismissed this session
+    // Periksa apakah spanduk ini sudah ditutup pada sesi ini
     if (sessionStorage.getItem("pwa-install-dismissed")) {
       setDismissed(true);
     }
@@ -47,16 +47,16 @@ export function PWAInstallBanner() {
       <div className="flex items-center gap-3 rounded-lg border bg-card p-4 shadow-lg">
         <Download className="h-5 w-5 shrink-0 text-primary" />
         <p className="flex-1 text-sm text-card-foreground">
-          Install Peoplo for a faster, app-like experience!
+          Pasang Peoplo untuk pengalaman yang lebih cepat dan menyerupai aplikasi!
         </p>
         <Button size="sm" onClick={handleInstall}>
-          Install
+          Pasang
         </Button>
         <button
           onClick={handleDismiss}
           type="button"
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:text-foreground"
-          aria-label="Dismiss install banner"
+          aria-label="Tutup spanduk pemasangan"
         >
           <X className="h-4 w-4" />
         </button>

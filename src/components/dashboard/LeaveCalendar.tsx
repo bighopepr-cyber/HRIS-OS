@@ -65,7 +65,7 @@ export function LeaveCalendar() {
     return (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-lg font-semibold">Who's Out</CardTitle>
+<CardTitle className="text-lg font-semibold">Siapa yang Luar</CardTitle>
           <Skeleton className="h-8 w-32" />
         </CardHeader>
         <CardContent className="space-y-3">
@@ -89,11 +89,11 @@ export function LeaveCalendar() {
       <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <CardTitle className="text-lg font-semibold">Who's Out</CardTitle>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={handlePrevMonth} aria-label="Previous month" title="Previous month">
+          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={handlePrevMonth} aria-label="Bulan sebelumnya" title="Bulan sebelumnya">
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <span className="text-sm font-medium min-w-[100px] text-center truncate">{monthName}</span>
-          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={handleNextMonth} aria-label="Next month" title="Next month">
+          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={handleNextMonth} aria-label="Bulan berikutnya" title="Bulan berikutnya">
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -101,7 +101,7 @@ export function LeaveCalendar() {
       <CardContent className="space-y-3">
         {!leaves || leaves.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-4">
-            No approved leaves this month
+            Tidak ada cuti yang disetujui bulan ini
           </p>
         ) : (
           leaves.map((leave) => {

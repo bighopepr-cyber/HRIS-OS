@@ -74,7 +74,7 @@ export function LeaveRequestCard({ request, onApprove, onReject }: LeaveRequestC
               {request.submittedAt && (
                 <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                   <Clock className="h-3 w-3 shrink-0" aria-hidden="true" />
-                  <span>Submitted: {request.submittedAt}</span>
+                  <span>Diajukan: {request.submittedAt}</span>
                 </div>
               )}
               {request.reason && <p className="mt-2 text-sm text-muted-foreground">{request.reason}</p>}
@@ -82,7 +82,7 @@ export function LeaveRequestCard({ request, onApprove, onReject }: LeaveRequestC
                 <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                   <UserCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
                   <span>
-                    Reviewed by{" "}
+                    Direviu oleh{" "}
                     <span className="font-medium text-foreground">{request.reviewedBy.name}</span>
                     {request.reviewedAt && <span> on {request.reviewedAt}</span>}
                   </span>
@@ -90,7 +90,7 @@ export function LeaveRequestCard({ request, onApprove, onReject }: LeaveRequestC
               )}
               {request.reviewNotes && (
                 <p className="mt-1 text-xs text-muted-foreground italic">
-                  Note: {request.reviewNotes}
+                  Catatan: {request.reviewNotes}
                 </p>
               )}
             </div>
@@ -106,7 +106,7 @@ export function LeaveRequestCard({ request, onApprove, onReject }: LeaveRequestC
                     onClick={() => onApprove(request.id)}
                   >
                     <Check className="mr-1 h-4 w-4" />
-                    Approve
+Setujui
                   </Button>
                 )}
                 {onReject && (
@@ -117,7 +117,7 @@ export function LeaveRequestCard({ request, onApprove, onReject }: LeaveRequestC
                     onClick={() => onReject(request.id)}
                   >
                     <X className="mr-1 h-4 w-4" />
-                    Reject
+Tolak
                   </Button>
                 )}
               </>

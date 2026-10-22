@@ -30,13 +30,13 @@ import { useCompanyBranding } from "@/hooks/useCompanyBranding";
 import { statusBadgeClass, formatStatus } from "@/lib/statusStyles";
 import { drawPdfHeader, drawPdfFooter, fetchImageAsDataUrl, PDF_TABLE_HEAD_STYLE, PDF_COLORS } from "@/lib/pdfTheme";
 const ASSET_TYPE_LABELS: Record<AssetType, { singular: string; plural: string }> = {
-  laptop: { singular: "Laptop", plural: "Laptops" },
-  desktop: { singular: "Desktop", plural: "Desktops" },
-  monitor: { singular: "Monitor", plural: "Monitors" },
-  phone: { singular: "Phone", plural: "Phones" },
-  tablet: { singular: "Tablet", plural: "Tablets" },
-  accessory: { singular: "Accessory", plural: "Accessories" },
-  other: { singular: "Other", plural: "Other" },
+  laptop: { singular: "Laptop", plural: "Laptop" },
+  desktop: { singular: "Desktop", plural: "Desktop" },
+  monitor: { singular: "Monitor", plural: "Monitor" },
+  phone: { singular: "Ponsel", plural: "Ponsel" },
+  tablet: { singular: "Tablet", plural: "Tablet" },
+  accessory: { singular: "Aksesori", plural: "Aksesori" },
+  other: { singular: "Lainnya", plural: "Lainnya" },
 };
 const ASSET_STATUSES = ["available", "assigned", "maintenance", "retired"] as const;
 const EMPTY_FORM = {
@@ -94,7 +94,7 @@ const Assets = () => {
     return matchesSearch && matchesType && matchesStatus;
   });
 
-  // Apply sorting
+  // Terapkan pengurutan
   const {
     sortedItems: sortedAssets,
     sortConfig,
@@ -102,16 +102,16 @@ const Assets = () => {
   } = useSorting(filteredAssets);
   const sortOptions = [{
     key: "name",
-    label: "Name"
+    label: "Nama"
   }, {
     key: "type",
-    label: "Type"
+    label: "Jenis"
   }, {
     key: "status",
     label: "Status"
   }, {
     key: "cost",
-    label: "Cost"
+    label: "Biaya"
   }] as const;
   const {
     paginatedItems: paginatedAssets,
@@ -146,8 +146,8 @@ const Assets = () => {
   };
   const exportToCSV = (startDate?: Date, endDate?: Date) => {
     const dataToExport = filterByDateRange(sortedAssets, startDate, endDate);
-    const headers = ["Name", "Category", "Serial Number", "Status", "Cost", "Purchase Date", "Assigned To"];
-    const csvContent = [headers.join(","), ...dataToExport.map(asset => [`"${asset.name}"`, `"${asset.type}"`, `"${asset.serialNumber}"`, `"${asset.status}"`, `"${asset.cost}"`, `"${asset.purchaseDate || ''}"`, `"${asset.assignedTo?.name || 'Unassigned'}"`].join(","))].join("\n");
+    const headers = ["Nama", "Kategori", "Nomor Seri", "Status", "Biaya", "Tanggal Pembelian", "Diberikan Kepada"];
+    const csvContent = [headers.join(","), ...dataToExport.map(asset => [`"${asset.name}"`, `"${asset.type}"`, `"${asset.serialNumber}"`, `"${asset.status}"`, `"${asset.cost}"`, `"${asset.purchaseDate || ''}"`, `"${asset.assignedTo?.name || 'Belum diberikan'}"`].join(","))].join("\n");
     const blob = new Blob([csvContent], {
       type: "text/csv;charset=utf-8;"
     });
@@ -156,7 +156,7 @@ const Assets = () => {
     const dateRange = startDate || endDate ? `-${startDate ? format(startDate, "yyyy-MM-dd") : "start"}-to-${endDate ? format(endDate, "yyyy-MM-dd") : "end"}` : "";
     link.download = `assets${dateRange}-${new Date().toISOString().split("T")[0]}.csv`;
     link.click();
-    toast.success(`${dataToExport.length} assets exported to CSV`);
+    toast.success(`${dataToExport.length} aset diekspor ke CSV`);
   };
   const exportToPDF = async (startDate?: Date, endDate?: Date) => {
     const dataToExport = filterByDateRange(sortedAssets, startDate, endDate);
@@ -167,11 +167,11 @@ const Assets = () => {
     const logoDataUrl = await fetchImageAsDataUrl(branding?.logoUrl);
 
     const subtitle = startDate || endDate
-      ? `Date Range: ${startDate ? format(startDate, "PP") : "Start"} - ${endDate ? format(endDate, "PP") : "End"}`
+      ? `Rentang Tanggal: ${startDate ? format(startDate, "PP") : "Awal"} - ${endDate ? format(endDate, "PP") : "Akhir"}`
       : undefined;
 
     let currentY = drawPdfHeader(doc, {
-      title: "Asset Inventory",
+      title: "Inventaris Aset",
       subtitle,
       companyName: branding?.companyName,
       companyAddress: branding?.companyAddress,
@@ -183,13 +183,13 @@ const Assets = () => {
     doc.setTextColor(...PDF_COLORS.dark);
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.text(`Total Assets: ${dataToExport.length}`, margin, currentY);
+    doc.text(`Total Aset: ${dataToExport.length}`, margin, currentY);
     currentY += 10;
 
     autoTable(doc, {
       startY: currentY,
-      head: [["Name", "Category", "Serial Number", "Status", "Cost", "Assigned To"]],
-      body: dataToExport.map(asset => [asset.name, asset.type, asset.serialNumber, asset.status, `Rs. ${asset.cost.toLocaleString()}`, asset.assignedTo?.name || "Unassigned"]),
+      head: [["Nama", "Kategori", "Nomor Seri", "Status", "Biaya", "Diberikan Kepada"]],
+      body: dataToExport.map(asset => [asset.name, asset.type, asset.serialNumber, asset.status, `Rs. ${asset.cost.toLocaleString()}`, asset.assignedTo?.name || "Belum diberikan"]),
       styles: {
         fontSize: 8
       },
@@ -204,11 +204,11 @@ const Assets = () => {
 
     const dateRange = startDate || endDate ? `-${startDate ? format(startDate, "yyyy-MM-dd") : "start"}-to-${endDate ? format(endDate, "yyyy-MM-dd") : "end"}` : "";
     doc.save(`assets${dateRange}-${new Date().toISOString().split("T")[0]}.pdf`);
-    toast.success(`${dataToExport.length} assets exported to PDF`);
+    toast.success(`${dataToExport.length} aset diekspor ke PDF`);
   };
   const handleAddAsset = () => {
     if (!formData.name.trim()) {
-      toast.error("Asset name is required");
+      toast.error("Nama aset wajib diisi");
       return;
     }
     createAsset.mutate({
@@ -221,12 +221,12 @@ const Assets = () => {
       notes: formData.notes || undefined
     }, {
       onSuccess: () => {
-        toast.success("Asset added successfully");
+        toast.success("Aset berhasil ditambahkan");
         setIsAddDialogOpen(false);
         setFormData(EMPTY_FORM);
       },
       onError: () => {
-        toast.error("Failed to add asset");
+        toast.error("Gagal menambahkan aset");
       }
     });
   };
@@ -234,7 +234,7 @@ const Assets = () => {
     setSelectedAsset(asset);
     setFormData({
       name: asset.name,
-      // Keep a custom category as-is instead of silently renaming it.
+      // Pertahankan kategori khusus apa adanya alih-alih mengganti namanya secara diam-diam.
       category: asset.type === "other" ? asset.category : asset.type,
       serial_number: asset.serialNumber,
       purchase_date: asset.purchaseDateRaw,
@@ -246,14 +246,14 @@ const Assets = () => {
   };
   const handleUpdateAsset = () => {
     if (!selectedAsset || !formData.name.trim()) {
-      toast.error("Asset name is required");
+      toast.error("Nama aset wajib diisi");
       return;
     }
     updateAsset.mutate({
       id: selectedAsset.id,
       name: formData.name,
       category: formData.category,
-      // Send every field (null when cleared) so the saved record matches the form exactly.
+      // Kirim setiap kolom (null saat dikosongkan) agar catatan yang tersimpan sesuai dengan formulir.
       serial_number: formData.serial_number.trim() || null,
       purchase_date: formData.purchase_date || null,
       purchase_cost: formData.purchase_cost ? parseFloat(formData.purchase_cost) : null,
@@ -261,12 +261,12 @@ const Assets = () => {
       notes: formData.notes.trim() || null
     }, {
       onSuccess: () => {
-        toast.success("Asset updated successfully");
+        toast.success("Aset berhasil diperbarui");
         setIsEditDialogOpen(false);
         setSelectedAsset(null);
       },
       onError: () => {
-        toast.error("Failed to update asset");
+        toast.error("Gagal memperbarui aset");
       }
     });
   };
@@ -278,12 +278,12 @@ const Assets = () => {
     if (!selectedAsset) return;
     deleteAsset.mutate(selectedAsset.id, {
       onSuccess: () => {
-        toast.success("Asset deleted successfully");
+        toast.success("Aset berhasil dihapus");
         setIsDeleteDialogOpen(false);
         setSelectedAsset(null);
       },
       onError: () => {
-        toast.error("Failed to delete asset");
+        toast.error("Gagal menghapus aset");
       }
     });
   };
@@ -295,7 +295,7 @@ const Assets = () => {
   };
   const confirmAssign = () => {
     if (!selectedAsset || !selectedEmployeeId) {
-      toast.error("Please select an employee");
+      toast.error("Silakan pilih karyawan");
       return;
     }
     assignAsset.mutate({
@@ -304,24 +304,24 @@ const Assets = () => {
       notes: assignmentNotes || undefined
     }, {
       onSuccess: () => {
-        toast.success("Asset assigned successfully");
+        toast.success("Aset berhasil ditugaskan");
         setIsAssignDialogOpen(false);
         setSelectedAsset(null);
         setSelectedEmployeeId("");
         setAssignmentNotes("");
       },
       onError: () => {
-        toast.error("Failed to assign asset");
+        toast.error("Gagal menugaskan aset");
       }
     });
   };
   const handleReturnAsset = (asset: Asset) => {
     returnAsset.mutate(asset.id, {
       onSuccess: () => {
-        toast.success("Asset marked as returned");
+        toast.success("Aset ditandai telah dikembalikan");
       },
       onError: () => {
-        toast.error("Failed to return asset");
+        toast.error("Gagal mengembalikan aset");
       }
     });
   };
@@ -330,25 +330,25 @@ const Assets = () => {
     setHistoryAssetId(asset.id);
     setIsHistoryDialogOpen(true);
   };
-  // The four type buckets always add up to the total.
+  // Empat kelompok tipe ini selalu berjumlah sama dengan total.
   const assetStats = [{
-    label: "Total assets",
+    label: "Total aset",
     value: stats?.total || 0,
     icon: <Package className="h-5 w-5" aria-hidden="true" />
   }, {
-    label: "Laptops & desktops",
+    label: "Laptop & desktop",
     value: stats?.computers || 0,
     icon: <Laptop className="h-5 w-5" aria-hidden="true" />
   }, {
-    label: "Monitors",
+    label: "Monitor",
     value: stats?.monitors || 0,
     icon: <Monitor className="h-5 w-5" aria-hidden="true" />
   }, {
-    label: "Phones & tablets",
+    label: "Ponsel & tablet",
     value: stats?.mobile || 0,
     icon: <Smartphone className="h-5 w-5" aria-hidden="true" />
   }, {
-    label: "Accessories & other",
+    label: "Aksesori & lainnya",
     value: stats?.other || 0,
     icon: <Headphones className="h-5 w-5" aria-hidden="true" />
   }];
@@ -365,11 +365,11 @@ const Assets = () => {
   }));
   const renderAssetFields = (idPrefix: string) => <div className="space-y-4 py-2 sm:py-4">
       <div className="space-y-2">
-        <Label htmlFor={`${idPrefix}name`}>Asset name *</Label>
-        <Input id={`${idPrefix}name`} value={formData.name} onChange={e => updateField("name")(e.target.value)} placeholder="e.g., MacBook Pro 16" />
+        <Label htmlFor={`${idPrefix}name`}>Nama aset *</Label>
+        <Input id={`${idPrefix}name`} value={formData.name} onChange={e => updateField("name")(e.target.value)} placeholder="mis., MacBook Pro 16" />
       </div>
       <div className="space-y-2">
-        <Label htmlFor={`${idPrefix}category`}>Category</Label>
+        <Label htmlFor={`${idPrefix}category`}>Kategori</Label>
         <Select value={formData.category} onValueChange={updateField("category")}>
           <SelectTrigger id={`${idPrefix}category`}>
             <SelectValue />
@@ -380,26 +380,26 @@ const Assets = () => {
         </Select>
       </div>
       <div className="space-y-2">
-        <Label htmlFor={`${idPrefix}serial_number`}>Serial number</Label>
-        <Input id={`${idPrefix}serial_number`} value={formData.serial_number} onChange={e => updateField("serial_number")(e.target.value)} placeholder="e.g., ABC123XYZ" />
+        <Label htmlFor={`${idPrefix}serial_number`}>Nomor seri</Label>
+        <Input id={`${idPrefix}serial_number`} value={formData.serial_number} onChange={e => updateField("serial_number")(e.target.value)} placeholder="mis., ABC123XYZ" />
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="min-w-0 space-y-2">
-          <Label htmlFor={`${idPrefix}purchase_date`}>Purchase date</Label>
+          <Label htmlFor={`${idPrefix}purchase_date`}>Tanggal pembelian</Label>
           <Input id={`${idPrefix}purchase_date`} type="date" className="block w-full min-w-0" value={formData.purchase_date} onChange={e => updateField("purchase_date")(e.target.value)} />
         </div>
         <div className="min-w-0 space-y-2">
-          <Label htmlFor={`${idPrefix}purchase_cost`}>Cost (₹)</Label>
+          <Label htmlFor={`${idPrefix}purchase_cost`}>Biaya (₹)</Label>
           <Input id={`${idPrefix}purchase_cost`} type="number" inputMode="decimal" min="0" value={formData.purchase_cost} onChange={e => updateField("purchase_cost")(e.target.value)} placeholder="0.00" />
         </div>
       </div>
       <div className="space-y-2">
         <Label htmlFor={`${idPrefix}vendor`}>Vendor</Label>
-        <Input id={`${idPrefix}vendor`} value={formData.vendor} onChange={e => updateField("vendor")(e.target.value)} placeholder="e.g., Apple Store" />
+        <Input id={`${idPrefix}vendor`} value={formData.vendor} onChange={e => updateField("vendor")(e.target.value)} placeholder="mis., Apple Store" />
       </div>
       <div className="space-y-2">
-        <Label htmlFor={`${idPrefix}notes`}>Notes</Label>
-        <Textarea id={`${idPrefix}notes`} value={formData.notes} onChange={e => updateField("notes")(e.target.value)} placeholder="e.g., 16GB RAM, 512GB SSD, M3 Pro chip" rows={3} />
+        <Label htmlFor={`${idPrefix}notes`}>Catatan</Label>
+        <Textarea id={`${idPrefix}notes`} value={formData.notes} onChange={e => updateField("notes")(e.target.value)} placeholder="mis., RAM 16GB, SSD 512GB, cip M3 Pro" rows={3} />
       </div>
     </div>;
   if (!canViewAssets) {
@@ -407,9 +407,9 @@ const Assets = () => {
       <DashboardLayout>
         <div className="flex min-h-[400px] flex-col items-center justify-center space-y-4">
           <ShieldAlert className="h-16 w-16 text-destructive" />
-          <h2 className="text-2xl font-bold text-foreground">Access Denied</h2>
-          <p className="text-muted-foreground">You don't have permission to access this page.</p>
-          <p className="text-sm text-muted-foreground">Ask an administrator for access to the Assets module.</p>
+          <h2 className="text-2xl font-bold text-foreground">Akses Ditolak</h2>
+          <p className="text-muted-foreground">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+          <p className="text-sm text-muted-foreground">Mintalah akses administrator untuk modul Aset.</p>
         </div>
       </DashboardLayout>
     );
@@ -420,19 +420,19 @@ const Assets = () => {
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Assets</h1>
-            <p className="text-muted-foreground">Track and manage company assets</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">Aset</h1>
+            <p className="text-muted-foreground">Lacak dan kelola aset perusahaan</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <DateRangeExportDialog title="Export Assets" description="Export asset inventory with optional date range filter based on purchase date." onExportCSV={exportToCSV} onExportPDF={exportToPDF} />
+            <DateRangeExportDialog title="Ekspor Aset" description="Ekspor inventaris aset dengan filter rentang tanggal opsional berdasarkan tanggal pembelian." onExportCSV={exportToCSV} onExportPDF={exportToPDF} />
             {canManageAssets && <Button onClick={() => setIsAddDialogOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                Add asset
+                Tambah aset
               </Button>}
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Statistik */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
           {assetStats.map((stat, i) => <Card key={stat.label} className={i === 0 ? "col-span-2 lg:col-span-1" : undefined}>
               <CardContent className="flex items-center gap-3 p-4 sm:gap-4 sm:p-6">
@@ -445,27 +445,27 @@ const Assets = () => {
             </Card>)}
         </div>
 
-        {/* Filters */}
+        {/* Filter */}
         <div className="flex flex-col gap-4 sm:flex-row">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search assets..." aria-label="Search assets" className="pl-10" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+            <Input placeholder="Cari aset..." aria-label="Cari aset" className="pl-10" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </div>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="w-full sm:w-[150px]" aria-label="Filter by type">
-              <SelectValue placeholder="Type" />
+            <SelectTrigger className="w-full sm:w-[150px]" aria-label="Filter berdasarkan jenis">
+              <SelectValue placeholder="Jenis" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All types</SelectItem>
+              <SelectItem value="all">Semua jenis</SelectItem>
               {ASSET_TYPES.map(t => <SelectItem key={t} value={t}>{ASSET_TYPE_LABELS[t].plural}</SelectItem>)}
             </SelectContent>
           </Select>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full sm:w-[150px]" aria-label="Filter by status">
+            <SelectTrigger className="w-full sm:w-[150px]" aria-label="Filter berdasarkan status">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All statuses</SelectItem>
+              <SelectItem value="all">Semua status</SelectItem>
               {ASSET_STATUSES.map(st => <SelectItem key={st} value={st}>{formatStatus(st)}</SelectItem>)}
             </SelectContent>
           </Select>
@@ -473,7 +473,7 @@ const Assets = () => {
             <SortDropdownMenuTrigger asChild>
               <Button variant="outline" className="w-full gap-2 sm:w-auto">
                 <ArrowUpDown className="h-4 w-4" aria-hidden="true" />
-                Sort: {sortConfig.key ? sortOptions.find(o => o.key === sortConfig.key)?.label : "None"}
+                Urutkan: {sortConfig.key ? sortOptions.find(o => o.key === sortConfig.key)?.label : "Tidak ada"}
                 {sortConfig.direction && (sortConfig.direction === "asc" ? " ↑" : " ↓")}
               </Button>
             </SortDropdownMenuTrigger>
@@ -486,19 +486,19 @@ const Assets = () => {
           </SortDropdownMenu>
         </div>
 
-        {/* Asset Grid */}
+        {/* Grid Aset */}
         {isLoading ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map(i => <Skeleton key={i} className="h-48 rounded-xl" />)}
           </div> : filteredAssets.length === 0 ? <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
               <Package className="mb-4 h-12 w-12 text-muted-foreground" />
-              <h3 className="text-lg font-semibold text-foreground">No assets found</h3>
+              <h3 className="text-lg font-semibold text-foreground">Tidak ada aset ditemukan</h3>
               <p className="text-muted-foreground">
-                {assets.length === 0 ? "Start by adding your first asset" : "No assets match your search criteria"}
+                {assets.length === 0 ? "Mulai dengan menambahkan aset pertama Anda" : "Tidak ada aset yang cocok dengan kriteria pencarian Anda"}
               </p>
               {assets.length === 0 && canManageAssets && <Button className="mt-4" onClick={() => setIsAddDialogOpen(true)}>
                   <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                  Add asset
+                  Tambah aset
                 </Button>}
             </CardContent>
           </Card> : <>
@@ -506,19 +506,19 @@ const Assets = () => {
               {paginatedAssets.map(asset => <AssetCard key={asset.id} asset={asset} onEdit={handleEditAsset} onDelete={handleDeleteAsset} onAssign={handleAssignAsset} onReturn={handleReturnAsset} onViewHistory={handleViewHistory} showAdminActions={canManageAssets} />)}
             </div>
             
-            {/* Pagination Controls */}
+            {/* Kontrol paginasi */}
             {totalPages > 1 && <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span>Show</span>
+                  <span>Tampilkan</span>
                   <Select value={pageSize.toString()} onValueChange={v => setPageSize(Number(v))}>
-                    <SelectTrigger className="h-8 w-[70px]" aria-label="Assets per page">
+                    <SelectTrigger className="h-8 w-[70px]" aria-label="Aset per halaman">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {[6, 12, 24, 48].map(size => <SelectItem key={size} value={size.toString()}>{size}</SelectItem>)}
                     </SelectContent>
                   </Select>
-                  <span>of {totalItems} assets</span>
+                  <span>dari {totalItems} aset</span>
                 </div>
                 <Pagination>
                   <PaginationContent>
@@ -555,77 +555,77 @@ const Assets = () => {
           </>}
       </div>
 
-      {/* Add Asset Dialog */}
+      {/* Dialog Tambah Aset */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add new asset</DialogTitle>
-            <DialogDescription>Enter the details of the asset to add it to the inventory.</DialogDescription>
+            <DialogTitle>Tambah aset baru</DialogTitle>
+            <DialogDescription>Masukkan detail aset untuk menambahkannya ke inventaris.</DialogDescription>
           </DialogHeader>
           {renderAssetFields("")}
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-              Cancel
+              Batal
             </Button>
             <Button onClick={handleAddAsset} disabled={createAsset.isPending}>
-              {createAsset.isPending ? "Adding..." : "Add asset"}
+              {createAsset.isPending ? "Menambahkan..." : "Tambah aset"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Edit Asset Dialog */}
+      {/* Dialog Sunting Aset */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Edit asset</DialogTitle>
-            <DialogDescription>Update the asset details below.</DialogDescription>
+            <DialogTitle>Sunting aset</DialogTitle>
+            <DialogDescription>Perbarui detail aset di bawah ini.</DialogDescription>
           </DialogHeader>
           {renderAssetFields("edit-")}
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
-              Cancel
+              Batal
             </Button>
             <Button onClick={handleUpdateAsset} disabled={updateAsset.isPending}>
-              {updateAsset.isPending ? "Saving..." : "Save changes"}
+              {updateAsset.isPending ? "Menyimpan..." : "Simpan perubahan"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Dialog Konfirmasi Penghapusan */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete asset</AlertDialogTitle>
+            <AlertDialogTitle>Hapus aset</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{selectedAsset?.name}"? This action cannot be undone.
+              Anda yakin ingin menghapus "{selectedAsset?.name}"? Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Batal</AlertDialogCancel>
             <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              {deleteAsset.isPending ? "Deleting..." : "Delete"}
+              {deleteAsset.isPending ? "Menghapus..." : "Hapus"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Assign Asset Dialog */}
+      {/* Dialog Penetapan Aset */}
       <Dialog open={isAssignDialogOpen} onOpenChange={setIsAssignDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Assign asset</DialogTitle>
+            <DialogTitle>Tugaskan aset</DialogTitle>
             <DialogDescription>
-              Assign "{selectedAsset?.name}" to an employee.
+              Tugaskan "{selectedAsset?.name}" kepada seorang karyawan.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="employee">Select Employee *</Label>
+              <Label htmlFor="employee">Pilih Karyawan *</Label>
               <Select value={selectedEmployeeId} onValueChange={setSelectedEmployeeId}>
                 <SelectTrigger id="employee">
-                  <SelectValue placeholder="Choose an employee" />
+                  <SelectValue placeholder="Pilih karyawan" />
                 </SelectTrigger>
                 <SelectContent>
                   {employees.filter(emp => emp.status === "active").map(emp => <SelectItem key={emp.id} value={emp.id}>
@@ -635,22 +635,22 @@ const Assets = () => {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="assign-notes">Notes (optional)</Label>
-              <Textarea id="assign-notes" value={assignmentNotes} onChange={e => setAssignmentNotes(e.target.value)} placeholder="e.g., Assigned for project work" rows={2} />
+              <Label htmlFor="assign-notes">Catatan (opsional)</Label>
+              <Textarea id="assign-notes" value={assignmentNotes} onChange={e => setAssignmentNotes(e.target.value)} placeholder="mis., Ditugaskan untuk pekerjaan proyek" rows={2} />
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsAssignDialogOpen(false)}>
-              Cancel
+              Batal
             </Button>
             <Button onClick={confirmAssign} disabled={assignAsset.isPending || !selectedEmployeeId}>
-              {assignAsset.isPending ? "Assigning..." : "Assign asset"}
+              {assignAsset.isPending ? "Menugaskan..." : "Tugaskan aset"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Assignment History Dialog */}
+      {/* Dialog Riwayat Penetapan */}
       <Dialog open={isHistoryDialogOpen} onOpenChange={open => {
       setIsHistoryDialogOpen(open);
       if (!open) {
@@ -660,16 +660,16 @@ const Assets = () => {
     }}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Assignment history</DialogTitle>
+            <DialogTitle>Riwayat penetapan</DialogTitle>
             <DialogDescription>
-              History for "{selectedAsset?.name}"
+              Riwayat untuk "{selectedAsset?.name}"
             </DialogDescription>
           </DialogHeader>
           <ScrollArea className="max-h-[400px]">
             {isHistoryLoading ? <div className="space-y-3 p-4">
                 {[1, 2, 3].map(i => <Skeleton key={i} className="h-20 w-full rounded-lg" />)}
               </div> : assetHistory.length === 0 ? <div className="flex flex-col items-center justify-center py-8 text-center">
-                <p className="text-muted-foreground">No assignment history found</p>
+                <p className="text-muted-foreground">Tidak ada riwayat penetapan ditemukan</p>
               </div> : <div className="space-y-3 p-1">
                 {assetHistory.map((assignment, index) => <div key={assignment.id} className="rounded-lg border border-border p-4">
                     <div className="flex items-start justify-between">
@@ -683,12 +683,12 @@ const Assets = () => {
                         <div>
                           <p className="font-medium text-foreground">{assignment.employee.name}</p>
                           <p className="text-sm text-muted-foreground">
-                            {assignment.assignedDate} — {assignment.returnedDate || "Present"}
+                            {assignment.assignedDate} — {assignment.returnedDate || "Sekarang"}
                           </p>
                         </div>
                       </div>
                       <Badge variant="outline" className={statusBadgeClass(index === 0 && !assignment.returnedDate ? "assigned" : "inactive")}>
-                        {index === 0 && !assignment.returnedDate ? "Current" : "Returned"}
+                        {index === 0 && !assignment.returnedDate ? "Saat ini" : "Dikembalikan"}
                       </Badge>
                     </div>
                     {assignment.notes && <p className="mt-2 text-sm text-muted-foreground">{assignment.notes}</p>}
@@ -697,7 +697,7 @@ const Assets = () => {
           </ScrollArea>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsHistoryDialogOpen(false)}>
-              Close
+              Tutup
             </Button>
           </DialogFooter>
         </DialogContent>

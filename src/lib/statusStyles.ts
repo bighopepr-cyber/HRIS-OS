@@ -1,5 +1,5 @@
-// One place for status badge colours so every module renders them the same way.
-// Use with <Badge variant="outline" className={statusBadgeClass(status)}>{formatStatus(status)}</Badge>
+// Satu tempat untuk warna badge status agar setiap modul merendernya sama.
+// Gunakan dengan <Badge variant="outline" className={statusBadgeClass(status)}>{formatStatus(status)}</Badge>
 
 type Tone = "success" | "warning" | "danger" | "info" | "neutral";
 
@@ -12,7 +12,7 @@ const TONES: Record<Tone, string> = {
 };
 
 const STATUS_TONE: Record<string, Tone> = {
-  // positive / done
+  // positif / selesai
   active: "success",
   approved: "success",
   paid: "success",
@@ -21,7 +21,7 @@ const STATUS_TONE: Record<string, Tone> = {
   acknowledged: "success",
   available: "success",
   accepted: "success",
-  // waiting on someone
+  // menunggu seseorang
   pending: "warning",
   requested: "warning",
   submitted: "warning",
@@ -33,7 +33,7 @@ const STATUS_TONE: Record<string, Tone> = {
   late: "warning",
   maintenance: "warning",
   half_day: "warning",
-  // negative
+  // negatif
   rejected: "danger",
   declined: "danger",
   cancelled: "danger",
@@ -44,7 +44,7 @@ const STATUS_TONE: Record<string, Tone> = {
   lost: "danger",
   expired: "danger",
   revoked: "danger",
-  // neutral
+  // netral
   draft: "neutral",
   inactive: "neutral",
   retired: "neutral",
@@ -74,5 +74,5 @@ export function formatStatus(status: string | null | undefined): string {
 
 /** "1 day", "2 days", "0.5 days" */
 export function pluralizeDays(n: number): string {
-  return `${n} ${n === 1 ? "day" : "days"}`;
+  return `${n} ${n === 1 ? "hari" : "hari"}`;
 }

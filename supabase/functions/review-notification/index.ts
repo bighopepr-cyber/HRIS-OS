@@ -157,8 +157,8 @@ serve(async (req) => {
         .from("notifications")
         .insert({
           user_id: employee.user_id,
-          title: "Performance Review Submitted",
-          message: `Your ${reviewPeriod} performance review ${statusText}. Rating: ${ratingText}`,
+          title: "Ulasan Kinerja Dikirim",
+          message: `Ulasan kinerja ${reviewPeriod} Anda ${statusText}. Nilai: ${ratingText}`,
           type: "info",
           link: "/performance"
         });
@@ -174,7 +174,7 @@ serve(async (req) => {
     if (wantsReviewNotifications) {
       const emailResult = await sendEmail(
         [employee.email],
-        `Performance Review ${headline} - ${safeReviewPeriod}`,
+        `Ulasan Kinerja ${headline} - ${safeReviewPeriod}`,
         `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #333;">Performance Review ${headline}</h2>

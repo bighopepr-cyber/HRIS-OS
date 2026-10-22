@@ -21,8 +21,9 @@ export const useNotifications = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // Live-update the bell when a new notification is inserted for this user,
-  // instead of only refreshing on the next mount/mark-read action.
+  // Perbarui lonceng secara langsung ketika notifikasi baru disisipkan untuk
+  // pengguna ini, alih-alih hanya menyegarkan saat mount berikutnya atau aksi
+  // tandai sudah dibaca.
   useEffect(() => {
     if (!user?.id) return;
 
@@ -90,8 +91,8 @@ export const useUnreadNotificationsCount = () => {
     enabled: !!user?.id,
   });
 
-  // Keep the installed PWA's app icon badge in sync with the real unread
-  // count whenever the app is foregrounded.
+  // Sinkronkan badge ikon aplikasi PWA yang terpasang dengan jumlah notifikasi
+  // belum dibaca sebenarnya setiap kali aplikasi berada di latar depan.
   useEffect(() => {
     updateAppBadge(query.data ?? 0);
   }, [query.data]);

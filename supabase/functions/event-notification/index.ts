@@ -197,7 +197,7 @@ const handler = async (req: Request): Promise<Response> => {
           body: JSON.stringify({
             from: RESEND_FROM_EMAIL,
             to: [employee.email],
-            subject: `📅 Upcoming Events & Holidays This Week`,
+            subject: `📅 Acara & Hari Libur Mendatang Minggu Ini`,
             html: `
               <!DOCTYPE html>
               <html>
